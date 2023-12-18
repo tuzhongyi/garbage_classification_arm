@@ -6,7 +6,7 @@ export class SystemInputProxyUrl extends AbstractUrl {
     super(`${base}/InputProxy`)
   }
 
-  search() {
+  get search() {
     return `${this.basic}/Search`
   }
 

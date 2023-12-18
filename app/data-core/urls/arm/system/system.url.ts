@@ -1,4 +1,6 @@
+import { FactoryResetMode } from '../../../enums/factory-reset-mode.enum'
 import { BaseUrl } from '../../base.url'
+import { SystemInputProxyUrl } from './system-input-proxy.url'
 import { SystemNetworkUrl } from './system-network.url'
 import { SystemSecurityUrl } from './system-security.url'
 import { SystemDataUrl } from './system_data.url'
@@ -21,8 +23,10 @@ export class ArmSystemUrl {
   static get reboot() {
     return `${this.basic}/Reboot`
   }
-  static get factoryReset() {
-    return `${this.basic}/FactoryReset`
+  static factory = {
+    reset: (mode: FactoryResetMode) => {
+      return `${this.basic}/FactoryReset?Mode=${mode}`
+    },
   }
   static get updateFirmware() {
     return `${this.basic}/UpdateFirmware`
@@ -39,5 +43,10 @@ export class ArmSystemUrl {
   }
   static get security() {
     return new SystemSecurityUrl(this.basic)
+  }
+  static get input() {
+    return {
+      proxy: new SystemInputProxyUrl(this.basic),
+    }
   }
 }

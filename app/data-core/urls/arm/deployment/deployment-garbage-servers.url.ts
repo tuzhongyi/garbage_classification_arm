@@ -4,9 +4,10 @@ export class DeploymentGarbageServersUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/GarbageServers`)
   }
-
-  models(id: string) {
-    return `${this.item(id)}/AIModels`
+  ai = {
+    models: (id: string) => {
+      return `${this.item(id)}/AIModels`
+    },
   }
   events(id: string) {
     return `${this.item(id)}/EventInfos`

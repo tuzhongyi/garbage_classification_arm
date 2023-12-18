@@ -5,7 +5,7 @@ export interface HowellResponseBase {
   Id: string
 }
 
-export interface HowellResponse<T> extends HowellResponseBase {
+export interface HowellResponse<T = any> extends HowellResponseBase {
   Data: T
 }
 

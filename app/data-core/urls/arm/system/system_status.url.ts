@@ -1,9 +1,9 @@
 export class SystemStatusUrl {
   constructor(private base: string) {}
-  upgrade() {
+  get upgrade() {
     return `${this.base}/UpgradeStatus`
   }
-  running() {
+  get running() {
     return `${this.base}/RunningStatus`
   }
 }

@@ -4,7 +4,7 @@ export class SystemNetworkDeploymentUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Deployment`)
   }
-  testing() {
+  get testing() {
     return `${this.basic}/Testing`
   }
 }

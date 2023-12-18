@@ -17,11 +17,13 @@ export class ArmDeploymentUrl {
       return `${this.basic}/Events`
     }
   }
-  static task(id?: string) {
-    if (id) {
-      return `${this.basic}/AITasks/${id}`
-    } else {
-      return `${this.basic}/AITasks`
-    }
+  static ai = {
+    task: (id?: string) => {
+      if (id) {
+        return `${this.basic}/AITasks/${id}`
+      } else {
+        return `${this.basic}/AITasks`
+      }
+    },
   }
 }
