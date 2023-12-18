@@ -4,6 +4,6 @@
  * NTP = 2,
  **/
 export enum NTPTimeMode {
-  Manual = 1,
-  NTP = 2,
+  Manual = 'Manual',
+  NTP = 'NTP',
 }
