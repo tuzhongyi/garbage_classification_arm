@@ -98,7 +98,7 @@ export class Service {
   }
 
   picture(id: string) {
-    return this.server.Pictures(this.session.WUser!.ServerId!, id)
+    return this.server.Pictures(this.session.User!.ServerId!, id)
   }
 
   private _eventTask?: EventTaskRequestService

@@ -2,6 +2,7 @@ export interface IModel {}
 export interface IIdModel extends IModel {
   Id: string
 }
-export interface IIdNameModel extends IIdModel {
+export interface INameModel extends IModel {
   Name: string
 }
+export interface IIdNameModel extends IIdModel, INameModel {}

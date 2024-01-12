@@ -35,7 +35,7 @@ export class BaseUrl {
 
   /** /howell/ver10/data_service/user_system/ */
   static get user_system() {
-    return `${BaseUrl.data_service}${HowellUrlNode.user_system}/`
+    return `${BaseUrl.data_service}${HowellUrlNode.user_system}`
   }
   /** /api/howell/ver10/device_service/ai_garbage/ */
   static get ai_garbage() {

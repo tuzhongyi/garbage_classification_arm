@@ -5,11 +5,11 @@ export class SystemInputProxyChannelsUrl extends AbstractUrl {
     super(`${base}/Channels`)
   }
 
-  picture(stream: number, type?: string) {
+  picture(id: string, stream: number, type?: string) {
     let type_params = ''
     if (type) {
       type_params = `&ImageType=${type}`
     }
-    return `${this.basic}/Picture?StreamingChannel=${stream}${type_params}`
+    return `${this.item(id)}/Picture?StreamingChannel=${stream}${type_params}`
   }
 }

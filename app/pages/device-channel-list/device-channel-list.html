@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="../../../assets/js/jquery.tablesorter.js"></script>
+  </head>
+
+  <body>
+    <div class="device-channel-list">
+      <div class="device-channel-list-head">
+        <div class="head-title">代理通道</div>
+        <div class="operation">
+          <div class="input-button">
+            <input
+              id="search_text"
+              type="text"
+              placeholder="请输入关键字"
+            /><button id="search_button">查询</button>
+          </div>
+          <button class="button-white" id="btn_create">添加</button>
+          <button class="button-white" id="btn_delete">删除</button>
+          <button class="button-white" id="btn_discover">快速添加</button>
+        </div>
+      </div>
+      <div class="device-channel-list-body">
+        <div class="table">
+          <table id="table" border="0" cellpadding="0" cellspacing="0">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="checkall" /></th>
+                <th>编号</th>
+                <th>名称</th>
+                <th>IP地址</th>
+                <th>端口号</th>
+                <th>协议类型</th>
+                <th>型号</th>
+                <th>设备序列号</th>
+                <th>状态</th>
+                <th>网页端口号</th>
+                <th>机位</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="display: none">
+      <a href="../device-channel-details/device-channel-details.html"></a>
+      <a href="../device-channel-discover/device-channel-discover.html"></a>
+    </div>
+  </body>
+  <script src="./device-channel-list.ts"></script>
+</html>

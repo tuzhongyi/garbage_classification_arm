@@ -5,7 +5,7 @@ export class SystemNetworkPlatformAccessUrl extends AbstractUrl {
     super(`${base}/PlatformAccess`)
   }
 
-  get testing() {
-    return `${this.basic}/Testing`
+  testing() {
+    return `${this.basic()}/Testing`
   }
 }

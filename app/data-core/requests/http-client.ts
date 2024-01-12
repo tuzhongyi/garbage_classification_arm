@@ -1,78 +1,34 @@
-import { SessionUser } from '../../common/session-user'
-import { getQueryVariable } from '../../common/tool'
-import { HowellAuthHttp } from './howell-auth-http'
-import { WeChatRequestService } from './wechat.service'
+import { LocalStorageService } from '../../common/local-storage/local-storage.service'
+import { DigestWindow } from './auth/auth.model'
+import { HowellAuthHttp } from './auth/howell-auth-http'
+
+import { UserRequestService } from './services/user.service'
 
 export namespace HowellHttpClient {
-  interface DigestWindow extends Window {
-    DIGEST: any
-    data: any
-    APPHTTP: HowellAuthHttp
-  }
-
   export class HttpClient {
-    userService: WeChatRequestService
-    user: SessionUser
-    digistWindow: DigestWindow
+    service: UserRequestService
+    digistWindow: DigestWindow = window
     constructor() {
-      this.digistWindow = window as unknown as DigestWindow
-      this.user = new SessionUser()
-      this.userService = new WeChatRequestService(this.http)
+      this.service = new UserRequestService(this.http)
     }
 
-    async login(success?: (http: HowellAuthHttp) => void, fail?: () => void) {
-      const openid = getQueryVariable('openid')
-      if (this.digistWindow.DIGEST == null && openid) {
-        // 123456
-        this.user.user = {
-          name: openid.trim(),
-          pwd: '',
-        }
-
-        const a = await this.userService.login(() => {})
-
-        if (a) {
-          this.user.WUser = a
-          if (success) success(this.http)
-        } else {
-          if (fail) {
-            fail()
-          }
-        }
-      }
+    login(username: string, password: string) {
+      return this.service.login(username, password)
     }
 
-    async login2(fn?: (http: HowellAuthHttp) => void) {
-      const openid = getQueryVariable('openid'),
-        eventId = getQueryVariable('eventid')
-
-      if (eventId && !openid) {
-        window.location.href =
-          '/PlatformManage/WeiXinApi_Mp/WeiXinMpApi.asmx/GetUserOpenId?appid=wx119358d61e31da01&returnUrl=' +
-          window.location.href
-      } else if (eventId && openid) {
-        if (this.digistWindow.DIGEST == null) {
-          this.user.user = {
-            name: openid,
-            pwd: '',
-          }
-
-          const a = await this.userService.login(() => {})
-          if (a) this.user.WUser = a
-          if (fn) fn(this.http)
-        }
+    async logout() {
+      let sign = LocalStorageService.sign.get()
+      if (sign) {
+        return this.service.logout(sign.username)
       }
+      return undefined
     }
 
     get http() {
-      var http_: HowellAuthHttp
-      if (this.digistWindow['APPHTTP'] == null)
-        this.digistWindow['APPHTTP'] = new HowellAuthHttp(
-          this.user.name,
-          this.user.pwd
-        )
-      http_ = this.digistWindow['APPHTTP']
-      return http_
+      if (!this.digistWindow.http) {
+        this.digistWindow.http = new HowellAuthHttp()
+      }
+      return this.digistWindow.http
     }
   }
 }

@@ -5,12 +5,14 @@ export class SystemInputProxyUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/InputProxy`)
   }
-
-  get search() {
-    return `${this.basic}/Search`
+  capability() {
+    return `${this.basic()}/Capability`
+  }
+  search() {
+    return `${this.basic()}/VideoSources/Search`
   }
 
   get channel() {
-    return new SystemInputProxyChannelsUrl(this.basic)
+    return new SystemInputProxyChannelsUrl(this.basic())
   }
 }

@@ -1,0 +1,288 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-family: "Source Han Sans CN Normal";
+}
+
+iframe {
+
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+}
+
+
+.logo {
+  background-image: url("../images/howell.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+}
+
+
+.forms {
+  height: auto;
+}
+
+.forms .form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  height: 30px;
+}
+
+.forms .form-item:first-child {
+  margin-top: 0;
+}
+
+.forms .form-item .form-item-title {
+  width: 100px;
+  white-space: nowrap;
+  flex-grow: 0;
+}
+
+.forms .form-item .form-item-value {
+  width: calc(100% - 100px);
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.forms .form-item .form-item-value.icon {
+  display: flex;
+  position: relative;
+}
+
+.forms .form-item.submit {
+  margin-top: 20px;
+}
+
+input[type="checkbox"] {
+  border-radius: 0.25rem;
+  height: 20px;
+  width: 20px;
+  outline: none;
+  border: 2px solid #cbcbcb;
+}
+
+input[type="checkbox"]:checked {
+  border-radius: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  outline: none;
+  border: 2px solid #cbcbcb;
+  border-radius: 0.25rem;
+  color: #333;
+  height: 30px;
+  padding: 4px 10px;
+  box-sizing: border-box;
+  width: 100%;
+  transition: all 0.4s ease 0s;
+}
+
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+input[type="password"]:disabled,
+select:disabled {
+  background-color: #eee;
+}
+
+input[type="text"]:disabled:hover,
+input[type="number"]:disabled:hover,
+input[type="password"]:disabled:hover,
+select:disabled:hover {
+  border-color: #cbcbcb;
+}
+
+
+input[type="text"]+i[class^="howell-icon-"] {
+  position: absolute;
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+  width: 23px;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+select {
+  padding: 4px 6px;
+}
+
+select option {
+  font-size: 16px;
+  padding: 20px;
+  line-height: 30px;
+}
+
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #235f9c;
+}
+
+button+button {
+  margin-left: 10px;
+}
+
+.title-1 {
+  font-size: 20px;
+  font-weight: 500;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.button-blue {
+  border-radius: 4px;
+  color: white;
+  background-color: #235f9c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 0 10px;
+  transition: all 0.4s ease 0s;
+  font-size: 16px;
+}
+
+.button-blue i {
+  margin-right: 5px;
+}
+
+.button-blue.default {
+  width: 150px;
+}
+
+.button-blue:hover {
+  background-color: transparent;
+  border: 1px solid #235f9c;
+  color: #235f9c;
+}
+
+.button-white {
+  border: 1px solid #7f7f7f;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0 10px;
+  width: 108px;
+  height: 30px;
+  transition: all 0.4s ease 0s;
+  margin-left: 10px;
+}
+
+.button-white:first-child {
+  margin-left: 0;
+}
+
+.button-white:hover {
+  opacity: 0.8;
+
+}
+
+.button-white:active {
+  box-shadow: none;
+}
+
+
+.button-blue-line {
+  border-radius: 4px;
+  background-color: transparent;
+  color: #235f9c;
+  border: 2px solid #235f9c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: all 0.4s ease 0s;
+  font-size: 16px;
+  width: 80px;
+  height: 40px;
+  font-weight: bold;
+}
+
+.button-blue-line i {
+  margin-right: 5px;
+}
+
+.button-blue-line.default {
+  width: 150px;
+}
+
+.button-blue-line:hover {
+  background-color: #235f9c;
+  border: 1px solid transparent;
+  color: white;
+}
+
+.button-line {
+  border-radius: 4px;
+  background-color: transparent;
+  color: black;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: all 0.4s ease 0s;
+  font-size: 16px;
+
+  width: 80px;
+  height: 40px;
+  font-weight: bold;
+}
+
+.button-line i {
+  margin-right: 5px;
+}
+
+.button-line.default {
+  width: 150px;
+}
+
+.button-line:hover {
+  opacity: 0.5;
+}
+
+
+
+.input-button {
+  display: flex;
+  white-space: nowrap;
+  border: 1px solid #7f7f7f;
+  border-radius: 2px;
+}
+
+.input-button input {
+  border: none;
+  border-radius: unset;
+}
+
+.input-button button {
+  border: none;
+  border-left: 1px solid #7f7f7f;
+  width: 100px;
+  cursor: pointer;
+}

@@ -21,8 +21,11 @@ export class VideoSourceDescriptor implements IModel {
   DeviceId?: string
   /**	String	设备序列号	O	*/
   SerialNumber?: string
-  /**	String	物理地址
-格式：FC-9F-16-00-23-40	O	*/
+  /**
+   * String	物理地址
+   * 格式：FC-9F-16-00-23-40
+   * O
+   **/
   MACAddress?: string
   /**	Int32	网页端口号	O	*/
   WebPortNo?: number

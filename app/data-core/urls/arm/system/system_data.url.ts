@@ -1,9 +1,9 @@
 export class SystemDataUrl {
   constructor(private base: string) {}
-  get log() {
+  log() {
     return `${this.base}/LogData`
   }
-  get configuration() {
+  configuration() {
     return `${this.base}/ConfigurationData`
   }
 }

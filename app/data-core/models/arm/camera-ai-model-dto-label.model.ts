@@ -1,5 +1,5 @@
+import { EnumValue } from '../capabilities/enum-value.model'
 import { IModel } from '../model.interface'
-import { EnumValue } from './enum-value.model'
 
 /**	CameraAIModelDTOLabel (AI摄像机模型DTO标签)	*/
 export class CameraAIModelDTOLabel implements IModel {

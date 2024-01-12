@@ -1,0 +1,84 @@
+{
+  "system": {
+    "id": "system",
+    "name": "系统",
+    "children": [
+      {
+        "id": "system_device",
+        "name": "设备信息"
+      },
+      {
+        "id": "system_status",
+        "name": "系统状态"
+      },
+      {
+        "id": "system_maintain",
+        "name": "系统维护"
+      }
+    ]
+  },
+  "network": {
+    "id": "network",
+    "name": "网络",
+    "children": [
+      {
+        "id": "network_config",
+        "name": "基本配置"
+      },
+      {
+        "id": "network_server",
+        "name": "服务器配置"
+      }
+    ]
+  },
+  "station": {
+    "id": "station",
+    "name": "投放点管理",
+    "children": [
+      {
+        "id": "station_info",
+        "name": "投放点信息"
+      }
+    ]
+  },
+  "device": {
+    "id": "device",
+    "name": "设备管理",
+    "children": [
+      {
+        "id": "device_channel",
+        "name": "代理通道"
+      },
+      {
+        "id": "device_robot",
+        "name": "智能桶车"
+      },
+      {
+        "id": "device_door",
+        "name": "感应门"
+      },
+      {
+        "id": "device_rfid",
+        "name": "读卡器"
+      }
+    ]
+  },
+  "ai": {
+    "id": "ai",
+    "name": "AI智能分析",
+    "children": [
+      {
+        "id": "ai_model",
+        "name": "AI模型"
+      },
+      {
+        "id": "ai_event",
+        "name": "AI事件部署"
+      },
+      {
+        "id": "ai_task",
+        "name": "AI任务部署"
+      }
+    ]
+  }
+}

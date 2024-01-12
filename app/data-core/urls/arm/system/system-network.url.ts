@@ -7,16 +7,19 @@ export class SystemNetworkUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Network`)
   }
-  get ssh() {
-    return `${this.basic}/SSH`
+  ssh() {
+    return `${this.basic()}/SSH`
+  }
+  capability() {
+    return `${this.basic()}/Capability`
   }
   get interface() {
-    return new SystemNetworkInterfacesUrl(this.basic)
+    return new SystemNetworkInterfacesUrl(this.basic())
   }
   get platform() {
-    return new SystemNetworkPlatformAccessUrl(this.basic)
+    return new SystemNetworkPlatformAccessUrl(this.basic())
   }
   get deployment() {
-    return new SystemNetworkDeploymentUrl(this.basic)
+    return new SystemNetworkDeploymentUrl(this.basic())
   }
 }

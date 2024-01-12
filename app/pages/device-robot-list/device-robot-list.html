@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+  </head>
+
+  <body>
+    <div class="device-robot-list">
+      <div class="device-robot-list-body">
+        <div class="device-robot-list-body-content" id="content">
+          <div class="card plus" class="plus" id="plus">
+            <div class="card-inner">
+              <!-- <button class="button-blue">手动添加</button>
+              <button class="button-blue-line">快速搜索</button> -->
+              <i class="howell-icon-plus"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <template style="display: none" id="template">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-body-image">
+            <div class="circle"><i class="mdi mdi-cart"></i></div>
+          </div>
+          <div class="card-body-info forms">
+            <div class="form-item">
+              <div class="form-item-title">名称：</div>
+              <div class="form-item-value">
+                <div class="Name"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">型号：</div>
+              <div class="form-item-value">
+                <div class="Model"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">序列号：</div>
+              <div class="form-item-value">
+                <div class="SerialNumber"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">设备类型：</div>
+              <div class="form-item-value">
+                <div class="DeviceType"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">协议类型：</div>
+              <div class="form-item-value">
+                <div class="ProtocolType"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">IP地址：</div>
+              <div class="form-item-value">
+                <div class="HostAddress"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">端口号：</div>
+              <div class="form-item-value">
+                <div class="PortNo"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-foot">
+          <div class="btn-info">信息</div>
+          <div class="btn-config">标定</div>
+          <div class="btn-play">预览</div>
+          <div class="btn-log">日志</div>
+        </div>
+      </div>
+    </template>
+  </body>
+  <script src="./device-robot-list.ts"></script>
+</html>

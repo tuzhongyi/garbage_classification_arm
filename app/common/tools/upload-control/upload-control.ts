@@ -1,0 +1,67 @@
+import { EventEmitter } from '../../event-emitter'
+import { UploadControlEventArgs } from './upload-control.event'
+import './upload-control.less'
+import { FileReadType } from './upload-control.model'
+
+export class UploadControl {
+  accept?: string
+  type: FileReadType = FileReadType.DataURL
+  encoding?: string
+  event: EventEmitter<UploadControlEventArgs> = new EventEmitter()
+
+  constructor(
+    private text: HTMLInputElement,
+    private button: HTMLElement,
+    private file: HTMLInputElement
+  ) {
+    this.regist()
+  }
+
+  init() {}
+
+  regist() {
+    this.button.addEventListener('click', () => {
+      this.file.click()
+    })
+    this.file.addEventListener('change', () => {
+      this.fileChange()
+    })
+  }
+
+  fileChange() {
+    if (this.file) {
+      const t_files = this.file.files
+
+      if (t_files && t_files.length > 0) {
+        this.text.value = t_files[0].name
+        this.uploadFile(t_files[0])
+        this.file.value = ''
+      }
+    }
+  }
+
+  async uploadFile(file: any) {
+    var reader = new FileReader()
+    switch (this.type) {
+      case FileReadType.ArrayBuffer:
+        reader.readAsArrayBuffer(file)
+        break
+      case FileReadType.BinaryString:
+        reader.readAsBinaryString(file)
+        break
+      case FileReadType.DataURL:
+        reader.readAsDataURL(file)
+        break
+      case FileReadType.Text:
+        reader.readAsText(file, this.encoding)
+        break
+
+      default:
+        break
+    }
+
+    reader.addEventListener('loadend', () => {
+      this.event.emit('upload', reader.result)
+    })
+  }
+}

@@ -1,0 +1,35 @@
+.window {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+
+  @head-height: 50px;
+  @foot-height: 50px;
+
+  &-head {
+    background-color: #235f9c;
+    width: 100%;
+    height: @head-height;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @head-height - @foot-height);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}

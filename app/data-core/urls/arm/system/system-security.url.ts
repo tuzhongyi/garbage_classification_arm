@@ -5,7 +5,10 @@ export class SystemSecurityUrl extends AbstractUrl {
     super(`${base}/Security`)
   }
 
-  get authentication() {
-    return `${this.basic}/Authentication`
+  authentication() {
+    return `${this.basic()}/Authentication`
+  }
+  capability() {
+    return `${this.basic()}/Capability`
   }
 }
