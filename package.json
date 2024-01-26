@@ -4,6 +4,9 @@
   "source": {
     "./js/**": "./assets/js/$1"
   },
+  "exports": {
+    "./assets": "./assets/"
+  },
   "scripts": {
     "start": "parcel ./app/pages/login.html --port 4200 --no-cache true --no-hmr",
     "build": "parcel build ./app/pages/login.html ./app/pages/login.html --out-dir dist",

@@ -69,7 +69,7 @@ export namespace DeviceChannelDiscover {
           .create(datas)
           .then((x) => {
             MessageBar.success('操作成功')
-            this.message.event.emit('close')
+            this.message.sender.emit('close')
           })
           .catch((e) => {
             MessageBar.error('操作失败')
@@ -77,7 +77,7 @@ export namespace DeviceChannelDiscover {
       }
     }
     oncancel() {
-      this.message.event.emit('close')
+      this.message.sender.emit('close')
     }
     onrefresh() {
       this.html.element.table.clear()

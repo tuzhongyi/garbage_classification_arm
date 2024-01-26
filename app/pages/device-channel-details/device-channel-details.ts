@@ -32,10 +32,10 @@ export namespace DeviceChannelDetails {
           data.Name = this.html.element.Name.value
           data.PositionNo
         }
-        this.message.event.emit('close')
+        this.message.sender.emit('close')
       })
       this.html.event.on('cancel', () => {
-        this.message.event.emit('close')
+        this.message.sender.emit('close')
       })
     }
 

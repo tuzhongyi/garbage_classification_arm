@@ -1,0 +1,120 @@
+.device-robot-config {
+  &-body {
+
+
+    &-left {
+
+      @startup-height: 80px;
+
+      &>* {
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      .startup {
+        height: @startup-height;
+        display: flex;
+
+        button {
+          width: 100%;
+        }
+      }
+
+
+      .details {
+        margin-top: 10px;
+        height: calc(100% - @startup-height - 8px);
+
+        padding: 15px;
+        box-sizing: border-box;
+
+        &-content {
+          height: calc(100% - 50px);
+
+          .form-item {
+            &-title {}
+          }
+
+
+          .can-type {
+            .type-color {
+              font-size: 24px;
+            }
+          }
+
+          &-item {
+            &-head {}
+
+            &-body {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-between;
+              box-sizing: border-box;
+
+              .type {
+                border: 1px solid #cecece;
+                border-radius: 5px;
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                width: 130px;
+                height: 40px;
+                margin: 5px 0;
+                cursor: pointer;
+                font-size: 14px;
+                padding-left: 10px;
+
+
+                &:hover {
+                  border-color: #7f7f7f;
+                  background-color: #f7f7f7;
+                }
+
+                &.selected {
+                  background-color: #eeeeee;
+                  border-color: #555;
+
+                  &:hover {
+                    background-color: #e7e7e7;
+                    border-color: #333;
+                  }
+                }
+
+                &-color {
+                  height: 16px;
+                  width: 16px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-right: 5px;
+                }
+              }
+
+
+            }
+
+            &-foot {
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+
+        }
+
+        &-foot {
+          height: 50px;
+          display: flex;
+          justify-content: center;
+
+          button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

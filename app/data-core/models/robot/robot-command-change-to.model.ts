@@ -1,3 +1,4 @@
+import { RobotCommandType } from '../../enums/robot/robot-command-type.enum'
 import { MeshDestination } from './mesh-destination.model'
 import { RobotCommand } from './robot-command.model'
 
@@ -10,4 +11,6 @@ export class RobotChangeToCommandData {
 }
 
 /**	RobotChangeToCommand (搬运桶)	*/
-export class RobotChangeToCommand extends RobotCommand<RobotChangeToCommandData> {}
+export class RobotChangeToCommand extends RobotCommand<RobotChangeToCommandData> {
+  CmdType = RobotCommandType.ChangeTo
+}

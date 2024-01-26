@@ -1,0 +1,56 @@
+.device-robot-config {
+  &-body {
+    &-display {
+      .status {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+
+        &-item {
+          display: flex;
+          align-items: center;
+          margin-right: 50px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &-value {
+            font-weight: bold;
+          }
+        }
+
+
+      }
+
+      .message {
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        background-color: transparent;
+        font-size: 18px;
+        color: #333;
+
+
+
+      }
+
+      .canvas {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

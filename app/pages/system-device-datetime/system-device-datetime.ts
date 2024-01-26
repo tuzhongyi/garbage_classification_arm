@@ -25,8 +25,9 @@ export namespace SystemDeviceInfo {
     system_handle?: NodeJS.Timer
 
     async load() {
+      let capability = await this.business.capability()
       this.data = await this.business.load()
-      this.html.load(this.data)
+      this.html.load(this.data, capability)
     }
 
     onsave() {

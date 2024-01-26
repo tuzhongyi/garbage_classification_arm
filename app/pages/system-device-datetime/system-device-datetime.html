@@ -29,7 +29,12 @@
           <div class="form-item">
             <div class="form-item-title">系统时间</div>
             <div class="form-item-value icon">
-              <input id="SystemTime" type="text" readonly="true" />
+              <input
+                id="SystemTime"
+                type="text"
+                autocomplete="off"
+                readonly="true"
+              />
               <i class="howell-icon-calendar"></i>
             </div>
           </div>
@@ -44,12 +49,14 @@
           </div>
           <div class="form-item NTP">
             <div class="form-item-title">NTP服务器地址</div>
-            <div class="form-item-value"><input id="Model" type="text" /></div>
+            <div class="form-item-value">
+              <input id="Model" type="text" autocomplete="off" />
+            </div>
           </div>
           <div class="form-item NTP">
             <div class="form-item-title">服务器端口号</div>
             <div class="form-item-value">
-              <input id="PortNo" type="text" />
+              <input id="PortNo" type="text" autocomplete="off" />
             </div>
           </div>
           <div class="form-item NTP">
@@ -67,14 +74,19 @@
           <div class="form-item Manual">
             <div class="form-item-title">日期</div>
             <div class="form-item-value icon">
-              <input id="LocalDate" type="text" readonly="true" />
+              <input
+                id="LocalDate"
+                type="text"
+                autocomplete="off"
+                readonly="true"
+              />
               <i class="howell-icon-calendar"></i>
             </div>
           </div>
           <div class="form-item Manual">
             <div class="form-item-title">时间</div>
             <div class="form-item-value">
-              <input id="LocalTime" type="text" />
+              <input id="LocalTime" type="text" autocomplete="off" />
             </div>
             <div class="form-item-added"></div>
           </div>

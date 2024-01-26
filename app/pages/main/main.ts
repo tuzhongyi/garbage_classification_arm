@@ -1,17 +1,22 @@
-import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import { HowellHttpClient } from '../../data-core/requests/http-client'
-import { MainMessageEvent } from './main.event'
+import { ArmMainConfirm } from './main-windows/main.confirm'
+import { ArmMainWindow } from './main-windows/main.window'
 import { ArmMainHtmlController } from './main.html.controller'
-import { ArmMainWindow } from './main.window'
+import { ArmMainMessage } from './main.message'
 
 export namespace ArmMain {
   export class Controller {
     html = new ArmMainHtmlController()
     client = new HowellHttpClient.HttpClient()
-    message: EventMessageProxy<MainMessageEvent>
+
     window = new ArmMainWindow()
+    confirm = new ArmMainConfirm()
+    message = new ArmMainMessage(
+      this.html.element.iframe,
+      this.window,
+      this.confirm
+    )
     constructor() {
-      this.message = new EventMessageProxy(this.html.element.iframe)
       this.regist()
     }
     regist() {
@@ -21,8 +26,8 @@ export namespace ArmMain {
         })
       })
 
-      this.message.event.on('open', (args) => {
-        this.window.open(args)
+      window.addEventListener('beforeunload', () => {
+        // LocalStorageService.navigation.device.robot.clear()
       })
     }
   }

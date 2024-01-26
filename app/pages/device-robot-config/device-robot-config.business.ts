@@ -1,25 +1,49 @@
 import { RobotCommandType } from '../../data-core/enums/robot/robot-command-type.enum'
 import { MeshEdge } from '../../data-core/models/robot/mesh-edge.model'
+import { MeshLocation } from '../../data-core/models/robot/mesh-location.model'
+import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotMeshStepCommand } from '../../data-core/models/robot/robot-command-mesh-step.model'
 import { RobotCommandResult } from '../../data-core/models/robot/robot-command-result.model'
 import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmRobotRequestService } from '../../data-core/requests/services/robot/robot.service'
-import { DeviceRobotConfigModel } from './device-robot-config.model'
+import { DeviceRobotModel } from '../device-robot/device-robot.model'
 
 export class DeviceRobotConfigBusiness {
-  client = new HowellHttpClient.HttpClient()
-  service = new ArmRobotRequestService(this.client.http)
-  commandId = 0
-
-  _result?: RobotCommandResult
+  constructor() {
+    this._location.Position = new MeshNodePosition()
+    this._location.Position.X = 0
+    this._location.Position.Y = 0
+  }
+  private client = new HowellHttpClient.HttpClient()
+  private service = new ArmRobotRequestService(this.client.http)
+  private commandId = -1
+  private _location = new MeshLocation()
 
   async load(id: string) {
-    let model = new DeviceRobotConfigModel()
+    let model = new DeviceRobotModel()
     model.nodes = await this.service.mesh.node.array(id)
     model.edges = await this.service.mesh.edge.array(id)
-    model.location = await this.service.location(id)
+    model.location = await this.location()
+    model.robot = this.robot(id)
+    model.battery = this.battery(id)
     return model
+  }
+
+  robot(id: string) {
+    return this.service.get(id)
+  }
+
+  battery(id: string) {
+    return this.service.battery(id)
+  }
+
+  async location(id?: string) {
+    return this._location
+  }
+  setLocation(x: number, y: number) {
+    this._location.Position.X = x
+    this._location.Position.Y = y
   }
 
   nodes(id: string) {
@@ -43,20 +67,7 @@ export class DeviceRobotConfigBusiness {
     command.Data = {
       Direction: direction,
     }
-    return this.service.command.send(id, command).then((x) => {
-      this._result = new RobotCommandResult()
-      this._result.Id = this.commandId
-      this._result.CmdType = RobotCommandType.MeshStep
-      this._result.Code = 0
-      this._result.Time = new Date()
-      this._result.Data = {
-        Direction: direction,
-        Distance: Math.random() * 100,
-        Rfid: '1234567890',
-      }
-
-      return x
-    })
+    return this.service.command.send(id, command)
   }
 
   top(id: string) {
@@ -82,17 +93,25 @@ export class DeviceRobotConfigBusiness {
   }
 
   update(id: string, node: MeshNode) {
-    return this.service.mesh.node.update(id, node)
+    return this.service.mesh.node.update(id, node).then((x) => {
+      // this._location.Position.X = x.Position.X
+      // this._location.Position.Y = x.Position.Y
+      return x
+    })
   }
   createNode(id: string, node: MeshNode) {
-    return this.service.mesh.node.create(id, node)
+    return this.service.mesh.node.create(id, node).then((x) => {
+      this._location.Position.X = x.Position.X
+      this._location.Position.Y = x.Position.Y
+      return x
+    })
   }
   createEdge(id: string, edge: MeshEdge) {
     return this.service.mesh.edge.create(id, edge)
   }
 
   async result(id: string) {
-    return new Promise<RobotCommandResult[]>((resolve) => {
+    return new Promise<RobotCommandResult[]>((resolve, reject) => {
       this.service.command.results(id).then((results) => {
         let filter = results.filter(
           (x) =>
@@ -100,7 +119,18 @@ export class DeviceRobotConfigBusiness {
             x.CmdType === RobotCommandType.MeshStep &&
             x.Id === this.commandId
         )
-        resolve(filter)
+        if (filter && filter.length > 0) {
+          resolve(filter)
+        }
+        let error = results.find(
+          (x) =>
+            x.Code != 0 &&
+            x.CmdType === RobotCommandType.MeshStep &&
+            x.Id === this.commandId
+        )
+        if (error) {
+          reject(error)
+        }
       })
     })
   }

@@ -8,17 +8,17 @@ export interface ISign {
 export class SignStorage implements IStorage<ISign | undefined> {
   key: string = 'sign'
   get(): ISign | undefined {
-    let item = sessionStorage.getItem(this.key)
+    let item = localStorage.getItem(this.key)
     if (item) {
       return JSON.parse(item)
     }
     return undefined
   }
   save(v: ISign): void {
-    sessionStorage.setItem(this.key, JSON.stringify(v))
+    localStorage.setItem(this.key, JSON.stringify(v))
   }
 
   clear() {
-    sessionStorage.removeItem(this.key)
+    localStorage.removeItem(this.key)
   }
 }

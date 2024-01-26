@@ -11,7 +11,7 @@ export class NavigationNetworkConfigStorage implements IStorage<number> {
     return index
   }
   clear() {
-    sessionStorage.removeItem(this.key)
+    localStorage.removeItem(this.key)
   }
   save(v: number): void {
     localStorage.setItem(this.key, v.toString())

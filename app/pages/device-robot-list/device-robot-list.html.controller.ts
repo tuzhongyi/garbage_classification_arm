@@ -6,14 +6,28 @@ export class DeviceRobotListHtmlController {
   element = {
     content: document.getElementById('content') as HTMLDivElement,
     template: document.getElementById('template') as HTMLElement,
-    plus: document.getElementById('plus') as HTMLDivElement,
+    controls: {
+      manual: document.getElementById('create-manual') as HTMLButtonElement,
+      auto: document.getElementById('create-auto') as HTMLButtonElement,
+    },
   }
   event: EventEmitter<DeviceRobotListEvent> = new EventEmitter()
 
-  constructor() {}
+  constructor() {
+    this.regist()
+  }
 
   private parser = new DOMParser()
   private cards: HTMLElement[] = []
+
+  private regist() {
+    this.element.controls.manual.addEventListener('click', () => {
+      this.event.emit('create', false)
+    })
+    this.element.controls.auto.addEventListener('click', () => {
+      this.event.emit('create', true)
+    })
+  }
 
   private append(robot: Robot) {
     let document = this.parser.parseFromString(
@@ -41,6 +55,7 @@ export class DeviceRobotListHtmlController {
     let config = document.querySelector('.btn-config') as HTMLDivElement
     let play = document.querySelector('.btn-play') as HTMLDivElement
     let log = document.querySelector('.btn-log') as HTMLDivElement
+    let _delete = document.querySelector('.btn-delete') as HTMLDivElement
 
     info.addEventListener('click', (e) => {
       let card = this.findelement(e.target as HTMLElement, 'card')
@@ -66,8 +81,14 @@ export class DeviceRobotListHtmlController {
         this.event.emit('log', card.id)
       }
     })
+    _delete.addEventListener('click', (e) => {
+      let card = this.findelement(e.target as HTMLElement, 'card')
+      if (card) {
+        this.event.emit('delete', card.id)
+      }
+    })
     this.cards.push(card)
-    this.element.content.insertBefore(card, this.element.plus)
+    this.element.content.appendChild(card)
   }
 
   private findelement(
@@ -79,6 +100,11 @@ export class DeviceRobotListHtmlController {
       return e
     }
     return this.findelement(e.parentElement, classname)
+  }
+
+  clear() {
+    this.cards = []
+    this.element.content.innerHTML = ''
   }
 
   load(datas: Robot[]) {

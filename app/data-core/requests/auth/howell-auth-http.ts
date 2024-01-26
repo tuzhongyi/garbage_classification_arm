@@ -18,55 +18,70 @@ export class HowellAuthHttp {
   }
 
   get<R>(path: string) {
-    const myHeaders = this.getHttpHeaders('GET', path)
-    const httpOptions = {
-      headers: myHeaders,
-    }
-    return axios.get(path, httpOptions).then((res) => {
-      if (res.status === 200) {
-        return res.data as R
+    return new Promise<R>((resolve, reject) => {
+      const myHeaders = this.getHttpHeaders('GET', path)
+      const httpOptions = {
+        headers: myHeaders,
       }
-      throw new Error(res.statusText)
+      axios.get(path, httpOptions).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data)
+        } else {
+          reject(res.data)
+        }
+      })
     })
   }
   post<R>(path: string): Promise<R>
   post<T>(path: string, data?: T): Promise<T>
   post<T, R>(path: string, data?: T): Promise<R>
   post<R, T = any>(path: string, data?: T, config?: AxiosRequestConfig) {
-    const myHeaders = this.getHttpHeaders('POST', path, config)
-    const httpOptions = {
-      headers: myHeaders,
-    }
-    return axios
-      .post<T, AxiosResponse<R>>(path, data, httpOptions)
-      .then((res) => {
+    return new Promise<R>((resolve, reject) => {
+      const myHeaders = this.getHttpHeaders('POST', path, config)
+      const httpOptions = {
+        headers: myHeaders,
+      }
+      axios.post<T, AxiosResponse<R>>(path, data, httpOptions).then((res) => {
         if (res.status === 200) {
-          return res.data as R
+          resolve(res.data)
+        } else {
+          reject(res.data)
         }
-        throw new Error(res.statusText)
       })
+    })
   }
   put<R>(path: string): Promise<R>
   put<T>(path: string, data?: T): Promise<T>
   put<T, R>(path: string, data?: T): Promise<R>
   put<R, T = any>(path: string, data?: T, config?: AxiosRequestConfig) {
-    const myHeaders = this.getHttpHeaders('PUT', path, config)
-    const httpOptions = {
-      headers: myHeaders,
-    }
-    return axios.put<T, R>(path, data, httpOptions)
+    return new Promise<R>((resolve, reject) => {
+      const myHeaders = this.getHttpHeaders('PUT', path, config)
+      const httpOptions = {
+        headers: myHeaders,
+      }
+      axios.put<T, AxiosResponse<R>>(path, data, httpOptions).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data)
+        } else {
+          reject(res.data)
+        }
+      })
+    })
   }
   delete<R>(path: string, config?: AxiosRequestConfig) {
-    const myHeaders = this.getHttpHeaders('DELETE', path, config)
-    const httpOptions = {
-      headers: myHeaders,
-    }
-
-    return axios.delete(path, httpOptions).then((res) => {
-      if (res.status === 200) {
-        return res.data as R
+    return new Promise<R>((resolve, reject) => {
+      const myHeaders = this.getHttpHeaders('DELETE', path, config)
+      const httpOptions = {
+        headers: myHeaders,
       }
-      throw new Error(res.statusText)
+
+      return axios.delete(path, httpOptions).then((res) => {
+        if (res.status === 200) {
+          resolve(res.data)
+        } else {
+          reject(res.data)
+        }
+      })
     })
   }
 

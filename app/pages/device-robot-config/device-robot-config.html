@@ -16,47 +16,149 @@
   <body>
     <div class="device-robot-config">
       <div class="device-robot-config-body">
-        <div class="device-robot-config-body-controls">
-          <div class="controls">
-            <div class="controls-row center">
-              <button class="button-white" id="btn_top">上</button>
+        <div class="device-robot-config-body-left">
+          <div class="startup">
+            <button class="button-blue" id="btn_start">开始标定</button>
+            <button class="button-blue" id="btn_stop" style="display: none">
+              停止标定
+            </button>
+          </div>
+          <div class="details mesh-node">
+            <div class="details-content">
+              <div class="forms">
+                <div class="form-item">
+                  <div class="form-item-title">编号</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="node_id" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">RFID</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="node_rfid" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">节点名称</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="node_name" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">X坐标(cm)</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="node_x" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">Y坐标(cm)</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="node_y" />
+                  </div>
+                </div>
+                <div class="form-item mesh-edge" style="display: none">
+                  <div class="form-item-title">方向</div>
+                  <div class="form-item-value">
+                    <input
+                      disabled="true"
+                      type="text"
+                      autocomplete="off"
+                      id="edge_direction"
+                    />
+                  </div>
+                </div>
+                <div class="form-item mesh-edge" style="display: none">
+                  <div class="form-item-title">距离(cm)</div>
+                  <div class="form-item-value">
+                    <input type="text" autocomplete="off" id="edge_distance" />
+                  </div>
+                </div>
+              </div>
+              <div class="details-content-item node-type">
+                <div class="details-content-item-head">节点类型</div>
+                <div class="details-content-item-body">
+                  <div class="type" id="node_type_MagneticPin">
+                    <div class="type-color MagneticPin"></div>
+                    <div>磁钉</div>
+                  </div>
+                  <div class="type selected" id="node_type_ChargingPort">
+                    <div class="type-color ChargingPort"></div>
+                    <div>充电口</div>
+                  </div>
+                  <div class="type" id="node_type_DropPort">
+                    <div class="type-color DropPort"></div>
+                    <div>投放口</div>
+                  </div>
+                  <div class="type" id="node_type_StorePort">
+                    <div class="type-color StorePort"></div>
+                    <div>存桶区</div>
+                  </div>
+                </div>
+              </div>
+              <div class="details-content-item can-type">
+                <div class="details-content-item-head">子类型</div>
+                <div class="details-content-item-body">
+                  <div class="type selected" id="node_type_Dry">
+                    <div class="type-color Dry">
+                      <i class="howell-icon-residual"></i>
+                    </div>
+                    <div>干垃圾</div>
+                  </div>
+                  <div class="type" id="node_type_Wet">
+                    <div class="type-color Wet">
+                      <i class="howell-icon-kitchen"></i>
+                    </div>
+                    <div>湿垃圾</div>
+                  </div>
+                  <div class="type" id="node_type_Recycle">
+                    <div class="type-color Recycle">
+                      <i class="howell-icon-recyclable"></i>
+                    </div>
+                    <div>可回收垃圾</div>
+                  </div>
+                  <div class="type" id="node_type_Hazard">
+                    <div class="type-color Hazard">
+                      <i class="howell-icon-hazardous"></i>
+                    </div>
+                    <div>有害垃圾</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="controls-row">
-              <button class="button-white" id="btn_left">左</button>
-              <button class="button-white" id="btn_right">右</button>
-            </div>
-            <div class="controls-row center">
-              <button class="button-white" id="btn_down">下</button>
-            </div>
-            <div class="controls-row">
-              <button class="button-white" id="btn_rotate">
-                <i class="mdi mdi-refresh"></i>
-              </button>
-              <button class="button-white" id="btn_store">存放口</button>
-              <button class="button-white" id="btn_drop">投放口</button>
-              <button class="button-white" id="btn_node">磁钉</button>
-            </div>
-            <div class="controls-row">
-              <button class="button-white" id="btn_start">启动</button>
-              <button class="button-white" id="btn_stop">停止</button>
-            </div>
-            <div class="controls-row">
-              <button class="button-white" id="btn_clear">清空</button>
+            <div class="details-foot">
+              <button class="button-blue-line" id="node_save">保存</button>
             </div>
           </div>
         </div>
         <div class="device-robot-config-body-display">
+          <div class="status">
+            <div class="status-item">
+              <div class="status-item-title">设备：</div>
+              <div class="status-item-value" id="robot_name"></div>
+            </div>
+            <div class="status-item">
+              <div class="status-item-title">电量：</div>
+              <div class="status-item-value" id="battery_level"></div>
+            </div>
+            <div class="status-item">
+              <div class="status-item-title">状态：</div>
+              <div class="status-item-value" id="battery_state"></div>
+            </div>
+          </div>
           <div class="canvas">
             <canvas id="canvas"></canvas>
           </div>
+          <div class="message">
+            <div id="message"></div>
+          </div>
         </div>
 
-        <div class="device-robot-config-body-datas">
+        <div class="device-robot-config-body-right">
           <div class="mesh-nodes table">
             <table id="table" border="0" cellpadding="0" cellspacing="0">
               <thead>
                 <tr>
-                  <th>序号</th>
+                  <th>编号</th>
                   <th>节点类型</th>
                   <th>子类型</th>
                 </tr>
@@ -64,7 +166,25 @@
               <tbody></tbody>
             </table>
           </div>
-          <div class="mesh-edges"></div>
+          <div class="controls">
+            <div class="controls-direction">
+              <div id="btn_top" class="top disabled">
+                <i class="howell-icon-play"></i>
+              </div>
+              <div id="btn_right" class="right disabled">
+                <i class="howell-icon-play"></i>
+              </div>
+              <div id="btn_left" class="left disabled">
+                <i class="howell-icon-play"></i>
+              </div>
+              <div id="btn_down" class="bottom disabled">
+                <i class="howell-icon-play"></i>
+              </div>
+            </div>
+            <div class="controls-row" style="display: none">
+              <button class="button-white" id="btn_clear">清空</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

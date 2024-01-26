@@ -22,11 +22,46 @@
 
       &:hover {
         color: #235f9c;
+
+        &.main .main-back {
+          color: #235f9c;
+        }
+      }
+
+      &.main {
+        display: flex;
+        width: 30px;
+
+        .main-title {
+          display: none;
+        }
+
+        .main-back {
+          font-size: 30px;
+          color: #cdcdcd;
+        }
+
+        &.selected {
+          width: 150px;
+
+          .main-title {
+            display: block;
+          }
+
+          .main-back {
+            display: none;
+          }
+
+          &~.menu-item {
+            display: none;
+          }
+        }
       }
 
       &.selected {
         color: #235f9c;
         border-bottom-color: #235f9c;
+        display: flex;
       }
     }
 

@@ -5,24 +5,27 @@
     <title>垃圾分类</title>
     <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
     <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
   </head>
 
   <body>
     <div class="device-robot-list">
       <div class="device-robot-list-body">
-        <div class="device-robot-list-body-content" id="content">
-          <div class="card plus" class="plus" id="plus">
-            <div class="card-inner">
-              <!-- <button class="button-blue">手动添加</button>
-              <button class="button-blue-line">快速搜索</button> -->
-              <i class="howell-icon-plus"></i>
-            </div>
-          </div>
-        </div>
+        <div class="device-robot-list-body-content" id="content"></div>
+      </div>
+      <div class="device-robot-list-foot">
+        <button class="button-blue-line" id="create-manual">手动添加</button>
+        <button class="button-blue-line" id="create-auto">快速添加</button>
       </div>
     </div>
     <template style="display: none" id="template">
       <div class="card">
+        <div class="card-operation">
+          <div class="card-operation-item btn-delete">
+            <i class="howell-icon-Close"></i>
+          </div>
+        </div>
         <div class="card-body">
           <div class="card-body-image">
             <div class="circle"><i class="mdi mdi-cart"></i></div>

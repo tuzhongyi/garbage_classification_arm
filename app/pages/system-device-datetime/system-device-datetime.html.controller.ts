@@ -2,6 +2,7 @@ import { EventEmitter } from '../../common/event-emitter'
 import { DateTimePicker } from '../../common/tools/date-time-picker/date-time-picker'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
+import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
 import { SystemDeviceInfoHtmlEventArgs } from './system-device-datetime.event'
 
 import './system-device-datetime.less'
@@ -103,7 +104,7 @@ export class SystemDeviceInfoHtmlController {
     this.event.emit('onmodechange', mode)
   }
 
-  load(data: SystemTime) {
+  load(data: SystemTime, capability: DeviceCapability) {
     this.element.NTPTimeMode.value = data.TimeMode
     this.systemtime.stop()
     this.systemtime.run(data.LocalTime)

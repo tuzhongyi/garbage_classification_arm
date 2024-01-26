@@ -10,13 +10,18 @@ import { DepolymentCapability } from '../../../models/capabilities/arm/depolymen
 import { HowellResponse } from '../../../models/response'
 import { ArmDeploymentUrl } from '../../../urls/arm/deployment/deployment.url'
 import { HowellAuthHttp } from '../../auth/howell-auth-http'
+import { HowellResponseProcess } from '../../service-process'
 
 export class ArmDeploymentRequestService {
   constructor(private http: HowellAuthHttp) {}
 
   capability() {
     let url = ArmDeploymentUrl.capability()
-    return this.http.get<HowellResponse<DepolymentCapability>>(url)
+    return this.http
+      .get<HowellResponse<DepolymentCapability>>(url)
+      .then((x) => {
+        return HowellResponseProcess.get(x, DepolymentCapability)
+      })
   }
 
   private _server?: DeploymentServersRequestService

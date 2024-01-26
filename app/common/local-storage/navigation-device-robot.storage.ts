@@ -16,7 +16,7 @@ export class NavigationDeviceRobotStorage
     return index
   }
   clear() {
-    sessionStorage.removeItem(this.key)
+    localStorage.removeItem(this.key)
   }
   save(v: { index: number; id?: string }): void {
     localStorage.setItem(this.key, JSON.stringify(v))

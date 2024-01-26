@@ -1,4 +1,5 @@
 import { MeshNodeType } from '../../enums/robot/mesh-node-type.model'
+import { CanType } from '../../enums/robot/robot-can-type.model'
 import { IIdNameModel } from '../model.interface'
 import { MeshNodePosition } from './mesh-node-position.model'
 import { MeshNodeRelation } from './mesh-node-relation.model'
@@ -18,7 +19,7 @@ export class MeshNode implements IIdNameModel {
   /**	String	节点类型	M	*/
   NodeType!: MeshNodeType
   /**	String	投放口或存桶区类型	O	*/
-  CanType?: string
+  CanType?: CanType
   /**	MeshNodeRelation[]	关联节点信息	O	*/
   Relations?: MeshNodeRelation[]
 }

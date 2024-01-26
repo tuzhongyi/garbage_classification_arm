@@ -3,8 +3,3 @@ export interface EventMessageData<T = any> {
   value?: T
   index: number
 }
-
-export enum EventProxyMessageCommand {
-  open = 'open',
-  close = 'close',
-}

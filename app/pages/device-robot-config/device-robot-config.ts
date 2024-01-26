@@ -1,12 +1,13 @@
 import { LocationTool } from '../../common/tools/location.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
+import { CanType } from '../../data-core/enums/robot/robot-can-type.model'
 import { MeshEdge } from '../../data-core/models/robot/mesh-edge.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotCommandResult } from '../../data-core/models/robot/robot-command-result.model'
+import { DeviceRobotModel } from '../device-robot/device-robot.model'
 import { DeviceRobotConfigBusiness } from './device-robot-config.business'
 import { DeviceRobotConfigHtmlController } from './device-robot-config.html.controller'
-import { DeviceRobotConfigModel } from './device-robot-config.model'
 
 export namespace DeviceRobotConfig {
   class Controller {
@@ -17,69 +18,182 @@ export namespace DeviceRobotConfig {
     html = new DeviceRobotConfigHtmlController()
     business = new DeviceRobotConfigBusiness()
 
-    model?: DeviceRobotConfigModel
+    model?: DeviceRobotModel
 
-    private command = 0
+    selected: {
+      node?: MeshNode
+      edge?: MeshEdge
+    } = {}
+
+    private _isruning: boolean = false
+    public get isruning(): boolean {
+      return this._isruning
+    }
+    public set isruning(v: boolean) {
+      this._isruning = v
+      this.html.echart.disable(this.isruning)
+      this.html.element.table.node.disable(this.isruning)
+      this.html.disable(!this.isruning)
+    }
+
+    private _saving: boolean = false
+    public get saving(): boolean {
+      return this._saving
+    }
+    public set saving(v: boolean) {
+      this._saving = v
+      this.html.disable(this.saving)
+      this.html.element.message.className = ''
+      this.html.element.message.innerHTML = '← 请保存并继续'
+    }
+
+    command = -1
 
     get id() {
       let querys = LocationTool.querys(location.search)
       return querys.id
     }
 
-    regist() {
+    //#region regist
+    private regist() {
+      window.addEventListener('beforeunload', () => {
+        this.onstop()
+      })
+      this.registDirection()
+      this.registCalibration()
+      this.registEChart()
+      this.registTable()
+      this.registDetails()
+
+      this.html.event.on('clear', this.onclear.bind(this))
+    }
+    private registDirection() {
       this.html.event.on('top', this.ontop.bind(this))
       this.html.event.on('down', this.ondown.bind(this))
       this.html.event.on('left', this.onleft.bind(this))
       this.html.event.on('right', this.onright.bind(this))
+    }
+    private registCalibration() {
       this.html.event.on('start', this.onstart.bind(this))
       this.html.event.on('stop', this.onstop.bind(this))
-      this.html.event.on('clear', this.onclear.bind(this))
     }
+    private registEChart() {
+      this.html.echart.event.on('select', (data) => {
+        this.onnodeselect(data.Id)
+      })
+    }
+    private registTable() {
+      this.html.element.table.node.event.on('select', (id) => {
+        this.onnodeselect(id)
+      })
+    }
+    private registDetails() {
+      this.html.details.event.on('nodetypechange', (type) => {
+        this.onnodetypechange(type)
+      })
+      this.html.details.event.on('cantypechange', (type) => {
+        this.oncantypechange(type)
+      })
+      this.html.details.event.on('nodexchange', () => {})
+      this.html.details.event.on('nodeychange', () => {})
+      this.html.details.event.on('distancechange', () => {
+        let distance = parseFloat(this.html.details.element.edge.distance.value)
+        if (this.selected.edge) {
+          switch (this.selected.edge.Direction) {
+            case 0:
+              this.html.details.element.node.y.value = (
+                this.selected.edge.Start.Position!.Y + distance
+              ).toString()
+              break
+            case 90:
+              this.html.details.element.node.x.value = (
+                this.selected.edge.Start.Position!.X + distance
+              ).toString()
+              break
+            case 180:
+              this.html.details.element.node.y.value = (
+                this.selected.edge.Start.Position!.Y - distance
+              ).toString()
+              break
+            case 270:
+              this.html.details.element.node.x.value = (
+                this.selected.edge.Start.Position!.X - distance
+              ).toString()
+              break
+
+            default:
+              break
+          }
+        }
+      })
+      this.html.details.event.on('save', () => {
+        this.onnodesave()
+      })
+    }
+    //#endregion
 
     async load() {
       this.model = await this.business.load(this.id)
 
       this.html.load(this.model)
       this.html.element.table.node.load(this.model.nodes)
+      return true
     }
 
-    getLast() {
-      if (!this.model) throw new Error('model is null')
-      if (this.model.nodes.length > 0) {
-        return this.model.nodes[this.model.nodes.length - 1]
+    onnodeselect(id: string) {
+      if (this.model) {
+        this.selected.node = this.model.nodes.find((x) => x.Id === id)
+        if (this.selected.node) {
+          this.html.details.load(this.selected.node)
+        }
       }
-      let node = new MeshNode()
-      node.Id = '0'
-      node.Name = '0'
-      node.NodeType = MeshNodeType.ChargingPort
-      node.Position = new MeshNodePosition()
-      node.Position.X = 0
-      node.Position.Y = 0
-      return node
     }
+    onnodesave() {
+      if (this.selected.node) {
+        this.selected.node.Name = this.html.details.element.node.name.value
+        this.selected.node.Position.X = parseFloat(
+          this.html.details.element.node.x.value
+        )
+        this.selected.node.Position.Y = parseFloat(
+          this.html.details.element.node.y.value
+        )
+        this.saving = false
+        this.business
+          .update(this.id, this.selected.node)
+          .then((x) => {
+            this.html.element.message.className = ''
+            this.html.element.message.innerHTML = '请继续操纵机器人 →'
+            this.load()
+          })
+          .catch((e) => {
+            this.html.element.message.className = 'error'
+            this.html.element.message.innerHTML = '保存失败'
+          })
+      }
+    }
+    onnodetypechange(type: MeshNodeType) {
+      if (this.selected.node) {
+        this.selected.node.NodeType = type
 
-    // runing(last: MeshNode, current: MeshNode) {
-    //   if (!this.model) return
+        switch (type) {
+          case MeshNodeType.DropPort:
+          case MeshNodeType.StorePort:
+            if (!this.selected.node.CanType) {
+              this.selected.node.CanType = CanType.Dry
+            }
+            break
 
-    //   this.model.nodes.push(current)
-
-    //   let edge = new MeshEdge()
-    //   edge.Start = new MeshDestination()
-    //   edge.Start.Id = last.Id
-    //   edge.Start.Position = {
-    //     X: last.Position.X,
-    //     Y: last.Position.Y,
-    //   }
-    //   edge.End = new MeshDestination()
-    //   edge.End.Id = current.Id
-    //   edge.End.Position = {
-    //     X: current.Position.X,
-    //     Y: current.Position.Y,
-    //   }
-    //   this.model.edges.push(edge)
-
-    //   this.load()
-    // }
+          default:
+            this.selected.node.CanType = undefined
+            break
+        }
+      }
+    }
+    oncantypechange(type?: CanType) {
+      if (this.selected.node) {
+        this.selected.node.CanType = type
+      }
+    }
     onclear() {
       if (!this.model) return
       this.business.deleteNode(
@@ -92,31 +206,88 @@ export namespace DeviceRobotConfig {
       )
     }
     ontop() {
-      this.business.top(this.id)
+      if (!this.saving) {
+        this.business.location(this.id).then((x) => {
+          if (this.model) {
+            this.model.location = x
+          }
+          this.business.top(this.id)
+        })
+      }
     }
     ondown() {
-      this.business.down(this.id)
+      if (!this.saving) {
+        this.business.location(this.id).then((x) => {
+          if (this.model) {
+            this.model.location = x
+          }
+          this.business.down(this.id)
+        })
+      }
     }
     onleft() {
-      this.business.left(this.id)
+      if (!this.saving) {
+        this.business.location(this.id).then((x) => {
+          if (this.model) {
+            this.model.location = x
+          }
+          this.business.left(this.id)
+        })
+      }
     }
     onright() {
-      this.business.right(this.id)
+      if (!this.saving) {
+        this.business.location(this.id).then((x) => {
+          if (this.model) {
+            this.model.location = x
+          }
+          this.business.right(this.id)
+        })
+      }
     }
     onstart() {
-      this.business.stop(this.id)
-      this.business.start(this.id).then((x) => {
-        this.run()
+      this.business.stop(this.id).then((x) => {
+        this.business
+          .start(this.id)
+          .then((x) => {
+            this.load()
+            this.html.details.clear()
+            this.isruning = true
+            this.run()
+            this.html.element.control.start.style.display = 'none'
+            this.html.element.control.stop.style.display = ''
+            this.html.element.message.className = 'normal'
+            this.html.element.message.innerHTML = '启动成功'
+          })
+          .catch((e) => {
+            this.html.element.message.className = 'error'
+            this.html.element.message.innerHTML = '启动失败'
+          })
       })
     }
     onstop() {
-      this.business.stop(this.id)
+      this.isruning = false
+      this.business
+        .stop(this.id)
+        .then((x) => {
+          this.html.details.clear()
+          this.html.element.control.start.style.display = ''
+          this.html.element.control.stop.style.display = 'none'
+          this.html.element.message.className = ''
+          this.html.element.message.innerHTML = '标定已停止'
+        })
+        .catch((e) => {
+          this.html.element.message.className = 'error'
+          this.html.element.message.innerHTML = '停止命令执行失败'
+        })
     }
 
     run() {
       setTimeout(() => {
         this.runing()
-        this.run()
+        if (this.isruning) {
+          this.run()
+        }
       }, 1000)
     }
     async runing() {
@@ -130,27 +301,68 @@ export namespace DeviceRobotConfig {
       //     }
       //   }
       // }
-      let last = this.getLast()
-      let results = await this.business.result(this.id)
-      let result = results.find((x) => !!x.Data.Rfid)
-      if (result && !this.hasNode(result.Data.Rfid)) {
-        let node = await this.createNode(
-          this.model.nodes.length.toString(),
-          result,
-          last.Position,
-          this.model.nodes.length == 0
-        )
-        if (this.model.nodes.length > 0) {
-          this.createEdge(last, node, result)
-        }
-        await this.load()
-      }
+      let current = this.model.nodes.find(
+        (x) =>
+          this.model!.location.Position.X === x.Position.X &&
+          this.model!.location.Position.Y === x.Position.Y
+      )
+      this.business
+        .result(this.id)
+        .then(async (results) => {
+          if (!this.model) return
+          let result = results.find((x) => !!x.Data.Rfid)
+          if (result && this.command != result.Id) {
+            this.command = result.Id!
+            let index = this.findNode(result.Data.Rfid)
+            if (index < 0) {
+              if (!current) {
+                current = new MeshNode()
+                current.Position = this.model.location.Position
+              }
+              let node = await this.createNode(
+                this.model.nodes.length.toString(),
+                result,
+                current.Position,
+                this.model.nodes.length == 0
+              )
+              if (node) {
+                let edge: MeshEdge | undefined = undefined
+                if (this.model.nodes.length > 0) {
+                  edge = await this.createEdge(current, node, result)
+                }
+                let loaded = await this.load()
+                if (loaded) {
+                  this.selected.node = node
+                  this.selected.edge = edge
+                  this.html.details.load(node, edge, true)
+                  this.saving = true
+                }
+              }
+            } else {
+              let current = this.model.nodes[index]
+              this.business.setLocation(current.Position.X, current.Position.Y)
+              this.business.location(this.id).then((x) => {
+                if (this.model) {
+                  this.model.location = x
+                  this.html.load(this.model)
+                }
+              })
+            }
+          }
+        })
+        .catch((e) => {
+          if (this.command === e.Id) {
+            return
+          }
+          this.command = e.Id
+          this.html.element.message.className = 'warm'
+          this.html.element.message.innerHTML = e.Desc
+        })
     }
 
-    hasNode(rfid: string) {
+    findNode(rfid: string) {
       if (!this.model) throw new Error('model is null')
-      let index = this.model.nodes.findIndex((x) => x.Rfid == rfid)
-      return index >= 0
+      return this.model.nodes.findIndex((x) => x.Rfid == rfid)
     }
 
     createNode(
@@ -161,10 +373,11 @@ export namespace DeviceRobotConfig {
     ) {
       let node = new MeshNode()
       node.Id = id
-      node.Name = node.Id
+
       node.NodeType = zero
         ? MeshNodeType.ChargingPort
         : MeshNodeType.MagneticPin
+      node.Name = (parseInt(node.Id) + 1).toString()
       node.Rfid = result.Data.Rfid
       node.Position = new MeshNodePosition()
       if (zero) {
@@ -192,7 +405,11 @@ export namespace DeviceRobotConfig {
             break
         }
       }
-      return this.business.createNode(this.id, node)
+      return this.business.createNode(this.id, node).catch((x) => {
+        this.html.element.message.className = 'error'
+        this.html.element.message.innerHTML = '点位创建失败'
+        return undefined
+      })
     }
     createEdge(start: MeshNode, end: MeshNode, result: RobotCommandResult) {
       let edge = new MeshEdge()

@@ -1,21 +1,23 @@
 import 'jquery-toast-plugin'
 import './jquery.toast.min.css'
 declare var $: any
+type X = 'right' | 'left' | 'center'
+type Y = 'top' | 'bottom' | 'center'
 export class MessageBar {
-  static success(text?: string) {
+  static success(text?: string, x: X = 'right', y: Y = 'bottom') {
     $.toast({
       text: text ? text : '操作成功',
-      position: 'bottom-right',
+      position: `${y}-${x}`,
       loaderBg: '#ff6849',
       icon: 'success',
       hideAfter: 3500,
       stack: 6,
     })
   }
-  static error(text?: string) {
+  static error(text?: string, x: X = 'right', y: Y = 'bottom') {
     $.toast({
       text: text ? text : '操作失败',
-      position: 'bottom-right',
+      position: `${y}-${x}`,
       loaderBg: '#e6294b',
       icon: 'error',
       hideAfter: 35000,
@@ -23,10 +25,10 @@ export class MessageBar {
     })
   }
 
-  static warning(text?: string) {
+  static warning(text?: string, x: X = 'right', y: Y = 'bottom') {
     $.toast({
       text: text ? text : '正在操作中...',
-      position: 'bottom-right',
+      position: `${y}-${x}`,
       loaderBg: '#ffb22b',
       icon: 'warning',
       hideAfter: 3500 * 2,

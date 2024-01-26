@@ -12,7 +12,7 @@ export class DeviceChannelIndexMessage {
 
   regist() {
     this.proxy.event.on('open', (args) => {
-      this.client.event.emit('open', args)
+      this.client.sender.emit('open', args)
     })
   }
 }

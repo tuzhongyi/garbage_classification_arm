@@ -166,6 +166,12 @@ button+button {
   margin-right: 5px;
 }
 
+.button-blue.nohover:hover {
+  color: white;
+  background-color: #235f9c;
+  border: 1px solid transparent;
+}
+
 .button-blue.default {
   width: 150px;
 }
@@ -220,6 +226,13 @@ button+button {
   width: 80px;
   height: 40px;
   font-weight: bold;
+}
+
+.button-blue-line.nohover:hover {
+
+  background-color: transparent;
+  color: #235f9c;
+  border: 2px solid #235f9c;
 }
 
 .button-blue-line i {

@@ -5,6 +5,22 @@
   box-sizing: border-box;
 
   &-body {
+    width: 100%;
+    height: calc(100% - 50px);
+    position: relative;
+
+    .controls {
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      display: flex;
+
+      button {
+        width: 100px;
+      }
+    }
+
+
     &-content {
       display: flex;
       flex-wrap: wrap;
@@ -14,9 +30,36 @@
         width: 500px;
         height: 300px;
         margin: 5px;
-        background-color: #f7f7f7;
+        background-color: #f8f8f8;
         border: 2px solid #cbcbcb;
         box-sizing: border-box;
+        position: relative;
+
+
+        &-operation {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          color: #d7d7d7;
+          padding: 11px 15px;
+
+          &>* {
+            margin-left: 5px;
+            cursor: pointer;
+
+            &:first-child {
+              margin-left: 0;
+            }
+
+            &:hover {
+              color: #235f9c;
+            }
+          }
+        }
+
 
         &-body {
           height: calc(100% - 50px);
@@ -110,6 +153,16 @@
 
         }
       }
+    }
+  }
+
+  &-foot {
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+    button {
+      width: 100px;
     }
   }
 }

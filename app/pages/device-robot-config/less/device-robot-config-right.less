@@ -1,0 +1,183 @@
+.device-robot-config {
+
+
+  &-body {
+
+
+
+    &-right {
+
+      &>* {
+        margin: 10px 0;
+        width: 100%;
+        height: calc(50% - 8px);
+        box-sizing: border-box;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      .controls {
+        width: 100%;
+        height: 250px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        &-direction {
+          width: 180px;
+          height: 180px;
+          position: relative;
+
+
+          &>* {
+            width: 60px;
+            height: 86px;
+            background-color: #aaa;
+            clip-path: path("M29.1000,86.000 L29.000,86.000 L0.000,57.000 L-0.000,4.165 C9.386,0.831 19.478,-0.000 29.1000,-0.000 C40.522,-0.000 50.614,0.831 59.1000,4.165 L59.1000,57.000 L31.000,86.000 L29.1000,86.000 Z");
+            cursor: pointer;
+            position: absolute;
+            transform-origin: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 36px;
+
+            i {
+              transform: rotate(-90deg) translateX(10px)
+            }
+
+            &:hover {
+              opacity: 0.5;
+            }
+
+            &.disabled:hover {
+              opacity: 1;
+              cursor: default;
+            }
+          }
+
+          .top {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+          }
+
+          .right {
+            transform: rotate(90deg) translate(-43px, 13px);
+            right: 0;
+            top: 50%;
+          }
+
+          .left {
+            transform: rotate(270deg) translate(43px, 13px);
+            left: 0;
+            top: 50%;
+          }
+
+          .bottom {
+            transform: rotate(180deg) translateX(50%);
+            bottom: 0;
+            left: 50%;
+          }
+        }
+
+        &-row {
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 0;
+
+          &.center {
+            justify-content: center;
+          }
+
+
+        }
+
+        .button-white {
+          height: 40px;
+        }
+
+      }
+
+
+
+      .mesh-nodes {
+        height: calc(100% - 250px - 8px);
+        border: 1px solid #ccc;
+        border-width: 1px;
+        box-sizing: border-box;
+      }
+
+      .mesh-edges {}
+    }
+  }
+
+}
+
+
+
+.td-type,
+.type {
+  display: flex;
+  align-items: center;
+
+
+  &-color {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #7f7f7f;
+    margin-right: 5px;
+
+
+    &.MagneticPin {
+      background-color: #b1d4ff;
+      border-radius: 50%;
+    }
+
+    &.DropPort {
+      background-color: #ffeec4;
+    }
+
+    &.StorePort {
+      background-color: #d9ffff;
+    }
+
+    &.ChargingPort {
+      background-color: #cfffd3;
+    }
+
+    &.Other {
+      background-color: #eeffc4;
+    }
+
+    &.Dry {
+      color: #2e2a29;
+
+      border: none;
+    }
+
+    &.Wet {
+      color: #6a3f35;
+
+      border: none;
+    }
+
+    &.Recycle {
+      color: #204388;
+
+      border: none;
+    }
+
+    &.Hazard {
+      color: #e6361f;
+
+      border: none;
+    }
+  }
+}

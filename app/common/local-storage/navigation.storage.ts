@@ -27,7 +27,7 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
     localStorage.setItem(this.key, JSON.stringify(v))
   }
   clear() {
-    sessionStorage.removeItem(this.key)
+    localStorage.removeItem(this.key)
   }
 
   system = {

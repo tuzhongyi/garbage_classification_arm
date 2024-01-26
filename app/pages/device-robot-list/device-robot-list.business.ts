@@ -8,4 +8,7 @@ export class DeviceRobotListBusiness {
   load() {
     return this.service.array()
   }
+  delete(id: string) {
+    return this.service.delete(id)
+  }
 }

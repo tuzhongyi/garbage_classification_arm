@@ -40,19 +40,16 @@ export namespace DeviceChannelList {
       })
     }
     ondiscover() {
-      this.window.discover.show = true
-      this.message.event.emit('open', this.window.discover)
+      this.message.sender.emit('open', this.window.discover)
     }
     oncreate() {
       this.window.details.clear()
-      this.window.details.show = true
-      this.message.event.emit('open', this.window.details)
+      this.message.sender.emit('open', this.window.details)
     }
     onmodify(id: string) {
       console.log(`device-channel-list modify ${id}`)
       this.window.details.id = id
-      this.window.details.show = true
-      this.message.event.emit('open', this.window.details)
+      this.message.sender.emit('open', this.window.details)
     }
     ondelete(ids: string[]) {
       this.business

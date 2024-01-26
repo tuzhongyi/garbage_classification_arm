@@ -10,7 +10,7 @@ export class EventMessageProxy<T extends Record<string | number, any>> {
 
   event: EventEmitter<T> = new EventEmitter()
 
-  message(data: any) {
+  message(data: EventMessageData) {
     let message = JSON.stringify(data)
 
     if (this.iframe.contentWindow) {

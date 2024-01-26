@@ -19,43 +19,50 @@ import { NetworkCapability } from '../../../models/capabilities/arm/network-capa
 import { HowellResponse } from '../../../models/response'
 import { ArmSystemUrl } from '../../../urls/arm/system/system.url'
 import { HowellAuthHttp } from '../../auth/howell-auth-http'
+import { HowellResponseProcess } from '../../service-process'
 
 export class ArmSystemRequestService {
   constructor(private http: HowellAuthHttp) {}
 
-  capability() {
+  async capability() {
     let url = ArmSystemUrl.capability()
-    return this.http.get<HowellResponse<DeviceCapability>>(url)
+    let response = await this.http.get<HowellResponse<DeviceCapability>>(url)
+    return HowellResponseProcess.get(response, DeviceCapability)
   }
-  shutdown() {
+  async shutdown() {
     let url = ArmSystemUrl.shutdown()
-    return this.http.post<HowellResponse>(url)
+    let response = await this.http.post<HowellResponse>(url)
+    return response.FaultCode === 0
   }
-  reboot() {
+  async reboot() {
     let url = ArmSystemUrl.reboot()
-    return this.http.post<HowellResponse>(url)
+    let response = await this.http.post<HowellResponse>(url)
+    return response.FaultCode === 0
   }
   factory = {
-    reset: (mode: FactoryResetMode) => {
+    reset: async (mode: FactoryResetMode) => {
       let url = ArmSystemUrl.factory.reset(mode)
-      return this.http.post<HowellResponse>(url)
+      let response = await this.http.post<HowellResponse>(url)
+      return response.FaultCode === 0
     },
   }
   firmware = {
-    update: (data: BinaryData) => {
+    update: async (data: BinaryData) => {
       let url = ArmSystemUrl.updateFirmware()
-      return this.http.post<BinaryData, HowellResponse>(url, data)
+      let response = await this.http.post<BinaryData, HowellResponse>(url, data)
+      return response.FaultCode === 0
     },
   }
   status = {
-    upgrade: () => {
+    upgrade: async () => {
       let url = ArmSystemUrl.status.upgrade()
-      return this.http.get<HowellResponse<UpgradeStatus>>(url)
+      let response = await this.http.get<HowellResponse<UpgradeStatus>>(url)
+      return HowellResponseProcess.get(response, UpgradeStatus)
     },
     running: async () => {
       let url = ArmSystemUrl.status.running()
       let response = await this.http.get<HowellResponse<RunningStatus>>(url)
-      return plainToInstance(RunningStatus, response.Data)
+      return HowellResponseProcess.get(response, RunningStatus)
     },
   }
 
@@ -109,7 +116,7 @@ class SystemDeviceRequestService {
   async get() {
     let url = ArmSystemUrl.device()
     let response = await this.http.get<HowellResponse<DeviceInfo>>(url)
-    return plainToInstance(DeviceInfo, response.Data)
+    return HowellResponseProcess.get(response, DeviceInfo)
   }
   async update(item: DeviceInfo) {
     let plain = instanceToPlain(item)
@@ -118,7 +125,7 @@ class SystemDeviceRequestService {
       url,
       plain
     )
-    return plainToInstance(DeviceInfo, response.Data)
+    return HowellResponseProcess.get(response, DeviceInfo)
   }
 }
 class SystemTimeRequestService {
@@ -135,7 +142,7 @@ class SystemTimeRequestService {
       url,
       plain
     )
-    return plainToInstance(SystemTime, response.Data)
+    return HowellResponseProcess.get(response, SystemTime)
   }
 }
 class SystemDataRequestService {
@@ -164,7 +171,9 @@ class SystemNetworkRequestService {
 
   capability() {
     let url = ArmSystemUrl.network.capability()
-    return this.http.get<HowellResponse<NetworkCapability>>(url)
+    return this.http.get<HowellResponse<NetworkCapability>>(url).then((x) => {
+      return HowellResponseProcess.get(x, NetworkCapability)
+    })
   }
 
   private _interface?: SystemNetworkInterfaceRequestService
@@ -287,9 +296,13 @@ class SystemNetworkDeploymentRequestService {
 
 class SystemSecurityRequestService {
   constructor(private http: HowellAuthHttp) {}
-  capability() {
+  async capability() {
     let url = ArmSystemUrl.security.capability()
-    return this.http.get<HowellResponse<SecurityCapability>>(url)
+    return this.http
+      .get<HowellResponse<SecurityCapability>>(url)
+      .then((response) => {
+        return HowellResponseProcess.get(response, SecurityCapability)
+      })
   }
   authentication = {
     get: () => {
@@ -312,7 +325,11 @@ class SystemInputProxyRequestService {
   constructor(private http: HowellAuthHttp) {}
   capability() {
     let url = ArmSystemUrl.input.proxy.capability()
-    return this.http.get<HowellResponse<InputProxyCapability>>(url)
+    return this.http
+      .get<HowellResponse<InputProxyCapability>>(url)
+      .then((x) => {
+        return HowellResponseProcess.get(x, InputProxyCapability)
+      })
   }
   async search() {
     let url = ArmSystemUrl.input.proxy.search()

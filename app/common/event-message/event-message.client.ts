@@ -1,20 +1,25 @@
 import { EventEmitter } from '../event-emitter'
 import { EventMessageData } from './event-message.proxy.model'
 
-export class EventMessageClient<T extends Record<string | number, any>> {
+export class EventMessageClient<
+  TSend extends Record<string | number, any>,
+  TResolve extends Record<string | number, any> = any
+> {
   index = 0
   constructor(private keys: string[]) {
     this.init()
+    window.addEventListener('message', this.regist.bind(this))
   }
   send<T = any>(data: EventMessageData<T>) {
     let message = JSON.stringify(data)
     window.parent.postMessage(message, '*')
   }
-  event: EventEmitter<T> = new EventEmitter()
+  sender: EventEmitter<TSend> = new EventEmitter()
+  receiver: EventEmitter<TResolve> = new EventEmitter()
 
   init() {
     this.keys.forEach((key) => {
-      this.event.on(key, ((args: any) => {
+      this.sender.on(key, ((args: any) => {
         this.send({
           command: key,
           value: args,
@@ -22,5 +27,22 @@ export class EventMessageClient<T extends Record<string | number, any>> {
         })
       }) as any)
     })
+  }
+
+  private regist(e: MessageEvent<EventMessageData>) {
+    if (e && e.data) {
+      let data: EventMessageData
+      try {
+        if (typeof e.data === 'string') {
+          data = JSON.parse(e.data)
+        } else {
+          data = e.data
+        }
+      } catch (error) {
+        console.warn(error, e)
+        return
+      }
+      this.receiver.emit(data.command, data.value)
+    }
   }
 }

@@ -4,6 +4,23 @@
   overflow-y: auto;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+
+  &.disabled {
+    table {
+      tbody {
+        tr {
+          &:nth-child(odd):hover {
+            background-color: white;
+          }
+
+          &:nth-child(even):hover {
+            background-color: #f7f7f7;
+          }
+        }
+      }
+    }
+  }
 
 
   table {
@@ -13,6 +30,20 @@
     box-sizing: border-box;
     font-size: 16px;
     table-layout: fixed;
+
+    &.disabled {
+      tbody {
+        tr {
+          &:nth-child(odd):hover {
+            background-color: white;
+          }
+
+          &:nth-child(even):hover {
+            background-color: #f7f7f7;
+          }
+        }
+      }
+    }
 
 
     thead {
@@ -47,6 +78,7 @@
     }
 
     tbody {
+
       tr {
         height: 40px;
 
