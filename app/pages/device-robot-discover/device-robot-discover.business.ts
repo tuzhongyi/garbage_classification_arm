@@ -9,7 +9,7 @@ export class DeviceRobotDiscoverBusiness {
   service = new ArmRobotRequestService(this.client.http)
 
   async load() {
-    let datas = await this.getData()
+    let datas = (await this.getData()) ?? []
     let hosts = datas.map((x) => x.HostAddress)
 
     let results = await this.search()

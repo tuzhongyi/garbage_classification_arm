@@ -1,3 +1,4 @@
+import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
@@ -72,6 +73,19 @@ export class Language {
       case RobotBatteryState.UnderVoltage:
         return '欠压、亏电'
 
+      default:
+        return '未知'
+    }
+  }
+
+  static CalibrationAreaType(value?: CalibrationAreaType) {
+    switch (value) {
+      case CalibrationAreaType.Ground:
+        return '地面区域'
+      case CalibrationAreaType.DropPort:
+        return '投放口'
+      case CalibrationAreaType.StorePort:
+        return '存桶区'
       default:
         return '未知'
     }

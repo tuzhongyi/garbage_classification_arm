@@ -65,7 +65,7 @@ export class DeviceRobotPlayHtmlEChartController {
         let data = this.option.series[0].data[index]
         data.label = {
           show: true,
-          formatter: '起',
+          formatter: '✔',
         }
         this.echart.setOption(this.option)
       }
@@ -91,7 +91,7 @@ export class DeviceRobotPlayHtmlEChartController {
         let data = this.option.series[0].data[index]
         data.label = {
           show: true,
-          formatter: '终',
+          formatter: '✔',
         }
         this.echart.setOption(this.option)
       }

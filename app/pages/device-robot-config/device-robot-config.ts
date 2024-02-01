@@ -212,6 +212,7 @@ export namespace DeviceRobotConfig {
             this.model.location = x
           }
           this.business.top(this.id)
+          this.html.disable(true)
         })
       }
     }
@@ -222,6 +223,7 @@ export namespace DeviceRobotConfig {
             this.model.location = x
           }
           this.business.down(this.id)
+          this.html.disable(true)
         })
       }
     }
@@ -232,6 +234,7 @@ export namespace DeviceRobotConfig {
             this.model.location = x
           }
           this.business.left(this.id)
+          this.html.disable(true)
         })
       }
     }
@@ -242,6 +245,7 @@ export namespace DeviceRobotConfig {
             this.model.location = x
           }
           this.business.right(this.id)
+          this.html.disable(true)
         })
       }
     }

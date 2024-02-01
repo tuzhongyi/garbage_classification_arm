@@ -26,7 +26,7 @@ export namespace DeviceRobotDetails {
     }
 
     oncancel() {
-      this.message.sender.emit('close')
+      this.message.close()
     }
 
     private set(value: string) {
@@ -49,11 +49,15 @@ export namespace DeviceRobotDetails {
       this.business
         .create(data)
         .then((x) => {
-          this.message.sender.emit('result', true)
-          this.message.sender.emit('close')
+          this.message.result({
+            result: true,
+          })
+          this.message.close()
         })
         .catch((e) => {
-          this.message.sender.emit('result', false)
+          this.message.result({
+            result: false,
+          })
         })
     }
   }

@@ -8,7 +8,7 @@ export class EventMessageClient<
   index = 0
   constructor(private keys: string[]) {
     this.init()
-    window.addEventListener('message', this.regist.bind(this))
+    window.addEventListener('message', this.eventregist.bind(this))
   }
   send<T = any>(data: EventMessageData<T>) {
     let message = JSON.stringify(data)
@@ -29,7 +29,7 @@ export class EventMessageClient<
     })
   }
 
-  private regist(e: MessageEvent<EventMessageData>) {
+  private eventregist(e: MessageEvent<EventMessageData>) {
     if (e && e.data) {
       let data: EventMessageData
       try {

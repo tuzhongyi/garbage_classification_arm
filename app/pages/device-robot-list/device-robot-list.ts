@@ -20,28 +20,28 @@ export namespace DeviceRobotList {
     datas: Robot[] = []
 
     async load() {
-      this.datas = await this.business.load()
+      this.datas = (await this.business.load()) ?? []
       this.html.load(this.datas)
     }
 
     regist() {
       this.html.event.on('info', (id) => {
-        this.message.sender.emit('info', id)
+        this.message.info(id)
       })
       this.html.event.on('config', (id) => {
-        this.message.sender.emit('config', id)
+        this.message.config(id)
       })
       this.html.event.on('play', (id) => {
-        this.message.sender.emit('play', id)
+        this.message.play(id)
       })
       this.html.event.on('log', (id) => {
-        this.message.sender.emit('log', id)
+        this.message.log(id)
       })
       this.html.event.on('create', (auto) => {
         if (auto) {
-          this.message.sender.emit('create', this.window.discover)
+          this.message.open(this.window.discover)
         } else {
-          this.message.sender.emit('create', this.window.details)
+          this.message.open(this.window.details)
         }
       })
       this.html.event.on('delete', (id) => {
@@ -51,31 +51,30 @@ export namespace DeviceRobotList {
         this.window.confirm.message = `是否删除机器人 ${
           data.Name ?? data.HostAddress
         }`
-        this.message.sender.emit('delete', this.window.confirm)
+        this.message.confirm(this.window.confirm)
       })
-      this.message.receiver.on('device_robot_list_create_result', (result) => {
-        if (result) {
+      this.message.event.on('load', () => {
+        this.html.clear()
+        this.load()
+      })
+      this.message.event.on('todelete', () => {
+        if (this.window.confirm.id) {
+          this.todelete(this.window.confirm.id)
+        }
+      })
+    }
+
+    todelete(id: string) {
+      this.business
+        .delete(id)
+        .then((x) => {
           MessageBar.success('操作成功')
           this.html.clear()
           this.load()
-        } else {
+        })
+        .catch((e) => {
           MessageBar.error('操作失败')
-        }
-      })
-      this.message.receiver.on('device_robot_list_delete_result', (result) => {
-        if (result && this.window.confirm.id) {
-          this.business
-            .delete(this.window.confirm.id)
-            .then((x) => {
-              MessageBar.success('操作成功')
-              this.html.clear()
-              this.load()
-            })
-            .catch((e) => {
-              MessageBar.error('操作失败')
-            })
-        }
-      })
+        })
     }
   }
 

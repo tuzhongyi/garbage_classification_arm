@@ -44,35 +44,17 @@ export namespace DeviceRobotIndex {
         }
       }
       // 注册子页面触发事件
-      this.message.proxy.event.on('info', (id) => {
+      this.message.event.on('info', (id) => {
         this.onselect(this.element.items[1] as HTMLDivElement, id)
       })
-      this.message.proxy.event.on('config', (id) => {
+      this.message.event.on('config', (id) => {
         this.onselect(this.element.items[2] as HTMLDivElement, id)
       })
-      this.message.proxy.event.on('play', (id) => {
+      this.message.event.on('play', (id) => {
         this.onselect(this.element.items[3] as HTMLDivElement, id)
       })
-      this.message.proxy.event.on('log', (id) => {
+      this.message.event.on('log', (id) => {
         this.onselect(this.element.items[4] as HTMLDivElement, id)
-      })
-      this.message.proxy.event.on('create', (args) => {
-        this.standby = 'device_robot_list_create_result'
-        this.message.sender.emit('open', args)
-      })
-      this.message.proxy.event.on('delete', (args) => {
-        this.standby = 'device_robot_list_delete_result'
-        this.message.sender.emit('confirm', args)
-      })
-      // 注册父页面触发事件
-      this.message.receiver.on('result', (result) => {
-        if (this.standby) {
-          this.message.proxy.message({
-            command: this.standby,
-            value: result,
-            index: 0,
-          })
-        }
       })
     }
 

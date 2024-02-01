@@ -63,6 +63,16 @@ export class DeviceChannelListHtmlTable {
     })
     let td = document.createElement('td')
     let checkbox = document.createElement('input')
+    checkbox.addEventListener('click', (e) => {
+      e.stopImmediatePropagation()
+      let checkbox = e.target as HTMLInputElement
+      let id = checkbox.id.split('_')[1]
+      if (checkbox.checked) {
+        this.selecteds.push(id)
+      } else {
+        this.selecteds.splice(this.selecteds.indexOf(id), 1)
+      }
+    })
     checkbox.type = 'checkbox'
     checkbox.id = 'checkbox_' + id
     td.appendChild(checkbox)
@@ -136,7 +146,7 @@ export class DeviceChannelListHtmlTable {
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i]
       let values: string[] = [
-        (i + 1).toString(),
+        item.Id.toString(),
         item.Name,
         item.SourceChannel.HostAddress,
         item.SourceChannel.PortNo.toString(),

@@ -9,9 +9,6 @@ export class DeviceChannelDiscoverHtmlTable {
   }
 
   private table = document.getElementById('table') as HTMLTableElement
-  private thead = document.querySelector(
-    '#table tbody'
-  ) as HTMLTableSectionElement
   private tbody = document.querySelector(
     '#table tbody'
   ) as HTMLTableSectionElement
@@ -67,6 +64,16 @@ export class DeviceChannelDiscoverHtmlTable {
     })
     let td = document.createElement('td')
     let checkbox = document.createElement('input')
+    checkbox.addEventListener('click', (e) => {
+      e.stopImmediatePropagation()
+      let checkbox = e.target as HTMLInputElement
+      let id = checkbox.id.split('_')[1]
+      if (checkbox.checked) {
+        this.selecteds.push(id)
+      } else {
+        this.selecteds.splice(this.selecteds.indexOf(id), 1)
+      }
+    })
     checkbox.type = 'checkbox'
     checkbox.id = 'checkbox_' + id
     td.appendChild(checkbox)

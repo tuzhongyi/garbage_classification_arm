@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="device-channel-calibration">
+      <div class="device-channel-calibration-head">
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-title">代理通道</div>
+            <div class="form-item-value">
+              <select id="select_channel"></select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">智能机器人</div>
+            <div class="form-item-value">
+              <select id="select_robot"></select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">通道对应区域</div>
+            <div class="form-item-value">
+              <select id="select_area_type"></select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">镜头类型</div>
+            <div class="form-item-value">
+              <select id="select_lens_type"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="device-channel-calibration-body">
+        <div class="device-channel-calibration-body-chart">
+          <div class="device-channel-calibration-body-chart-body">
+            <img id="picture" alt="" />
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="device-channel-calibration-body-chart-foot">
+            <div class="buttons">
+              <button
+                class="button-white polygon"
+                id="button_polygon"
+                title="绘制多边形"
+              >
+                <i class="mdi mdi-pentagon-outline"></i>
+              </button>
+              <button
+                class="button-white polygon"
+                id="button_rectangle"
+                style="display: none"
+                title="绘制全屏矩形"
+              >
+                <i class="mdi mdi-checkbox-blank-outline"></i>
+              </button>
+
+              <button
+                class="button-white"
+                id="button_point"
+                style="display: none"
+                title="绘制点"
+              >
+                <i class="mdi mdi-checkbox-blank-circle"></i>
+              </button>
+            </div>
+            <div class="buttons">
+              <button
+                class="button-white"
+                id="button_clear"
+                title="清空已绘制图形"
+              >
+                <i class="howell-icon-Close"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="device-channel-calibration-body-details">
+          <div class="device-channel-calibration-body-details-table">
+            <div class="device-channel-calibration-body-details-table-head">
+              标定信息列表
+            </div>
+            <div
+              class="device-channel-calibration-body-details-table-body table"
+            >
+              <table id="table" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>类型</th>
+                    <th>名称</th>
+                    <th>坐标</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="device-channel-calibration-body-details-info">
+            <div class="device-channel-calibration-body-details-info-head">
+              详情信息
+            </div>
+            <div class="device-channel-calibration-body-details-info-body">
+              <div class="forms">
+                <div class="form-item">
+                  <div class="form-item-title">名称</div>
+                  <div class="form-item-value">
+                    <input type="text" id="info_name" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">对应节点</div>
+                  <div class="form-item-value">
+                    <select id="info_node"></select>
+                  </div>
+                </div>
+                <div class="form-item area">
+                  <div class="form-item-title">区域类型</div>
+                  <div class="form-item-value">
+                    <select id="info_area_type"></select>
+                  </div>
+                </div>
+                <div class="form-item point" style="display: none">
+                  <div class="form-item-title">是否为墙角</div>
+                  <div class="form-item-value">
+                    <select id="info_point_corner">
+                      <option value="">否</option>
+                      <option value="true">是</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-item point" style="display: none">
+                  <div class="form-item-title">点位坐标</div>
+                  <div class="form-item-value">
+                    <input type="number" id="info_point_position_x" />，
+                    <input type="number" id="info_point_position_y" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="device-channel-calibration-foot">
+        <button class="button-blue default" id="save">
+          <i class="howell-icon-save2"></i> 保存
+        </button>
+      </div>
+    </div>
+  </body>
+  <script src="./device-channel-calibration.ts"></script>
+</html>

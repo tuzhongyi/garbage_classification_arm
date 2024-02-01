@@ -20,6 +20,7 @@ export class DeviceChannelDiscoverBusiness {
         i--
       }
     }
+
     return datas
   }
 
@@ -46,6 +47,9 @@ export class DeviceChannelDiscoverBusiness {
     channel.SourceChannel.Password = video.Password
     channel.SourceChannel.DeviceModel = video.DeviceModel
     channel.SourceChannel.SerialNumber = video.SerialNumber
+    channel.SourceChannel.ChannelNo = 1
+    channel.SourceChannel.WebPortNo = video.WebPortNo
+
     return channel
   }
 }

@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../common/event-emitter'
 import { EventMessageProxy } from '../../../common/event-message/event-message.proxy'
-import { ConfirmWindowMessageEvent } from '../../window-confirm/window-confirm.event'
+import { ConfirmWindowMessageResponseEvent } from '../../window-confirm/window-confirm.event'
+
 import { ConfirmWindowModel } from '../../window-confirm/window-confirm.model'
 import { MainWindowMessageEvent } from '../main.event'
 
@@ -12,10 +13,10 @@ export class ArmMainConfirm {
   element = document.querySelector('#confirm') as HTMLDivElement
   mask = document.querySelector('#confirm_mask') as HTMLDivElement
   iframe = this.element.querySelector('iframe') as HTMLIFrameElement
-  message: EventMessageProxy<ConfirmWindowMessageEvent> = new EventMessageProxy(
-    this.iframe
-  )
+  message: EventMessageProxy<ConfirmWindowMessageResponseEvent> =
+    new EventMessageProxy(this.iframe)
   event: EventEmitter<MainWindowMessageEvent> = new EventEmitter()
+
   open(args: ConfirmWindowModel) {
     this.mask.style.display = ''
     if (args.style) {
@@ -34,7 +35,6 @@ export class ArmMainConfirm {
   }
 
   regist() {
-    this.message.event.on
     this.message.event.on('confirm_close', () => {
       this.mask.style.display = 'none'
     })

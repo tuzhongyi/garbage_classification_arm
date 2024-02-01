@@ -1,8 +1,10 @@
+import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 import { WindowModel } from '../window/window.model'
 
-export class DeviceChannelWindow {
+export class DeviceChannelListWindow {
   details = new DetailsWindow()
   discover = new DiscoverWindow()
+  confirm = new ConfirmWindow()
 }
 
 class DetailsWindow extends WindowModel {
@@ -22,4 +24,12 @@ class DiscoverWindow extends WindowModel {
     height: '75%',
   }
   url: string = '../device-channel-discover/device-channel-discover.html'
+}
+class ConfirmWindow extends ConfirmWindowModel {
+  style = {
+    width: '450px',
+    height: '200px',
+  }
+  url: string = '../window-confirm/window-confirm.html'
+  ids: string[] = []
 }

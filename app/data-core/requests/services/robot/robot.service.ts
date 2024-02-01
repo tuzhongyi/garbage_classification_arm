@@ -1,4 +1,4 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer'
+import { instanceToPlain } from 'class-transformer'
 import { RobotCapability } from '../../../models/capabilities/robot/robot-capability.model'
 import { PagedList } from '../../../models/page-list.model'
 import { HowellResponse } from '../../../models/response'
@@ -23,47 +23,37 @@ import { SearchLogParams } from './robot.prams'
 export class ArmRobotRequestService {
   constructor(private http: HowellAuthHttp) {}
 
-  async array() {
+  array() {
     let url = ArmRobotUrl.basic()
-    let response = await this.http.get<HowellResponse<Robot[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(Robot, response.Data)
+    return this.http.get<HowellResponse<Robot[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, Robot)
+    })
   }
-  async create(data: Robot) {
+  create(data: Robot) {
     let url = ArmRobotUrl.basic()
     let plain = instanceToPlain(data)
-    let response = await this.http.post<any, HowellResponse<Robot>>(url, plain)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(Robot, response.Data)
+    return this.http.post<any, HowellResponse<Robot>>(url, plain).then((x) => {
+      return HowellResponseProcess.post(x, Robot)
+    })
   }
-  async get(id: string) {
+  get(id: string) {
     let url = ArmRobotUrl.item(id)
-    let response = await this.http.get<HowellResponse<Robot>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(Robot, response.Data)
+    return this.http.get<HowellResponse<Robot>>(url).then((x) => {
+      return HowellResponseProcess.get(x, Robot)
+    })
   }
-  async update(data: Robot) {
+  update(data: Robot) {
     let url = ArmRobotUrl.item(data.Id)
     let plain = instanceToPlain(data)
-    let response = await this.http.put<any, HowellResponse<Robot>>(url, plain)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(Robot, response.Data)
+    return this.http.put<any, HowellResponse<Robot>>(url, plain).then((x) => {
+      return HowellResponseProcess.put(x, Robot)
+    })
   }
-  async delete(id: string) {
+  delete(id: string) {
     let url = ArmRobotUrl.item(id)
-    let response = await this.http.delete<HowellResponse<Robot>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(Robot, response.Data)
+    return this.http.delete<HowellResponse<Robot>>(url).then((x) => {
+      return HowellResponseProcess.delete(x, Robot)
+    })
   }
 
   device = {
@@ -71,43 +61,35 @@ export class ArmRobotRequestService {
       let url = ArmRobotUrl.device.types()
       return this.http.get<HowellResponse<string[]>>(url)
     },
-    errors: async (id: string) => {
+    errors: (id: string) => {
       let url = ArmRobotUrl.device.errors(id)
-      let response = await this.http.get<HowellResponse<RobotDeviceError[]>>(
-        url
-      )
-      if (response.FaultCode != 0) {
-        throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-      }
-      return plainToInstance(RobotDeviceError, response.Data)
+      return this.http
+        .get<HowellResponse<RobotDeviceError[]>>(url)
+        .then((x) => {
+          return HowellResponseProcess.array(x, RobotDeviceError)
+        })
     },
   }
 
-  async search(timeout?: number, type?: string) {
+  search(timeout?: number, type?: string) {
     let url = ArmRobotUrl.search(timeout, type)
-    let response = await this.http.get<HowellResponse<RobotSearchResult[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotSearchResult, response.Data)
+    return this.http.get<HowellResponse<RobotSearchResult[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, RobotSearchResult)
+    })
   }
 
-  async battery(id: string) {
+  battery(id: string) {
     let url = ArmRobotUrl.battery(id)
-    let response = await this.http.get<HowellResponse<RobotBattery>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotBattery, response.Data)
+    return this.http.get<HowellResponse<RobotBattery>>(url).then((x) => {
+      return HowellResponseProcess.get(x, RobotBattery)
+    })
   }
 
-  async location(id: string) {
+  location(id: string) {
     let url = ArmRobotUrl.location(id)
-    let response = await this.http.get<HowellResponse<MeshLocation>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshLocation, response.Data)
+    return this.http.get<HowellResponse<MeshLocation>>(url).then((x) => {
+      return HowellResponseProcess.get(x, MeshLocation)
+    })
   }
 
   private _command?: ArmRobotCommandsRequestService
@@ -119,15 +101,17 @@ export class ArmRobotRequestService {
   }
 
   calibration = {
-    start: async (id: string) => {
+    start: (id: string) => {
       let url = ArmRobotUrl.calibration.start(id)
-      let response = await this.http.post<HowellResponse>(url)
-      return response.FaultCode === 0
+      return this.http.post<HowellResponse>(url).then((x) => {
+        return x.FaultCode === 0
+      })
     },
-    stop: async (id: string) => {
+    stop: (id: string) => {
       let url = ArmRobotUrl.calibration.stop(id)
-      let response = await this.http.post<HowellResponse>(url)
-      return response.FaultCode === 0
+      return this.http.post<HowellResponse>(url).then((x) => {
+        return x.FaultCode === 0
+      })
     },
   }
 
@@ -138,17 +122,14 @@ export class ArmRobotRequestService {
     })
   }
 
-  async logs(id: string, params: SearchLogParams): Promise<PagedList<LogItem>> {
+  logs(id: string, params: SearchLogParams): Promise<PagedList<LogItem>> {
     let url = ArmRobotUrl.Logs(id)
     let plain = instanceToPlain(params)
-    let response = await this.http.post<any, HowellResponse<PagedListLogItem>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(PagedListLogItem, response.Data)
+    return this.http
+      .post<any, HowellResponse<PagedListLogItem>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.post(x, PagedListLogItem)
+      })
   }
 
   private _node?: ArmRobotMeshNodesRequestService
@@ -173,147 +154,114 @@ export class ArmRobotRequestService {
 }
 class ArmRobotCommandsRequestService {
   constructor(private http: HowellAuthHttp) {}
-  async array(id: string) {
+  array(id: string) {
     let url = ArmRobotUrl.command(id).basic()
-    let response = await this.http.get<HowellResponse<RobotCommand[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotCommand, response.Data)
+    return this.http.get<HowellResponse<RobotCommand[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, RobotCommand)
+    })
   }
-  async send(id: string, command: RobotCommand) {
+  send(id: string, command: RobotCommand) {
     let url = ArmRobotUrl.command(id).basic()
     let plain = instanceToPlain(command)
-    let response = await this.http.post<any, HowellResponse<RobotCommand[]>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotCommand, response.Data)
+    return this.http
+      .post<any, HowellResponse<RobotCommand[]>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.array(x, RobotCommand)
+      })
   }
-  async delete(id: string) {
+  delete(id: string) {
     let url = ArmRobotUrl.command(id).basic()
-    let response = await this.http.delete<HowellResponse<RobotCommand[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotCommand, response.Data)
+    return this.http.delete<HowellResponse<RobotCommand[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, RobotCommand)
+    })
   }
 
-  async results(id: string) {
+  results(id: string) {
     let url = ArmRobotUrl.command(id).results()
-    let response = await this.http.get<HowellResponse<RobotCommandResult[]>>(
-      url
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(RobotCommandResult, response.Data)
+    return this.http
+      .get<HowellResponse<RobotCommandResult[]>>(url)
+      .then((x) => {
+        return HowellResponseProcess.array(x, RobotCommandResult)
+      })
   }
 }
 
 class ArmRobotMeshNodesRequestService {
   constructor(private http: HowellAuthHttp) {}
-  async array(robotId: string) {
+  array(robotId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).basic()
-    let response = await this.http.get<HowellResponse<MeshNode[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshNode, response.Data)
+    return this.http.get<HowellResponse<MeshNode[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, MeshNode)
+    })
   }
-  async create(robotId: string, data: MeshNode) {
+  create(robotId: string, data: MeshNode) {
     let url = ArmRobotUrl.mesh.node(robotId).basic()
     let plain = instanceToPlain(data)
-    let response = await this.http.post<any, HowellResponse<MeshNode>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshNode, response.Data)
+    return this.http
+      .post<any, HowellResponse<MeshNode>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.post(x, MeshNode)
+      })
   }
-  async get(robotId: string, itemId: string) {
+  get(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).item(itemId)
-    let response = await this.http.get<HowellResponse<MeshNode>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshNode, response.Data)
+    return this.http.get<HowellResponse<MeshNode>>(url).then((x) => {
+      return HowellResponseProcess.get(x, MeshNode)
+    })
   }
-  async update(robotId: string, data: MeshNode) {
+  update(robotId: string, data: MeshNode) {
     let url = ArmRobotUrl.mesh.node(robotId).item(data.Id)
     let plain = instanceToPlain(data)
-    let response = await this.http.put<any, HowellResponse<MeshNode>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshNode, response.Data)
+    return this.http
+      .put<any, HowellResponse<MeshNode>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.put(x, MeshNode)
+      })
   }
-  async delete(robotId: string, itemId: string) {
+  delete(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).item(itemId)
-    let response = await this.http.delete<HowellResponse<MeshNode>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshNode, response.Data)
+    return this.http.delete<HowellResponse<MeshNode>>(url).then((x) => {
+      return HowellResponseProcess.delete(x, MeshNode)
+    })
   }
 }
 
 class ArmRobotMeshEdgesRequestService {
   constructor(private http: HowellAuthHttp) {}
-  async array(robotId: string) {
+  array(robotId: string) {
     let url = ArmRobotUrl.mesh.edge(robotId).basic()
-    let response = await this.http.get<HowellResponse<MeshEdge[]>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshEdge, response.Data)
+    return this.http.get<HowellResponse<MeshEdge[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, MeshEdge)
+    })
   }
-  async create(robotId: string, data: MeshEdge) {
+  create(robotId: string, data: MeshEdge) {
     let url = ArmRobotUrl.mesh.edge(robotId).basic()
     let plain = instanceToPlain(data)
-    let response = await this.http.post<any, HowellResponse<MeshEdge>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshEdge, response.Data)
+    return this.http
+      .post<any, HowellResponse<MeshEdge>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.post(x, MeshEdge)
+      })
   }
-  async get(robotId: string, itemId: string) {
+  get(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.edge(robotId).item(itemId)
-    let response = await this.http.get<HowellResponse<MeshEdge>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshEdge, response.Data)
+    return this.http.get<HowellResponse<MeshEdge>>(url).then((x) => {
+      return HowellResponseProcess.get(x, MeshEdge)
+    })
   }
-  async update(robotId: string, data: MeshEdge) {
+  update(robotId: string, data: MeshEdge) {
     let url = ArmRobotUrl.mesh.edge(robotId).item(data.Id)
     let plain = instanceToPlain(data)
-    let response = await this.http.put<any, HowellResponse<MeshEdge>>(
-      url,
-      plain
-    )
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshEdge, response.Data)
+    return this.http
+      .put<any, HowellResponse<MeshEdge>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.put(x, MeshEdge)
+      })
   }
-  async delete(robotId: string, itemId: string) {
+  delete(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.edge(robotId).item(itemId)
-    let response = await this.http.delete<HowellResponse<MeshEdge>>(url)
-    if (response.FaultCode != 0) {
-      throw new Error(`${response.FaultCode} ${response.FaultReason}`)
-    }
-    return plainToInstance(MeshEdge, response.Data)
+    return this.http.delete<HowellResponse<MeshEdge>>(url).then((x) => {
+      return HowellResponseProcess.delete(x, MeshEdge)
+    })
   }
 }

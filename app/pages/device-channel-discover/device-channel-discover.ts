@@ -1,8 +1,7 @@
-import { EventMessageClient } from '../../common/event-message/event-message.client'
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
 import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
 import { DeviceChannelDiscoverBusiness } from './device-channel-discover.business'
 import { DeviceChannelDiscoverHtmlController } from './device-channel-discover.html.controller'
+import { DeviceChannelDiscoverMessage } from './device-channel-discover.message'
 import { DeviceChannelWindow } from './device-channel-discover.model'
 
 export namespace DeviceChannelDiscover {
@@ -13,7 +12,7 @@ export namespace DeviceChannelDiscover {
     }
     html = new DeviceChannelDiscoverHtmlController()
     business = new DeviceChannelDiscoverBusiness()
-    message = new EventMessageClient(['close'])
+    message = new DeviceChannelDiscoverMessage()
     window = new DeviceChannelWindow()
     datas: VideoSourceDescriptor[] = []
     timeout = 10
@@ -32,7 +31,9 @@ export namespace DeviceChannelDiscover {
       let noincludes = []
       for (let i = 0; i < datas.length; i++) {
         const data = datas[i]
-        let index = this.datas.findIndex((x) => x.Id == data.Id)
+        let index = this.datas.findIndex(
+          (x) => x.HostAddress == data.HostAddress
+        )
         if (index < 0) {
           noincludes.push(data)
         }
@@ -68,16 +69,18 @@ export namespace DeviceChannelDiscover {
         this.business
           .create(datas)
           .then((x) => {
-            MessageBar.success('操作成功')
-            this.message.sender.emit('close')
+            this.message.result({
+              result: true,
+            })
+            this.message.close()
           })
           .catch((e) => {
-            MessageBar.error('操作失败')
+            this.message.result({ result: false })
           })
       }
     }
     oncancel() {
-      this.message.sender.emit('close')
+      this.message.close()
     }
     onrefresh() {
       this.html.element.table.clear()

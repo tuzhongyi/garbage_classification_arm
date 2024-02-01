@@ -1,22 +1,22 @@
-import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { MessageBar } from '../../common/tools/message-bar/message-bar'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { DeviceChannelListBusiness } from './device-channel-list.business'
 import { DeviceChannelListHtmlController } from './device-channel-list.html.controller'
-import { DeviceChannelWindow } from './device-channel-list.model'
+import { DeviceChannelListMessage } from './device-channel-list.message'
+import { DeviceChannelListWindow } from './device-channel-list.model'
 
 export namespace DeviceChannelList {
   class Controller {
     constructor() {
-      this.init()
+      this.load()
       this.regist()
     }
     html = new DeviceChannelListHtmlController()
     business = new DeviceChannelListBusiness()
-    message = new EventMessageClient(['open'])
-    window = new DeviceChannelWindow()
+    message = new DeviceChannelListMessage()
+    window = new DeviceChannelListWindow()
     datas: InputProxyChannel[] = []
-    async init() {
+    async load() {
       this.datas = await this.business.load()
 
       this.html.element.table.load(this.datas)
@@ -38,29 +38,41 @@ export namespace DeviceChannelList {
       this.html.event.on('discover', () => {
         this.ondiscover()
       })
+      this.message.event.on('load', () => {
+        this.load()
+      })
+      this.message.event.on('todelete', () => {
+        this.todelete()
+      })
     }
     ondiscover() {
-      this.message.sender.emit('open', this.window.discover)
+      this.message.discover(this.window.discover)
     }
     oncreate() {
       this.window.details.clear()
-      this.message.sender.emit('open', this.window.details)
+      this.message.create(this.window.details)
     }
     onmodify(id: string) {
-      console.log(`device-channel-list modify ${id}`)
       this.window.details.id = id
-      this.message.sender.emit('open', this.window.details)
+      this.message.modify(this.window.details)
     }
     ondelete(ids: string[]) {
-      this.business
-        .delete(ids)
-        .then((x) => {
-          MessageBar.success('操作成功')
-          this.init()
-        })
-        .catch((e) => {
-          MessageBar.error('操作失败')
-        })
+      this.window.confirm.ids = ids
+      this.window.confirm.message = `确定要删除这 ${ids.length} 条记录吗?`
+      this.message.confirm(this.window.confirm)
+    }
+    todelete() {
+      if (this.window.confirm.ids.length > 0) {
+        this.business
+          .delete(this.window.confirm.ids)
+          .then((x) => {
+            MessageBar.success('操作成功')
+            this.load()
+          })
+          .catch((e) => {
+            MessageBar.error('操作失败')
+          })
+      }
     }
 
     onsearch(text: string) {

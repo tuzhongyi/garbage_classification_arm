@@ -73,11 +73,7 @@
       },
       {
         "id": "ai_event",
-        "name": "AI事件部署"
-      },
-      {
-        "id": "ai_task",
-        "name": "AI任务部署"
+        "name": "AI事件"
       }
     ]
   }

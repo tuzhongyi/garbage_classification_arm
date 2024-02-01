@@ -12,17 +12,19 @@ export namespace ConfirmWindow {
     regist() {
       this.html.event.on('ok', this.onok.bind(this))
       this.html.event.on('cancel', this.oncancel.bind(this))
-      this.message.receiver.on('confirm_open', (args) => {
+      this.message.event.on('confirm_open', (args) => {
         this.html.load(args)
       })
     }
 
     onok() {
-      this.message.sender.emit('confirm_result', true)
-      this.message.sender.emit('confirm_close')
+      this.message.confirm_result({
+        result: true,
+      })
+      this.message.confirm_close()
     }
     oncancel() {
-      this.message.sender.emit('confirm_close')
+      this.message.confirm_close()
     }
   }
 

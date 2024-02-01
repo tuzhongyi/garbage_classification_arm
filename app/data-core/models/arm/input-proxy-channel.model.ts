@@ -26,4 +26,6 @@ export class InputProxyChannel implements IModel {
    * O
    **/
   ChannelState?: ProxyChannelState
+  /**	String	通道GUID	O */
+  Guid?: string
 }

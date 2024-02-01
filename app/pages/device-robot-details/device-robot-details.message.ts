@@ -1,8 +1,18 @@
 import { EventMessageClient } from '../../common/event-message/event-message.client'
-import { DeviceRobotDetailsMessageEvent } from './device-robot-details.event'
+import { MainWindowMessageResponseEvent, ResultArgs } from '../main/main.event'
 
-export class DeviceRobotDetailsMessage extends EventMessageClient<DeviceRobotDetailsMessageEvent> {
-  constructor() {
-    super(['close', 'result'])
+export class DeviceRobotDetailsMessage
+  implements MainWindowMessageResponseEvent
+{
+  private client = new EventMessageClient<MainWindowMessageResponseEvent>([
+    'close',
+    'result',
+  ])
+
+  close(): void {
+    this.client.sender.emit('close')
+  }
+  result(args: ResultArgs): void {
+    this.client.sender.emit('result', args)
   }
 }

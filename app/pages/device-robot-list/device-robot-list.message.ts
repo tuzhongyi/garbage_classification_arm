@@ -1,14 +1,72 @@
+import { EventEmitter } from '../../common/event-emitter'
 import { EventMessageClient } from '../../common/event-message/event-message.client'
-import {
-  DeviceRobotIndexEvent,
-  DeviceRobotIndexResolveEvent,
-} from '../device-robot-index/device-robot-index.event'
+import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { ResultArgs } from '../main/main.event'
+import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
+import { WindowModel } from '../window/window.model'
 
-export class DeviceRobotListMessage extends EventMessageClient<
-  DeviceRobotIndexEvent,
-  DeviceRobotIndexResolveEvent
-> {
+export interface DeviceRobotListMessageReceiverEvent {
+  details_result(result: ResultArgs): void
+  delete_result(result: ResultArgs): void
+}
+export interface DeviceRobotListMessageSenderEvent {
+  info(id: string): void
+  config(id: string): void
+  play(id: string): void
+  log(id: string): void
+  open(window: WindowModel): void
+  confirm(window: ConfirmWindowModel): void
+}
+interface MessageEvent {
+  load(): void
+  todelete(): void
+}
+
+export class DeviceRobotListMessage
+  implements DeviceRobotListMessageSenderEvent
+{
+  event: EventEmitter<MessageEvent> = new EventEmitter()
   constructor() {
-    super(['info', 'config', 'play', 'log', 'create', 'delete'])
+    this.reigst()
+  }
+  private client = new EventMessageClient<
+    DeviceRobotListMessageSenderEvent,
+    DeviceRobotListMessageReceiverEvent
+  >(['info', 'config', 'play', 'log', 'open', 'confirm'])
+  private reigst() {
+    this.client.receiver.on('details_result', (args) => {
+      if (args.result) {
+        MessageBar.success(args.message ?? '操作成功')
+        this.event.emit('load')
+      } else {
+        MessageBar.error(args.message ?? "'操作失败'")
+      }
+    })
+    this.client.receiver.on('delete_result', (args) => {
+      if (args.result) {
+        this.event.emit('todelete')
+      } else {
+        MessageBar.error(args.message ?? '操作失败')
+      }
+    })
+  }
+
+  info(id: string): void {
+    this.client.sender.emit('info', id)
+  }
+  config(id: string): void {
+    this.client.sender.emit('config', id)
+  }
+  play(id: string): void {
+    this.client.sender.emit('play', id)
+  }
+  log(id: string): void {
+    this.client.sender.emit('log', id)
+  }
+  open(window: WindowModel): void {
+    this.client.sender.emit('open', window)
+  }
+  confirm(window: ConfirmWindowModel): void {
+    this.client.sender.emit('confirm', window)
   }
 }

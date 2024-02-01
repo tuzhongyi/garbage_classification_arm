@@ -1,6 +1,7 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { FactoryResetMode } from '../../../enums/factory-reset-mode.enum'
 import { Authentication } from '../../../models/arm/authentication.model'
+import { ChannelCalibration } from '../../../models/arm/channel-calibration.model'
 import { Deployment } from '../../../models/arm/deployment.model'
 import { DeviceInfo } from '../../../models/arm/device-info.model'
 import { InputProxyChannel } from '../../../models/arm/input-proxy-channel.model'
@@ -394,8 +395,40 @@ class SystemInputProxyChannelRequestService {
     throw new Error(response.FaultReason)
   }
 
-  picture(id: string, stream: number = 1, type?: string) {
-    let url = ArmSystemUrl.input.proxy.channel.picture(id, stream, type)
-    return this.http.get<string>(url)
+  picture(id: string, stream: number = 1, type: string = 'JPEG') {
+    return ArmSystemUrl.input.proxy.channel.picture(id, stream, type)
+    // return this.http.get<string>(url)
+  }
+
+  private _calibration?: SystemInputProxyChannelCalibrationRequestService
+  public get calibration(): SystemInputProxyChannelCalibrationRequestService {
+    if (!this._calibration) {
+      this._calibration = new SystemInputProxyChannelCalibrationRequestService(
+        this.http
+      )
+    }
+    return this._calibration
+  }
+}
+
+class SystemInputProxyChannelCalibrationRequestService {
+  constructor(private http: HowellAuthHttp) {}
+
+  set(data: ChannelCalibration) {
+    let plain = instanceToPlain(data)
+    let url = ArmSystemUrl.input.proxy.channel.calibration(
+      data.ChannelId.toString()
+    )
+    return this.http
+      .post<any, HowellResponse<ChannelCalibration>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.post(x, ChannelCalibration)
+      })
+  }
+  get(id: string) {
+    let url = ArmSystemUrl.input.proxy.channel.calibration(id)
+    return this.http.get<HowellResponse<ChannelCalibration>>(url).then((x) => {
+      return HowellResponseProcess.get(x, ChannelCalibration)
+    })
   }
 }

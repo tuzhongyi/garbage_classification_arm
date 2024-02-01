@@ -13,7 +13,7 @@ export class DeviceChannelDiscoverHtmlController {
     },
     button: {
       refresh: document.getElementById('btn_refresh') as HTMLButtonElement,
-      password: document.getElementById('btn_password') as HTMLButtonElement,
+      // password: document.getElementById('btn_password') as HTMLButtonElement,
       ok: document.getElementById('btn_ok') as HTMLButtonElement,
       cancel: document.getElementById('btn_cancel') as HTMLButtonElement,
     },
@@ -32,9 +32,9 @@ export class DeviceChannelDiscoverHtmlController {
     this.element.button.refresh.addEventListener('click', () => {
       this.event.emit('refresh')
     })
-    this.element.button.password.addEventListener('click', () => {
-      this.event.emit('password')
-    })
+    // this.element.button.password.addEventListener('click', () => {
+    //   this.event.emit('password')
+    // })
     this.element.button.ok.addEventListener('click', () => {
       this.event.emit('ok')
     })

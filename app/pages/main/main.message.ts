@@ -1,10 +1,14 @@
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import { EventMessageData } from '../../common/event-message/event-message.proxy.model'
+import { MessageBar } from '../../common/tools/message-bar/message-bar'
 import { ArmMainConfirm } from './main-windows/main.confirm'
 import { ArmMainWindow } from './main-windows/main.window'
-import { MainMessageEvent } from './main.event'
+import {
+  MainMessageRequestEvent,
+  MainWindowMessageResponseEvent,
+} from './main.event'
 
-export class ArmMainMessage {
+export class ArmMainMessage implements MainWindowMessageResponseEvent {
   constructor(
     private iframe: HTMLIFrameElement,
     private window: ArmMainWindow,
@@ -12,9 +16,9 @@ export class ArmMainMessage {
   ) {
     this.regist()
   }
-  private proxy: EventMessageProxy<MainMessageEvent> = new EventMessageProxy(
-    this.iframe
-  )
+
+  private proxy: EventMessageProxy<MainMessageRequestEvent> =
+    new EventMessageProxy(this.iframe)
 
   regist() {
     // 注册子页面触发事件
@@ -26,20 +30,27 @@ export class ArmMainMessage {
     })
     //注册窗口页面返回结果事件
     this.window.event.on('result', (args) => {
-      let data: EventMessageData = {
-        command: 'result',
-        value: args,
-        index: 0,
+      if (args.result === false && args.inner) {
+        MessageBar.warning(args.message)
+        return
       }
-      this.proxy.message(data)
+      this.result(args)
     })
     this.confirm.event.on('result', (args) => {
-      let data: EventMessageData = {
-        command: 'result',
-        value: args,
-        index: 0,
-      }
-      this.proxy.message(data)
+      this.result(args)
     })
+  }
+
+  close(): void {
+    this.window.close()
+  }
+
+  result(args: { result: boolean; message?: string | undefined }): void {
+    let data: EventMessageData = {
+      command: 'result',
+      value: args,
+      index: 0,
+    }
+    this.proxy.message(data)
   }
 }

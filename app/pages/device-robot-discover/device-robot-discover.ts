@@ -1,7 +1,7 @@
-import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { RobotSearchResult } from '../../data-core/models/robot/robot-search-result.model'
 import { DeviceRobotDiscoverBusiness } from './device-robot-discover.business'
 import { DeviceRobotDiscoverHtmlController } from './device-robot-discover.html.controller'
+import { DeviceRobotDiscoverMessage } from './device-robot-discover.message'
 import { DeviceChannelWindow } from './device-robot-discover.model'
 
 export namespace DeviceRobotDiscover {
@@ -12,7 +12,7 @@ export namespace DeviceRobotDiscover {
     }
     html = new DeviceRobotDiscoverHtmlController()
     business = new DeviceRobotDiscoverBusiness()
-    message = new EventMessageClient(['close', 'result'])
+    message = new DeviceRobotDiscoverMessage()
     window = new DeviceChannelWindow()
     datas: RobotSearchResult[] = []
 
@@ -47,16 +47,20 @@ export namespace DeviceRobotDiscover {
         this.business
           .create(datas)
           .then((x) => {
-            this.message.sender.emit('result', true)
-            this.message.sender.emit('close')
+            this.message.result({
+              result: true,
+            })
+            this.message.close()
           })
           .catch((e) => {
-            this.message.sender.emit('result', false)
+            this.message.result({
+              result: false,
+            })
           })
       }
     }
     oncancel() {
-      this.message.sender.emit('close')
+      this.message.close()
     }
     onrefresh() {
       this.html.element.table.clear()
