@@ -17,9 +17,9 @@ export class UploadControl {
     this.regist()
   }
 
-  init() {}
+  private init() {}
 
-  regist() {
+  private regist() {
     this.button.addEventListener('click', () => {
       this.file.click()
     })
@@ -28,7 +28,7 @@ export class UploadControl {
     })
   }
 
-  fileChange() {
+  private fileChange() {
     if (this.file) {
       const t_files = this.file.files
 
@@ -40,7 +40,7 @@ export class UploadControl {
     }
   }
 
-  async uploadFile(file: any) {
+  private async uploadFile(file: any) {
     var reader = new FileReader()
     switch (this.type) {
       case FileReadType.ArrayBuffer:

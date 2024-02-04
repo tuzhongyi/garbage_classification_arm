@@ -3,18 +3,18 @@ import { DateTimePicker } from '../../common/tools/date-time-picker/date-time-pi
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
-import { SystemDeviceInfoHtmlEventArgs } from './system-device-datetime.event'
+import { SystemDeviceDatetimeHtmlEventArgs } from './system-device-datetime.event'
 
 import './system-device-datetime.less'
 import { TimeController } from './system-device-datetime.model'
 
-export class SystemDeviceInfoHtmlController {
+export class SystemDeviceDatetimeHtmlController {
   constructor() {
     this.regist()
     this.init()
   }
 
-  event: EventEmitter<SystemDeviceInfoHtmlEventArgs> = new EventEmitter()
+  event: EventEmitter<SystemDeviceDatetimeHtmlEventArgs> = new EventEmitter()
 
   element = {
     SystemTime: document.getElementById('SystemTime') as HTMLInputElement,

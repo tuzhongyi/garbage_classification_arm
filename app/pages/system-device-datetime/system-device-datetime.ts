@@ -2,13 +2,17 @@ import { MessageBar } from '../../common/tools/message-bar/message-bar'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { NTPServer } from '../../data-core/models/arm/ntp-server.model'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
-import { SystemDeviceInfoBusiness } from './system-device-datetime.business'
-import { SystemDeviceInfoHtmlController } from './system-device-datetime.html.controller'
+import { SystemDeviceDatetimeBusiness } from './system-device-datetime.business'
+import { SystemDeviceDatetimeHtmlController } from './system-device-datetime.html.controller'
+import { SystemDeviceDatetimeMessage } from './system-device-datetime.message'
+import { SystemDeviceDatetimeWindow } from './system-device-datetime.window'
 
-export namespace SystemDeviceInfo {
+export namespace SystemDeviceDatetime {
   class Controller {
-    html = new SystemDeviceInfoHtmlController()
-    business = new SystemDeviceInfoBusiness()
+    html = new SystemDeviceDatetimeHtmlController()
+    business = new SystemDeviceDatetimeBusiness()
+    message = new SystemDeviceDatetimeMessage()
+    window = new SystemDeviceDatetimeWindow()
     constructor() {
       this.regist()
       this.load()
@@ -16,8 +20,10 @@ export namespace SystemDeviceInfo {
 
     regist() {
       this.html.event.on('save', () => {
-        this.onsave()
+        this.window.confirm.message = '是否保存修改？'
+        this.message.confirm(this.window.confirm)
       })
+      this.message.event.on('save', this.onsave.bind(this))
     }
 
     data?: SystemTime

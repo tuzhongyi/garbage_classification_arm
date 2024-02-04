@@ -91,6 +91,7 @@ textarea {
   box-sizing: border-box;
   width: 100%;
   transition: all 0.4s ease 0s;
+  margin: 0;
 }
 
 input[type="text"]:disabled,

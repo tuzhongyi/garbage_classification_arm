@@ -1,5 +1,6 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import './system-maintain-index.less'
+import { SystemMaintainIndexMessage } from './system-maintain-index.message'
 
 export namespace SystemMaintainIndex {
   export class HtmlController {
@@ -14,6 +15,7 @@ export namespace SystemMaintainIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
+    message = new SystemMaintainIndexMessage(this.element.iframe)
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)

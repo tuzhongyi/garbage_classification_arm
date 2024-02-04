@@ -8,25 +8,7 @@ export class HowellResponseProcess {
     }
     throw new Error(`${response.FaultCode}:${response.FaultReason}`)
   }
-  static get<T>(response: HowellResponse<T>, cls: ClassConstructor<T>) {
-    if (response.FaultCode === 0) {
-      return plainToInstance(cls, response.Data)
-    }
-    throw new Error(`${response.FaultCode}:${response.FaultReason}`)
-  }
-  static put<T>(response: HowellResponse<T>, cls: ClassConstructor<T>) {
-    if (response.FaultCode === 0) {
-      return plainToInstance(cls, response.Data)
-    }
-    throw new Error(`${response.FaultCode}:${response.FaultReason}`)
-  }
-  static delete<T>(response: HowellResponse<T>, cls: ClassConstructor<T>) {
-    if (response.FaultCode === 0) {
-      return plainToInstance(cls, response.Data)
-    }
-    throw new Error(`${response.FaultCode}:${response.FaultReason}`)
-  }
-  static post<T>(response: HowellResponse<T>, cls: ClassConstructor<T>) {
+  static item<T>(response: HowellResponse<T>, cls: ClassConstructor<T>) {
     if (response.FaultCode === 0) {
       return plainToInstance(cls, response.Data)
     }

@@ -23,13 +23,18 @@ export class HowellAuthHttp {
       const httpOptions = {
         headers: myHeaders,
       }
-      axios.get(path, httpOptions).then((res) => {
-        if (res.status === 200) {
-          resolve(res.data)
-        } else {
-          reject(res.data)
-        }
-      })
+      axios
+        .get(path, httpOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            resolve(res.data)
+          } else {
+            reject(res.data)
+          }
+        })
+        .catch((e) => {
+          reject(e)
+        })
     })
   }
   post<R>(path: string): Promise<R>
@@ -41,13 +46,18 @@ export class HowellAuthHttp {
       const httpOptions = {
         headers: myHeaders,
       }
-      axios.post<T, AxiosResponse<R>>(path, data, httpOptions).then((res) => {
-        if (res.status === 200) {
-          resolve(res.data)
-        } else {
-          reject(res.data)
-        }
-      })
+      axios
+        .post<T, AxiosResponse<R>>(path, data, httpOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            resolve(res.data)
+          } else {
+            reject(res.data)
+          }
+        })
+        .catch((e) => {
+          reject(e)
+        })
     })
   }
   put<R>(path: string): Promise<R>
@@ -59,13 +69,18 @@ export class HowellAuthHttp {
       const httpOptions = {
         headers: myHeaders,
       }
-      axios.put<T, AxiosResponse<R>>(path, data, httpOptions).then((res) => {
-        if (res.status === 200) {
-          resolve(res.data)
-        } else {
-          reject(res.data)
-        }
-      })
+      axios
+        .put<T, AxiosResponse<R>>(path, data, httpOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            resolve(res.data)
+          } else {
+            reject(res.data)
+          }
+        })
+        .catch((e) => {
+          reject(e)
+        })
     })
   }
   delete<R>(path: string, config?: AxiosRequestConfig) {
@@ -75,13 +90,18 @@ export class HowellAuthHttp {
         headers: myHeaders,
       }
 
-      return axios.delete(path, httpOptions).then((res) => {
-        if (res.status === 200) {
-          resolve(res.data)
-        } else {
-          reject(res.data)
-        }
-      })
+      return axios
+        .delete(path, httpOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            resolve(res.data)
+          } else {
+            reject(res.data)
+          }
+        })
+        .catch((e) => {
+          reject(e)
+        })
     })
   }
 

@@ -1,5 +1,6 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer'
+import { instanceToPlain } from 'class-transformer'
 import { EventType } from '../../../enums/event-type.enum'
+import { CameraAIEventRule } from '../../../models/arm/analysis/rules/camera-ai-event-rule.model'
 import { CameraAIEvent } from '../../../models/arm/camera-ai-event.model'
 import { CameraAIModel } from '../../../models/arm/camera-ai-model.model'
 import { CameraAITask } from '../../../models/arm/camera-ai-task.model'
@@ -20,7 +21,7 @@ export class ArmDeploymentRequestService {
     return this.http
       .get<HowellResponse<DepolymentCapability>>(url)
       .then((x) => {
-        return HowellResponseProcess.get(x, DepolymentCapability)
+        return HowellResponseProcess.item(x, DepolymentCapability)
       })
   }
 
@@ -71,14 +72,17 @@ export class DeploymentGarbageServersRequestService {
 
   async array() {
     let url = ArmDeploymentUrl.servers.garbage.basic()
-    let response = await this.http.get<HowellResponse<GarbageServer[]>>(url)
-    return plainToInstance(GarbageServer, response.Data)
+    return this.http.get<HowellResponse<GarbageServer[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, GarbageServer)
+    })
   }
 
   ai = {
     models: (id: string) => {
       let url = ArmDeploymentUrl.servers.garbage.ai.models(id)
-      return this.http.get<HowellResponse<CameraAIModel[]>>(url)
+      return this.http.get<HowellResponse<CameraAIModel[]>>(url).then((x) => {
+        return HowellResponseProcess.array(x, CameraAIModel)
+      })
     },
   }
 }
@@ -86,64 +90,126 @@ export class DeploymentISUPServersRequestService {
   constructor(private http: HowellAuthHttp) {}
   async array() {
     let url = ArmDeploymentUrl.servers.isup.basic()
-    let response = await this.http.get<HowellResponse<ISUPServer[]>>(url)
-    return plainToInstance(ISUPServer, response.Data)
+    return this.http.get<HowellResponse<ISUPServer[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, ISUPServer)
+    })
   }
 
   async domains(id: string) {
     let url = ArmDeploymentUrl.servers.isup.domains(id)
-    let response = await this.http.post<any, HowellResponse<ISUPDomain[]>>(url)
-    return plainToInstance(ISUPDomain, response.Data)
+    return this.http.post<any, HowellResponse<ISUPDomain[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, ISUPDomain)
+    })
   }
 }
 export class DeploymentEventsRequestService {
   constructor(private http: HowellAuthHttp) {}
   array() {
-    let url = ArmDeploymentUrl.events()
-    return this.http.get<HowellResponse<CameraAIEvent[]>>(url)
+    let url = ArmDeploymentUrl.event().basic()
+    return this.http.get<HowellResponse<CameraAIEvent[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, CameraAIEvent)
+    })
   }
   async create(data: CameraAIEvent) {
     let plain = instanceToPlain(data)
-    let url = ArmDeploymentUrl.events()
-    let response = await this.http.post<any, HowellResponse<CameraAIEvent>>(
-      url,
-      plain
-    )
-    return plainToInstance(CameraAIEvent, response.Data)
+    let url = ArmDeploymentUrl.event().basic()
+    return this.http
+      .post<any, HowellResponse<CameraAIEvent>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAIEvent)
+      })
   }
 
   get(type: EventType) {
-    let url = ArmDeploymentUrl.events(type.toString())
-    return this.http.get<HowellResponse<CameraAIEvent>>(url)
+    let url = ArmDeploymentUrl.event().item(type)
+    return this.http.get<HowellResponse<CameraAIEvent>>(url).then((x) => {
+      return HowellResponseProcess.item(x, CameraAIEvent)
+    })
   }
   async update(data: CameraAIEvent) {
     let plain = instanceToPlain(data)
-    let url = ArmDeploymentUrl.events(data.Type.toString())
-    let response = await this.http.put<any, HowellResponse<CameraAIEvent>>(
-      url,
-      plain
-    )
-    return plainToInstance(CameraAIEvent, response.Data)
+    let url = ArmDeploymentUrl.event().item(data.Type)
+    return this.http
+      .put<any, HowellResponse<CameraAIEvent>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAIEvent)
+      })
   }
   delete(type: EventType) {
-    let url = ArmDeploymentUrl.events(type.toString())
-    return this.http.delete<HowellResponse<CameraAIEvent>>(url)
+    let url = ArmDeploymentUrl.event().item(type)
+    return this.http.delete<HowellResponse<CameraAIEvent>>(url).then((x) => {
+      return HowellResponseProcess.item(x, CameraAIEvent)
+    })
+  }
+
+  private _rule?: DeploymentEventRuleRequestService
+  public get rule(): DeploymentEventRuleRequestService {
+    if (!this._rule) {
+      this._rule = new DeploymentEventRuleRequestService(this.http)
+    }
+    return this._rule
   }
 }
-export class DeploymentAITasksRequestService {
+
+class DeploymentEventRuleRequestService {
+  constructor(private http: HowellAuthHttp) {}
+  array(type: EventType) {
+    let url = ArmDeploymentUrl.event().rule(type).basic()
+    return this.http.get<HowellResponse<CameraAIEventRule[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, CameraAIEventRule)
+    })
+  }
+  async create(data: CameraAIEventRule) {
+    let plain = instanceToPlain(data)
+    let url = ArmDeploymentUrl.event().rule(data.EventType).basic()
+    return this.http
+      .post<any, HowellResponse<CameraAIEventRule>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAIEventRule)
+      })
+  }
+
+  get(type: EventType, id: string) {
+    let url = ArmDeploymentUrl.event().rule(type).item(id)
+    return this.http.get<HowellResponse<CameraAIEventRule>>(url).then((x) => {
+      return HowellResponseProcess.item(x, CameraAIEventRule)
+    })
+  }
+  async update(data: CameraAIEventRule) {
+    let plain = instanceToPlain(data)
+    let url = ArmDeploymentUrl.event().rule(data.EventType).item(data.RuleId)
+    return this.http
+      .put<any, HowellResponse<CameraAIEventRule>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAIEventRule)
+      })
+  }
+  delete(type: EventType, id: string) {
+    let url = ArmDeploymentUrl.event().rule(type).item(id)
+    return this.http
+      .delete<HowellResponse<CameraAIEventRule>>(url)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAIEventRule)
+      })
+  }
+}
+
+class DeploymentAITasksRequestService {
   constructor(private http: HowellAuthHttp) {}
   array() {
     let url = ArmDeploymentUrl.ai.task()
-    return this.http.get<HowellResponse<CameraAITask[]>>(url)
+    return this.http.get<HowellResponse<CameraAITask[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, CameraAITask)
+    })
   }
   async create(data: CameraAITask) {
     let plain = instanceToPlain(data)
     let url = ArmDeploymentUrl.ai.task()
-    let response = await this.http.post<any, HowellResponse<CameraAITask>>(
-      url,
-      plain
-    )
-    return plainToInstance(CameraAITask, response.Data)
+    return this.http
+      .post<any, HowellResponse<CameraAITask>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAITask)
+      })
   }
 
   get(id: string) {
@@ -153,14 +219,16 @@ export class DeploymentAITasksRequestService {
   async update(data: CameraAITask) {
     let plain = instanceToPlain(data)
     let url = ArmDeploymentUrl.ai.task(data.Id)
-    let response = await this.http.put<any, HowellResponse<CameraAITask>>(
-      url,
-      plain
-    )
-    return plainToInstance(CameraAITask, response.Data)
+    return this.http
+      .put<any, HowellResponse<CameraAITask>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, CameraAITask)
+      })
   }
   delete(id: string) {
     let url = ArmDeploymentUrl.ai.task(id)
-    return this.http.delete<HowellResponse<CameraAITask>>(url)
+    return this.http.delete<HowellResponse<CameraAITask>>(url).then((x) => {
+      return HowellResponseProcess.item(x, CameraAITask)
+    })
   }
 }

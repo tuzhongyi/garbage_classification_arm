@@ -6,4 +6,6 @@ export enum ArmPagePath {
   network_server_index = '../network-server-index/network-server-index.html',
   device_channel_index = '../device-channel-index/device-channel-index.html',
   device_robot_index = '../device-robot-index/device-robot-index.html',
+  ai_model_index = '../ai-model-index/ai-model-index.html',
+  ai_event_index = '../ai-event-index/ai-event-index.html',
 }

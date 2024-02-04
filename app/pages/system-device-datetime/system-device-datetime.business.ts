@@ -4,7 +4,7 @@ import { DeviceCapability } from '../../data-core/models/capabilities/arm/device
 import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmSystemRequestService } from '../../data-core/requests/services/system/system.service'
 
-export class SystemDeviceInfoBusiness {
+export class SystemDeviceDatetimeBusiness {
   private client = new HowellHttpClient.HttpClient()
   private service = new ArmSystemRequestService(this.client.http)
   private _capability?: DeviceCapability

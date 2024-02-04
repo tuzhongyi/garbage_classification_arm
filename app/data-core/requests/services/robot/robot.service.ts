@@ -33,26 +33,26 @@ export class ArmRobotRequestService {
     let url = ArmRobotUrl.basic()
     let plain = instanceToPlain(data)
     return this.http.post<any, HowellResponse<Robot>>(url, plain).then((x) => {
-      return HowellResponseProcess.post(x, Robot)
+      return HowellResponseProcess.item(x, Robot)
     })
   }
   get(id: string) {
     let url = ArmRobotUrl.item(id)
     return this.http.get<HowellResponse<Robot>>(url).then((x) => {
-      return HowellResponseProcess.get(x, Robot)
+      return HowellResponseProcess.item(x, Robot)
     })
   }
   update(data: Robot) {
     let url = ArmRobotUrl.item(data.Id)
     let plain = instanceToPlain(data)
     return this.http.put<any, HowellResponse<Robot>>(url, plain).then((x) => {
-      return HowellResponseProcess.put(x, Robot)
+      return HowellResponseProcess.item(x, Robot)
     })
   }
   delete(id: string) {
     let url = ArmRobotUrl.item(id)
     return this.http.delete<HowellResponse<Robot>>(url).then((x) => {
-      return HowellResponseProcess.delete(x, Robot)
+      return HowellResponseProcess.item(x, Robot)
     })
   }
 
@@ -81,14 +81,14 @@ export class ArmRobotRequestService {
   battery(id: string) {
     let url = ArmRobotUrl.battery(id)
     return this.http.get<HowellResponse<RobotBattery>>(url).then((x) => {
-      return HowellResponseProcess.get(x, RobotBattery)
+      return HowellResponseProcess.item(x, RobotBattery)
     })
   }
 
   location(id: string) {
     let url = ArmRobotUrl.location(id)
     return this.http.get<HowellResponse<MeshLocation>>(url).then((x) => {
-      return HowellResponseProcess.get(x, MeshLocation)
+      return HowellResponseProcess.item(x, MeshLocation)
     })
   }
 
@@ -118,7 +118,7 @@ export class ArmRobotRequestService {
   capability(type: string = 'GCRA') {
     let url = ArmRobotUrl.capability(type)
     return this.http.get<HowellResponse<RobotCapability>>(url).then((x) => {
-      return HowellResponseProcess.get(x, RobotCapability)
+      return HowellResponseProcess.item(x, RobotCapability)
     })
   }
 
@@ -128,7 +128,7 @@ export class ArmRobotRequestService {
     return this.http
       .post<any, HowellResponse<PagedListLogItem>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, PagedListLogItem)
+        return HowellResponseProcess.item(x, PagedListLogItem)
       })
   }
 
@@ -200,13 +200,13 @@ class ArmRobotMeshNodesRequestService {
     return this.http
       .post<any, HowellResponse<MeshNode>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, MeshNode)
+        return HowellResponseProcess.item(x, MeshNode)
       })
   }
   get(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).item(itemId)
     return this.http.get<HowellResponse<MeshNode>>(url).then((x) => {
-      return HowellResponseProcess.get(x, MeshNode)
+      return HowellResponseProcess.item(x, MeshNode)
     })
   }
   update(robotId: string, data: MeshNode) {
@@ -215,13 +215,13 @@ class ArmRobotMeshNodesRequestService {
     return this.http
       .put<any, HowellResponse<MeshNode>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.put(x, MeshNode)
+        return HowellResponseProcess.item(x, MeshNode)
       })
   }
   delete(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).item(itemId)
     return this.http.delete<HowellResponse<MeshNode>>(url).then((x) => {
-      return HowellResponseProcess.delete(x, MeshNode)
+      return HowellResponseProcess.item(x, MeshNode)
     })
   }
 }
@@ -240,13 +240,13 @@ class ArmRobotMeshEdgesRequestService {
     return this.http
       .post<any, HowellResponse<MeshEdge>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, MeshEdge)
+        return HowellResponseProcess.item(x, MeshEdge)
       })
   }
   get(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.edge(robotId).item(itemId)
     return this.http.get<HowellResponse<MeshEdge>>(url).then((x) => {
-      return HowellResponseProcess.get(x, MeshEdge)
+      return HowellResponseProcess.item(x, MeshEdge)
     })
   }
   update(robotId: string, data: MeshEdge) {
@@ -255,13 +255,13 @@ class ArmRobotMeshEdgesRequestService {
     return this.http
       .put<any, HowellResponse<MeshEdge>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.put(x, MeshEdge)
+        return HowellResponseProcess.item(x, MeshEdge)
       })
   }
   delete(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.edge(robotId).item(itemId)
     return this.http.delete<HowellResponse<MeshEdge>>(url).then((x) => {
-      return HowellResponseProcess.delete(x, MeshEdge)
+      return HowellResponseProcess.item(x, MeshEdge)
     })
   }
 }

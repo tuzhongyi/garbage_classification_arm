@@ -117,6 +117,10 @@ export class ArmMainHtmlController {
         return ArmPagePath.device_channel_index
       case 'device_robot':
         return ArmPagePath.device_robot_index
+      case 'ai_model':
+        return ArmPagePath.ai_model_index
+      case 'ai_event':
+        return ArmPagePath.ai_event_index
       default:
         return ''
     }

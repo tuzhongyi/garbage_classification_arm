@@ -32,6 +32,7 @@
 
         &-content {
           height: calc(100% - 50px);
+          overflow-y: auto;
 
           .form-item {
             &-title {}
@@ -59,7 +60,7 @@
                 box-sizing: border-box;
                 display: flex;
                 align-items: center;
-                width: 130px;
+                width: calc((100% - 10px) * 0.5);
                 height: 40px;
                 margin: 5px 0;
                 cursor: pointer;

@@ -1,4 +1,5 @@
 import { BaseUrl } from '../../base.url'
+import { DeploymentEventsUrl } from './deployment-event.url'
 import { DeploymentServersUrl } from './deployment_servers.url'
 
 export class ArmDeploymentUrl {
@@ -14,13 +15,10 @@ export class ArmDeploymentUrl {
     return new DeploymentServersUrl(this.basic())
   }
 
-  static events(type?: string) {
-    if (type) {
-      return `${this.basic()}/Events/${type}`
-    } else {
-      return `${this.basic()}/Events`
-    }
+  static event() {
+    return new DeploymentEventsUrl(this.basic())
   }
+
   static ai = {
     task: (id?: string) => {
       if (id) {

@@ -8,8 +8,11 @@
   box-sizing: border-box;
 
   &-head {
+    width: 100%;
+    max-width: calc(@chart-width + @details-width + 10px);
+
     .forms {
-      width: calc(@chart-width + @details-width + 10px);
+      width: 100%;
       display: flex;
       flex-wrap: wrap;
 
@@ -41,11 +44,13 @@
 
   &-body {
     display: flex;
-    width: calc(@chart-width + @details-width + 10px);
+    max-width: calc(@chart-width + @details-width + 10px);
+    width: 100%;
     height: calc(100% - 50px - 20px - 100px);
 
     &-chart {
-      width: @chart-width;
+      max-width: @chart-width;
+      width: calc((100% - 10px) * 0.625);
       height: 100%;
       border: 1px solid #ccc;
       box-sizing: border-box;
@@ -111,7 +116,8 @@
     }
 
     &-details {
-      width: @details-width;
+      width: calc((100% - 10px) * 0.375);
+      max-width: @details-width;
       margin-left: 10px;
       height: 100%;
 

@@ -1,3 +1,4 @@
+import { EventType } from '../../../../enums/event-type.enum'
 import { IModel } from '../../../model.interface'
 import { DropWarningRule } from './drop-warning-rule.model'
 import { GarbageDropRule } from './garbage-drop-rule.model'
@@ -11,7 +12,7 @@ export class CameraAIEventRule implements IModel {
   /**	String	规则名称	M	*/
   RuleName!: string
   /**	Int32	事件类型(唯一)	M	*/
-  EventType!: number
+  EventType!: EventType
   /**	Int32	通道ID（代理通道）	M	*/
   ChannelId!: number
   /**	String	通道名称	O	*/

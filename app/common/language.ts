@@ -3,6 +3,7 @@ import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
 import { CanType } from '../data-core/enums/robot/robot-can-type.model'
+import { Manager } from '../data-core/requests/managers/manager'
 
 export class Language {
   static ChannelPositionNo(value?: number) {
@@ -18,7 +19,15 @@ export class Language {
     }
   }
 
-  static ProxyChannelState(value?: ProxyChannelState) {
+  static async ProxyChannelState(value?: ProxyChannelState) {
+    let capability = await Manager.capability.device
+    if (capability.ProcessStates) {
+      let _enum = capability.ProcessStates.find((x) => x.Value == value)
+      if (_enum) {
+        return _enum.Name
+      }
+    }
+
     switch (value) {
       case ProxyChannelState.Locked:
         return '用户锁定'

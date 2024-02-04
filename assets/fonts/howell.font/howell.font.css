@@ -1,4 +1,4 @@
-﻿
+
 @font-face {
     font-family: 'HowellFont';
     src: url("Howell.Font.eot") format("embedded-opentype"), url("Howell.Font.woff") format("woff"), url("Howell.Font.ttf") format("truetype"), url("Howell.Font.svg") format("svg");
@@ -2350,4 +2350,224 @@ a .howell-icon-flip-vertical:before {
 
 .howell-icon-arrow2:before {
     content: "\f343";
+}
+
+.howell-icon-neighborhood:before {
+    content: "\f344";
+}
+
+.howell-icon-man:before {
+    content: "\f345";
+}
+
+.howell-icon-phone:before {
+    content: "\f346";
+}
+
+.howell-icon-garbage-target-on:before {
+    content: "\f347";
+}
+
+.howell-icon-garbage-target-off:before {
+    content: "\f348";
+}
+
+.howell-icon-telephone:before {
+    content: "\f349";
+}
+
+.howell-icon-point:before {
+    content: "\f350";
+}
+
+.howell-icon-pcr:before {
+    content: "\f351";
+}
+
+.howell-icon-video-playback1:before {
+    content: "\f352";
+}
+
+.howell-icon-picture:before {
+    content: "\f353";
+}
+
+.howell-icon-calendar2:before {
+    content: "\f354";
+}
+
+.howell-icon-time:before {
+    content: "\f355";
+}
+
+.howell-icon-no-picture:before {
+    content: "\f356";
+}
+
+.howell-icon-search2:before {
+    content: "\f357";
+}
+
+.howell-icon-export2:before {
+    content: "\f358";
+}
+
+.howell-icon-ebikepark:before {
+    content: "\f359";
+}
+
+.howell-icon-smoke:before {
+    content: "\f360";
+}
+
+.howell-icon-alarm3:before {
+    content: "\f361";
+}
+
+.howell-icon-grid:before {
+    content: "\f362";
+}
+
+.howell-icon-people-out2:before {
+    content: "\f363";
+}
+
+.howell-icon-people-in2:before {
+    content: "\f364";
+}
+
+.howell-icon-construction_waste:before {
+    content: "\f365";
+}
+
+.howell-icon-bag:before {
+    content: "\f366";
+}
+
+.howell-icon-vehicle_lane:before {
+    content: "\f367";
+}
+
+.howell-icon-car2:before {
+    content: "\f368";
+}
+
+.howell-icon-direction:before {
+    content: "\f369";
+}
+
+.howell-icon-license_plate:before {
+    content: "\f370";
+}
+
+.howell-icon-hairstyle:before {
+    content: "\f371";
+}
+
+.howell-icon-carrying:before {
+    content: "\f372";
+}
+
+.howell-icon-hat:before {
+    content: "\f373";
+}
+
+.howell-icon-factory:before {
+    content: "\f374";
+}
+
+.howell-icon-bicycle:before {
+    content: "\f375";
+}
+
+.howell-icon-jacket:before {
+    content: "\f376";
+}
+
+.howell-icon-light_and_shade:before {
+    content: "\f377";
+}
+
+.howell-icon-speed:before {
+    content: "\f378";
+}
+
+.howell-icon-trousers:before {
+    content: "\f379";
+}
+
+.howell-icon-sex:before {
+    content: "\f380";
+}
+
+.howell-icon-color:before {
+    content: "\f381";
+}
+
+.howell-icon-sunglasses:before {
+    content: "\f382";
+}
+
+.howell-icon-car_recognition:before {
+    content: "\f383";
+}
+
+.howell-icon-garbage_card:before {
+    content: "\f384";
+}
+
+.howell-icon-fan:before {
+    content: "\f385";
+}
+
+.howell-icon-rfid:before {
+    content: "\f386";
+}
+
+.howell-icon-picture2:before {
+    content: "\f387";
+}
+
+.howell-icon-user_add:before {
+    content: "\f388";
+}
+
+.howell-icon-sort:before {
+    content: "\f389";
+}
+
+.howell-icon-task_tree:before {
+    content: "\f390";
+}
+
+.howell-icon-task_details:before {
+    content: "\f391";
+}
+
+.howell-icon-top:before {
+    content: "\f392";
+}
+
+.howell-icon-middle:before {
+    content: "\f393";
+}
+
+.howell-icon-bottom:before {
+    content: "\f394";
+}
+
+.howell-icon-smart_garbage:before {
+    content: "\f395";
+}
+
+.howell-icon-garbage_1:before {
+    content: "\f396";
+}
+
+.howell-icon-garbage_2:before {
+    content: "\f397";
+}
+
+.howell-icon-garbage_ground:before {
+    content: "\f398";
 }

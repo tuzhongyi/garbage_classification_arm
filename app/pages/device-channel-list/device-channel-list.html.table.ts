@@ -141,7 +141,7 @@ export class DeviceChannelListHtmlTable {
     this.selecteds = []
   }
 
-  load(datas: InputProxyChannel[]) {
+  async load(datas: InputProxyChannel[]) {
     this.clear()
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i]
@@ -153,7 +153,7 @@ export class DeviceChannelListHtmlTable {
         item.SourceChannel.ProtocolType,
         item.SourceChannel.DeviceModel ?? '',
         item.SourceChannel.SerialNumber ?? '-',
-        Language.ProxyChannelState(item.ChannelState),
+        await Language.ProxyChannelState(item.ChannelState),
         item.SourceChannel.WebPortNo?.toString() ?? '-',
         Language.ChannelPositionNo(item.PositionNo),
       ]

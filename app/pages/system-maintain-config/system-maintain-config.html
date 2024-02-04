@@ -20,13 +20,13 @@
             <div class="form-item">
               <div class="form-item-title">设备重启</div>
               <div class="form-item-value">
-                <button class="button-white">重启</button>
+                <button class="button-white" id="button_reboot">重启</button>
               </div>
             </div>
             <div class="form-item">
               <div class="form-item-title">设备关机</div>
               <div class="form-item-value">
-                <button class="button-white">关机</button>
+                <button class="button-white" id="button_shutdown">关机</button>
               </div>
             </div>
           </div>
@@ -37,13 +37,17 @@
             <div class="form-item">
               <div class="form-item-title">简单恢复设备参数</div>
               <div class="form-item-value">
-                <button class="button-white">简单恢复</button>
+                <button class="button-white" id="button_reset_factory_basic">
+                  简单恢复
+                </button>
               </div>
             </div>
             <div class="form-item">
               <div class="form-item-title">完全恢复设备参数</div>
               <div class="form-item-value">
-                <button class="button-white">完全恢复</button>
+                <button class="button-white" id="button_reset_factory_full">
+                  完全恢复
+                </button>
               </div>
             </div>
           </div>
@@ -54,7 +58,9 @@
             <div class="form-item">
               <div class="form-item-title">配置导出</div>
               <div class="form-item-value">
-                <button class="button-white">导出</button>
+                <button class="button-white" id="button_config_output">
+                  导出
+                </button>
               </div>
             </div>
             <div class="form-item">
@@ -64,15 +70,17 @@
                   <input
                     type="text"
                     autocomplete="off"
-                    id="config_input_text"
-                  /><button id="config_input_button">浏览</button>
+                    id="config_upload_text"
+                  /><button id="config_upload_button">浏览</button>
                   <input
                     type="file"
-                    id="config_input_file"
+                    id="config_upload_file"
                     style="display: none"
                   />
                 </div>
-                <button class="button-white">导入</button>
+                <button class="button-white" id="button_config_input">
+                  导入
+                </button>
               </div>
             </div>
             <div class="form-item">
@@ -97,7 +105,9 @@
                   /><button id="upgrade_button">浏览</button>
                   <input type="file" id="upgrade_file" style="display: none" />
                 </div>
-                <button class="button-white">升级</button>
+                <button class="button-white" id="button_upgrade_input">
+                  升级
+                </button>
               </div>
             </div>
             <div class="form-item">

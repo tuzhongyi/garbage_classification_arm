@@ -1,14 +1,17 @@
+import { EventEmitter } from '../../common/event-emitter'
 import { DateTimePicker } from '../../common/tools/date-time-picker/date-time-picker'
 import { DeviceInfo } from '../../data-core/models/arm/device-info.model'
+import { SystemDeviceInfoEvent } from './system-device-info.event'
 
 import './system-device-info.less'
 
 export class SystemDeviceInfoHtmlController {
+  event: EventEmitter<SystemDeviceInfoEvent> = new EventEmitter()
+
   constructor() {
     this.init()
+    this.regist()
   }
-
-  private parser = new DOMParser()
 
   element = {
     Name: document.getElementById('Name') as HTMLInputElement,
@@ -37,6 +40,8 @@ export class SystemDeviceInfoHtmlController {
     IOInNumber: document.getElementById('IOInNumber') as HTMLInputElement,
     IOOutNumber: document.getElementById('IOOutNumber') as HTMLInputElement,
     MaxIPCNumber: document.getElementById('MaxIPCNumber') as HTMLInputElement,
+
+    save: document.getElementById('save') as HTMLButtonElement,
   }
 
   init() {
@@ -45,6 +50,12 @@ export class SystemDeviceInfoHtmlController {
       console.log(date.format('yyyy-MM-dd'))
     }
     picker.init()
+  }
+
+  regist() {
+    this.element.save.addEventListener('click', () => {
+      this.event.emit('save')
+    })
   }
 
   load(data: DeviceInfo) {

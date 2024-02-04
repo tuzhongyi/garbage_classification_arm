@@ -1,5 +1,6 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import './system-device-index.less'
+import { SystemDeviceIndexMessage } from './system-device-index.message'
 
 export namespace SystemDeviceIndex {
   export class HtmlController {
@@ -14,6 +15,8 @@ export namespace SystemDeviceIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
+    message = new SystemDeviceIndexMessage(this.element.iframe)
+
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)

@@ -28,17 +28,18 @@ export class ArmSystemRequestService {
   async capability() {
     let url = ArmSystemUrl.capability()
     let response = await this.http.get<HowellResponse<DeviceCapability>>(url)
-    return HowellResponseProcess.get(response, DeviceCapability)
+    return HowellResponseProcess.item(response, DeviceCapability)
   }
   async shutdown() {
     let url = ArmSystemUrl.shutdown()
     let response = await this.http.post<HowellResponse>(url)
     return response.FaultCode === 0
   }
-  async reboot() {
+  reboot() {
     let url = ArmSystemUrl.reboot()
-    let response = await this.http.post<HowellResponse>(url)
-    return response.FaultCode === 0
+    return this.http.post<HowellResponse>(url).then((x) => {
+      return x.FaultCode === 0
+    })
   }
   factory = {
     reset: async (mode: FactoryResetMode) => {
@@ -58,12 +59,12 @@ export class ArmSystemRequestService {
     upgrade: async () => {
       let url = ArmSystemUrl.status.upgrade()
       let response = await this.http.get<HowellResponse<UpgradeStatus>>(url)
-      return HowellResponseProcess.get(response, UpgradeStatus)
+      return HowellResponseProcess.item(response, UpgradeStatus)
     },
     running: async () => {
       let url = ArmSystemUrl.status.running()
       let response = await this.http.get<HowellResponse<RunningStatus>>(url)
-      return HowellResponseProcess.get(response, RunningStatus)
+      return HowellResponseProcess.item(response, RunningStatus)
     },
   }
 
@@ -117,7 +118,7 @@ class SystemDeviceRequestService {
   async get() {
     let url = ArmSystemUrl.device()
     let response = await this.http.get<HowellResponse<DeviceInfo>>(url)
-    return HowellResponseProcess.get(response, DeviceInfo)
+    return HowellResponseProcess.item(response, DeviceInfo)
   }
   async update(item: DeviceInfo) {
     let plain = instanceToPlain(item)
@@ -126,7 +127,7 @@ class SystemDeviceRequestService {
       url,
       plain
     )
-    return HowellResponseProcess.get(response, DeviceInfo)
+    return HowellResponseProcess.item(response, DeviceInfo)
   }
 }
 class SystemTimeRequestService {
@@ -143,7 +144,7 @@ class SystemTimeRequestService {
       url,
       plain
     )
-    return HowellResponseProcess.get(response, SystemTime)
+    return HowellResponseProcess.item(response, SystemTime)
   }
 }
 class SystemDataRequestService {
@@ -173,7 +174,7 @@ class SystemNetworkRequestService {
   capability() {
     let url = ArmSystemUrl.network.capability()
     return this.http.get<HowellResponse<NetworkCapability>>(url).then((x) => {
-      return HowellResponseProcess.get(x, NetworkCapability)
+      return HowellResponseProcess.item(x, NetworkCapability)
     })
   }
 
@@ -302,7 +303,7 @@ class SystemSecurityRequestService {
     return this.http
       .get<HowellResponse<SecurityCapability>>(url)
       .then((response) => {
-        return HowellResponseProcess.get(response, SecurityCapability)
+        return HowellResponseProcess.item(response, SecurityCapability)
       })
   }
   authentication = {
@@ -329,7 +330,7 @@ class SystemInputProxyRequestService {
     return this.http
       .get<HowellResponse<InputProxyCapability>>(url)
       .then((x) => {
-        return HowellResponseProcess.get(x, InputProxyCapability)
+        return HowellResponseProcess.item(x, InputProxyCapability)
       })
   }
   async search() {
@@ -422,13 +423,13 @@ class SystemInputProxyChannelCalibrationRequestService {
     return this.http
       .post<any, HowellResponse<ChannelCalibration>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, ChannelCalibration)
+        return HowellResponseProcess.item(x, ChannelCalibration)
       })
   }
   get(id: string) {
     let url = ArmSystemUrl.input.proxy.channel.calibration(id)
     return this.http.get<HowellResponse<ChannelCalibration>>(url).then((x) => {
-      return HowellResponseProcess.get(x, ChannelCalibration)
+      return HowellResponseProcess.item(x, ChannelCalibration)
     })
   }
 }

@@ -24,20 +24,20 @@ export class ArmServerAnalysisRequestService {
     return this.http
       .post<any, HowellResponse<AnalysisServer>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, AnalysisServer)
+        return HowellResponseProcess.item(x, AnalysisServer)
       })
   }
 
   get(id: string) {
     let url = ArmServerUrl.analysis.item(id)
     return this.http.get<HowellResponse<AnalysisServer>>(url).then((x) => {
-      return HowellResponseProcess.get(x, AnalysisServer)
+      return HowellResponseProcess.item(x, AnalysisServer)
     })
   }
   delete(id: string) {
     let url = ArmServerUrl.analysis.item(id)
     return this.http.delete<HowellResponse<AnalysisServer>>(url).then((x) => {
-      return HowellResponseProcess.delete(x, AnalysisServer)
+      return HowellResponseProcess.item(x, AnalysisServer)
     })
   }
   update(data: AnalysisServer) {
@@ -46,7 +46,7 @@ export class ArmServerAnalysisRequestService {
     return this.http
       .put<any, HowellResponse<AnalysisServer>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.put(x, AnalysisServer)
+        return HowellResponseProcess.item(x, AnalysisServer)
       })
   }
 
@@ -70,7 +70,7 @@ export class ArmServerAnalysisRequestService {
     return this.http
       .get<HowellResponse<AnalysisServerCapability>>(url)
       .then((x) => {
-        return HowellResponseProcess.get(x, AnalysisServerCapability)
+        return HowellResponseProcess.item(x, AnalysisServerCapability)
       })
   }
 
@@ -97,20 +97,20 @@ class ArmServerAnalysisSourceRequestService {
     return this.http
       .post<any, HowellResponse<VideoSource>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.post(x, VideoSource)
+        return HowellResponseProcess.item(x, VideoSource)
       })
   }
 
   get(serverId: string, id: string) {
     let url = ArmServerUrl.analysis.source(serverId).item(id)
     return this.http.get<HowellResponse<VideoSource>>(url).then((x) => {
-      return HowellResponseProcess.get(x, VideoSource)
+      return HowellResponseProcess.item(x, VideoSource)
     })
   }
   delete(serverId: string, id: string) {
     let url = ArmServerUrl.analysis.source(serverId).item(id)
     return this.http.delete<HowellResponse<VideoSource>>(url).then((x) => {
-      return HowellResponseProcess.delete(x, VideoSource)
+      return HowellResponseProcess.item(x, VideoSource)
     })
   }
   update(serverId: string, data: VideoSource) {
@@ -119,7 +119,7 @@ class ArmServerAnalysisSourceRequestService {
     return this.http
       .put<any, HowellResponse<VideoSource>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.put(x, VideoSource)
+        return HowellResponseProcess.item(x, VideoSource)
       })
   }
 }
