@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer'
+import 'reflect-metadata'
 import { EventType } from '../../enums/event-type.enum'
 import { IModel } from '../model.interface'
 import { EventTrigger } from './event-trigger.model'
@@ -10,7 +12,9 @@ export class CameraAIEvent implements IModel {
   /**	String	事件名称	M	*/
   Name!: string
   /**	WeekTimeSegment	周工作表	M	*/
+  @Type(() => WeekTimeSegment)
   WorkSheet!: WeekTimeSegment
   /**	EventTrigger	事件联动	M	*/
+  @Type(() => EventTrigger)
   EventTrigger!: EventTrigger
 }

@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { SSH } from '../../data-core/models/arm/ssh.model'
 import { NetworkConfigSSHBusiness } from './network-config-ssh.business'
 import { NetworkConfigSSHHtmlController } from './network-config-ssh.html.controller'

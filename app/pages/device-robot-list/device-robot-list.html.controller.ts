@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotListEvent } from './device-robot-list.event'
 import './device-robot-list.less'
@@ -58,48 +59,37 @@ export class DeviceRobotListHtmlController {
     let _delete = document.querySelector('.btn-delete') as HTMLDivElement
 
     info.addEventListener('click', (e) => {
-      let card = this.findelement(e.target as HTMLElement, 'card')
+      let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
         this.event.emit('info', card.id)
       }
     })
     config.addEventListener('click', (e) => {
-      let card = this.findelement(e.target as HTMLElement, 'card')
+      let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
         this.event.emit('config', card.id)
       }
     })
     play.addEventListener('click', (e) => {
-      let card = this.findelement(e.target as HTMLElement, 'card')
+      let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
         this.event.emit('play', card.id)
       }
     })
     log.addEventListener('click', (e) => {
-      let card = this.findelement(e.target as HTMLElement, 'card')
+      let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
         this.event.emit('log', card.id)
       }
     })
     _delete.addEventListener('click', (e) => {
-      let card = this.findelement(e.target as HTMLElement, 'card')
+      let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
         this.event.emit('delete', card.id)
       }
     })
     this.cards.push(card)
     this.element.content.appendChild(card)
-  }
-
-  private findelement(
-    e: HTMLElement | null,
-    classname: string
-  ): HTMLElement | null {
-    if (!e) return null
-    if (e.classList.contains(classname)) {
-      return e
-    }
-    return this.findelement(e.parentElement, classname)
   }
 
   clear() {

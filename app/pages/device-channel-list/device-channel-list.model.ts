@@ -1,5 +1,5 @@
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
-import { WindowModel } from '../window/window.model'
+import { IWindowQuery, WindowModel } from '../window/window.model'
 
 export class DeviceChannelListWindow {
   details = new DetailsWindow()
@@ -7,25 +7,28 @@ export class DeviceChannelListWindow {
   confirm = new ConfirmWindow()
 }
 
-class DetailsWindow extends WindowModel {
-  clear() {
-    this.id = undefined
-  }
+interface DetailsWindowQuery extends IWindowQuery {
   id?: string
+}
+
+class DetailsWindow extends WindowModel<DetailsWindowQuery> {
+  clear() {
+    this.query.id = undefined
+  }
   style = {
     width: '600px',
     height: '600px',
   }
   url: string = '../device-channel-details/device-channel-details.html'
 }
-class DiscoverWindow extends WindowModel {
+class DiscoverWindow extends WindowModel<{}> {
   style = {
     width: '75%',
     height: '75%',
   }
   url: string = '../device-channel-discover/device-channel-discover.html'
 }
-class ConfirmWindow extends ConfirmWindowModel {
+class ConfirmWindow extends ConfirmWindowModel<{}> {
   style = {
     width: '450px',
     height: '200px',

@@ -1,6 +1,6 @@
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import { EventMessageData } from '../../common/event-message/event-message.proxy.model'
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { ArmMainConfirm } from './main-windows/main.confirm'
 import { ArmMainWindow } from './main-windows/main.window'
 import {

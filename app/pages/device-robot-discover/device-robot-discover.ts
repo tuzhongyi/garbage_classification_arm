@@ -2,7 +2,6 @@ import { RobotSearchResult } from '../../data-core/models/robot/robot-search-res
 import { DeviceRobotDiscoverBusiness } from './device-robot-discover.business'
 import { DeviceRobotDiscoverHtmlController } from './device-robot-discover.html.controller'
 import { DeviceRobotDiscoverMessage } from './device-robot-discover.message'
-import { DeviceChannelWindow } from './device-robot-discover.model'
 
 export namespace DeviceRobotDiscover {
   class Controller {
@@ -13,7 +12,6 @@ export namespace DeviceRobotDiscover {
     html = new DeviceRobotDiscoverHtmlController()
     business = new DeviceRobotDiscoverBusiness()
     message = new DeviceRobotDiscoverMessage()
-    window = new DeviceChannelWindow()
     datas: RobotSearchResult[] = []
 
     async load() {

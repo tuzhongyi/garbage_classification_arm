@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { NTPServer } from '../../data-core/models/arm/ntp-server.model'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'

@@ -54,6 +54,7 @@ iframe {
   flex-grow: 1;
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .forms .form-item .form-item-value.icon {
@@ -71,12 +72,14 @@ input[type="checkbox"] {
   width: 20px;
   outline: none;
   border: 2px solid #cbcbcb;
+  margin: 0;
 }
 
 input[type="checkbox"]:checked {
   border-radius: 0.25rem;
 }
 
+input[type="datetime-local"],
 input[type="text"],
 input[type="number"],
 input[type="password"],
@@ -137,9 +140,6 @@ textarea:hover {
   border-color: #235f9c;
 }
 
-button+button {
-  margin-left: 10px;
-}
 
 .title-1 {
   font-size: 20px;
@@ -299,4 +299,15 @@ button+button {
   border-left: 1px solid #7f7f7f;
   width: 100px;
   cursor: pointer;
+}
+
+.input-checkbox {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+
+.input-checkbox .input-checkbox-text {
+  white-space: nowrap;
 }

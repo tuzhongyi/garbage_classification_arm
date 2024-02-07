@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { DeviceChannelListBusiness } from './device-channel-list.business'
 import { DeviceChannelListHtmlController } from './device-channel-list.html.controller'
@@ -53,7 +53,7 @@ export namespace DeviceChannelList {
       this.message.create(this.window.details)
     }
     onmodify(id: string) {
-      this.window.details.id = id
+      this.window.details.query.id = id
       this.message.modify(this.window.details)
     }
     ondelete(ids: string[]) {

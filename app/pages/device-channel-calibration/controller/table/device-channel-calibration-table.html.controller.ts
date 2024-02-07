@@ -1,5 +1,5 @@
-import { ClassConstructor } from 'class-transformer'
 import { EventEmitter } from '../../../../common/event-emitter'
+import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 
 export interface DeviceChannelCalibrationTableHtmlEvent {
   selectPoint(id: string): void
@@ -42,7 +42,10 @@ export class DeviceChannelCalibrationTableHtmlController {
     let row = document.createElement('tr')
     row.id = `tr_${id}`
     row.addEventListener('click', (e: MouseEvent) => {
-      let tr = this.findelement(e.target as HTMLElement, HTMLTableRowElement)
+      let tr = HtmlTool.element.findelement(
+        e.target as HTMLElement,
+        HTMLTableRowElement
+      )
       this.rowclick(tr as HTMLTableRowElement)
     })
     for (let i = 0; i < texts.length; i++) {
@@ -69,7 +72,7 @@ export class DeviceChannelCalibrationTableHtmlController {
       i.className = 'howell-icon-Close'
       btn.appendChild(i)
       btn.addEventListener('click', (e: MouseEvent) => {
-        let tr = this.findelement(
+        let tr = HtmlTool.element.findelement(
           e.target as HTMLElement,
           HTMLTableRowElement
         ) as HTMLTableRowElement
@@ -124,16 +127,6 @@ export class DeviceChannelCalibrationTableHtmlController {
     }
   }
 
-  private findelement<T extends HTMLElement>(
-    e: HTMLElement | null,
-    cls: ClassConstructor<T>
-  ): T | null {
-    if (!e) return null
-    if (e instanceof cls) {
-      return e
-    }
-    return this.findelement(e.parentElement, cls)
-  }
   private heightToTop(ele: HTMLElement) {
     //ele为指定跳转到该位置的DOM节点
     let root = document.body

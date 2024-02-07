@@ -1,6 +1,6 @@
-import { ClassConstructor } from 'class-transformer'
 import { EventEmitter } from '../../../../common/event-emitter'
 import { Language } from '../../../../common/language'
+import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotTableEvent } from '../../device-robot-config.event'
 
@@ -69,22 +69,14 @@ export class DeviceRobotConfigHtmlNodeTableController {
 
   private onrowclick(e: MouseEvent) {
     if (this.disabled) return
-    let tr = this.findelement(e.target as HTMLElement, HTMLTableRowElement)
+    let tr = HtmlTool.element.findelement(
+      e.target as HTMLElement,
+      HTMLTableRowElement
+    )
     if (!tr) return
     let id = tr.id.split('_')[1]
 
     this.select(id, tr)
-  }
-
-  private findelement<T extends HTMLElement>(
-    e: HTMLElement | null,
-    cls: ClassConstructor<T>
-  ): T | null {
-    if (!e) return null
-    if (e instanceof cls) {
-      return e
-    }
-    return this.findelement(e.parentElement, cls)
   }
 
   private clear() {

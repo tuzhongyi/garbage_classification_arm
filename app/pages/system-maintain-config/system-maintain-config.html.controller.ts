@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { UploadControl } from '../../common/tools/upload-control/upload-control'
+import { UploadControl } from '../../common/tools/controls/upload-control/upload-control'
 import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
 import { SystemMaintainConfigEvent } from './system-maintain-config.event'
 import './system-maintain-config.less'

@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 export interface IModel {}
 export interface IIdModel extends IModel {
   Id: string

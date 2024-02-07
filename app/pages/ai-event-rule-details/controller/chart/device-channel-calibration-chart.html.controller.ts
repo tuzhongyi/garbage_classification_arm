@@ -45,6 +45,7 @@ export class AIEventRuleDetailsChartHtmlController {
         this.event.emit('buttoncancel')
       } else {
         this.element.button.polygon.classList.add('selected')
+        this.drawing = true
         this.event.emit('buttonpolygon')
       }
     })
@@ -59,10 +60,12 @@ export class AIEventRuleDetailsChartHtmlController {
     })
     this.element.canvas.addEventListener('click', (e: MouseEvent) => {
       e.stopImmediatePropagation()
-      let point = new Point()
-      point.X = e.offsetX
-      point.Y = e.offsetY
-      this.event.emit('drawing', point)
+      if (this.drawing) {
+        let point = new Point()
+        point.X = e.offsetX
+        point.Y = e.offsetY
+        this.event.emit('drawing', point)
+      }
     })
     this.element.canvas.addEventListener('mousemove', (e: MouseEvent) => {
       if (this.drawing) {
@@ -74,6 +77,7 @@ export class AIEventRuleDetailsChartHtmlController {
     })
     this.element.canvas.oncontextmenu = () => {
       try {
+        this.clear()
         this.event.emit('over')
       } finally {
         return false

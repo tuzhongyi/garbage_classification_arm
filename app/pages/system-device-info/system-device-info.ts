@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { DeviceInfo } from '../../data-core/models/arm/device-info.model'
 import { SystemDeviceInfoBusiness } from './system-device-info.business'
 import { SystemDeviceInfoHtmlController } from './system-device-info.html.controller'

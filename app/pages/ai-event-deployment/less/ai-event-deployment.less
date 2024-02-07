@@ -1,0 +1,54 @@
+@import "../../../../assets/styles/panel.less";
+@import "../../../../assets/styles/datetime.less";
+@import "./ai-event-deployment-sheet.less";
+@import "./ai-event-deployment-trigger.less";
+
+.ai-event-deployment {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .forms {
+    width: 500px;
+
+    .form-item {
+      &-title {
+        width: 200px;
+      }
+
+      &-value {
+        width: calc(100% - 200px);
+      }
+
+    }
+  }
+
+  &-body {
+    height: calc(100% - 30px);
+
+    &-info {
+      height: 90px;
+    }
+
+    &-sheet {
+      height: calc(100% - 90px - 250px);
+
+      .panel {
+        height: calc(100% - 20px);
+      }
+
+
+    }
+
+    &-trigger {
+      height: 250px;
+    }
+  }
+
+  &-foot {
+    height: 30px;
+    display: flex;
+    align-items: flex-end;
+  }
+}

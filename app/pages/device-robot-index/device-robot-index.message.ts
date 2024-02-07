@@ -8,6 +8,7 @@ import {
 import {
   MainMessageRequestEvent,
   MainMessageResponseEvent,
+  ResultArgs,
 } from '../main/main.event'
 
 interface MessageEvent {
@@ -65,14 +66,14 @@ export class DeviceRobotIndexMessage
     })
   }
 
-  details_result(result: boolean): void {
+  details_result(result: ResultArgs): void {
     this.proxy.message({
       command: 'details_result',
       value: result,
       index: 0,
     })
   }
-  delete_result(result: boolean): void {
+  delete_result(result: ResultArgs): void {
     this.proxy.message({
       command: 'delete_result',
       value: result,

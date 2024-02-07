@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { DateTimePicker } from '../../common/tools/date-time-picker/date-time-picker'
+import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { DeviceInfo } from '../../data-core/models/arm/device-info.model'
 import { SystemDeviceInfoEvent } from './system-device-info.event'
 
@@ -71,12 +72,12 @@ export class SystemDeviceInfoHtmlController {
     this.element.OS.value = data.OS
     this.element.Hardware.value = data.Hardware
     this.element.HardwareVersion.value = data.HardwareVersion
-    this.element.Vendor.value = data.Vendor
-    this.element.CustomizedInfo.value = data.CustomizedInfo ?? ''
-    this.element.Wireless.value = JSON.stringify(data.Wireless)
-    this.element.HddNumber.value = data.HddNumber?.toString() ?? '0'
-    this.element.IOInNumber.value = data.IOInNumber?.toString() ?? '0'
-    this.element.IOOutNumber.value = data.IOOutNumber?.toString() ?? '0'
-    this.element.MaxIPCNumber.value = data.MaxIPCNumber?.toString() ?? '0'
+    this.element.Vendor.value = HtmlTool.set(data.Vendor)
+    this.element.CustomizedInfo.value = HtmlTool.set(data.CustomizedInfo)
+    this.element.Wireless.value = HtmlTool.set(data.Wireless)
+    this.element.HddNumber.value = data.HddNumber.toString()
+    this.element.IOInNumber.value = data.IOInNumber.toString()
+    this.element.IOOutNumber.value = data.IOOutNumber.toString()
+    this.element.MaxIPCNumber.value = data.MaxIPCNumber.toString()
   }
 }

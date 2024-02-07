@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { DateTimePicker } from '../../common/tools/date-time-picker/date-time-picker'
+import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
@@ -56,10 +56,7 @@ export class SystemDeviceDatetimeHtmlController {
   regist() {
     this.element.NTPTimeMode.addEventListener('change', (e: Event) => {
       let current = e.target as HTMLSelectElement
-      let elements = document.querySelectorAll(`.form-item`)
-      for (let i = 0; i < elements.length; i++) {
-        ;(elements[i] as HTMLDivElement).style.display = ''
-      }
+
       let date = new Date()
       this.element.LocalDate.value = date.format('yyyy-MM-dd')
       this.element.LocalTime.value = date.format('HH:mm:ss')
@@ -83,7 +80,12 @@ export class SystemDeviceDatetimeHtmlController {
   }
 
   onmodechange(mode: NTPTimeMode) {
-    let elements: NodeListOf<HTMLDivElement>
+    let elements = document.querySelectorAll(
+      `.form-item`
+    ) as NodeListOf<HTMLDivElement>
+    for (let i = 0; i < elements.length; i++) {
+      ;(elements[i] as HTMLDivElement).style.display = ''
+    }
     switch (mode) {
       case NTPTimeMode.Manual:
         elements = document.querySelectorAll(`.${NTPTimeMode.NTP}`)
@@ -114,5 +116,7 @@ export class SystemDeviceDatetimeHtmlController {
       this.element.NTPServer.SynchronizeInterval.value =
         data.NTPServer.SynchronizeInterval.toString()
     }
+
+    this.onmodechange(data.TimeMode)
   }
 }

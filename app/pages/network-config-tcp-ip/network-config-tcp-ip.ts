@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { AddressingType } from '../../data-core/enums/addressing-type.enum'
 import { NetworkInterfaceDuplex } from '../../data-core/enums/network-interface-duplex.enum'
 import { NetworkInterfaceSpeed } from '../../data-core/enums/network-interface-speed.enum'

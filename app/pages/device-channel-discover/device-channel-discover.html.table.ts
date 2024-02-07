@@ -1,4 +1,4 @@
-import { ClassConstructor } from 'class-transformer'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
 
 export class DeviceChannelDiscoverHtmlTable {
@@ -89,7 +89,10 @@ export class DeviceChannelDiscoverHtmlTable {
   }
 
   private onrowclick(e: MouseEvent) {
-    let tr = this.findelement(e.target as HTMLElement, HTMLTableRowElement)
+    let tr = HtmlTool.element.findelement(
+      e.target as HTMLElement,
+      HTMLTableRowElement
+    )
     if (!tr) return
     let id = tr.id.split('_')[1]
     let checkbox = document.querySelector(`#checkbox_${id}`) as HTMLInputElement
@@ -103,17 +106,6 @@ export class DeviceChannelDiscoverHtmlTable {
         this.selecteds.splice(this.selecteds.indexOf(id), 1)
       }
     }
-  }
-
-  private findelement<T extends HTMLElement>(
-    e: HTMLElement | null,
-    cls: ClassConstructor<T>
-  ): T | null {
-    if (!e) return null
-    if (e instanceof cls) {
-      return e
-    }
-    return this.findelement(e.parentElement, cls)
   }
 
   clear() {

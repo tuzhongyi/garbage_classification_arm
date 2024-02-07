@@ -1,6 +1,6 @@
-import { ClassConstructor } from 'class-transformer'
 import { EventEmitter } from '../../../../common/event-emitter'
 import { Language } from '../../../../common/language'
+import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { InputProxyChannel } from '../../../../data-core/models/arm/input-proxy-channel.model'
 import { DeviceRobotTableEvent } from '../../device-robot-config.event'
 
@@ -91,7 +91,10 @@ export class DeviceRobotConfigHtmlEdgeTableController {
   }
 
   private onrowclick(e: MouseEvent) {
-    let tr = this.findelement(e.target as HTMLElement, HTMLTableRowElement)
+    let tr = HtmlTool.element.findelement(
+      e.target as HTMLElement,
+      HTMLTableRowElement
+    )
     if (!tr) return
     let id = tr.id.split('_')[1]
     let checkbox = document.querySelector(`#checkbox_${id}`) as HTMLInputElement
@@ -107,20 +110,12 @@ export class DeviceRobotConfigHtmlEdgeTableController {
     }
   }
 
-  private findelement<T extends HTMLElement>(
-    e: HTMLElement | null,
-    cls: ClassConstructor<T>
-  ): T | null {
-    if (!e) return null
-    if (e instanceof cls) {
-      return e
-    }
-    return this.findelement(e.parentElement, cls)
-  }
-
   private ondbclick(e: MouseEvent) {
     e.stopImmediatePropagation()
-    let div = this.findelement(e.target as HTMLElement, HTMLDivElement)
+    let div = HtmlTool.element.findelement(
+      e.target as HTMLElement,
+      HTMLDivElement
+    )
     if (!div) return
     let id = div.id.split('_')[1]
     this.event.emit('select', id)

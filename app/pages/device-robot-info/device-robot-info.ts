@@ -1,6 +1,7 @@
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { Guid } from '../../common/tools/guid/guid'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LocationTool } from '../../common/tools/location.tool'
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotInfoBusiness } from './device-robot-info.business'
 import { DeviceRobotInfoHtmlController } from './device-robot-info.html.controller'
@@ -39,20 +40,13 @@ export namespace DeviceRobotInfo {
       }
     }
 
-    set(value: string) {
-      if (value) {
-        return value.trim()
-      }
-      return undefined
-    }
-
     onupdate(data: Robot) {
-      data.CustomizedInfo = this.set(this.html.element.CustomizedInfo.value)
+      data.CustomizedInfo = HtmlTool.get(this.html.element.CustomizedInfo.value)
       data.DeviceType = this.html.element.DeviceType.value
       data.ProtocolType = this.html.element.ProtocolType.value
       data.HostAddress = this.html.element.HostAddress.value
       data.PortNo = parseInt(this.html.element.PortNo.value)
-      data.Name = this.set(this.html.element.Name.value)
+      data.Name = HtmlTool.get(this.html.element.Name.value)
       this.business
         .update(data)
         .then((x) => {
@@ -65,12 +59,12 @@ export namespace DeviceRobotInfo {
     oncreate() {
       let data = new Robot()
       data.Id = Guid.NewGuid().ToString('N')
-      data.CustomizedInfo = this.set(this.html.element.CustomizedInfo.value)
+      data.CustomizedInfo = HtmlTool.get(this.html.element.CustomizedInfo.value)
       data.DeviceType = this.html.element.DeviceType.value
       data.ProtocolType = this.html.element.ProtocolType.value
       data.HostAddress = this.html.element.HostAddress.value
       data.PortNo = parseInt(this.html.element.PortNo.value)
-      data.Name = this.set(this.html.element.Name.value)
+      data.Name = HtmlTool.get(this.html.element.Name.value)
       this.business
         .create(data)
         .then((x) => {

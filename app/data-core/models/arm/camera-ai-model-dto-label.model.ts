@@ -1,8 +1,8 @@
 import { EnumValue } from '../capabilities/enum-value.model'
-import { IModel } from '../model.interface'
+import { ModelLabel } from './analysis/model-label.model'
 
 /**	CameraAIModelDTOLabel (AI摄像机模型DTO标签)	*/
-export class CameraAIModelDTOLabel implements IModel {
+export class CameraAIModelDTOLabel implements ModelLabel {
   /**	String	模型数据ID	M	*/
   ModelId!: string
   /**	Int32	模型数据类型：1-检测数据，2-分类数据	O	*/
@@ -10,7 +10,7 @@ export class CameraAIModelDTOLabel implements IModel {
   /**	String	标签ID	M	*/
   LabelId!: string
   /**	String	标签数值	O	*/
-  LabelValue?: string
+  LabelValue!: string
   /**	String	模型标签值	O	*/
   LabelModelValue?: string
   /**	String	标签名称	M	*/

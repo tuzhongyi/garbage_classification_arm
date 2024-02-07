@@ -1,3 +1,4 @@
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LocationTool } from '../../common/tools/location.tool'
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
@@ -28,17 +29,6 @@ export namespace DeviceChannelDetails {
     regist() {
       this.html.event.on('ok', this.onok.bind(this))
       this.html.event.on('cancel', this.oncancel.bind(this))
-    }
-    private set(value: string): string | undefined
-    private set(value: string, isnumber: boolean): number | undefined
-    private set(value: string, isnumber: boolean = false) {
-      if (isnumber) {
-        return parseInt(value)
-      }
-      if (value) {
-        return value.trim()
-      }
-      return undefined
     }
 
     get check() {
@@ -114,24 +104,30 @@ export namespace DeviceChannelDetails {
 
     toupdate(data: InputProxyChannel) {
       data.Name = this.html.element.Name.value
-      data.PositionNo = this.set(this.html.element.PositionNo.value, true)
+      data.PositionNo = HtmlTool.get(this.html.element.PositionNo.value, true)
       data.SourceChannel = new VideoSourceChannel()
       data.SourceChannel.HostAddress = this.html.element.HostAddress.value
       data.SourceChannel.PortNo =
-        this.set(this.html.element.PortNo.value, true) ?? 0
+        HtmlTool.get(this.html.element.PortNo.value, true) ?? 0
       data.SourceChannel.ProtocolType = this.html.element.ProtocolType
         .value as DeviceProtocolType
       data.SourceChannel.ChannelNo =
-        this.set(this.html.element.ChannelNo.value, true) ?? 0
-      data.SourceChannel.UserName = this.set(this.html.element.UserName.value)
-      data.SourceChannel.Password = this.set(this.html.element.Password.value)
-      data.SourceChannel.DeviceId = this.set(this.html.element.DeviceId.value)
-      data.SourceChannel.SerialNumber = this.set(
+        HtmlTool.get(this.html.element.ChannelNo.value, true) ?? 0
+      data.SourceChannel.UserName = HtmlTool.get(
+        this.html.element.UserName.value
+      )
+      data.SourceChannel.Password = HtmlTool.get(
+        this.html.element.Password.value
+      )
+      data.SourceChannel.DeviceId = HtmlTool.get(
+        this.html.element.DeviceId.value
+      )
+      data.SourceChannel.SerialNumber = HtmlTool.get(
         this.html.element.SerialNumber.value
       )
       data.SourceChannel.WebPortNo =
-        this.set(this.html.element.WebPortNo.value, true) ?? 0
-      data.SourceChannel.DeviceModel = this.set(
+        HtmlTool.get(this.html.element.WebPortNo.value, true) ?? 0
+      data.SourceChannel.DeviceModel = HtmlTool.get(
         this.html.element.DeviceModel.value
       )
       return this.business.update(data)
@@ -140,24 +136,30 @@ export namespace DeviceChannelDetails {
       let data = new InputProxyChannel()
       data.Id = 0
       data.Name = this.html.element.Name.value
-      data.PositionNo = this.set(this.html.element.PositionNo.value, true)
+      data.PositionNo = HtmlTool.get(this.html.element.PositionNo.value, true)
       data.SourceChannel = new VideoSourceChannel()
       data.SourceChannel.HostAddress = this.html.element.HostAddress.value
       data.SourceChannel.PortNo =
-        this.set(this.html.element.PortNo.value, true) ?? 0
+        HtmlTool.get(this.html.element.PortNo.value, true) ?? 0
       data.SourceChannel.ProtocolType = this.html.element.ProtocolType
         .value as DeviceProtocolType
       data.SourceChannel.ChannelNo =
-        this.set(this.html.element.ChannelNo.value, true) ?? 0
-      data.SourceChannel.UserName = this.set(this.html.element.UserName.value)
-      data.SourceChannel.Password = this.set(this.html.element.Password.value)
-      data.SourceChannel.DeviceId = this.set(this.html.element.DeviceId.value)
-      data.SourceChannel.SerialNumber = this.set(
+        HtmlTool.get(this.html.element.ChannelNo.value, true) ?? 0
+      data.SourceChannel.UserName = HtmlTool.get(
+        this.html.element.UserName.value
+      )
+      data.SourceChannel.Password = HtmlTool.get(
+        this.html.element.Password.value
+      )
+      data.SourceChannel.DeviceId = HtmlTool.get(
+        this.html.element.DeviceId.value
+      )
+      data.SourceChannel.SerialNumber = HtmlTool.get(
         this.html.element.SerialNumber.value
       )
       data.SourceChannel.WebPortNo =
-        this.set(this.html.element.WebPortNo.value, true) ?? 0
-      data.SourceChannel.DeviceModel = this.set(
+        HtmlTool.get(this.html.element.WebPortNo.value, true) ?? 0
+      data.SourceChannel.DeviceModel = HtmlTool.get(
         this.html.element.DeviceModel.value
       )
       return this.business.create(data)

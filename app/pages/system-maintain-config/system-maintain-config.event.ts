@@ -1,4 +1,4 @@
-import { FileResult } from '../../common/tools/upload-control/upload-control.model'
+import { FileResult } from '../../common/tools/controls/upload-control/upload-control.model'
 import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
 
 export interface SystemMaintainConfigEvent {

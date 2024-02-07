@@ -1,0 +1,161 @@
+.ai-event-rule-details {
+
+
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  &-main {
+    width: 100%;
+
+    .forms {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      .form-item {
+        width: calc(50% - 10px);
+        margin: 0;
+        margin-bottom: 20px;
+
+        box-sizing: border-box;
+
+        &:nth-child(odd) {
+          margin-right: 20px;
+        }
+
+
+        &-title {
+          width: 150px;
+        }
+
+        &-value {
+          width: calc(100% - 150px);
+        }
+
+      }
+    }
+  }
+
+
+  @img-max-width: 700px;
+
+  &-body {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 100px);
+
+    &-chart {
+      width: calc((100% - 10px) * 0.625);
+      max-width: @img-max-width;
+      height: 100%;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+
+      &-body {
+        width: 100%;
+        height: calc(100% - 50px);
+        position: relative;
+
+        img {
+          border: none;
+          width: 100%;
+          height: 100%;
+        }
+
+        canvas {
+          position: absolute;
+          background-color: transparent;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+
+          &.begin {
+            cursor: crosshair;
+          }
+        }
+      }
+
+
+
+
+
+      &-foot {
+        display: flex;
+        justify-content: space-between;
+
+        .buttons {
+          height: 50px;
+          padding: 0 15px;
+          display: flex;
+          align-items: center;
+
+          &>button {
+            width: 30px;
+            border: 1px solid #ababab;
+            font-weight: normal;
+            background-color: #efeff0;
+            color: #ababab;
+            border-radius: 5px;
+
+            &.selected {
+              background-color: #ababab;
+              color: white;
+            }
+
+            &.polygon {
+              font-size: 24px;
+            }
+          }
+        }
+      }
+    }
+
+    &-info {
+      width: calc(100% - @img-max-width - 10px);
+      min-width: calc((100% - 10px) * 0.375);
+      margin-left: 10px;
+      height: 100%;
+
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+
+      &-head {
+        height: 50px;
+        padding: 0 20px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        background-color: #ccc;
+        font-weight: bold;
+      }
+
+      &-body {
+        padding: 20px;
+        box-sizing: border-box;
+        height: calc(100% - 50px);
+
+        .forms {
+          .form-item {
+            margin: 20px 0;
+
+            &:first-child {
+              margin-top: 0;
+            }
+
+            &-title {
+              width: 190px;
+            }
+
+            &-value {
+              width: calc(100% - 190px);
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+}

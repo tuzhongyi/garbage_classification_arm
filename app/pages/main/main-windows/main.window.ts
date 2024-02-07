@@ -22,8 +22,18 @@ export class ArmMainWindow {
     // this.mask.style.display = ''
     this.opened = true
 
-    if (args.id) {
-      this.iframe.src = `${args.url}?id=${args.id}`
+    if (args.query) {
+      let url = args.url
+      let index = 0
+      for (const key in args.query) {
+        if (index === 0) {
+          url += '?'
+        } else {
+          url += '&'
+        }
+        url += `${key}=${args.query[key]}`
+      }
+      this.iframe.src = url
     } else {
       this.iframe.src = args.url
     }

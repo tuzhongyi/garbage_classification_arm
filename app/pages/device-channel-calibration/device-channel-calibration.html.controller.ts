@@ -6,6 +6,7 @@ import { DeviceChannelCalibrationTableController } from './controller/table/devi
 import { DeviceChannelCalibrationEvent } from './device-channel-calibration.event'
 
 import '../../../assets/styles/table-sticky.less'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LensType } from '../../data-core/enums/lens-type.enum'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
@@ -116,13 +117,6 @@ export class DeviceChannelCalibrationHtmlController {
     this.event.emit('selectLensType', type)
   }
 
-  private appendOption(model: IIdNameModel, parent: HTMLSelectElement) {
-    let option = document.createElement('option')
-    option.innerHTML = model.Name
-    option.value = model.Id
-    parent.appendChild(option)
-  }
-
   private init() {
     this.initAreaType()
     this.initLensType()
@@ -132,7 +126,7 @@ export class DeviceChannelCalibrationHtmlController {
     let types = [CalibrationAreaType.DropPort, CalibrationAreaType.StorePort]
 
     for (let i = 0; i < types.length; i++) {
-      this.appendOption(
+      HtmlTool.select.append(
         {
           Id: types[i],
           Name: Language.CalibrationAreaType(types[i]),
@@ -144,7 +138,7 @@ export class DeviceChannelCalibrationHtmlController {
   private initLensType() {
     let types = [LensType.M28, LensType.M40]
     for (let i = 0; i < types.length; i++) {
-      this.appendOption(
+      HtmlTool.select.append(
         {
           Id: types[i],
           Name: types[i],
@@ -167,14 +161,14 @@ export class DeviceChannelCalibrationHtmlController {
         Id: robots[i].Id,
         Name: robots[i].Name ?? robots[i].HostAddress,
       }
-      this.appendOption(item, this.element.select.robot)
+      HtmlTool.select.append(item, this.element.select.robot)
     }
     for (let i = 0; i < channels.length; i++) {
       let item: IIdNameModel = {
         Id: channels[i].Id.toString(),
         Name: channels[i].Name,
       }
-      this.appendOption(item, this.element.select.channel)
+      HtmlTool.select.append(item, this.element.select.channel)
     }
 
     if (this.element.select.robot.value) {

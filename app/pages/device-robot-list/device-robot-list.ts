@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotListBusiness } from './device-robot-list.business'
 import { DeviceRobotListHtmlController } from './device-robot-list.html.controller'

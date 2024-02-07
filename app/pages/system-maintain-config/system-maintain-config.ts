@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
 import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmSystemRequestService } from '../../data-core/requests/services/system/system.service'

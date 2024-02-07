@@ -9,7 +9,7 @@ export namespace AIModelIndex {
       this.init()
     }
 
-    index = LocalStorageService.navigation.device.channel.get()
+    index = LocalStorageService.navigation.ai.model.get()
 
     element = {
       items: document.getElementsByClassName('menu-item'),
@@ -56,7 +56,7 @@ export namespace AIModelIndex {
           if (this.element.iframe) {
             this.element.iframe.src = this.factory(index)
             this.index = index
-            LocalStorageService.navigation.device.channel.save(this.index)
+            LocalStorageService.navigation.ai.model.save(this.index)
           }
         }
       }
@@ -65,7 +65,7 @@ export namespace AIModelIndex {
     private factory(index: number): string {
       switch (index) {
         case 0:
-          return '../device-channel-list/device-channel-list.html'
+          return '../ai-model-deployment/ai-model-deployment.html'
         case 1:
           return '../device-channel-calibration/device-channel-calibration.html'
         default:

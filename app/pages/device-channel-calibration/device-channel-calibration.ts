@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { LensType } from '../../data-core/enums/lens-type.enum'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'

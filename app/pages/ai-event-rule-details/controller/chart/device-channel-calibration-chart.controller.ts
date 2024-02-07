@@ -1,11 +1,9 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { Point } from '../../../../data-core/models/arm/point.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { AIEventRuleDetailsChartPolygonController } from './device-channel-calibration-chart-polygon.controller'
 import { AIEventRuleDetailsChartHtmlController } from './device-channel-calibration-chart.html.controller'
 export interface AIEventRuleDetailsChartEvent {
-  createPoint(point: Point): void
-  createPolygon(polygon: Polygon): void
+  polygon(polygon: Polygon): void
   clear(): void
 }
 export class AIEventRuleDetailsChartController {
@@ -13,7 +11,6 @@ export class AIEventRuleDetailsChartController {
 
   constructor() {
     this.regist()
-    this.html.init()
   }
   private html = new AIEventRuleDetailsChartHtmlController()
   private ctx?: CanvasRenderingContext2D
@@ -54,13 +51,13 @@ export class AIEventRuleDetailsChartController {
         { X: 1, Y: 0 },
         { X: 0, Y: 0 },
       ]
-      this.event.emit('createPolygon', polygon)
+      this.event.emit('polygon', polygon)
     })
     this.html.event.on('buttonpolygon', () => {
       this.clear({
         current: true,
+        data: true,
       })
-      this.reload()
     })
 
     this.html.event.on('drawing', (point) => {
@@ -93,12 +90,16 @@ export class AIEventRuleDetailsChartController {
           })
         }
         polygon.Coordinates.push(polygon.Coordinates[0])
-        this.event.emit('createPolygon', polygon)
+        this.event.emit('polygon', polygon)
       } else {
         this.reload()
       }
       this.current = undefined
     })
+  }
+
+  init() {
+    this.html.init()
   }
 
   clear(args?: { data?: boolean; current?: boolean }) {

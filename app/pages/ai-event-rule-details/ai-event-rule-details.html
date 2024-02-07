@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="ai-event-rule-details window">
+      <div class="window-head ai-event-rule-details-head">AI事件分析规则</div>
+      <div class="window-body">
+        <div class="ai-event-rule-details-main">
+          <div class="forms">
+            <div class="form-item">
+              <div class="form-item-title">规则名称</div>
+              <div class="form-item-value">
+                <input type="text" id="text_name" />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">事件类型</div>
+              <div class="form-item-value">
+                <input type="text" id="text_type" disabled="true" />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">代理通道</div>
+              <div class="form-item-value">
+                <select id="select_channel"></select>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-item-title">AI模型</div>
+              <div class="form-item-value">
+                <select id="select_model"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ai-event-rule-details-body">
+          <div class="ai-event-rule-details-body-chart">
+            <div class="ai-event-rule-details-body-chart-body">
+              <img
+                id="picture"
+                alt=""
+                src="../../../assets/images/temp/192.168.10.215.jpeg"
+              />
+              <canvas id="canvas"></canvas>
+            </div>
+            <div class="ai-event-rule-details-body-chart-foot">
+              <div class="buttons">
+                <button
+                  class="button-white polygon"
+                  id="button_polygon"
+                  title="绘制多边形"
+                >
+                  <i class="mdi mdi-pentagon-outline"></i>
+                </button>
+                <button
+                  class="button-white polygon"
+                  id="button_rectangle"
+                  title="绘制全屏矩形"
+                >
+                  <i class="mdi mdi-checkbox-blank-outline"></i>
+                </button>
+              </div>
+              <div class="buttons">
+                <button
+                  class="button-white"
+                  id="button_clear"
+                  title="清空已绘制图形"
+                >
+                  <i class="howell-icon-Close"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ai-event-rule-details-body-info">
+            <div class="ai-event-rule-details-body-info-head">详情信息</div>
+            <div class="ai-event-rule-details-body-info-body">
+              <div class="forms">
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">模型标签</div>
+                  <div class="form-item-value">
+                    <div id="ObjectLabels"></div>
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">垃圾多地持续时间(秒)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="Duration"
+                      min="0"
+                      max="1800"
+                      value="3"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">目标置信度</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="Confidence"
+                      min="0"
+                      max="100"
+                      value="100"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">目标在区域内面积占比(%)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="TargetRatio"
+                      min="0"
+                      max="100"
+                      value="100"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">目标重叠比例(%)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="OverlapRatio"
+                      value="70"
+                      min="20"
+                      max="100"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">垃圾桶标签</div>
+                  <div class="form-item-value">
+                    <select id="TrashCanLabels"></select>
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">目标在垃圾桶内占比(%)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="TrashCanRatio"
+                      min="0"
+                      max="100"
+                      value="80"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">最小目标数量</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="MinTargetNumber"
+                      min="1"
+                      value="1"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">数量计数判断间隔(分钟)</div>
+                  <div class="form-item-value">
+                    <input type="number" id="CountInterval" min="1" value="1" />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">滞留时长(分钟)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="TimeoutInterval"
+                      min="1"
+                      value="30"
+                    />
+                  </div>
+                </div>
+                <div class="form-item" style="display: none">
+                  <div class="form-item-title">区级滞留时长(分钟)</div>
+                  <div class="form-item-value">
+                    <input
+                      type="number"
+                      id="SuperTimeoutInterval"
+                      min="1"
+                      value="90"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="window-foot ai-event-rule-details-foot">
+        <button class="button-blue-line" id="btn_ok">
+          <i class="howell-icon-save2"></i> 确定
+        </button>
+        <button class="button-line" id="btn_cancel">
+          <i class="howell-icon-save2"></i> 取消
+        </button>
+      </div>
+    </div>
+  </body>
+  <script src="./ai-event-rule-details.ts"></script>
+</html>

@@ -1,5 +1,5 @@
 import { IModel } from '../../model.interface'
-import { EnumValue } from '../enum-value.model'
+import { EnumNameValue } from '../enum-name-value.model'
 
 /**	DepolymentCapability (代理输入通道能力)	*/
 export class DepolymentCapability implements IModel {
@@ -10,13 +10,13 @@ export class DepolymentCapability implements IModel {
   /**	Boolean	AI模型是否支持	M	*/
   AIModel!: boolean
   /**	EnumValue[]	AI任务类型	O	*/
-  AITaskTypes?: EnumValue[]
+  AITaskTypes?: EnumNameValue[]
   /**	EnumValue[]	事件类型	O	*/
-  EventTypes?: EnumValue[]
+  EventTypes?: EnumNameValue[]
   /**	EnumValue[]	AI事件触发类型	O	*/
-  AITriggerTypes?: EnumValue[]
+  AITriggerTypes?: EnumNameValue[]
   /**	EnumValue[]	数值判断条件	O	*/
-  NumberJudgeCondition?: EnumValue[]
+  NumberJudgeCondition?: EnumNameValue[]
   /**	EnumValue[]	关联目标判断条件	O	*/
-  AssociationJudgeCondition?: EnumValue[]
+  AssociationJudgeCondition?: EnumNameValue[]
 }

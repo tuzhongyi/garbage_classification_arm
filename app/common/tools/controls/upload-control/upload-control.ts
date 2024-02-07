@@ -1,4 +1,4 @@
-import { EventEmitter } from '../../event-emitter'
+import { EventEmitter } from '../../../event-emitter'
 import { UploadControlEventArgs } from './upload-control.event'
 import './upload-control.less'
 import { FileReadType } from './upload-control.model'

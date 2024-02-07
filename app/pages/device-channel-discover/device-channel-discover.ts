@@ -2,7 +2,6 @@ import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-d
 import { DeviceChannelDiscoverBusiness } from './device-channel-discover.business'
 import { DeviceChannelDiscoverHtmlController } from './device-channel-discover.html.controller'
 import { DeviceChannelDiscoverMessage } from './device-channel-discover.message'
-import { DeviceChannelWindow } from './device-channel-discover.model'
 
 export namespace DeviceChannelDiscover {
   class Controller {
@@ -13,7 +12,6 @@ export namespace DeviceChannelDiscover {
     html = new DeviceChannelDiscoverHtmlController()
     business = new DeviceChannelDiscoverBusiness()
     message = new DeviceChannelDiscoverMessage()
-    window = new DeviceChannelWindow()
     datas: VideoSourceDescriptor[] = []
     timeout = 10
 

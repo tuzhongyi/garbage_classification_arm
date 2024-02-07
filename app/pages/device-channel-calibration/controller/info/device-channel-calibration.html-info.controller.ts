@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { Language } from '../../../../common/language'
+import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
 import { ChannelCalibrationArea } from '../../../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analysis/channel-calibration-point.model'
@@ -111,12 +112,6 @@ export class DeviceChannelCalibrationHtmlInfoController {
     })
   }
 
-  private appendOption(model: IIdNameModel, parent: HTMLSelectElement) {
-    let option = document.createElement('option')
-    option.innerHTML = model.Name
-    option.value = model.Id
-    parent.appendChild(option)
-  }
   loadNode(nodes: MeshNode[], cannull = false) {
     this.element.node.innerHTML = ''
     this.data.nodes = nodes
@@ -125,12 +120,12 @@ export class DeviceChannelCalibrationHtmlInfoController {
         Id: '',
         Name: '无',
       }
-      this.appendOption(none, this.element.node)
+      HtmlTool.select.append(none, this.element.node)
     }
 
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i]
-      this.appendOption(node, this.element.node)
+      HtmlTool.select.append(node, this.element.node)
     }
   }
   loadAreaType(types: CalibrationAreaType[]) {
@@ -140,7 +135,7 @@ export class DeviceChannelCalibrationHtmlInfoController {
         Id: types[i],
         Name: Language.CalibrationAreaType(types[i]),
       }
-      this.appendOption(model, this.element.area.type)
+      HtmlTool.select.append(model, this.element.area.type)
     }
   }
 

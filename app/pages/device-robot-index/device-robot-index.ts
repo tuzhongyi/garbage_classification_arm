@@ -1,4 +1,5 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import './device-robot-index.less'
 import { DeviceRobotIndexMessage } from './device-robot-index.message'
 
@@ -35,7 +36,7 @@ export namespace DeviceRobotIndex {
           const item = this.element.items[i]
 
           item.addEventListener('click', (e: Event) => {
-            let div = this.findelement(
+            let div = HtmlTool.element.findelement(
               e.target as HTMLElement,
               'menu-item'
             ) as HTMLDivElement
@@ -56,17 +57,6 @@ export namespace DeviceRobotIndex {
       this.message.event.on('log', (id) => {
         this.onselect(this.element.items[4] as HTMLDivElement, id)
       })
-    }
-
-    private findelement(
-      e: HTMLElement | null,
-      classname: string
-    ): HTMLElement | null {
-      if (!e) return null
-      if (e.classList.contains(classname)) {
-        return e
-      }
-      return this.findelement(e.parentElement, classname)
     }
 
     onselect(current: HTMLDivElement, id?: string) {

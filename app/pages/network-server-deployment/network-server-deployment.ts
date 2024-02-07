@@ -1,4 +1,4 @@
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { NetworkServerDeploymentBusiness } from './network-server-deployment.business'
 import { NetworkServerDeploymentHtmlController } from './network-server-deployment.html.controller'
 import { NetworkServerDeploymentModel } from './network-server-deployment.model'

@@ -1,9 +1,9 @@
 import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import {
-  DeviceChannelListMessageReceiverEvent,
-  DeviceChannelListMessageSenderEvent,
-} from '../device-channel-list/device-channel-list.message'
+  AIModelDeploymentMessageReceiverEvent,
+  AIModelDeploymentMessageSenderEvent,
+} from '../ai-model-deployment/ai-model-deployment.message'
 import {
   MainMessageRequestEvent,
   MainMessageResponseEvent,
@@ -11,7 +11,7 @@ import {
 } from '../main/main.event'
 
 export class AIModelIndexMessage
-  implements DeviceChannelListMessageReceiverEvent
+  implements AIModelDeploymentMessageReceiverEvent
 {
   constructor(iframe: HTMLIFrameElement) {
     this.proxy = new EventMessageProxy(iframe)
@@ -21,7 +21,7 @@ export class AIModelIndexMessage
     MainMessageRequestEvent,
     MainMessageResponseEvent
   >(['open', 'confirm'])
-  proxy: EventMessageProxy<DeviceChannelListMessageSenderEvent>
+  proxy: EventMessageProxy<AIModelDeploymentMessageSenderEvent>
 
   isconfirm = false
 

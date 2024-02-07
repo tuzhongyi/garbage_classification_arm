@@ -1,4 +1,5 @@
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum'
+import { EventType } from '../data-core/enums/event-type.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
@@ -16,6 +17,43 @@ export class Language {
       return '红外'
     } else {
       return '未知'
+    }
+  }
+
+  static async EventType(value?: EventType) {
+    switch (value) {
+      case EventType.IllegalDrop:
+        return '垃圾落地'
+      case EventType.MixedInto:
+        return '混合投放'
+      case EventType.GarbageVolume:
+        return '垃圾容量'
+      case EventType.GarbageFull:
+        return '垃圾满溢'
+      case EventType.GarbageDrop:
+        return '小包垃圾滞留'
+      case EventType.GarbageDropTimeout:
+        return '小包垃圾滞留超时'
+      case EventType.GarbageDropHandle:
+        return '小包垃圾滞留处置完成'
+      case EventType.GarbageDropSuperTimeout:
+        return '小包垃圾滞留超时'
+      case EventType.DropWarning:
+        return '垃圾投放预警'
+      case EventType.VehiclePresence:
+        return '车辆占道'
+      case EventType.PanicButton:
+        return '紧急按钮'
+      case EventType.Smoke:
+        return '火灾检测'
+      case EventType.ConstructionData:
+        return '大件垃圾数据更新'
+      case EventType.DeviceStatus:
+        return '垃圾厢房设备状态'
+      case EventType.Sewage:
+        return '水渍报警'
+      default:
+        return '未知'
     }
   }
 

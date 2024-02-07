@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { EventMessageClient } from '../../common/event-message/event-message.client'
-import { MessageBar } from '../../common/tools/message-bar/message-bar'
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 import { WindowModel } from '../window/window.model'
