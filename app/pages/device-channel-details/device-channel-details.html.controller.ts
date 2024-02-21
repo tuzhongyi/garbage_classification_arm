@@ -1,4 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { Language } from '../../common/language'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 
 import '../window/window.less'
@@ -26,6 +28,9 @@ export class DeviceChannelDetailsHtmlController {
     SerialNumber: document.getElementById('SerialNumber') as HTMLInputElement,
     WebPortNo: document.getElementById('WebPortNo') as HTMLInputElement,
     DeviceModel: document.getElementById('DeviceModel') as HTMLSelectElement,
+    PositionNoLanguage: document.getElementById(
+      'PositionNoLanguage'
+    ) as HTMLSpanElement,
     buttons: {
       ok: document.getElementById('ok') as HTMLButtonElement,
       cancel: document.getElementById('cancel') as HTMLButtonElement,
@@ -41,6 +46,20 @@ export class DeviceChannelDetailsHtmlController {
     this.element.buttons.cancel.addEventListener('click', () => {
       this.event.emit('cancel')
     })
+    this.element.PositionNo.addEventListener('input', () => {
+      this.changePositionNo(parseInt(this.element.PositionNo.value))
+    })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.PositionNo,
+      (value) => {
+        this.changePositionNo(value)
+      }
+    )
+  }
+
+  changePositionNo(value: number) {
+    this.element.PositionNoLanguage.innerHTML =
+      Language.ChannelPositionNo(value)
   }
 
   load(data: InputProxyChannel) {
@@ -57,5 +76,7 @@ export class DeviceChannelDetailsHtmlController {
     this.element.WebPortNo.value =
       data.SourceChannel.WebPortNo?.toString() ?? ''
     this.element.DeviceModel.value = data.SourceChannel.DeviceModel ?? ''
+
+    this.changePositionNo(data.PositionNo ?? 1)
   }
 }

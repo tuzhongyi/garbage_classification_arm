@@ -138,13 +138,12 @@ export class DeviceChannelListTableController {
     this.event.emit('modify', id)
   }
 
-  private clear() {
+  clear() {
     this.tbody.innerHTML = ''
     this.selecteds = []
   }
 
   load(datas: CameraAIEventRule[]) {
-    this.clear()
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i]
       let values: string[] = [

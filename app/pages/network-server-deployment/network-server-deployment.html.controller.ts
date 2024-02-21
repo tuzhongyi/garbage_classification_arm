@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { ISUPDomain } from '../../data-core/models/arm/isup-domain.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
 import { NetworkServerDeploymentEvent } from './network-server-deployment.event'
@@ -38,6 +39,7 @@ export class NetworkServerDeploymentHtmlController {
     this.element.ISUPServer.addEventListener('change', () => {
       this.event.emit('isupserverchange', this.element.ISUPServer.value)
     })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.deployment.PortNo)
   }
 
   append(select: HTMLSelectElement, model: IIdNameModel) {

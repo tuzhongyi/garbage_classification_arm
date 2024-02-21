@@ -240,6 +240,9 @@ export namespace DeviceChannelCalibration {
           this.loadAreaType()
         })
         .catch((e) => {
+          if (resolution) {
+            this.model.data.Resolution = resolution
+          }
           this.html.details.chart.clear()
           this.html.details.table.clear()
         })

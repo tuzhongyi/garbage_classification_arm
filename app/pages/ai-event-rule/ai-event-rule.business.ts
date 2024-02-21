@@ -13,4 +13,11 @@ export class AIEventRuleBusiness {
   events() {
     return this.service.event.array()
   }
+
+  delete(type: EventType, ids: string[]) {
+    let all = ids.map((x) => {
+      return this.service.event.rule.delete(type, x)
+    })
+    return Promise.all(all)
+  }
 }

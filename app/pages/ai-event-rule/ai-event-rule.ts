@@ -1,3 +1,4 @@
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEventRule } from '../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 import { AIEventRuleBusiness } from './ai-event-rule.business'
@@ -17,9 +18,12 @@ export namespace AIEventRule {
     window = new AIEventRuleWindow()
     datas: CameraAIEventRule[] = []
     type = EventType.IllegalDrop
-    async load() {
-      this.datas = await this.business.rules(this.type)
-      this.html.table.load(this.datas)
+    load() {
+      this.html.table.clear()
+      this.business.rules(this.type).then((datas) => {
+        this.datas = datas
+        this.html.table.load(this.datas)
+      })
     }
 
     regist() {
@@ -32,6 +36,9 @@ export namespace AIEventRule {
       })
       this.html.event.on('delete', (ids) => {
         this.ondelete(ids)
+      })
+      this.html.table.event.on('modify', (id) => {
+        this.onmodify(id)
       })
       this.message.event.on('load', () => {
         this.load()
@@ -57,6 +64,15 @@ export namespace AIEventRule {
     }
     todelete() {
       if (this.window.confirm.ids.length > 0) {
+        this.business
+          .delete(this.type, this.window.confirm.ids)
+          .then(() => {
+            MessageBar.success('删除成功')
+            this.load()
+          })
+          .catch((e) => {
+            MessageBar.error('操作失败')
+          })
       }
     }
   }

@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { AddressingType } from '../../data-core/enums/addressing-type.enum'
 import { NetworkInterface } from '../../data-core/models/arm/network-interface.model'
 import { NetworkConfigTCPIPEvent } from './network-config-tcp-ip.event'
@@ -57,6 +58,7 @@ export class NetworkConfigTCPIPHtmlController {
     this.element.save.addEventListener('click', () => {
       this.event.emit('save', parseInt(this.element.Interface.value))
     })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.MTU)
   }
 
   onnegotiationchange() {

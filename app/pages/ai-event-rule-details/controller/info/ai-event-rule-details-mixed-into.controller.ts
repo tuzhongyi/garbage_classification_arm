@@ -1,12 +1,19 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { MultiSelectControl } from '../../../../common/tools/controls/multi-select-control/multi-select-control'
+import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
+import { wait } from '../../../../common/tools/wait'
 import { ModelLabel } from '../../../../data-core/models/arm/analysis/model-label.model'
 import { MixedIntoRule } from '../../../../data-core/models/arm/analysis/rules/mixed-into-rule.model'
+import { CameraAIModel } from '../../../../data-core/models/arm/camera-ai-model.model'
 import { AIEventRuleDetailsInfoEvent } from '../../ai-event-rule-details.event'
+import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 
-export class AIEventRuleDetailsMixedIntoController {
+export class AIEventRuleDetailsMixedIntoController
+  implements IAIEventRuleController<MixedIntoRule>
+{
   constructor() {
     this._init()
+    this.regist()
   }
   element = {
     Duration: document.getElementById('Duration') as HTMLInputElement,
@@ -17,13 +24,16 @@ export class AIEventRuleDetailsMixedIntoController {
     ObjectLabels: new MultiSelectControl(
       document.getElementById('ObjectLabels') as HTMLDivElement
     ),
-    TrashCanLabels: document.getElementById('TrashCanLabels') as HTMLElement,
+    TrashCanLabels: new MultiSelectControl(
+      document.getElementById('TrashCanLabels') as HTMLDivElement
+    ),
   }
   event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
-
+  private inited = false
   private data?: MixedIntoRule
   private source = {
     labels: [] as ModelLabel[],
+    aimodels: [] as CameraAIModel[],
   }
 
   private _init() {
@@ -38,22 +48,54 @@ export class AIEventRuleDetailsMixedIntoController {
         this.data.Duration = parseInt(this.element.Duration.value)
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.Duration,
+      (value) => {
+        if (this.data) {
+          this.data.Duration = value
+        }
+      }
+    )
     this.element.Confidence.addEventListener('input', () => {
       if (this.data) {
         this.data.Confidence = parseInt(this.element.Confidence.value)
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.Confidence,
+      (value) => {
+        if (this.data) {
+          this.data.Confidence = value
+        }
+      }
+    )
     this.element.TargetRatio.addEventListener('input', () => {
       if (this.data) {
         this.data.TargetRatio = parseInt(this.element.TargetRatio.value)
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.TargetRatio,
+      (value) => {
+        if (this.data) {
+          this.data.TargetRatio = value
+        }
+      }
+    )
 
     this.element.TrashCanRatio.addEventListener('input', () => {
       if (this.data) {
         this.data.TrashCanRatio = parseInt(this.element.TrashCanRatio.value)
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.TrashCanRatio,
+      (value) => {
+        if (this.data) {
+          this.data.TrashCanRatio = value
+        }
+      }
+    )
 
     this.element.ObjectLabels.event.on('select', (items) => {
       if (this.data) {
@@ -64,11 +106,20 @@ export class AIEventRuleDetailsMixedIntoController {
         })
       }
     })
-    this.element.TrashCanLabels.addEventListener('change', () => {})
+    this.element.TrashCanLabels.event.on('select', (items) => {
+      if (this.data) {
+        this.data.TrashCanLabels = items.map((item) => {
+          return this.source.labels.find(
+            (label) => label.LabelId === item.Id
+          ) as ModelLabel
+        })
+      }
+    })
   }
 
   init(labels: ModelLabel[]) {
     this.element.ObjectLabels.clear()
+    this.element.TrashCanLabels.clear()
     this.source.labels = labels
     let datas = labels.map((x) => {
       return {
@@ -77,6 +128,8 @@ export class AIEventRuleDetailsMixedIntoController {
       }
     })
     this.element.ObjectLabels.load(datas)
+    this.element.TrashCanLabels.load(datas)
+    this.inited = true
   }
 
   load(info: MixedIntoRule) {
@@ -88,14 +141,47 @@ export class AIEventRuleDetailsMixedIntoController {
 
     this.element.TrashCanRatio.value = info.TrashCanRatio.toString()
 
-    let labels = info.ObjectLabels.map((label) => {
-      return {
-        Id: label.LabelId,
-        Name: label.LabelName,
-      }
-    })
-    this.element.ObjectLabels.select(labels)
+    wait(
+      () => {
+        return this.inited
+      },
+      () => {
+        let labels = info.ObjectLabels.map((label) => {
+          return {
+            Id: label.LabelId,
+            Name: label.LabelName,
+          }
+        })
+        this.element.ObjectLabels.select(labels)
 
-    // TrashCanLabels
+        labels = info.TrashCanLabels.map((label) => {
+          return {
+            Id: label.LabelId,
+            Name: label.LabelName,
+          }
+        })
+        this.element.TrashCanLabels.select(labels)
+      }
+    )
+  }
+
+  get() {
+    if (this.data) {
+      return this.data
+    }
+    let data = new MixedIntoRule()
+    data.Confidence = parseInt(this.element.Confidence.value)
+    data.Duration = parseInt(this.element.Duration.value)
+    data.TargetRatio = parseInt(this.element.TargetRatio.value)
+    data.TrashCanRatio = parseInt(this.element.TrashCanRatio.value)
+    let labels = this.element.ObjectLabels.selecteds
+    data.ObjectLabels = labels.map((x) => {
+      return this.source.labels.find((y) => y.LabelId === x.Id)!
+    })
+    labels = this.element.TrashCanLabels.selecteds
+    data.TrashCanLabels = labels.map((x) => {
+      return this.source.labels.find((y) => y.LabelId === x.Id)!
+    })
+    return data
   }
 }

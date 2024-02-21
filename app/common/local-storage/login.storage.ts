@@ -1,20 +1,20 @@
 import { IStorage } from './local-storage.model'
 
-export interface ISign {
+export interface ILogin {
   username: string
-  password: string
+  password?: string
 }
 
-export class SignStorage implements IStorage<ISign | undefined> {
-  key: string = 'sign'
-  get(): ISign | undefined {
+export class LoginStorage implements IStorage<ILogin | undefined> {
+  key: string = 'login'
+  get(): ILogin | undefined {
     let item = localStorage.getItem(this.key)
     if (item) {
       return JSON.parse(item)
     }
     return undefined
   }
-  save(v: ISign): void {
+  save(v: ILogin): void {
     localStorage.setItem(this.key, JSON.stringify(v))
   }
 

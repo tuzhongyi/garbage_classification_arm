@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/wait'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { AIEventRuleDetailsChartPolygonController } from './device-channel-calibration-chart-polygon.controller'
 import { AIEventRuleDetailsChartHtmlController } from './device-channel-calibration-chart.html.controller'
@@ -123,16 +124,23 @@ export class AIEventRuleDetailsChartController {
   }
 
   load(polygon: Polygon) {
-    this.clear({ data: true })
-    this.data = new Polygon()
-    this.data.Coordinates = []
-    for (let i = 0; i < polygon.Coordinates.length; i++) {
-      const point = polygon.Coordinates[i]
-      this.data.Coordinates.push({
-        X: point.X * this.size.width,
-        Y: point.Y * this.size.height,
-      })
-    }
-    this.polygon.drawing(this.data)
+    wait(
+      () => {
+        return !!this.polygon
+      },
+      () => {
+        this.clear({ data: true })
+        this.data = new Polygon()
+        this.data.Coordinates = []
+        for (let i = 0; i < polygon.Coordinates.length; i++) {
+          const point = polygon.Coordinates[i]
+          this.data.Coordinates.push({
+            X: point.X * this.size.width,
+            Y: point.Y * this.size.height,
+          })
+        }
+        this.polygon.drawing(this.data)
+      }
+    )
   }
 }

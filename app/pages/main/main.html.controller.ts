@@ -16,6 +16,7 @@ export class ArmMainHtmlController {
     menu: document.querySelector('.menu') as HTMLDivElement,
     logout: document.querySelector('#logout') as HTMLDivElement,
     iframe: document.querySelector('#iframe') as HTMLIFrameElement,
+    username: document.getElementById('username') as HTMLElement,
   }
 
   event: EventEmitter<ArmMainEventArgs> = new EventEmitter()
@@ -23,10 +24,17 @@ export class ArmMainHtmlController {
 
   constructor() {
     this.init()
-    this.load()
+    this.regist()
+    this._load()
   }
 
-  init() {
+  private regist() {
+    this.element.logout.addEventListener('click', () => {
+      this.event.emit('logout')
+    })
+  }
+
+  private init() {
     let json = navigation as unknown as { [key: string]: IEnumItem }
     let index = 0
     for (const key in json) {
@@ -47,7 +55,7 @@ export class ArmMainHtmlController {
       index++
     }
   }
-  create(id: string, inner: string, classname: string[], type: string) {
+  private create(id: string, inner: string, classname: string[], type: string) {
     let div = document.createElement('div')
     div.className = `menu-item ${classname.join(' ')}`
     div.innerHTML = inner
@@ -59,7 +67,7 @@ export class ArmMainHtmlController {
     return div
   }
 
-  load() {
+  private _load() {
     let main = document.getElementById(this.navigation.extend) as HTMLDivElement
     main.classList.add('extend')
     this.onextend(main)
@@ -70,7 +78,7 @@ export class ArmMainHtmlController {
     this.onselect(sub, this.src)
   }
 
-  onclick(e: Event) {
+  private onclick(e: Event) {
     let div = e.target as HTMLDivElement
     if (div.classList.contains('main')) {
       this.onmainclick(div)
@@ -79,7 +87,7 @@ export class ArmMainHtmlController {
     }
   }
 
-  onmainclick(div: HTMLDivElement) {
+  private onmainclick(div: HTMLDivElement) {
     if (this.navigation.extend !== div.id) {
       this.onextend(div)
       this.navigation.extend = div.id
@@ -95,13 +103,13 @@ export class ArmMainHtmlController {
     }
     LocalStorageService.navigation.save(this.navigation)
   }
-  onsubclick(div: HTMLDivElement) {
+  private onsubclick(div: HTMLDivElement) {
     this.navigation.selected = div.id
     this.onselect(div, this.src)
     LocalStorageService.navigation.save(this.navigation)
   }
 
-  get src() {
+  private get src() {
     switch (this.navigation.selected) {
       case 'system_device':
         return ArmPagePath.system_device_index
@@ -126,12 +134,12 @@ export class ArmMainHtmlController {
     }
   }
 
-  onextend(current: HTMLDivElement) {
+  private onextend(current: HTMLDivElement) {
     let extend = document.querySelector('.extend') as HTMLDivElement
     extend.classList.remove('extend')
     current.classList.add('extend')
   }
-  onselect(current: HTMLDivElement, path: string) {
+  private onselect(current: HTMLDivElement, path: string) {
     let selected = document.querySelector('.selected') as HTMLDivElement
     if (selected) {
       selected.classList.remove('selected')
@@ -140,5 +148,8 @@ export class ArmMainHtmlController {
     if (this.element.iframe) {
       this.element.iframe.src = path
     }
+  }
+  load(username: string) {
+    this.element.username.innerHTML = username
   }
 }

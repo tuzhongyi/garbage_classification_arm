@@ -7,16 +7,25 @@ import { AIEventRuleDetailsEvent } from './ai-event-rule-details.event'
 
 import { Language } from '../../common/language'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { EventType } from '../../data-core/enums/event-type.enum'
+import { CameraAIEventRule } from '../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 import { AIEventRuleDetailsSource } from './ai-event-rule-details.model'
 import { AIEventRuleDetailsChartController } from './controller/chart/device-channel-calibration-chart.controller'
 import { AIEventRuleDetailsInfoControllerFactory as Factory } from './controller/info/ai-event-rule-details-info.controller'
 
 export class AIEventRuleDetailsHtmlController {
+  chart = new AIEventRuleDetailsChartController()
+  info = Factory.create(this.type)
+
+  event: EventEmitter<AIEventRuleDetailsEvent> = new EventEmitter()
   constructor(private type: EventType) {
     this.regist()
   }
-
+  private inited = {
+    channel: false,
+    aimodel: false,
+  }
   private element = {
     input: {
       name: document.getElementById('text_name') as HTMLInputElement,
@@ -42,12 +51,30 @@ export class AIEventRuleDetailsHtmlController {
         this.element.input.name.value = value
       },
     },
-    channels: {
-      get: () => {
-        return this.element.select.channel.value
+    channel: {
+      get: (): IIdNameModel => {
+        return {
+          Id: this.element.select.channel.value,
+          Name: this.element.select.channel.options[
+            this.element.select.channel.selectedIndex
+          ].innerHTML,
+        }
+      },
+      set: (value: number) => {
+        this.element.select.channel.value = value.toString()
+      },
+    },
+    aimodel: {
+      get: (): IIdNameModel => {
+        return {
+          Id: this.element.select.aimodel.value,
+          Name: this.element.select.aimodel.options[
+            this.element.select.aimodel.selectedIndex
+          ].innerHTML,
+        }
       },
       set: (value: string) => {
-        this.element.select.channel.value = value
+        this.element.select.aimodel.value = value
       },
     },
     picture: {
@@ -65,11 +92,6 @@ export class AIEventRuleDetailsHtmlController {
       },
     },
   }
-
-  chart = new AIEventRuleDetailsChartController()
-  info = Factory.create(this.type)
-
-  event: EventEmitter<AIEventRuleDetailsEvent> = new EventEmitter()
 
   private regist() {
     this.element.select.aimodel.addEventListener('change', () => {
@@ -109,6 +131,7 @@ export class AIEventRuleDetailsHtmlController {
       if (this.element.select.aimodel.value) {
         this.selectAIModel(this.element.select.aimodel.value)
       }
+      this.inited.aimodel = true
     })
     source.channels.then((channels) => {
       for (let i = 0; i < channels.length; i++) {
@@ -121,6 +144,34 @@ export class AIEventRuleDetailsHtmlController {
       if (this.element.select.channel.value) {
         this.selectChannel(this.element.select.channel.value)
       }
+      this.inited.channel = true
     })
+  }
+
+  load(data: CameraAIEventRule) {
+    this.element.input.name.value = data.RuleName
+
+    wait(
+      () => {
+        return this.inited.channel
+      },
+      () => {
+        if (this.element.select.channel.value != data.ChannelId.toString()) {
+          this.element.select.channel.value = data.ChannelId.toString()
+          this.selectChannel(data.ChannelId.toString())
+        }
+      }
+    )
+    wait(
+      () => {
+        return this.inited.aimodel
+      },
+      () => {
+        if (this.element.select.aimodel.value != data.ModelId) {
+          this.element.select.aimodel.value = data.ModelId
+          this.selectAIModel(data.ModelId)
+        }
+      }
+    )
   }
 }

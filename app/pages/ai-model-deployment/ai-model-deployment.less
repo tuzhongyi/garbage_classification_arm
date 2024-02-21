@@ -29,19 +29,33 @@
     width: 400px;
 
     border: 1px solid #d7d7d7;
+    overflow-y: auto;
 
     .card {
-      width: 175px;
-      height: 150px;
+      width: 100%;
+      height: 50px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 0 20px;
       align-items: center;
+      justify-content: space-between;
       background-color: #f2f2f2;
-      border: 1xp solid transparent;
+      border: 1px solid #f2f2f2;
+      box-sizing: border-box;
+      cursor: pointer;
+
 
       &:hover {
         border: 1px solid #7f7f7f;
+      }
+
+      &.selected {
+        background-color: #d7d7d7;
+      }
+
+      &>* {
+        display: flex;
+        align-items: center;
+        gap: 15px;
       }
 
       &-list {
@@ -80,8 +94,34 @@
       }
 
       .json {
-        background-color: #eee;
+        background-color: #f7f7f7;
+
         height: calc(100% - 200px);
+        overflow-y: auto;
+        padding: 10px 20px;
+        box-sizing: border-box;
+
+        .treeview {
+
+
+
+          .json-tree-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 10px;
+            height: 40px;
+            cursor: pointer;
+
+            &:hover {
+              color: #7f7f7f;
+            }
+
+
+
+          }
+        }
+
       }
     }
   }

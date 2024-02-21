@@ -19,14 +19,14 @@ class DetailsWindow extends WindowModel<DetailsWindowQuery> {
   }
   url: string = '../device-channel-details/device-channel-details.html'
 }
-class DiscoverWindow extends WindowModel<{}> {
+class DiscoverWindow extends WindowModel {
   style = {
     width: '75%',
     height: '75%',
   }
   url: string = '../device-channel-discover/device-channel-discover.html'
 }
-class ConfirmWindow extends ConfirmWindowModel<{}> {
+class ConfirmWindow extends ConfirmWindowModel {
   style = {
     width: '450px',
     height: '200px',

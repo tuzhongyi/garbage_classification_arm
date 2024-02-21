@@ -1,11 +1,22 @@
 import { EventType } from '../../../../data-core/enums/event-type.enum'
+import { DropWarningRule } from '../../../../data-core/models/arm/analysis/rules/drop-warning-rule.model'
+import { GarbageDropRule } from '../../../../data-core/models/arm/analysis/rules/garbage-drop-rule.model'
+import { IllegalDropRule } from '../../../../data-core/models/arm/analysis/rules/illegal-drop-rule.model'
+import { MixedIntoRule } from '../../../../data-core/models/arm/analysis/rules/mixed-into-rule.model'
+import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 import { AIEventRuleDetailsDropWarningController } from './ai-event-rule-details-drop-warning.controller'
 import { AIEventRuleDetailsGarbageDropController } from './ai-event-rule-details-garbage-drop.controller'
 import { AIEventRuleDetailsIllegalDropController } from './ai-event-rule-details-illegal-drop.controller'
 import { AIEventRuleDetailsMixedIntoController } from './ai-event-rule-details-mixed-into.controller'
 
+type RuleType =
+  | DropWarningRule
+  | GarbageDropRule
+  | IllegalDropRule
+  | MixedIntoRule
+
 export class AIEventRuleDetailsInfoControllerFactory {
-  static create(type: EventType) {
+  static create(type: EventType): IAIEventRuleController<RuleType> {
     switch (type) {
       case EventType.IllegalDrop:
         return new AIEventRuleDetailsIllegalDropController()

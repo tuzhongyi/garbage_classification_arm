@@ -137,6 +137,16 @@ export class Language {
         return '未知'
     }
   }
+  static CameraAIModelDTOModelType(value?: number) {
+    switch (value) {
+      case 1:
+        return '检测数据'
+      case 2:
+        return '分类数据'
+      default:
+        return '未知'
+    }
+  }
 }
 
 export class Icon {

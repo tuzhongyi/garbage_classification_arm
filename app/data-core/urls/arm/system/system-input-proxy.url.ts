@@ -9,7 +9,7 @@ export class SystemInputProxyUrl extends AbstractUrl {
     return `${this.basic()}/Capability`
   }
   search() {
-    return `${this.basic()}/VideoSources/Search`
+    return `${this.basic()}/Channels/Search`
   }
 
   get channel() {

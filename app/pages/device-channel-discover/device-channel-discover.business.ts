@@ -37,6 +37,7 @@ export class DeviceChannelDiscoverBusiness {
   convert(video: VideoSourceDescriptor) {
     let channel = new InputProxyChannel()
     channel.Id = 0
+    channel.PositionNo = 1
     channel.Name = video.HostAddress
     channel.SourceChannel = new VideoSourceChannel()
     channel.SourceChannel.DeviceId = video.DeviceId

@@ -25,23 +25,47 @@ export class AIEventRuleDetailsCreater {
   private static IllegalDropRule() {
     let rule = new IllegalDropRule()
     rule.Regions = []
+    rule.ObjectLabels = []
+    rule.Confidence = 100
+    rule.Duration = 3
+    rule.TargetRatio = 100
+    rule.OverlapRatio = 70
     return rule
   }
 
   private static MixedIntoRule() {
     let rule = new MixedIntoRule()
     rule.Regions = []
+    rule.ObjectLabels = []
+    rule.TrashCanLabels = []
+    rule.Confidence = 100
+    rule.Duration = 3
+    rule.TargetRatio = 100
+    rule.TrashCanRatio = 80
+
     return rule
   }
 
   private static GarbageDrop() {
     let rule = new GarbageDropRule()
     rule.Regions = []
+    rule.ObjectLabels = []
+    rule.Confidence = 100
+    rule.TargetRatio = 100
+    rule.MinTargetNumber = 1
+    rule.CountInterval = 1
+    rule.SuperTimeoutInterval = 90
+    rule.TimeoutInterval = 30
     return rule
   }
   private static DropWarningRule() {
     let rule = new DropWarningRule()
     rule.Regions = []
+    rule.ObjectLabels = []
+    rule.Confidence = 100
+    rule.Duration = 3
+    rule.TargetRatio = 100
+
     return rule
   }
 }

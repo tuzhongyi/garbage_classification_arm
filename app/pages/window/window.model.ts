@@ -1,4 +1,4 @@
-export class WindowModel<T extends IWindowQuery> {
+export class WindowModel<T extends IWindowQuery = any> {
   query: T = {} as T
 
   style: any = {}

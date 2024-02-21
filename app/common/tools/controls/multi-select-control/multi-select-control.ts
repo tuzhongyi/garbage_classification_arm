@@ -3,48 +3,52 @@ import { EventEmitter } from '../../../event-emitter'
 import { MultiSelectControlEvent } from './multi-select-control.event'
 import './multi-select-control.less'
 export class MultiSelectControl {
-  constructor(private parent: HTMLDivElement) {
-    parent.classList.add('multi-select-control')
+  constructor(public element: HTMLDivElement) {
+    element.classList.add('multi-select-control')
     this.init()
     this.regist()
   }
 
   event: EventEmitter<MultiSelectControlEvent> = new EventEmitter()
 
-  private element = {
+  private _element = {
     selection: document.createElement('div'),
     items: document.createElement('div'),
   }
 
   get parentElement() {
-    return this.parent.parentElement
+    return this.element.parentElement
   }
 
   get show() {
-    return this.element.items.classList.contains('show')
+    return this._element.items.classList.contains('show')
   }
   set show(value: boolean) {
     if (this.show === value) {
       return
     }
     if (value) {
-      this.element.items.classList.add('show')
+      this._element.items.classList.add('show')
     } else {
-      this.element.items.classList.remove('show')
+      this._element.items.classList.remove('show')
     }
   }
 
-  private selecteds: Map<string, IIdNameModel> = new Map()
+  private _selecteds: Map<string, IIdNameModel> = new Map()
   private items: IIdNameModel[] = []
 
+  get selecteds() {
+    return Array.from(this._selecteds.values())
+  }
+
   private init() {
-    this.element.selection.classList.add('multi-select-control-selections')
-    this.element.items.classList.add('multi-select-control-items')
-    this.parent.appendChild(this.element.selection)
-    this.parent.appendChild(this.element.items)
+    this._element.selection.classList.add('multi-select-control-selections')
+    this._element.items.classList.add('multi-select-control-items')
+    this.element.appendChild(this._element.selection)
+    this.element.appendChild(this._element.items)
   }
   private regist() {
-    this.element.selection.addEventListener('click', (e) => {
+    this._element.selection.addEventListener('click', (e) => {
       e.stopImmediatePropagation()
       this.show = !this.show
     })
@@ -60,7 +64,7 @@ export class MultiSelectControl {
     item.title = model.Name
     item.innerHTML = model.Name
 
-    this.element.selection.appendChild(item)
+    this._element.selection.appendChild(item)
   }
   appendItem(model: IIdNameModel) {
     let item = document.createElement('div')
@@ -80,7 +84,7 @@ export class MultiSelectControl {
     label.innerText = model.Name
     item.appendChild(label)
 
-    this.element.items.appendChild(item)
+    this._element.items.appendChild(item)
   }
 
   private setItemId(id: string) {
@@ -101,33 +105,33 @@ export class MultiSelectControl {
     checkbox.checked = !checkbox.checked
     let id = this.getId(div.id)
     if (checkbox.checked) {
-      if (!this.selecteds.has(id)) {
+      if (!this._selecteds.has(id)) {
         let item = this.items.find((x) => x.Id == id)
         if (item) {
-          this.selecteds.set(id, item)
+          this._selecteds.set(id, item)
         }
       }
     } else {
-      if (this.selecteds.has(id)) {
-        this.selecteds.delete(id)
+      if (this._selecteds.has(id)) {
+        this._selecteds.delete(id)
       }
     }
     this.loadSelection()
   }
 
   private loadSelection() {
-    this.element.selection.innerHTML = ''
-    this.selecteds.forEach((value) => {
+    this._element.selection.innerHTML = ''
+    this._selecteds.forEach((value) => {
       this.appendSelection(value)
     })
-    this.event.emit('select', Array.from(this.selecteds.values()))
+    this.event.emit('select', this.selecteds)
   }
 
   clear() {
     this.items = []
-    this.selecteds.clear()
-    this.element.items.innerHTML = ''
-    this.element.selection.innerHTML = ''
+    this._selecteds.clear()
+    this._element.items.innerHTML = ''
+    this._element.selection.innerHTML = ''
   }
 
   load(datas: IIdNameModel[]) {
@@ -138,7 +142,7 @@ export class MultiSelectControl {
   }
 
   select(items: IIdNameModel[]) {
-    this.selecteds.clear()
+    this._selecteds.clear()
     for (let i = 0; i < items.length; i++) {
       let item = this.items.find((x) => x.Id == items[i].Id)
       if (item) {
@@ -147,7 +151,7 @@ export class MultiSelectControl {
         if (div) {
           let checkbox = div.querySelector('input') as HTMLInputElement
           checkbox.checked = true
-          this.selecteds.set(item.Id, item)
+          this._selecteds.set(item.Id, item)
         }
       }
     }

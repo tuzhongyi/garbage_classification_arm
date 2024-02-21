@@ -24,7 +24,7 @@
       display: flex;
       background-image: url("../../../../../assets/images/select.png");
       background-repeat: no-repeat;
-      background-position: 95% 50%;
+      background-position: calc(100% - 4px) 50%;
       transition: all 0.4s ease 0s;
       gap: 5px;
       overflow-x: auto;
@@ -73,11 +73,14 @@
       background-color: white;
       width: 100%;
       border: 1px solid #000;
+      z-index: 1;
+      overflow-y: auto;
+      max-height: 200px;
+
 
       &.show {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        display: block;
+
       }
     }
 

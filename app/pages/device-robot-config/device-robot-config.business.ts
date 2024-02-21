@@ -23,11 +23,24 @@ export class DeviceRobotConfigBusiness {
   async load(id: string) {
     let model = new DeviceRobotModel()
     model.nodes = await this.service.mesh.node.array(id)
-    model.edges = await this.service.mesh.edge.array(id)
+    model.edges = await this.edges(id)
     model.location = await this.location()
     model.robot = this.robot(id)
     model.battery = this.battery(id)
     return model
+  }
+
+  edges(id: string) {
+    return new Promise<MeshEdge[]>((resolve) => {
+      this.service.mesh.edge
+        .array(id)
+        .then((x) => {
+          resolve(x)
+        })
+        .catch((x) => {
+          resolve([])
+        })
+    })
   }
 
   robot(id: string) {

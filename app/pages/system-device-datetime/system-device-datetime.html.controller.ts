@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
@@ -77,6 +78,10 @@ export class SystemDeviceDatetimeHtmlController {
 
       this.event.emit('onsyncchange', input.checked)
     })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.NTPServer.PortNo)
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.NTPServer.SynchronizeInterval
+    )
   }
 
   onmodechange(mode: NTPTimeMode) {

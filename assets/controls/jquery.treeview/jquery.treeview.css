@@ -1,0 +1,71 @@
+.treeview,
+.treeview ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.treeview ul {
+  margin-top: 4px;
+}
+
+.treeview .hitarea {
+  background-image: url(images/right.png);
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 16px;
+  margin-left: -16px;
+  float: left;
+  cursor: pointer;
+}
+
+/* fix for IE6 */
+* html .hitarea {
+  display: inline;
+  float: none;
+}
+
+.treeview li {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.treeview a.selected {
+  background-color: #eee;
+}
+
+#treecontrol {
+  margin: 1em 0;
+  display: none;
+}
+
+.treeview .hover {
+  color: red;
+  cursor: pointer;
+}
+
+.treeview li .collapsable-hitarea {
+  background-image: url(images/down.png);
+}
+
+
+
+.treeview li .expandable-hitarea {
+  background-image: url(images/right.png);
+}
+
+/* .treeview li.last {} */
+
+
+
+
+
+
+
+/* .treeview .placeholder {
+  background: url(images/ajax-loader.gif) 0 0 no-repeat;
+  height: 16px;
+  width: 16px;
+  display: block;
+} */

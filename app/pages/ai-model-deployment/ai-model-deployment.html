@@ -9,57 +9,77 @@
     <link rel="stylesheet" href="../../../assets/css/howell.css" />
     <script src="../../../assets/js/ext.js"></script>
     <script src="../../../assets/js/jquery.min.js"></script>
-    <script src="../../../assets/js/jquery.tablesorter.js"></script>
+    <script src="../../../assets/controls/jquery.treeview/jquery.treeview.js"></script>
+    <link
+      rel="stylesheet"
+      href="../../../assets/controls/jquery.treeview/jquery.treeview.css"
+    />
   </head>
 
   <body>
     <div class="ai-model-deployment">
       <div class="ai-model-deployment-list">
-        <div class="ai-model-deployment-head">AI模型</div>
+        <div class="ai-model-deployment-head">AI模型列表</div>
         <div class="ai-model-deployment-body">
-          <div class="card-list" id="list">
-            <div class="card">垃圾落地</div>
-            <div class="card">混合投放</div>
-            <div class="card">垃圾投放预警</div>
-            <div class="card">小宝垃圾滞留</div>
-          </div>
+          <div class="card-list" id="list"></div>
         </div>
       </div>
       <div class="ai-model-deployment-details">
-        <div class="ai-model-deployment-head">AI模型</div>
+        <div class="ai-model-deployment-head">详细信息</div>
         <div class="ai-model-deployment-body">
           <div class="ai-model-deployment-details-content">
             <div class="forms">
               <div class="form-item">
                 <div class="form-item-title">模型名称</div>
                 <div class="form-item-value">
-                  <input type="text" id="ModelName" />
+                  <input type="text" readonly="true" id="ModelName" />
+                </div>
+              </div>
+              <div class="form-item">
+                <div class="form-item-title">模型类型</div>
+                <div class="form-item-value">
+                  <input type="text" readonly="true" id="ModelType" />
                 </div>
               </div>
               <div class="form-item">
                 <div class="form-item-title">应用类型</div>
                 <div class="form-item-value">
-                  <input type="text" id="EventType" />
+                  <input type="text" readonly="true" id="TransformType" />
                 </div>
               </div>
               <div class="form-item">
-                <div class="form-item-title">模型类型</div>
-                <div class="form-item-value"><input type="text" /></div>
-              </div>
-              <div class="form-item">
                 <div class="form-item-title">版本</div>
-                <div class="form-item-value"><input type="text" /></div>
+                <div class="form-item-value">
+                  <input type="text" readonly="true" id="Version" />
+                </div>
               </div>
               <div class="form-item">
                 <div class="form-item-title">模型数据类型</div>
-                <div class="form-item-value"><input type="text" /></div>
+                <div class="form-item-value">
+                  <input
+                    type="text"
+                    readonly="true"
+                    id="CameraAIModelDTOModelType"
+                  />
+                </div>
               </div>
             </div>
-            <div class="json"></div>
+            <div class="json">
+              <ul id="tree" class="filetree"></ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <template id="template-card">
+      <div class="card">
+        <div>
+          <div class="card-index">3</div>
+          <div class="card-name">垃圾投放预警</div>
+        </div>
+        <div class="card-tail">V48</div>
+      </div>
+    </template>
   </body>
   <script src="./ai-model-deployment.ts"></script>
 </html>

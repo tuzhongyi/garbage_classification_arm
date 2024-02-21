@@ -22,7 +22,7 @@ class DetailsWindow extends WindowModel<DetailsWindowQuery> {
   }
   url: string = '../ai-event-rule-details/ai-event-rule-details.html'
 }
-class ConfirmWindow extends ConfirmWindowModel<{}> {
+class ConfirmWindow extends ConfirmWindowModel {
   style = {
     width: '450px',
     height: '200px',

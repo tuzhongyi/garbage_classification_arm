@@ -54,6 +54,7 @@ export class DeviceChannelCalibrationHtmlInfoController {
             this.element.point.position.x.value = node.Position.X.toString()
             this.element.point.position.y.value = node.Position.Y.toString()
 
+            this.data.info.NodeId = this.element.node.value
             this.data.info.NodeType = node.NodeType
             this.data.info.CanType = node.CanType
             this.data.info.NodePosition = new MeshNodePosition()
@@ -103,6 +104,14 @@ export class DeviceChannelCalibrationHtmlInfoController {
         )
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.point.position.x,
+      (value) => {
+        if (this.data.info instanceof ChannelCalibrationPoint) {
+          this.data.info.NodePosition.X = value
+        }
+      }
+    )
     this.element.point.position.y.addEventListener('input', () => {
       if (this.data.info instanceof ChannelCalibrationPoint) {
         this.data.info.NodePosition.Y = parseInt(
@@ -110,6 +119,14 @@ export class DeviceChannelCalibrationHtmlInfoController {
         )
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.point.position.y,
+      (value) => {
+        if (this.data.info instanceof ChannelCalibrationPoint) {
+          this.data.info.NodePosition.Y = value
+        }
+      }
+    )
   }
 
   loadNode(nodes: MeshNode[], cannull = false) {

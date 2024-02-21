@@ -44,18 +44,23 @@ export class DeviceChannelCalibrationChartHtmlController {
     this.event.emit('init', this.element.canvas)
   }
 
+  onbuttonpolygon() {
+    this.clear()
+    if (this.mode == CalibrationMode.polygon) {
+      this.mode = undefined
+      this.event.emit('buttoncancel')
+    } else {
+      this.mode = CalibrationMode.polygon
+      this.element.button.polygon.classList.add('selected')
+      this.event.emit('buttonpolygon')
+    }
+  }
+
   private regist() {
-    this.element.button.polygon.addEventListener('click', (e: Event) => {
-      this.clear()
-      if (this.mode == CalibrationMode.polygon) {
-        this.mode = undefined
-        this.event.emit('buttoncancel')
-      } else {
-        this.mode = CalibrationMode.polygon
-        this.element.button.polygon.classList.add('selected')
-        this.event.emit('buttonpolygon')
-      }
-    })
+    this.element.button.polygon.addEventListener(
+      'click',
+      this.onbuttonpolygon.bind(this)
+    )
     this.element.button.point.addEventListener('click', (e) => {
       this.clear()
       if (this.mode == CalibrationMode.point) {
@@ -103,21 +108,20 @@ export class DeviceChannelCalibrationChartHtmlController {
       }
     })
     this.element.canvas.oncontextmenu = () => {
-      try {
-        switch (this.mode) {
-          case CalibrationMode.point:
-            this.event.emit('pointover')
-            break
-          case CalibrationMode.polygon:
-            this.event.emit('polygonover')
-            break
-          default:
-            break
-        }
-      } finally {
-        return false
-      }
+      return false
     }
+    this.element.canvas.addEventListener('contextmenu', () => {
+      switch (this.mode) {
+        case CalibrationMode.point:
+          this.event.emit('pointover')
+          break
+        case CalibrationMode.polygon:
+          this.event.emit('polygonover')
+          break
+        default:
+          break
+      }
+    })
   }
 
   clear() {

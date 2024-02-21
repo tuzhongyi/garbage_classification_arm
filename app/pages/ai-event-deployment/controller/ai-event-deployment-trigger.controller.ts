@@ -34,6 +34,14 @@ export class AIEventDeploymentTriggerController {
         this.data.AudioId = parseInt(this.element.AudioId.value)
       }
     })
+    HtmlTool.input.number.mousewheelchangevalue(
+      this.element.AudioId,
+      (value) => {
+        if (this.data) {
+          this.data.AudioId = value
+        }
+      }
+    )
   }
 
   audiochange(enabled: boolean) {

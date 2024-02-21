@@ -1,3 +1,4 @@
+import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmMainConfirm } from './main-windows/main.confirm'
 import { ArmMainWindow } from './main-windows/main.window'
@@ -27,7 +28,13 @@ export namespace ArmMain {
       })
 
       window.addEventListener('beforeunload', () => {
-        // LocalStorageService.navigation.device.robot.clear()
+        LocalStorageService.logout.save(new Date())
+      })
+      window.addEventListener('load', () => {
+        let info = LocalStorageService.login.get()
+        if (info) {
+          this.html.load(info.username)
+        }
       })
     }
   }

@@ -250,7 +250,7 @@ export namespace DeviceRobotConfig {
       }
     }
     onstart() {
-      this.business.stop(this.id).then((x) => {
+      this.business.stop(this.id).finally(() => {
         this.business
           .start(this.id)
           .then((x) => {
@@ -324,7 +324,7 @@ export namespace DeviceRobotConfig {
                 current.Position = this.model.location.Position
               }
               let node = await this.createNode(
-                this.model.nodes.length.toString(),
+                (this.model.nodes.length + 1).toString(),
                 result,
                 current.Position,
                 this.model.nodes.length == 0
@@ -381,7 +381,7 @@ export namespace DeviceRobotConfig {
       node.NodeType = zero
         ? MeshNodeType.ChargingPort
         : MeshNodeType.MagneticPin
-      node.Name = (parseInt(node.Id) + 1).toString()
+      node.Name = node.Id
       node.Rfid = result.Data.Rfid
       node.Position = new MeshNodePosition()
       if (zero) {

@@ -30,6 +30,15 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
   }
   clear() {
     localStorage.removeItem(this.key)
+    this.system.device.clear()
+    this.system.status.clear()
+    this.system.maintain.clear()
+    this.network.config.clear()
+    this.network.server.clear()
+    this.device.channel.clear()
+    this.device.robot.clear()
+    this.ai.model.clear()
+    this.ai.event.clear()
   }
 
   system = {

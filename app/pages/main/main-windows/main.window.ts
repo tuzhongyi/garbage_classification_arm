@@ -32,6 +32,7 @@ export class ArmMainWindow {
           url += '&'
         }
         url += `${key}=${args.query[key]}`
+        index++
       }
       this.iframe.src = url
     } else {

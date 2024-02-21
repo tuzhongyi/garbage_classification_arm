@@ -421,7 +421,7 @@ class SystemInputProxyChannelCalibrationRequestService {
       data.ChannelId.toString()
     )
     return this.http
-      .post<any, HowellResponse<ChannelCalibration>>(url, plain)
+      .put<any, HowellResponse<ChannelCalibration>>(url, plain)
       .then((x) => {
         return HowellResponseProcess.item(x, ChannelCalibration)
       })

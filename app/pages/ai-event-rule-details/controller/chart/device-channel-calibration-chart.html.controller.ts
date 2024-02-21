@@ -76,13 +76,12 @@ export class AIEventRuleDetailsChartHtmlController {
       }
     })
     this.element.canvas.oncontextmenu = () => {
-      try {
-        this.clear()
-        this.event.emit('over')
-      } finally {
-        return false
-      }
+      return false
     }
+    this.element.canvas.addEventListener('contextmenu', () => {
+      this.clear()
+      this.event.emit('over')
+    })
   }
 
   private clear() {

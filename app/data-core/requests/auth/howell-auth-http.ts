@@ -114,7 +114,7 @@ export class HowellAuthHttp {
         if (error.response.status == 403) {
           let digest = window as DigestWindow
           digest.digest = new Digest(error.response.headers, path)
-          LocalStorageService.sign.save({
+          LocalStorageService.login.save({
             username: username,
             password: passowrd,
           })
@@ -123,7 +123,7 @@ export class HowellAuthHttp {
               resolve(x)
             })
             .catch((x) => {
-              LocalStorageService.sign.clear()
+              LocalStorageService.login.clear()
               reject(x)
             })
         }
@@ -131,14 +131,14 @@ export class HowellAuthHttp {
     })
   }
   clear() {
-    LocalStorageService.sign.clear()
+    LocalStorageService.login.clear()
     let digestWindow = window as DigestWindow
     digestWindow.digest = undefined
   }
   //获取已授权的头部
   getHttpHeaders(method: string, uri: string, config?: AxiosRequestConfig) {
     let digistWindow = window as DigestWindow
-    let sign = LocalStorageService.sign.get()
+    let sign = LocalStorageService.login.get()
     if (digistWindow.digest && sign) {
       let challenge =
         digistWindow.digest.parseServerChallenge() as IDigestSession

@@ -17,7 +17,7 @@ export namespace HowellHttpClient {
     }
 
     async logout() {
-      let sign = LocalStorageService.sign.get()
+      let sign = LocalStorageService.login.get()
       if (sign) {
         return this.service.logout(sign.username)
       }

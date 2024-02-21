@@ -7,14 +7,14 @@ export class DeviceRobotWindow {
   confirm = new ConfirmWindow()
 }
 
-class DetailsWindow extends WindowModel<{}> {
+class DetailsWindow extends WindowModel {
   style = {
     width: '600px',
     height: '440px',
   }
   url: string = '../device-robot-details/device-robot-details.html'
 }
-class DiscoverWindow extends WindowModel<{}> {
+class DiscoverWindow extends WindowModel {
   style = {
     width: '75%',
     height: '75%',
@@ -22,7 +22,7 @@ class DiscoverWindow extends WindowModel<{}> {
   url: string = '../device-robot-discover/device-robot-discover.html'
 }
 
-class ConfirmWindow extends ConfirmWindowModel<{}> {
+class ConfirmWindow extends ConfirmWindowModel {
   style = {
     width: '450px',
     height: '200px',
