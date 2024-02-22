@@ -1,21 +1,21 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
-import './device-trashcan-index.less'
-import { DeviceTrashCanIndexMessage } from './device-trashcan-index.message'
+import './ai-analysis-server-index.less'
+import { AIAnalysisServerIndexMessage } from './ai-analysis-server-index.message'
 
-export namespace DeviceTrashCanIndex {
+export namespace AIAnalysisServerIndex {
   export class HtmlController {
     constructor() {
       this.regist()
       this.init()
     }
 
-    index = LocalStorageService.navigation.device.trashcan.get()
+    index = LocalStorageService.navigation.ai.server.get()
 
     element = {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    message = new DeviceTrashCanIndexMessage(this.element.iframe)
+    message = new AIAnalysisServerIndexMessage(this.element.iframe)
 
     init() {
       if (this.element.items && this.element.items.length > 0) {
@@ -57,7 +57,7 @@ export namespace DeviceTrashCanIndex {
           if (this.element.iframe) {
             this.element.iframe.src = this.factory(index)
             this.index = index
-            LocalStorageService.navigation.device.trashcan.save(this.index)
+            LocalStorageService.navigation.ai.server.save(this.index)
           }
         }
       }
@@ -66,7 +66,9 @@ export namespace DeviceTrashCanIndex {
     private factory(index: number): string {
       switch (index) {
         case 0:
-          return '../device-trashcan-params/device-trashcan-params.html'
+          return '../ai-analysis-server-info/ai-analysis-server-info.html'
+        case 1:
+          return '../ai-analysis-server-source/ai-analysis-server-source.html'
         default:
           return ''
       }

@@ -12,6 +12,7 @@ import { HowellResponse } from '../../../models/response'
 import { ArmDeploymentUrl } from '../../../urls/arm/deployment/deployment.url'
 import { HowellAuthHttp } from '../../auth/howell-auth-http'
 import { HowellResponseProcess } from '../../service-process'
+import { GetSupportedModelsParams } from './deployment.params'
 
 export class ArmDeploymentRequestService {
   constructor(private http: HowellAuthHttp) {}
@@ -140,6 +141,16 @@ export class DeploymentEventsRequestService {
     return this.http.delete<HowellResponse<CameraAIEvent>>(url).then((x) => {
       return HowellResponseProcess.item(x, CameraAIEvent)
     })
+  }
+
+  aimodels(params: GetSupportedModelsParams) {
+    let url = ArmDeploymentUrl.event().ai.models()
+    let plain = instanceToPlain(params)
+    return this.http
+      .post<any, HowellResponse<CameraAIModel[]>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.array(x, CameraAIModel)
+      })
   }
 
   private _rule?: DeploymentEventRuleRequestService

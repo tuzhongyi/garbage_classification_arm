@@ -36,9 +36,14 @@ export namespace AIEventRuleDetails {
 
     async init() {
       this.data.EventType = this.type
-      this.source = await this.business.source()
       this.source.type = this.type
-      this.html.init(this.source)
+      this.source.channels = this.business.channels()
+      this.html.initChannels(this.source.channels)
+    }
+
+    loadAIModels(channelId: string) {
+      this.source.aimodels = this.business.aimodels(this.type, channelId)
+      this.html.initAIModels(this.source.aimodels)
     }
 
     load() {
@@ -85,6 +90,7 @@ export namespace AIEventRuleDetails {
     selectChannel(id: string) {
       let url = this.business.picture(id)
       this.html.properties.picture.set(url)
+      this.loadAIModels(id)
     }
     async selectAIModel(id: string) {
       let aimosels = await this.source.aimodels

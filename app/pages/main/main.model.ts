@@ -9,4 +9,5 @@ export enum ArmPagePath {
   device_trashcan_index = '../device-trashcan-index/device-trashcan-index.html',
   ai_model_index = '../ai-model-index/ai-model-index.html',
   ai_event_index = '../ai-event-index/ai-event-index.html',
+  ai_analysis_server_index = '../ai-analysis-server-index/ai-analysis-server-index.html',
 }

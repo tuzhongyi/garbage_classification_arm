@@ -10,4 +10,10 @@ export class DeploymentEventsUrl extends AbstractUrl {
   rule(type: EventType) {
     return new DeploymentEventsRulesUrl(this.item(type))
   }
+
+  ai = {
+    models: () => {
+      return `${this.basic()}/AIModels`
+    },
+  }
 }

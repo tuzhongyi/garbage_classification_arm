@@ -1,4 +1,5 @@
 import { IStorage } from './local-storage.model'
+import { NavigationAIAnalysisServerStorage } from './navigation-ai-analysis-server.storage'
 import { NavigationAIEventStorage } from './navigation-ai-event.storage'
 import { NavigationAIModelStorage } from './navigation-ai-model.storage'
 import { NavigationDeviceChannelStorage } from './navigation-device-channel.storage'
@@ -59,5 +60,6 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
   ai = {
     model: new NavigationAIModelStorage(),
     event: new NavigationAIEventStorage(),
+    server: new NavigationAIAnalysisServerStorage(),
   }
 }

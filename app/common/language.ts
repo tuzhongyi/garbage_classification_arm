@@ -161,6 +161,25 @@ export class Language {
         return '未知'
     }
   }
+
+  static StreamType(value?: number) {
+    switch (value) {
+      case 1:
+        return '主码流'
+      case 2:
+        return '子码流'
+      default:
+        return '未知'
+    }
+  }
+  static DeviceType(value?: number) {
+    switch (value) {
+      case 1:
+        return '摄像机'
+      default:
+        return '未知'
+    }
+  }
 }
 
 export class Icon {

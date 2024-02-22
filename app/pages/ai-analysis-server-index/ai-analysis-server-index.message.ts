@@ -16,7 +16,7 @@ interface MessageReceiverEvent
   extends DeviceTrashCanParamsMessageReceiverEvent {}
 interface MessageSenderEvent extends DeviceTrashCanParamsMessageSenderEvent {}
 
-export class DeviceTrashCanIndexMessage implements MessageReceiverEvent {
+export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
   constructor(iframe: HTMLIFrameElement) {
     this.proxy = new EventMessageProxy(iframe)
     this.regist()

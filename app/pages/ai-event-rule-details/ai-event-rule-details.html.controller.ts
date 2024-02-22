@@ -10,7 +10,8 @@ import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { wait } from '../../common/tools/wait'
 import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEventRule } from '../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
-import { AIEventRuleDetailsSource } from './ai-event-rule-details.model'
+import { CameraAIModel } from '../../data-core/models/arm/camera-ai-model.model'
+import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { AIEventRuleDetailsChartController } from './controller/chart/device-channel-calibration-chart.controller'
 import { AIEventRuleDetailsInfoControllerFactory as Factory } from './controller/info/ai-event-rule-details-info.controller'
 
@@ -20,6 +21,7 @@ export class AIEventRuleDetailsHtmlController {
 
   event: EventEmitter<AIEventRuleDetailsEvent> = new EventEmitter()
   constructor(private type: EventType) {
+    this.init(type)
     this.regist()
   }
   private inited = {
@@ -93,6 +95,9 @@ export class AIEventRuleDetailsHtmlController {
     },
   }
 
+  private async init(type: EventType) {
+    this.element.input.type.value = await Language.EventType(type)
+  }
   private regist() {
     this.element.select.aimodel.addEventListener('change', () => {
       this.selectAIModel(this.element.select.aimodel.value)
@@ -115,25 +120,9 @@ export class AIEventRuleDetailsHtmlController {
     this.event.emit('selectChannel', id)
   }
 
-  async init(source: AIEventRuleDetailsSource) {
-    if (source.type) {
-      this.element.input.type.value = await Language.EventType(source.type)
-    }
-
-    source.aimodels.then((aimodels) => {
-      for (let i = 0; i < aimodels.length; i++) {
-        let item: IIdNameModel = {
-          Id: aimodels[i].Id,
-          Name: aimodels[i].ModelName ?? aimodels[i].Id,
-        }
-        HtmlTool.select.append(item, this.element.select.aimodel)
-      }
-      if (this.element.select.aimodel.value) {
-        this.selectAIModel(this.element.select.aimodel.value)
-      }
-      this.inited.aimodel = true
-    })
-    source.channels.then((channels) => {
+  initChannels(source: Promise<InputProxyChannel[]>) {
+    this.element.select.channel.innerHTML = ''
+    source.then((channels) => {
       for (let i = 0; i < channels.length; i++) {
         let item: IIdNameModel = {
           Id: channels[i].Id.toString(),
@@ -145,6 +134,22 @@ export class AIEventRuleDetailsHtmlController {
         this.selectChannel(this.element.select.channel.value)
       }
       this.inited.channel = true
+    })
+  }
+  initAIModels(source: Promise<CameraAIModel[]>) {
+    this.element.select.aimodel.innerHTML = ''
+    source.then((aimodels) => {
+      for (let i = 0; i < aimodels.length; i++) {
+        let item: IIdNameModel = {
+          Id: aimodels[i].Id,
+          Name: aimodels[i].ModelName ?? aimodels[i].Id,
+        }
+        HtmlTool.select.append(item, this.element.select.aimodel)
+      }
+      if (this.element.select.aimodel.value) {
+        this.selectAIModel(this.element.select.aimodel.value)
+      }
+      this.inited.aimodel = true
     })
   }
 

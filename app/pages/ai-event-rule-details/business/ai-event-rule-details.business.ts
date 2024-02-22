@@ -1,17 +1,17 @@
 import { EventType } from '../../../data-core/enums/event-type.enum'
 import { CameraAIEventRule } from '../../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
-import { AIEventRuleDetailsSource } from '../ai-event-rule-details.model'
 import { AIEventRuleDetailsChannelBusiness } from './ai-event-rule-details-channel.business'
 import { AIEventRuleDetailsDeploymentBusiness } from './ai-event-rule-details-deployment.business'
 
 export class AIEventRuleDetailsBusiness {
   private channel = new AIEventRuleDetailsChannelBusiness()
   private deployment = new AIEventRuleDetailsDeploymentBusiness()
-  async source() {
-    let model = new AIEventRuleDetailsSource()
-    model.channels = this.channel.load()
-    model.aimodels = this.deployment.aimodels()
-    return model
+
+  channels() {
+    return this.channel.load()
+  }
+  aimodels(type: EventType, id: string) {
+    return this.deployment.aimodels(type, parseInt(id))
   }
 
   load(type: EventType, id: string) {
