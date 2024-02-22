@@ -1,7 +1,8 @@
 import { instanceToPlain } from 'class-transformer'
 import { AnalysisServerCapability } from '../../../models/arm/analysis/analysis-server-capability.model'
 import { AnalysisServer } from '../../../models/arm/analysis/analysis-server.model'
-import { Analyzer } from '../../../models/arm/analysis/Analyzer.model'
+import { Analyzer } from '../../../models/arm/analysis/analyzer.model'
+
 import { AnalysisEventRecord } from '../../../models/arm/analysis/objects/analysis-event-record.model'
 import { VideoSource } from '../../../models/arm/analysis/video-source.model'
 import { HowellResponse } from '../../../models/response'
@@ -121,5 +122,12 @@ class ArmServerAnalysisSourceRequestService {
       .then((x) => {
         return HowellResponseProcess.item(x, VideoSource)
       })
+  }
+
+  sync(serverId: string) {
+    let url = ArmServerUrl.analysis.source(serverId).sync()
+    return this.http.post<HowellResponse<string>>(url).then((x) => {
+      return HowellResponseProcess.basic<string>(x)
+    })
   }
 }

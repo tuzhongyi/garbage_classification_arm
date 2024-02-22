@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { Language } from '../../common/language'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { CanType } from '../../data-core/enums/robot/robot-can-type.model'
 import { Page } from '../../data-core/models/page-list.model'
@@ -17,26 +18,11 @@ export class DeviceRobotLogHtmlTable {
   private widths = ['50px']
 
   init() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
-    // $(this.table).tablesorter()
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   append(item: string[]) {
-    let row = document.createElement('tr')
-    for (let i = 0; i < item.length; i++) {
-      let cell = document.createElement('td')
-      cell.innerText = item[i]
-      cell.title = item[i]
-      row.appendChild(cell)
-    }
-    this.tbody.appendChild(row)
+    HtmlTool.table.append(this.tbody, item)
   }
 
   clear() {

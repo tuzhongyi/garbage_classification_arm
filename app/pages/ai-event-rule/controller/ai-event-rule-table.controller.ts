@@ -1,5 +1,6 @@
 import { ClassConstructor } from 'class-transformer'
 import { EventEmitter } from '../../../common/event-emitter'
+import { HtmlTool } from '../../../common/tools/html-tool/html.tool'
 import { CameraAIEventRule } from '../../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 
 export interface DeviceChannelListTableEvent {
@@ -24,37 +25,26 @@ export class DeviceChannelListTableController {
     '#table tbody'
   ) as HTMLTableSectionElement
 
-  private widths = []
+  private widths = ['42px', '50px']
 
   private regist() {
-    this.element.thead.checkall.addEventListener('change', () => {
-      this.tbody.querySelectorAll('input[type="checkbox"]').forEach((x) => {
-        let checkbox = x as HTMLInputElement
-        checkbox.checked = this.element.thead.checkall.checked
-        let id = checkbox.id.split('_')[1]
-        if (checkbox.checked) {
-          if (!this.selecteds.includes(id)) {
-            this.selecteds.push(id)
-          }
+    HtmlTool.table.checkall(
+      this.element.thead.checkall,
+      this.tbody,
+      (ids, checked) => {
+        if (checked) {
+          this.selecteds = ids.map((id) => {
+            return id.split('_')[1]
+          })
         } else {
-          if (this.selecteds.includes(id)) {
-            this.selecteds.splice(this.selecteds.indexOf(id), 1)
-          }
+          this.selecteds = []
         }
-      })
-    })
+      }
+    )
   }
 
   private init() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
-    // $(this.table).tablesorter()
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   private append(id: string, item: string[]) {

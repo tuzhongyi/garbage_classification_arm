@@ -4,4 +4,8 @@ export class AnalysisServerSourceUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Sources`)
   }
+
+  sync() {
+    return `${this.basic()}/Sync`
+  }
 }

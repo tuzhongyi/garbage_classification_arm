@@ -10,4 +10,10 @@ export class ArmTrashCansUrl {
   static capability() {
     return `${this.basic()}/Capability`
   }
+
+  static warning = {
+    params: () => {
+      return `${this.basic()}/WarningParams`
+    },
+  }
 }

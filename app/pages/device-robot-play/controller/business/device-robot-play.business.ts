@@ -1,10 +1,11 @@
-import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
-import { RobotChangeToCommand } from '../../data-core/models/robot/robot-command-change-to.model'
-import { RobotMoveToCommand } from '../../data-core/models/robot/robot-command-move-to.model'
-import { Robot } from '../../data-core/models/robot/robot.model'
-import { HowellHttpClient } from '../../data-core/requests/http-client'
-import { ArmRobotRequestService } from '../../data-core/requests/services/robot/robot.service'
-import { DeviceRobotModel } from '../device-robot/device-robot.model'
+import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
+import { RobotChangeToCommand } from '../../../../data-core/models/robot/robot-command-change-to.model'
+import { RobotMoveToCommand } from '../../../../data-core/models/robot/robot-command-move-to.model'
+import { Robot } from '../../../../data-core/models/robot/robot.model'
+import { HowellHttpClient } from '../../../../data-core/requests/http-client'
+import { ArmRobotRequestService } from '../../../../data-core/requests/services/robot/robot.service'
+import { DeviceRobotModel } from '../../../device-robot/device-robot.model'
+import { DeviceRobotPlayTrashCanBusiness } from './device-robot-play-trashcan.business'
 
 export class DeviceRobotPlayBusiness {
   constructor() {}
@@ -13,6 +14,8 @@ export class DeviceRobotPlayBusiness {
   private commandId = 0
   private _robot?: Robot
 
+  trashcan = new DeviceRobotPlayTrashCanBusiness(this.client.http)
+
   async load(id: string) {
     let model = new DeviceRobotModel()
     model.nodes = await this.service.mesh.node.array(id)
@@ -20,6 +23,7 @@ export class DeviceRobotPlayBusiness {
     model.location = await this.service.location(id)
     model.robot = this.robot(id)
     model.battery = this.battery(id)
+    model.trashcans = await this.trashcan.load()
     return model
   }
 

@@ -125,6 +125,8 @@ export class ArmMainHtmlController {
         return ArmPagePath.device_channel_index
       case 'device_robot':
         return ArmPagePath.device_robot_index
+      case 'device_trashcan':
+        return ArmPagePath.device_trashcan_index
       case 'ai_model':
         return ArmPagePath.ai_model_index
       case 'ai_event':
@@ -143,6 +145,9 @@ export class ArmMainHtmlController {
     let selected = document.querySelector('.selected') as HTMLDivElement
     if (selected) {
       selected.classList.remove('selected')
+      if (selected.id === 'device_robot' && current.id !== 'device_robot') {
+        LocalStorageService.navigation.device.robot.clear()
+      }
     }
     current.classList.add('selected')
     if (this.element.iframe) {

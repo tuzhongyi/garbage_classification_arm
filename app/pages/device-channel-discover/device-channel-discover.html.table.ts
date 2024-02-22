@@ -1,8 +1,15 @@
+import { EventEmitter } from '../../common/event-emitter'
+import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
 
+export interface DeviceChannelDiscoverTableEvent {
+  sort(sort: Sort): void
+}
+
 export class DeviceChannelDiscoverHtmlTable {
   selecteds: string[] = []
+  event = new EventEmitter<DeviceChannelDiscoverTableEvent>()
   constructor() {
     this.regist()
     this.init()
@@ -12,8 +19,11 @@ export class DeviceChannelDiscoverHtmlTable {
   private tbody = document.querySelector(
     '#table tbody'
   ) as HTMLTableSectionElement
+  private thead = document.querySelector(
+    '#table thead'
+  ) as HTMLTableSectionElement
 
-  element = {
+  private element = {
     thead: {
       checkall: document.getElementById('checkall') as HTMLInputElement,
     },
@@ -22,21 +32,21 @@ export class DeviceChannelDiscoverHtmlTable {
   private widths = ['5%', '5%', '10%', '10%', '10%', '10%', '10%', '25%', '15%']
 
   private regist() {
-    this.element.thead.checkall.addEventListener('change', () => {
-      this.tbody.querySelectorAll('input[type="checkbox"]').forEach((x) => {
-        let checkbox = x as HTMLInputElement
-        checkbox.checked = this.element.thead.checkall.checked
-        let id = checkbox.id.split('_')[1]
-        if (checkbox.checked) {
-          if (!this.selecteds.includes(id)) {
-            this.selecteds.push(id)
-          }
+    HtmlTool.table.checkall(
+      this.element.thead.checkall,
+      this.tbody,
+      (ids, checked) => {
+        if (checked) {
+          this.selecteds = ids.map((id) => {
+            return id.split('_')[1]
+          })
         } else {
-          if (this.selecteds.includes(id)) {
-            this.selecteds.splice(this.selecteds.indexOf(id), 1)
-          }
+          this.selecteds = []
         }
-      })
+      }
+    )
+    HtmlTool.table.sort(this.thead, (x) => {
+      this.event.emit('sort', x)
     })
   }
 
@@ -46,14 +56,7 @@ export class DeviceChannelDiscoverHtmlTable {
   }
 
   private initColGroup() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   private append(id: string, item: string[]) {

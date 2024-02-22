@@ -14,6 +14,7 @@ export class DeviceChannelListHtmlController {
       create: document.getElementById('btn_create') as HTMLButtonElement,
       delete: document.getElementById('btn_delete') as HTMLButtonElement,
       discover: document.getElementById('btn_discover') as HTMLButtonElement,
+      sync: document.getElementById('btn_sync') as HTMLButtonElement,
     },
   }
 
@@ -40,6 +41,9 @@ export class DeviceChannelListHtmlController {
     })
     this.element.button.discover.addEventListener('click', () => {
       this.event.emit('discover')
+    })
+    this.element.button.sync.addEventListener('click', () => {
+      this.event.emit('sync')
     })
     this.element.search.button.addEventListener('click', () => {
       this.event.emit('search', this.element.search.text.value)

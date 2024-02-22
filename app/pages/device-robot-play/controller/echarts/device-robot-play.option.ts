@@ -5,12 +5,22 @@ export let option = {
     position: 'right',
     borderColor: '#333',
     formatter: (args: any) => {
-      console.log(args)
       if (args.data) {
         let data = args.data.data
         if (data) {
-          let str = '<div>'
-          str += `<div style="display:flex;justify-content: space-between;"><div>编号</div><div>${data.Id}</div></div>`
+          let str = '<div style="min-width:150px;">'
+
+          if (data.Volume) {
+            str += `<div style="display:flex;justify-content: space-between;"><div>桶容量</div><div>${data.Volume}</div></div>`
+          }
+          if (data.CoverState) {
+            str += `<div style="display:flex;justify-content: space-between;"><div>桶盖</div><div>${Language.CoverState(
+              data.CoverState
+            )}</div></div>`
+          }
+          if (data.Id) {
+            str += `<div style="display:flex;justify-content: space-between;"><div>编号</div><div>${data.Id}</div></div>`
+          }
           if (data.Name) {
             str += `<div style="display:flex;justify-content: space-between;"><div>名称</div><div>${data.Name}</div></div>`
           }
@@ -18,20 +28,20 @@ export let option = {
             str += `<div style="display:flex;justify-content: space-between;"><div>坐标</div><div>(${data.Position.X},&nbsp;${data.Position.Y})</div></div>`
           }
           if (data.Rfid) {
-            str += `<div style="display:flex;justify-content: space-between;"><div>RFID</div><div>&nbsp;&nbsp;&nbsp;&nbsp;${data.Rfid}</div></div>`
+            str += `<div style="display:flex;justify-content: space-between;"><div>RFID</div><div>${data.Rfid}</div></div>`
           }
           if (data.NodeType) {
-            str += `<div style="display:flex;justify-content: space-between;"><div>类型</div><div>${Language.MeshNodeType(
+            str += `<div style="display:flex;justify-content: space-between;"><div>节点类型</div><div>${Language.MeshNodeType(
               data.NodeType
             )}</div></div>`
           }
           if (data.CanType) {
-            str += `<div style="display:flex;justify-content: space-between;"><div>子类型</div><div>${Language.CanType(
+            str += `<div style="display:flex;justify-content: space-between;"><div>类型</div><div>${Language.CanType(
               data.CanType
             )}</div></div>`
           }
           if (data.Distance) {
-            str += `<div style="display:flex;justify-content: space-between;"><div>距离</div><div>&nbsp;&nbsp;&nbsp;&nbsp;${data.Distance}cm</div></div>`
+            str += `<div style="display:flex;justify-content: space-between;"><div>距离</div><div>${data.Distance}cm</div></div>`
           }
           str += '</div>'
           return str
@@ -45,9 +55,13 @@ export let option = {
       type: 'graph',
       layout: 'none',
       symbolSize: 30,
-      roam: true,
+      roam: false,
       emphasis: {
         scale: false,
+      },
+      markPoint: {
+        symbolSize: 20,
+        data: [],
       },
       data: [
         {

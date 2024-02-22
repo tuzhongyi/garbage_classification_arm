@@ -51,6 +51,15 @@ export class DeviceRobotPlayHtmlEChartController {
     this.option.series[0].data.push(_data)
   }
 
+  private appendMark(data: any) {
+    let position = [data.x, data.y]
+    let coord = this.converter.Position(this.size, position)
+    data.coord = coord
+    delete data.x
+    delete data.y
+    this.option.series[0].markPoint.data.push(data)
+  }
+
   private appendLink(data: any) {
     this.option.series[0].links.push(data)
   }
@@ -150,7 +159,16 @@ export class DeviceRobotPlayHtmlEChartController {
       x: data.location.Position.X,
       y: data.location.Position.Y,
     })
-    this.appendNode(robot)
+    this.appendMark(robot)
+    this.echart.setOption(this.option)
+
+    for (let i = 0; i < data.trashcans.length; i++) {
+      let item = data.trashcans[i]
+      if (item.Position) {
+        this.appendMark(this.converter.TrashCan(data.trashcans[i]))
+      }
+    }
+    console.log(this.option)
     this.echart.setOption(this.option)
   }
 }

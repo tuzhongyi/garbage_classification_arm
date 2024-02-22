@@ -14,4 +14,11 @@ export class HowellResponseProcess {
     }
     throw new Error(`${response.FaultCode}:${response.FaultReason}`)
   }
+
+  static basic<T>(response: HowellResponse<T>) {
+    if (response.FaultCode === 0) {
+      return response.Data
+    }
+    throw new Error(`${response.FaultCode}:${response.FaultReason}`)
+  }
 }

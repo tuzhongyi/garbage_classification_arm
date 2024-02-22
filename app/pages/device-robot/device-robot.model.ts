@@ -3,6 +3,7 @@ import { MeshLocation } from '../../data-core/models/robot/mesh-location.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotBattery } from '../../data-core/models/robot/robot-battery.model'
+import { RobotTrashCan } from '../../data-core/models/robot/robot-trash-can.model'
 import { Robot } from '../../data-core/models/robot/robot.model'
 
 export interface Size {
@@ -29,4 +30,5 @@ export class DeviceRobotModel {
   location: MeshLocation = new MeshLocation()
   robot!: Promise<Robot>
   battery!: Promise<RobotBattery>
+  trashcans: RobotTrashCan[] = []
 }

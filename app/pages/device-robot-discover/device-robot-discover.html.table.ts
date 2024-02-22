@@ -25,22 +25,19 @@ export class DeviceRobotDiscoverHtmlTable {
   private widths = ['50px', '100px']
 
   private regist() {
-    this.element.thead.checkall.addEventListener('change', () => {
-      this.tbody.querySelectorAll('input[type="checkbox"]').forEach((x) => {
-        let checkbox = x as HTMLInputElement
-        checkbox.checked = this.element.thead.checkall.checked
-        let id = checkbox.id.split('_')[1]
-        if (checkbox.checked) {
-          if (!this.selecteds.includes(id)) {
-            this.selecteds.push(id)
-          }
+    HtmlTool.table.checkall(
+      this.element.thead.checkall,
+      this.tbody,
+      (ids, checked) => {
+        if (checked) {
+          this.selecteds = ids.map((id) => {
+            return id.split('_')[1]
+          })
         } else {
-          if (this.selecteds.includes(id)) {
-            this.selecteds.splice(this.selecteds.indexOf(id), 1)
-          }
+          this.selecteds = []
         }
-      })
-    })
+      }
+    )
   }
 
   private init() {
@@ -49,14 +46,7 @@ export class DeviceRobotDiscoverHtmlTable {
   }
 
   private initColGroup() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   private append(id: string, item: string[]) {

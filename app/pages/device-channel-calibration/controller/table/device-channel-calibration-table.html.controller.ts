@@ -24,14 +24,7 @@ export class DeviceChannelCalibrationTableHtmlController {
   private parent: HTMLDivElement
 
   private initColGroup() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   private init() {

@@ -11,6 +11,15 @@ class CanvasDrawColor {
   }
 }
 
+class TrashCanColor {
+  [key: string]: string
+  Dry = 'rgb(44, 43, 39)'
+  Wet = '#8e442f'
+  Recycle = '#186cc4'
+  Hazard = 'rgb(229, 49, 34)'
+}
+
 export class ColorTool {
   static canvas = new CanvasDrawColor()
+  static trashcan = new TrashCanColor()
 }

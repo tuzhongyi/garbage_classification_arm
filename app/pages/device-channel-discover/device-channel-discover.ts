@@ -1,3 +1,4 @@
+import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
 import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
 import { DeviceChannelDiscoverBusiness } from './device-channel-discover.business'
 import { DeviceChannelDiscoverHtmlController } from './device-channel-discover.html.controller'
@@ -14,6 +15,7 @@ export namespace DeviceChannelDiscover {
     message = new DeviceChannelDiscoverMessage()
     datas: VideoSourceDescriptor[] = []
     timeout = 10
+    sort?: Sort
 
     async load(index = 0) {
       if (index === this.timeout) return
@@ -42,6 +44,7 @@ export namespace DeviceChannelDiscover {
     }
 
     regist() {
+      this.html.element.table.event.on('sort', this.onsort.bind(this))
       this.html.event.on('search', (text) => {
         this.onsearch(text)
       })
@@ -57,6 +60,10 @@ export namespace DeviceChannelDiscover {
       this.html.event.on('cancel', () => {
         this.oncancel()
       })
+    }
+
+    onsort(sort: Sort) {
+      this.sort = sort
     }
 
     onok() {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="../../../assets/controls/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="../../../assets/controls/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link
+      rel="stylesheet"
+      href="../../../assets/controls/bootstrap-datetimepicker/bootstrap-datetimepicker.css"
+    />
+  </head>
+
+  <body>
+    <div class="device-trashcan-params">
+      <div class="device-trashcan-params-body">
+        <div class="forms" id="forms"></div>
+      </div>
+      <div class="device-trashcan-params-foot">
+        <button class="button-blue default" id="save">
+          <i class="howell-icon-save2"></i> 保存
+        </button>
+      </div>
+    </div>
+    <template id="template-item">
+      <div class="form-item">
+        <div class="form-item-title name"></div>
+        <div class="form-item-value">
+          <input class="value" type="number" autocomplete="off" />
+        </div>
+      </div>
+    </template>
+  </body>
+  <script src="./device-trashcan-params.ts"></script>
+</html>

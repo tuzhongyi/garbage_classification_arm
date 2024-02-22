@@ -1,5 +1,11 @@
+import { Language } from '../../../../common/language'
+import { ColorTool } from '../../../../common/tools/color/color.tool'
+import { Guid } from '../../../../common/tools/guid/guid'
+import { ImageTool } from '../../../../common/tools/image-tool/image.tool'
+import { CoverState } from '../../../../data-core/enums/robot/cover-state.enum'
 import { MeshEdge } from '../../../../data-core/models/robot/mesh-edge.model'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
+import { RobotTrashCan } from '../../../../data-core/models/robot/robot-trash-can.model'
 import { Position, Size } from '../../../device-robot/device-robot.model'
 
 export class DeviceRobotConfigHtmlEChartConverter {
@@ -89,7 +95,6 @@ export class DeviceRobotConfigHtmlEChartConverter {
       name: node.Name,
       id: node.Id,
       data: node,
-
       label: {
         show: false,
         formatter: '',
@@ -117,14 +122,80 @@ export class DeviceRobotConfigHtmlEChartConverter {
         show: false,
         formatter: '',
       },
-      symbol:
-        'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7',
+      symbol: ImageTool.robot,
       symbolSize: 20,
     }
     return robot
   }
-  Position(size: Size, data: Position) {
-    data.y = size.height - data.y
-    return data
+  Position(size: Size, data: Position): Position
+  Position(size: Size, data: number[]): number[]
+  Position(size: Size, data: Position | number[]) {
+    if (Array.isArray(data)) {
+      return [data[0], size.height - data[1]]
+    } else {
+      data.y = size.height - data.y
+      return data
+    }
+  }
+
+  TrashCan(data: RobotTrashCan) {
+    let id = Guid.NewGuid().ToString('N')
+    let port = {
+      x: data.Position!.X,
+      y: data.Position!.Y,
+      name: `${Language.CanType(data.CanType)}_${data.NodeId ?? id}`,
+      id: id,
+      data: data,
+
+      label: {
+        show: false,
+        formatter: '',
+      },
+      symbol: `path://${ImageTool.trashcan[data.CanType]}`,
+      symbolSize: 20,
+      symbolOffset: [0, 35],
+      itemStyle: {
+        color: ColorTool.trashcan[data.CanType],
+      },
+      select: {
+        disabled: true,
+      },
+      tooltip: {
+        show: true,
+      },
+      emphasis: {
+        disabled: true,
+      },
+    }
+    return port
+  }
+
+  TrashCanImage(data: RobotTrashCan) {
+    let canvas = document.createElement('canvas')
+    canvas.width = 20
+    canvas.height = 20
+    let ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+    ctx.moveTo(0, 0)
+    ctx.lineTo(0, canvas.height)
+    ctx.lineTo(canvas.width, canvas.height)
+    ctx.lineTo(canvas.width, 0)
+    if (data.CoverState === CoverState.Closed) {
+      ctx.lineTo(0, 0)
+    }
+    ctx.strokeStyle = '#1a1a1a'
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    ctx.lineWidth = 3
+    ctx.stroke()
+    ctx.beginPath()
+    let volume = (data.Volume ?? 0) / 100
+    ctx.fillStyle = '#0f0'
+    ctx.fillRect(
+      2,
+      canvas.height * (1 - volume),
+      canvas.width - 4,
+      canvas.height * volume - 2
+    )
+    return canvas.toDataURL()
   }
 }

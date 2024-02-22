@@ -17,28 +17,41 @@ export class DeviceChannelIndexMessage
     this.proxy = new EventMessageProxy(iframe)
     this.regist()
   }
+
   client = new EventMessageClient<
     MainMessageRequestEvent,
     MainMessageResponseEvent
   >(['open', 'confirm'])
   proxy: EventMessageProxy<DeviceChannelListMessageSenderEvent>
 
-  isconfirm = false
+  command?: number
 
   regist() {
     this.proxy.event.on('open', (args) => {
-      this.isconfirm = false
+      this.command = 0
       this.client.sender.emit('open', args)
     })
-    this.proxy.event.on('confirm', (args) => {
-      this.isconfirm = true
+    this.proxy.event.on('delete_confirm', (args) => {
+      this.command = 1
+      this.client.sender.emit('confirm', args)
+    })
+    this.proxy.event.on('sync_confirm', (args) => {
+      this.command = 2
       this.client.sender.emit('confirm', args)
     })
     this.client.receiver.on('result', (result) => {
-      if (this.isconfirm) {
-        this.delete_result(result)
-      } else {
-        this.details_result(result)
+      switch (this.command) {
+        case 0:
+          this.details_result(result)
+          break
+        case 1:
+          this.delete_result(result)
+          break
+        case 2:
+          this.sync_result(result)
+          break
+        default:
+          break
       }
     })
   }
@@ -53,6 +66,13 @@ export class DeviceChannelIndexMessage
   delete_result(result: ResultArgs): void {
     this.proxy.message({
       command: 'delete_result',
+      value: result,
+      index: 0,
+    })
+  }
+  sync_result(result: ResultArgs): void {
+    this.proxy.message({
+      command: 'sync_result',
       value: result,
       index: 0,
     })

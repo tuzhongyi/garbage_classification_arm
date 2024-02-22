@@ -2,5 +2,4 @@ import { DeviceRobotConfigHtmlNodeTableController } from './device-robot-config-
 
 export class DeviceRobotConfigHtmlTableController {
   node = new DeviceRobotConfigHtmlNodeTableController()
-  // edge = new DeviceRobotConfigHtmlEdgeTableController()
 }

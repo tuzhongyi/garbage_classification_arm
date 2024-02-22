@@ -1,6 +1,7 @@
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum'
 import { EventType } from '../data-core/enums/event-type.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
+import { CoverState } from '../data-core/enums/robot/cover-state.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
 import { CanType } from '../data-core/enums/robot/robot-can-type.model'
@@ -143,6 +144,19 @@ export class Language {
         return '检测数据'
       case 2:
         return '分类数据'
+      default:
+        return '未知'
+    }
+  }
+  static CoverState(value?: CoverState) {
+    switch (value) {
+      case CoverState.Opened:
+        return '打开'
+      case CoverState.Closed:
+        return '关闭'
+      case CoverState.HalfOpen:
+        return '半开'
+
       default:
         return '未知'
     }

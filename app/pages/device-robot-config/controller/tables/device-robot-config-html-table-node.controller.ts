@@ -25,15 +25,7 @@ export class DeviceRobotConfigHtmlNodeTableController {
   private regist() {}
 
   private init() {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < this.widths.length; i++) {
-      const width = this.widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    this.table.appendChild(colgroup)
-    // $(this.table).tablesorter()
+    HtmlTool.table.appendColgroup(this.table, this.widths)
   }
 
   private append(index: number, node: MeshNode) {

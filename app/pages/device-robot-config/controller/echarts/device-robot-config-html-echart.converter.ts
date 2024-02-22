@@ -1,4 +1,5 @@
 import { Guid } from '../../../../common/tools/guid/guid'
+import { ImageTool } from '../../../../common/tools/image-tool/image.tool'
 import { MeshEdge } from '../../../../data-core/models/robot/mesh-edge.model'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { Position, Size } from '../../../device-robot/device-robot.model'
@@ -126,8 +127,7 @@ export class DeviceRobotConfigHtmlEChartConverter {
         show: false,
       },
       lineHeight: 50,
-      symbol:
-        'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7',
+      symbol: ImageTool.robot,
       symbolSize: 20,
     }
     return robot
@@ -141,8 +141,7 @@ export class DeviceRobotConfigHtmlEChartConverter {
       label: {
         show: false,
       },
-      symbol:
-        'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7',
+      symbol: ImageTool.robot,
       symbolSize: 20,
     }
     return robot

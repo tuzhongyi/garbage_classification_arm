@@ -54,6 +54,10 @@
         "name": "智能机器人"
       },
       {
+        "id": "device_trashcan",
+        "name": "垃圾桶"
+      },
+      {
         "id": "device_door",
         "name": "感应门"
       },
@@ -74,6 +78,10 @@
       {
         "id": "ai_event",
         "name": "AI事件"
+      },
+      {
+        "id": "ai_server",
+        "name": "分析服务器"
       }
     ]
   }

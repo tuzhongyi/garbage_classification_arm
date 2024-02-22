@@ -29,6 +29,9 @@ class DiscoverWindow extends WindowModel {
   url: string = '../device-channel-discover/device-channel-discover.html'
 }
 class ConfirmWindow extends ConfirmWindowModel {
+  clear() {
+    this.ids = []
+  }
   style = {
     width: '450px',
     height: '200px',

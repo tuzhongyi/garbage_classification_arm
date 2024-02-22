@@ -6,7 +6,7 @@ export class EventMessageClient<
   TResolve extends Record<string | number, any> = any
 > {
   index = 0
-  constructor(private keys: string[]) {
+  constructor(private keys: (keyof TSend)[]) {
     this.init()
     window.addEventListener('message', this.eventregist.bind(this))
   }
@@ -21,7 +21,7 @@ export class EventMessageClient<
     this.keys.forEach((key) => {
       this.sender.on(key, ((args: any) => {
         this.send({
-          command: key,
+          command: key as any,
           value: args,
           index: this.index,
         })

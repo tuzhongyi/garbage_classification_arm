@@ -8,14 +8,17 @@ import { WindowModel } from '../window/window.model'
 export interface DeviceChannelListMessageReceiverEvent {
   details_result(result: ResultArgs): void
   delete_result(result: ResultArgs): void
+  sync_result(result: ResultArgs): void
 }
 export interface DeviceChannelListMessageSenderEvent {
   open(window: WindowModel): void
-  confirm(window: ConfirmWindowModel): void
+  delete_confirm(window: ConfirmWindowModel): void
+  sync_confirm(window: ConfirmWindowModel): void
 }
 interface MessageEvent {
   load(): void
   todelete(): void
+  tosync(): void
 }
 
 export class DeviceChannelListMessage {
@@ -28,7 +31,7 @@ export class DeviceChannelListMessage {
   private client = new EventMessageClient<
     DeviceChannelListMessageSenderEvent,
     DeviceChannelListMessageReceiverEvent
-  >(['open', 'confirm'])
+  >(['open', 'delete_confirm', 'sync_confirm'])
 
   private reigst() {
     this.client.receiver.on('details_result', (args: ResultArgs) => {
@@ -46,6 +49,13 @@ export class DeviceChannelListMessage {
         MessageBar.error(args.message ?? '操作失败')
       }
     })
+    this.client.receiver.on('sync_result', (args) => {
+      if (args.result) {
+        this.event.emit('tosync')
+      } else {
+        MessageBar.error(args.message ?? '操作失败')
+      }
+    })
   }
 
   discover(window: WindowModel) {
@@ -57,7 +67,10 @@ export class DeviceChannelListMessage {
   modify(window: WindowModel) {
     this.client.sender.emit('open', window)
   }
-  confirm(window: ConfirmWindowModel) {
-    this.client.sender.emit('confirm', window)
+  delete_confirm(window: ConfirmWindowModel) {
+    this.client.sender.emit('delete_confirm', window)
+  }
+  sync_confirm(window: ConfirmWindowModel) {
+    this.client.sender.emit('sync_confirm', window)
   }
 }

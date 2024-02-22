@@ -3,7 +3,7 @@ import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotBattery } from '../../data-core/models/robot/robot-battery.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
 
-import { DeviceRobotPlayBusiness } from './device-robot-play.business'
+import { DeviceRobotPlayBusiness } from './controller/business/device-robot-play.business'
 import { DeviceRobotPlayHtmlController } from './device-robot-play.html.controller'
 
 export namespace DeviceRobotConfig {
