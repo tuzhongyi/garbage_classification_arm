@@ -1,11 +1,14 @@
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum'
+import { DeviceProtocolType } from '../data-core/enums/device-protocol-type.enum'
 import { EventType } from '../data-core/enums/event-type.enum'
+import { LensType } from '../data-core/enums/lens-type.enum'
+import { ProcessState } from '../data-core/enums/process-state.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
 import { CoverState } from '../data-core/enums/robot/cover-state.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
 import { CanType } from '../data-core/enums/robot/robot-can-type.model'
-import { Manager } from '../data-core/requests/managers/manager'
+import { RobotState } from '../data-core/enums/robot/robot-state.enum'
 
 export class Language {
   static ChannelPositionNo(value?: number) {
@@ -58,15 +61,7 @@ export class Language {
     }
   }
 
-  static async ProxyChannelState(value?: ProxyChannelState) {
-    let capability = await Manager.capability.device
-    if (capability.ProcessStates) {
-      let _enum = capability.ProcessStates.find((x) => x.Value == value)
-      if (_enum) {
-        return _enum.Name
-      }
-    }
-
+  static ProxyChannelState(value?: ProxyChannelState) {
     switch (value) {
       case ProxyChannelState.Locked:
         return '用户锁定'
@@ -74,6 +69,17 @@ export class Language {
         return '离线'
       case ProxyChannelState.Online:
         return '在线'
+      default:
+        return '未知'
+    }
+  }
+  static DeviceProtocolType(value?: DeviceProtocolType) {
+    switch (value) {
+      case DeviceProtocolType.Howell8000:
+        return DeviceProtocolType.Howell8000
+      case DeviceProtocolType.Onvif:
+        return DeviceProtocolType.Onvif
+
       default:
         return '未知'
     }
@@ -121,6 +127,26 @@ export class Language {
       case RobotBatteryState.UnderVoltage:
         return '欠压、亏电'
 
+      default:
+        return '未知'
+    }
+  }
+  static RobotState(value?: RobotState) {
+    switch (value) {
+      case RobotState.None:
+        return '正常'
+      case RobotState.Busy:
+        return '繁忙'
+      case RobotState.Charging:
+        return '充电'
+      case RobotState.LoBAT:
+        return '低电量'
+      case RobotState.Error:
+        return '故障'
+      case RobotState.Upgrading:
+        return '升级中'
+      case RobotState.Offline:
+        return '信号丢失'
       default:
         return '未知'
     }
@@ -176,6 +202,33 @@ export class Language {
     switch (value) {
       case 1:
         return '摄像机'
+      default:
+        return '未知'
+    }
+  }
+  static ProcessState(state?: ProcessState) {
+    switch (state) {
+      case ProcessState.R:
+        return '运行中'
+      case ProcessState.D:
+        return '不可中断睡眠'
+      case ProcessState.S:
+        return '可中断睡眠'
+      case ProcessState.T:
+        return '已停止'
+      case ProcessState.Z:
+        return '僵尸'
+      default:
+        return '未知'
+    }
+  }
+  static LensType(type?: LensType) {
+    switch (type) {
+      case LensType.M28:
+        return '2.8 毫米'
+      case LensType.M40:
+        return '4.0 毫米'
+
       default:
         return '未知'
     }

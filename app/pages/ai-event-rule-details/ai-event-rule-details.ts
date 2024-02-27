@@ -22,11 +22,11 @@ export namespace AIEventRuleDetails {
     source = new AIEventRuleDetailsSource()
     data = new CameraAIEventRule()
     get id() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
     get type() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       if (querys.type) {
         return parseInt(querys.type) as EventType
       }

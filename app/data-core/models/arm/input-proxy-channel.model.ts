@@ -1,7 +1,8 @@
+import { Type } from 'class-transformer'
+import 'reflect-metadata'
 import { ProxyChannelState } from '../../enums/proxy-channel-state.enum'
 import { IModel } from '../model.interface'
 import { VideoSourceChannel } from './video-source-channel.model'
-
 /**	InputProxyChannel (代理通道)	*/
 export class InputProxyChannel implements IModel {
   /**	Int32	通道ID，从1开始	M	*/
@@ -17,6 +18,7 @@ export class InputProxyChannel implements IModel {
    **/
   PositionNo?: number
   /**	VideoSourceChannel	数据来源	M	*/
+  @Type(() => VideoSourceChannel)
   SourceChannel!: VideoSourceChannel
   /**
    * String	通道状态：
@@ -28,4 +30,11 @@ export class InputProxyChannel implements IModel {
   ChannelState?: ProxyChannelState
   /**	String	通道GUID	O */
   Guid?: string
+
+  static create() {
+    let data = new InputProxyChannel()
+    data.Id = 0
+    data.SourceChannel = new VideoSourceChannel()
+    return data
+  }
 }

@@ -1,3 +1,9 @@
+import {
+  Transform,
+  TransformationType,
+  TransformFnParams,
+} from 'class-transformer'
+import { RobotState } from '../../enums/robot/robot-state.enum'
 import { IModel } from '../model.interface'
 import { MeshNodePosition } from './mesh-node-position.model'
 
@@ -16,12 +22,27 @@ export class MeshLocation implements IModel {
    * Charging：充电状态
    * LoBAT：低电量
    * Error：故障
-   * 如果多个状态同时存在，则使用|分割
+   * 如果多个状态同时存在，则使用逗号+半角空格分割
    * O
    **/
-  State?: string
+  @Transform(transformState)
+  State?: RobotState[]
   /**	String	网状节点ID，如果正好在节点，否则为null。	O	*/
   NodeId?: string
   /**	String	最后一次经过的节点ID	O	*/
   LastNodeId?: string
+}
+
+export function transformState(params: TransformFnParams) {
+  if (params.value == undefined || params.value == null) {
+    return params.value
+  }
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    let values = (params.value as string).split(',')
+    return values.map((x) => x.trim())
+  } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
+    return params.value.join(', ')
+  } else if (params.type === TransformationType.CLASS_TO_CLASS) {
+    return params.value
+  }
 }

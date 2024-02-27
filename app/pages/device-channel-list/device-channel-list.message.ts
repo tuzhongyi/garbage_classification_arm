@@ -3,6 +3,7 @@ import { EventMessageClient } from '../../common/event-message/event-message.cli
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
+import { PictureWindowModel } from '../window-picture/window-picture.model'
 import { WindowModel } from '../window/window.model'
 
 export interface DeviceChannelListMessageReceiverEvent {
@@ -72,5 +73,8 @@ export class DeviceChannelListMessage {
   }
   sync_confirm(window: ConfirmWindowModel) {
     this.client.sender.emit('sync_confirm', window)
+  }
+  picture(window: PictureWindowModel) {
+    this.client.sender.emit('open', window)
   }
 }

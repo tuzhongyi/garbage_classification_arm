@@ -1,5 +1,7 @@
 import { ClassConstructor } from 'class-transformer'
 import { EventEmitter } from '../../../common/event-emitter'
+import { LocaleCompare } from '../../../common/tools/compare-tool/compare.tool'
+import { Sort } from '../../../common/tools/html-tool/html-table-sort.tool'
 import { HtmlTool } from '../../../common/tools/html-tool/html.tool'
 import { CameraAIEventRule } from '../../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 
@@ -24,8 +26,13 @@ export class DeviceChannelListTableController {
   private tbody = document.querySelector(
     '#table tbody'
   ) as HTMLTableSectionElement
+  private thead = document.querySelector(
+    '#table thead'
+  ) as HTMLTableSectionElement
 
-  private widths = ['42px', '50px']
+  private widths = ['42px', '50px', undefined, undefined, undefined, '100px']
+  private datas: CameraAIEventRule[] = []
+  private _sort?: Sort
 
   private regist() {
     HtmlTool.table.checkall(
@@ -41,10 +48,25 @@ export class DeviceChannelListTableController {
         }
       }
     )
+
+    HtmlTool.table.sort(this.thead, (sort) => {
+      this._sort = sort
+      this.reload()
+    })
   }
 
   private init() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
+  }
+
+  private sort(sort: Sort) {
+    this.datas = this.datas.sort((a: any, b: any) => {
+      return LocaleCompare.compare(
+        a[sort.active],
+        b[sort.active],
+        sort.direction === 'asc'
+      )
+    })
   }
 
   private append(id: string, item: string[]) {
@@ -76,7 +98,8 @@ export class DeviceChannelListTableController {
       row.appendChild(cell)
     }
     td = document.createElement('td')
-    td.className = 'operation'
+    let operation = document.createElement('div')
+    operation.className = 'operation'
     let btn = document.createElement('div')
     btn.className = 'button-icon'
     btn.id = 'modify_' + id
@@ -86,7 +109,8 @@ export class DeviceChannelListTableController {
     let i = document.createElement('i')
     i.className = 'howell-icon-modification'
     btn.appendChild(i)
-    td.appendChild(btn)
+    operation.appendChild(btn)
+    td.appendChild(operation)
     row.appendChild(td)
 
     this.tbody.appendChild(row)
@@ -133,9 +157,18 @@ export class DeviceChannelListTableController {
     this.selecteds = []
   }
 
+  reload() {
+    this.clear()
+    this.load(this.datas)
+  }
+
   load(datas: CameraAIEventRule[]) {
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i]
+    this.datas = datas
+    if (this._sort) {
+      this.sort(this._sort)
+    }
+    for (let i = 0; i < this.datas.length; i++) {
+      const item = this.datas[i]
       let values: string[] = [
         (i + 1).toString(),
         item.RuleName,

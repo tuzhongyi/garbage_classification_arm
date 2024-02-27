@@ -4,6 +4,8 @@ import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
+import { IIdNameModel } from '../../data-core/models/model.interface'
+import { Manager } from '../../data-core/requests/managers/manager'
 import { SystemDeviceDatetimeHtmlEventArgs } from './system-device-datetime.event'
 
 import './system-device-datetime.less'
@@ -43,7 +45,26 @@ export class SystemDeviceDatetimeHtmlController {
 
   init() {
     this.initDateTimePicker()
-    this.onmodechange(NTPTimeMode.NTP)
+    this.element.LocalTime.value = new Date().format('HH:mm:ss')
+    this.initNTPTimeMode()
+  }
+  initNTPTimeMode() {
+    Manager.capability.device
+      .then((x) => {
+        if (x.NTPTimeMode) {
+          this.element.NTPTimeMode.innerHTML = ''
+          x.NTPTimeMode.forEach((item) => {
+            let _item: IIdNameModel = {
+              Id: item.Value,
+              Name: item.Name,
+            }
+            HtmlTool.select.append(_item, this.element.NTPTimeMode)
+          })
+        }
+      })
+      .finally(() => {
+        this.onmodechange(NTPTimeMode.NTP)
+      })
   }
   initDateTimePicker() {
     let picker = new DateTimePicker(this.element.LocalDate)

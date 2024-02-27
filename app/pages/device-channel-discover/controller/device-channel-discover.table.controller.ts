@@ -1,15 +1,10 @@
-import { EventEmitter } from '../../common/event-emitter'
-import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
-import { HtmlTool } from '../../common/tools/html-tool/html.tool'
-import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
+import { LocaleCompare } from '../../../common/tools/compare-tool/compare.tool'
+import { Sort } from '../../../common/tools/html-tool/html-table-sort.tool'
+import { HtmlTool } from '../../../common/tools/html-tool/html.tool'
+import { VideoSourceDescriptor } from '../../../data-core/models/arm/video-source-descriptor.model'
 
-export interface DeviceChannelDiscoverTableEvent {
-  sort(sort: Sort): void
-}
-
-export class DeviceChannelDiscoverHtmlTable {
-  selecteds: string[] = []
-  event = new EventEmitter<DeviceChannelDiscoverTableEvent>()
+export class DeviceChannelDiscoverTableController {
+  selecteds: VideoSourceDescriptor[] = []
   constructor() {
     this.regist()
     this.init()
@@ -29,7 +24,16 @@ export class DeviceChannelDiscoverHtmlTable {
     },
   }
 
-  private widths = ['5%', '5%', '10%', '10%', '10%', '10%', '10%', '25%', '15%']
+  public get show(): boolean {
+    return (this.table.parentElement as HTMLElement).style.display !== 'none'
+  }
+  public set show(v: boolean) {
+    ;(this.table.parentElement as HTMLElement).style.display = v ? '' : 'none'
+  }
+
+  private datas: VideoSourceDescriptor[] = []
+  private _sort?: Sort
+  private widths = ['42px', '60px', '150px', '100px', '100px']
 
   private regist() {
     HtmlTool.table.checkall(
@@ -37,8 +41,9 @@ export class DeviceChannelDiscoverHtmlTable {
       this.tbody,
       (ids, checked) => {
         if (checked) {
-          this.selecteds = ids.map((id) => {
-            return id.split('_')[1]
+          ids.forEach((id) => {
+            let _id = id.split('_')[1]
+            this.select(_id, true)
           })
         } else {
           this.selecteds = []
@@ -46,17 +51,19 @@ export class DeviceChannelDiscoverHtmlTable {
       }
     )
     HtmlTool.table.sort(this.thead, (x) => {
-      this.event.emit('sort', x)
+      this._sort = x
+      this.reload()
     })
   }
 
   private init() {
+    this.show = false
     this.initColGroup()
     // $(this.table).tablesorter()
   }
 
   private initColGroup() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
   private append(id: string, item: string[]) {
@@ -71,11 +78,7 @@ export class DeviceChannelDiscoverHtmlTable {
       e.stopImmediatePropagation()
       let checkbox = e.target as HTMLInputElement
       let id = checkbox.id.split('_')[1]
-      if (checkbox.checked) {
-        this.selecteds.push(id)
-      } else {
-        this.selecteds.splice(this.selecteds.indexOf(id), 1)
-      }
+      this.select(id, checkbox.checked)
     })
     checkbox.type = 'checkbox'
     checkbox.id = 'checkbox_' + id
@@ -98,17 +101,42 @@ export class DeviceChannelDiscoverHtmlTable {
     )
     if (!tr) return
     let id = tr.id.split('_')[1]
+    let data = this.datas.find(
+      (x) => x.Id.toString() == id
+    ) as VideoSourceDescriptor
     let checkbox = document.querySelector(`#checkbox_${id}`) as HTMLInputElement
     checkbox.checked = !checkbox.checked
-    if (checkbox.checked) {
-      if (!this.selecteds.includes(id)) {
-        this.selecteds.push(id)
+    this.select(id, checkbox.checked)
+  }
+  private select(id: string, checked: boolean) {
+    let data = this.datas.find(
+      (x) => x.Id.toString() == id
+    ) as VideoSourceDescriptor
+    let index = this.selecteds.findIndex((x) => x.Id.toString() == id)
+    if (checked) {
+      if (index < 0) {
+        this.selecteds.push(data)
       }
     } else {
-      if (this.selecteds.includes(id)) {
-        this.selecteds.splice(this.selecteds.indexOf(id), 1)
+      if (index >= 0) {
+        this.selecteds.splice(index, 1)
       }
     }
+  }
+
+  private sort(sort: Sort) {
+    this.datas = this.datas.sort((a: any, b: any) => {
+      return LocaleCompare.compare(
+        a[sort.active],
+        b[sort.active],
+        sort.direction === 'asc'
+      )
+    })
+  }
+
+  reload() {
+    this.clear()
+    this.load(this.datas)
   }
 
   clear() {
@@ -117,8 +145,13 @@ export class DeviceChannelDiscoverHtmlTable {
   }
 
   load(datas: VideoSourceDescriptor[]) {
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i]
+    this.datas = datas
+    if (this._sort) {
+      this.sort(this._sort)
+    }
+
+    for (let i = 0; i < this.datas.length; i++) {
+      const item = this.datas[i]
       let values: string[] = [
         (i + 1).toString(),
         item.HostAddress,

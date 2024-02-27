@@ -1,5 +1,5 @@
-import { Language } from '../../../../common/language'
 import { ColorTool } from '../../../../common/tools/color/color.tool'
+import { EnumTool } from '../../../../common/tools/enum-tool/enum.tool'
 import { Guid } from '../../../../common/tools/guid/guid'
 import { ImageTool } from '../../../../common/tools/image-tool/image.tool'
 import { CoverState } from '../../../../data-core/enums/robot/cover-state.enum'
@@ -124,6 +124,18 @@ export class DeviceRobotConfigHtmlEChartConverter {
       },
       symbol: ImageTool.robot,
       symbolSize: 20,
+      itemStyle: {
+        color: '#000',
+      },
+      tooltip: {
+        show: false,
+      },
+      select: {
+        disabled: true,
+      },
+      emphasis: {
+        disabled: true,
+      },
     }
     return robot
   }
@@ -138,12 +150,15 @@ export class DeviceRobotConfigHtmlEChartConverter {
     }
   }
 
-  TrashCan(data: RobotTrashCan) {
+  async TrashCan(
+    data: RobotTrashCan,
+    images: { [key: string]: HTMLImageElement }
+  ) {
     let id = Guid.NewGuid().ToString('N')
     let port = {
       x: data.Position!.X,
       y: data.Position!.Y,
-      name: `${Language.CanType(data.CanType)}_${data.NodeId ?? id}`,
+      name: `${await EnumTool.CanType(data.CanType)}_${data.NodeId ?? id}`,
       id: id,
       data: data,
 
@@ -151,9 +166,9 @@ export class DeviceRobotConfigHtmlEChartConverter {
         show: false,
         formatter: '',
       },
-      symbol: `path://${ImageTool.trashcan[data.CanType]}`,
-      symbolSize: 20,
-      symbolOffset: [0, 35],
+      symbol: `image://${images[data.CanType].src}`,
+      symbolSize: 30,
+      symbolOffset: [35, 0],
       itemStyle: {
         color: ColorTool.trashcan[data.CanType],
       },

@@ -2571,3 +2571,7 @@ a .howell-icon-flip-vertical:before {
 .howell-icon-garbage_ground:before {
     content: "\f398";
 }
+
+.howell-icon-robot:before {
+    content: "\f399";
+}

@@ -3,7 +3,7 @@ import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotBattery } from '../../data-core/models/robot/robot-battery.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
 
-import { DeviceRobotPlayBusiness } from './controller/business/device-robot-play.business'
+import { DeviceRobotPlayBusiness } from './business/device-robot-play.business'
 import { DeviceRobotPlayHtmlController } from './device-robot-play.html.controller'
 
 export namespace DeviceRobotConfig {
@@ -11,6 +11,7 @@ export namespace DeviceRobotConfig {
     constructor() {
       this.regist()
       this.load()
+      this.status()
     }
     html = new DeviceRobotPlayHtmlController()
     business = new DeviceRobotPlayBusiness()
@@ -24,13 +25,24 @@ export namespace DeviceRobotConfig {
     ischange = false
 
     get id() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
 
     async load() {
       this.model = await this.business.load(this.id)
+
       this.html.load(this.model)
+
+      this.html.trashcans.load(this.model.trashcans)
+    }
+
+    status() {
+      setTimeout(() => {
+        this.business.status(this.id).then((x) => {
+          this.html.status.load(x)
+        })
+      }, 10 * 1000)
     }
 
     regist() {

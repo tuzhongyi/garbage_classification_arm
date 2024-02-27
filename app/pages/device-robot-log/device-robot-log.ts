@@ -20,7 +20,7 @@ export namespace DeviceRobotLog {
     datas: LogItem[] = []
     page?: Page
     get id() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
 

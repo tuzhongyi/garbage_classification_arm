@@ -2,6 +2,10 @@ import { EventEmitter } from '../../common/event-emitter'
 import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import {
+  DeviceRobotConfigMessageReceiverEvent,
+  DeviceRobotConfigMessageSenderEvent,
+} from '../device-robot-config/device-robot-config.message'
+import {
   DeviceRobotListMessageReceiverEvent,
   DeviceRobotListMessageSenderEvent,
 } from '../device-robot-list/device-robot-list.message'
@@ -18,9 +22,14 @@ interface MessageEvent {
   log(id: string): void
 }
 
-export class DeviceRobotIndexMessage
-  implements DeviceRobotListMessageReceiverEvent
-{
+interface MessageReceiverEvent
+  extends DeviceRobotListMessageReceiverEvent,
+    DeviceRobotConfigMessageReceiverEvent {}
+interface MessageSenderEvent
+  extends DeviceRobotListMessageSenderEvent,
+    DeviceRobotConfigMessageSenderEvent {}
+
+export class DeviceRobotIndexMessage implements MessageReceiverEvent {
   event: EventEmitter<MessageEvent> = new EventEmitter()
 
   constructor(iframe: HTMLIFrameElement) {
@@ -32,9 +41,9 @@ export class DeviceRobotIndexMessage
     MainMessageRequestEvent,
     MainMessageResponseEvent
   >(['open', 'confirm'])
-  private proxy: EventMessageProxy<DeviceRobotListMessageSenderEvent>
+  private proxy: EventMessageProxy<MessageSenderEvent>
 
-  private isconfirm = false
+  private command?: number
 
   private regist() {
     this.proxy.event.on('info', (id) => {
@@ -50,18 +59,31 @@ export class DeviceRobotIndexMessage
       this.event.emit('log', id)
     })
     this.proxy.event.on('open', (args) => {
-      this.isconfirm = false
+      this.command = 0
       this.client.sender.emit('open', args)
     })
     this.proxy.event.on('confirm', (args) => {
-      this.isconfirm = true
+      this.command = 1
+      this.client.sender.emit('confirm', args)
+    })
+    this.proxy.event.on('start_confirm', (args) => {
+      this.command = 2
       this.client.sender.emit('confirm', args)
     })
     this.client.receiver.on('result', (result) => {
-      if (this.isconfirm) {
-        this.delete_result(result)
-      } else {
-        this.details_result(result)
+      switch (this.command) {
+        case 0:
+          this.details_result(result)
+          break
+        case 1:
+          this.delete_result(result)
+          break
+        case 2:
+          this.start_result(result)
+          break
+
+        default:
+          break
       }
     })
   }
@@ -76,6 +98,14 @@ export class DeviceRobotIndexMessage
   delete_result(result: ResultArgs): void {
     this.proxy.message({
       command: 'delete_result',
+      value: result,
+      index: 0,
+    })
+  }
+
+  start_result(result: ResultArgs): void {
+    this.proxy.message({
+      command: 'start_result',
       value: result,
       index: 0,
     })

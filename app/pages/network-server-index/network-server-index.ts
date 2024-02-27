@@ -64,6 +64,8 @@ export namespace NetworkServerIndex {
       switch (index) {
         case 0:
           return '../network-server-deployment/network-server-deployment.html'
+        case 1:
+          return '../network-server-platform/network-server-platform.html'
         default:
           return ''
       }

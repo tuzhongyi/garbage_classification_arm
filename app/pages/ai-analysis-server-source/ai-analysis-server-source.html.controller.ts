@@ -6,9 +6,7 @@ export class AIAnalysisServerSourceHtmlController {
     this.init()
   }
 
-  element = {
-    table: new AIAnalysisServerSourceHtmlTable(),
-  }
+  table = new AIAnalysisServerSourceHtmlTable()
   //   <colgroup>
   //   <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
   // </colgroup>

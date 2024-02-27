@@ -256,20 +256,24 @@ class SystemNetworkPlatformAccessRequestService {
 
   get() {
     let url = ArmSystemUrl.network.platform.basic()
-    return this.http.get<HowellResponse<Platform>>(url)
+    return this.http.get<HowellResponse<Platform>>(url).then((x) => {
+      return HowellResponseProcess.item(x, Platform)
+    })
   }
   async update(data: Platform) {
     let plain = instanceToPlain(data)
     let url = ArmSystemUrl.network.platform.basic()
-    let response = await this.http.put<any, HowellResponse<Platform>>(
-      url,
-      plain
-    )
-    return plainToInstance(Platform, response.Data)
+    return this.http
+      .put<any, HowellResponse<Platform>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, Platform)
+      })
   }
   testing() {
     let url = ArmSystemUrl.network.platform.testing()
-    return this.http.post<HowellResponse>(url)
+    return this.http.post<HowellResponse>(url).then((x) => {
+      return x.FaultCode === 0
+    })
   }
 }
 class SystemNetworkDeploymentRequestService {

@@ -1,7 +1,10 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { Language } from '../../common/language'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
+import { IIdNameModel } from '../../data-core/models/model.interface'
+import { Manager } from '../../data-core/requests/managers/manager'
 
 import '../window/window.less'
 import { DeviceChannelDetailsEvent } from './device-channel-details.event'
@@ -37,7 +40,20 @@ export class DeviceChannelDetailsHtmlController {
     },
   }
 
-  init() {}
+  init() {
+    Manager.capability.inputproxy.then((x) => {
+      if (x.DeviceProtocolTypes) {
+        this.element.ProtocolType.innerHTML = ''
+        x.DeviceProtocolTypes.forEach((item, index) => {
+          let _item: IIdNameModel = {
+            Id: item.Value,
+            Name: item.Name,
+          }
+          HtmlTool.select.append(_item, this.element.ProtocolType)
+        })
+      }
+    })
+  }
 
   regist() {
     this.element.buttons.ok.addEventListener('click', () => {
@@ -78,5 +94,30 @@ export class DeviceChannelDetailsHtmlController {
     this.element.DeviceModel.value = data.SourceChannel.DeviceModel ?? ''
 
     this.changePositionNo(data.PositionNo ?? 1)
+  }
+
+  get(source?: InputProxyChannel): InputProxyChannel {
+    let data = source ?? InputProxyChannel.create()
+    data.Name = this.element.Name.value
+    data.PositionNo = HtmlTool.get(this.element.PositionNo.value, true)
+    data.SourceChannel.HostAddress = this.element.HostAddress.value
+    data.SourceChannel.PortNo =
+      HtmlTool.get(this.element.PortNo.value, true) ?? 0
+    data.SourceChannel.ProtocolType = this.element.ProtocolType
+      .value as DeviceProtocolType
+    data.SourceChannel.ChannelNo =
+      HtmlTool.get(this.element.ChannelNo.value, true) ?? 0
+    data.SourceChannel.UserName = HtmlTool.get(this.element.UserName.value)
+    data.SourceChannel.Password = HtmlTool.get(this.element.Password.value)
+    data.SourceChannel.DeviceId = HtmlTool.get(this.element.DeviceId.value)
+    data.SourceChannel.SerialNumber = HtmlTool.get(
+      this.element.SerialNumber.value
+    )
+    data.SourceChannel.WebPortNo =
+      HtmlTool.get(this.element.WebPortNo.value, true) ?? 0
+    data.SourceChannel.DeviceModel = HtmlTool.get(
+      this.element.DeviceModel.value
+    )
+    return data
   }
 }

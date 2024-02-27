@@ -9,7 +9,7 @@ export class HTMLInputNumberElementTool {
       let value = parseInt(input.value)
       let min = parseInt(input.min)
       let max = parseInt(input.max)
-      if (event.deltaY > 0) {
+      if (event.deltaY < 0) {
         if (!Number.isNaN(max) && value >= max) {
           return
         }

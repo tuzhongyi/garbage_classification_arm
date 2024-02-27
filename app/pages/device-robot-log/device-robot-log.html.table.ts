@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { Language } from '../../common/language'
+import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { CanType } from '../../data-core/enums/robot/robot-can-type.model'
@@ -18,7 +18,7 @@ export class DeviceRobotLogHtmlTable {
   private widths = ['50px']
 
   init() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
   append(item: string[]) {
@@ -29,15 +29,15 @@ export class DeviceRobotLogHtmlTable {
     this.tbody.innerHTML = ''
   }
 
-  load(datas: LogItem[], page: Page) {
+  async load(datas: LogItem[], page: Page) {
     this.clear()
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i]
       let value: string[] = [
         (i + 1).toString(),
         item.Time.format('yyyy-MM-dd HH:mm:ss'),
-        Language.MeshNodeType(item.Major as MeshNodeType),
-        Language.CanType(item.Minor as CanType),
+        await EnumTool.MeshNodeType(item.Major as MeshNodeType),
+        await EnumTool.CanType(item.Minor as CanType),
         item.User ?? '-',
         item.Remote ?? '-',
         item.Desc ?? '',

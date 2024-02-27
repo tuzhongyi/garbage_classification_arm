@@ -22,15 +22,11 @@
       display: flex;
       align-items: center;
       padding: 0 10px;
+      gap: 50px;
 
       &-item {
         display: flex;
         align-items: center;
-        margin-right: 50px;
-
-        &:last-child {
-          margin-right: 0;
-        }
 
         &-value {
           font-weight: bold;
@@ -47,6 +43,95 @@
 
       .error {
         color: #ec2b2b;
+      }
+    }
+
+    .state {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      pointer-events: none;
+
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &-ChargingPort {
+          width: 15px;
+          height: 15px;
+          border: 1px solid #7e7e7e;
+          background-color: #cfffd3;
+        }
+
+        &-DropPort {
+          width: 15px;
+          height: 15px;
+          border: 1px solid #7e7e7e;
+          background-color: #ffeec4;
+        }
+
+        &-StorePort {
+          width: 15px;
+          height: 15px;
+          border: 1px solid #7e7e7e;
+          background-color: #d9ffff;
+        }
+
+        &-MagneticPin {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          border: 1px solid #7e7e7e;
+          background-color: #b1d4ff;
+        }
+      }
+    }
+
+    .trashcans {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      max-width: calc(100% - 130px);
+      flex-wrap: wrap;
+
+      &>* {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+
+        &[data-title] {
+          &:hover {
+            position: relative;
+
+            &:after {
+              content: attr(data-title);
+              position: absolute;
+              bottom: 30px;
+              width: max-content;
+              left: 0px;
+              color: #666;
+              font-size: 14px;
+              border: 1px solid #000;
+              background-color: #fff;
+              box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.5);
+              background-color: #fff;
+              white-space: break-spaces;
+              z-index: 20;
+              line-height: 1.5;
+              font-style: normal; //本例中data-title为i标签属性              
+              padding: 5px 5px;
+            }
+          }
+        }
+
       }
     }
 

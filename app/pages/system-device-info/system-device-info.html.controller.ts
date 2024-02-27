@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { DeviceInfo } from '../../data-core/models/arm/device-info.model'
 import { SystemDeviceInfoEvent } from './system-device-info.event'
@@ -10,7 +9,6 @@ export class SystemDeviceInfoHtmlController {
   event: EventEmitter<SystemDeviceInfoEvent> = new EventEmitter()
 
   constructor() {
-    this.init()
     this.regist()
   }
 
@@ -43,14 +41,6 @@ export class SystemDeviceInfoHtmlController {
     MaxIPCNumber: document.getElementById('MaxIPCNumber') as HTMLInputElement,
 
     save: document.getElementById('save') as HTMLButtonElement,
-  }
-
-  init() {
-    let picker = new DateTimePicker(this.element.FirmwareBuildDate)
-    picker.dateChange = (date: Date) => {
-      console.log(date.format('yyyy-MM-dd'))
-    }
-    picker.init()
   }
 
   regist() {

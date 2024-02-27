@@ -15,7 +15,7 @@ export namespace DeviceRobotInfo {
     html = new DeviceRobotInfoHtmlController()
     business = new DeviceRobotInfoBusiness()
     get id() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
 

@@ -16,7 +16,7 @@ export namespace DeviceRobotDiscover {
 
     async load() {
       this.datas = await this.business.load()
-      this.html.element.table.load(this.datas)
+      this.html.load(this.datas)
     }
 
     regist() {
@@ -35,10 +35,10 @@ export namespace DeviceRobotDiscover {
     }
 
     onok() {
-      if (this.html.element.table.selecteds.length > 0) {
+      if (this.html.selecteds.length > 0) {
         let datas: RobotSearchResult[] = []
         this.datas.forEach((x) => {
-          if (this.html.element.table.selecteds.includes(x.HostAddress)) {
+          if (this.html.selecteds.includes(x.HostAddress)) {
             datas.push(x)
           }
         })
@@ -61,21 +61,18 @@ export namespace DeviceRobotDiscover {
       this.message.close()
     }
     onrefresh() {
-      this.html.element.table.clear()
       this.datas = []
       this.load()
     }
 
     onsearch(text: string) {
-      this.html.element.table.clear()
-
       if (text) {
         let datas = this.datas.filter((x) =>
           x.HostAddress.toLowerCase().includes(text.toLowerCase())
         )
-        this.html.element.table.load(datas)
+        this.html.load(datas)
       } else {
-        this.html.element.table.load(this.datas)
+        this.html.load(this.datas)
       }
     }
   }

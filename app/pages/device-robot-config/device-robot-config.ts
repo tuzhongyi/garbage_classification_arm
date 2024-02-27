@@ -8,6 +8,8 @@ import { RobotCommandResult } from '../../data-core/models/robot/robot-command-r
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
 import { DeviceRobotConfigBusiness } from './device-robot-config.business'
 import { DeviceRobotConfigHtmlController } from './device-robot-config.html.controller'
+import { DeviceRobotConfigMessage } from './device-robot-config.message'
+import { DeviceRobotConfigWindow } from './device-robot-config.model'
 
 export namespace DeviceRobotConfig {
   class Controller {
@@ -17,7 +19,8 @@ export namespace DeviceRobotConfig {
     }
     html = new DeviceRobotConfigHtmlController()
     business = new DeviceRobotConfigBusiness()
-
+    message = new DeviceRobotConfigMessage()
+    window = new DeviceRobotConfigWindow()
     model?: DeviceRobotModel
 
     selected: {
@@ -50,7 +53,7 @@ export namespace DeviceRobotConfig {
     command = -1
 
     get id() {
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
 
@@ -74,8 +77,9 @@ export namespace DeviceRobotConfig {
       this.html.event.on('right', this.onright.bind(this))
     }
     private registCalibration() {
-      this.html.event.on('start', this.onstart.bind(this))
       this.html.event.on('stop', this.onstop.bind(this))
+      this.html.event.on('start', this.onstart.bind(this))
+      this.message.event.on('tostart', this.tostart.bind(this))
     }
     private registEChart() {
       this.html.echart.event.on('select', (data) => {
@@ -250,6 +254,10 @@ export namespace DeviceRobotConfig {
       }
     }
     onstart() {
+      this.window.confirm.message = '是否开始标定？'
+      this.message.start_confirm(this.window.confirm)
+    }
+    tostart() {
       this.business.stop(this.id).finally(() => {
         this.business
           .start(this.id)

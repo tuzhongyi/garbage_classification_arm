@@ -3,6 +3,7 @@ import { EventEmitter } from '../../../../common/event-emitter'
 import { ChannelCalibrationArea } from '../../../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
+import { DeviceChannelCalibrationConverter as Converter } from '../../device-channel-calibration.converter'
 import { DeviceChannelCalibrationMode as CalibrationMode } from '../../device-channel-calibration.model'
 import { DeviceChannelCalibrationTableHtmlController } from './device-channel-calibration-table.html.controller'
 
@@ -87,10 +88,11 @@ export class DeviceChannelCalibrationTableController {
     }
     for (let i = 0; i < points.length; i++) {
       let values: string[] = ['点位', points[i].Name]
+      let point = Converter.point.to(resolution, points[i].Coordinate)
       this.html.append(
         this.getId(CalibrationMode.point, points[i].No),
         values,
-        `${points[i].Coordinate.X}, ${points[i].Coordinate.Y}`
+        `${point.X}, ${point.Y}`
       )
     }
   }

@@ -4,14 +4,22 @@ import { SystemStatusProcessHtmlController } from './system-status-process.html.
 export namespace SystemStatusProcess {
   class Controller {
     constructor() {
-      this.init()
+      this.load()
     }
     html = new SystemStatusProcessHtmlController()
     business = new SystemStatusProcessBusiness()
-    async init() {
-      let status = await this.business.load()
+    load() {
+      this.loading()
+      setTimeout(() => {
+        this.load()
+      }, 1000 * 5)
+    }
 
-      this.html.element.table.load(status)
+    async loading() {
+      return this.business.load().then((status) => {
+        this.html.element.table.clear()
+        this.html.element.table.load(status)
+      })
     }
   }
 

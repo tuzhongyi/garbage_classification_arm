@@ -11,7 +11,7 @@ export class SystemMaintainLogHtmlTable {
   private widths = []
 
   init() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
   append(item: string[]) {

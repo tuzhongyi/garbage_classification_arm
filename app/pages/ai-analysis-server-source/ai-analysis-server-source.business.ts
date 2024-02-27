@@ -21,4 +21,9 @@ export class AIAnalysisServerSourceBusiness {
     let server = await this.get()
     return this.service.source.array(server.Id)
   }
+
+  async delete(id: string) {
+    let server = await this.get()
+    return this.service.source.delete(server.Id, id)
+  }
 }

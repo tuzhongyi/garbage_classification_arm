@@ -1,10 +1,12 @@
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
+import { PictureWindowModel } from '../window-picture/window-picture.model'
 import { IWindowQuery, WindowModel } from '../window/window.model'
 
 export class DeviceChannelListWindow {
   details = new DetailsWindow()
   discover = new DiscoverWindow()
   confirm = new ConfirmWindow()
+  picture = new PictureWindow()
 }
 
 interface DetailsWindowQuery extends IWindowQuery {
@@ -38,4 +40,12 @@ class ConfirmWindow extends ConfirmWindowModel {
   }
   url: string = '../window-confirm/window-confirm.html'
   ids: string[] = []
+}
+
+class PictureWindow extends PictureWindowModel {
+  style = {
+    width: '50%',
+    height: '50%',
+  }
+  url: string = '../window-picture/window-picture.html'
 }

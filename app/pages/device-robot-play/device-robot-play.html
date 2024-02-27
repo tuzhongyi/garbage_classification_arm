@@ -21,11 +21,30 @@
           </div>
           <div class="status-item">
             <div class="status-item-title">状态：</div>
-            <div class="status-item-value" id="battery_state"></div>
+            <div class="status-item-value" id="robot_state"></div>
           </div>
           <div class="status-item">
             <div class="status-item-title">坐标：</div>
             <div class="status-item-value" id="robot_location"></div>
+          </div>
+        </div>
+        <div class="trashcans"></div>
+        <div class="state">
+          <div class="state-item">
+            <div class="state-item-ChargingPort"></div>
+            <div>充电口</div>
+          </div>
+          <div class="state-item">
+            <div class="state-item-DropPort"></div>
+            <div>投放口</div>
+          </div>
+          <div class="state-item">
+            <div class="state-item-StorePort"></div>
+            <div>存放区</div>
+          </div>
+          <div class="state-item">
+            <div class="state-item-MagneticPin"></div>
+            <div>磁钉</div>
           </div>
         </div>
         <div class="canvas" id="canvas"></div>
@@ -167,6 +186,28 @@
           </div>
         </div>
       </div>
+    </div>
+    <div style="display: none">
+      <img
+        id="img_Dry"
+        src="../../../assets/images/robot/can-type/Dry.png"
+        alt=""
+      />
+      <img
+        id="img_Wet"
+        src="../../../assets/images/robot/can-type/Wet.png"
+        alt=""
+      />
+      <img
+        id="img_Recycle"
+        src="../../../assets/images/robot/can-type/Recycle.png"
+        alt=""
+      />
+      <img
+        id="img_Hazard"
+        src="../../../assets/images/robot/can-type/Hazard.png"
+        alt=""
+      />
     </div>
   </body>
   <script src="./device-robot-play.ts"></script>

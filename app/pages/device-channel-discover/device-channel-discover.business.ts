@@ -28,13 +28,13 @@ export class DeviceChannelDiscoverBusiness {
     return this.service.input.proxy.search()
   }
 
-  create(datas: VideoSourceDescriptor[]) {
-    let channels = datas.map((x) => this.convert(x))
+  create(datas: VideoSourceDescriptor[], username: string, password: string) {
+    let channels = datas.map((x) => this.convert(x, username, password))
     let all = channels.map((x) => this.service.input.proxy.channel.create(x))
     return Promise.all(all)
   }
 
-  convert(video: VideoSourceDescriptor) {
+  convert(video: VideoSourceDescriptor, username: string, password: string) {
     let channel = new InputProxyChannel()
     channel.Id = 0
     channel.PositionNo = 1
@@ -44,8 +44,8 @@ export class DeviceChannelDiscoverBusiness {
     channel.SourceChannel.HostAddress = video.HostAddress
     channel.SourceChannel.PortNo = video.PortNo
     channel.SourceChannel.ProtocolType = video.ProtocolType
-    channel.SourceChannel.UserName = video.UserName
-    channel.SourceChannel.Password = video.Password
+    channel.SourceChannel.UserName = username
+    channel.SourceChannel.Password = password
     channel.SourceChannel.DeviceModel = video.DeviceModel
     channel.SourceChannel.SerialNumber = video.SerialNumber
     channel.SourceChannel.ChannelNo = 1

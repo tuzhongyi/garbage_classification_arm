@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { Language } from '../../../../common/language'
+import { EnumTool } from '../../../../common/tools/enum-tool/enum.tool'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotTableEvent } from '../../device-robot-config.event'
@@ -25,10 +25,10 @@ export class DeviceRobotConfigHtmlNodeTableController {
   private regist() {}
 
   private init() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
-  private append(index: number, node: MeshNode) {
+  private async append(index: number, node: MeshNode) {
     let row = document.createElement('tr')
     row.id = `tr_${node.Id}`
     row.addEventListener('click', (e: MouseEvent) => {
@@ -48,12 +48,12 @@ export class DeviceRobotConfigHtmlNodeTableController {
     let text = document.createElement('div')
     text.innerHTML = node.Name
     div.appendChild(text)
-    cell.title = Language.MeshNodeType(node.NodeType)
+    cell.title = await EnumTool.MeshNodeType(node.NodeType)
     cell.appendChild(div)
     row.appendChild(cell)
 
     cell = document.createElement('td')
-    cell.innerHTML = node.CanType ? Language.CanType(node.CanType) : '-'
+    cell.innerHTML = node.CanType ? await EnumTool.CanType(node.CanType) : '-'
     row.appendChild(cell)
 
     this.tbody.appendChild(row)

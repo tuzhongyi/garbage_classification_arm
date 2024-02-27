@@ -19,16 +19,19 @@ export interface Line {
   end: Position
 }
 
-export class DeviceRobotModel {
+export class DeviceRobotStatus {
   constructor() {
     this.location.Position = new MeshNodePosition()
     this.location.Position.X = 0
     this.location.Position.Y = 0
   }
-  nodes: MeshNode[] = []
-  edges: MeshEdge[] = []
   location: MeshLocation = new MeshLocation()
   robot!: Promise<Robot>
   battery!: Promise<RobotBattery>
+}
+
+export class DeviceRobotModel extends DeviceRobotStatus {
+  nodes: MeshNode[] = []
+  edges: MeshEdge[] = []
   trashcans: RobotTrashCan[] = []
 }

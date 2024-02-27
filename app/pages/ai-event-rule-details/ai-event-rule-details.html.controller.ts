@@ -5,7 +5,7 @@ import { EventEmitter } from '../../common/event-emitter'
 import { IIdNameModel } from '../../data-core/models/model.interface'
 import { AIEventRuleDetailsEvent } from './ai-event-rule-details.event'
 
-import { Language } from '../../common/language'
+import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { wait } from '../../common/tools/wait'
 import { EventType } from '../../data-core/enums/event-type.enum'
@@ -96,7 +96,7 @@ export class AIEventRuleDetailsHtmlController {
   }
 
   private async init(type: EventType) {
-    this.element.input.type.value = await Language.EventType(type)
+    this.element.input.type.value = await EnumTool.EventType(type)
   }
   private regist() {
     this.element.select.aimodel.addEventListener('change', () => {

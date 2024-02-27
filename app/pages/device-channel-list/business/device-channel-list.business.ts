@@ -17,4 +17,8 @@ export class DeviceChannelListBusiness {
     })
     return Promise.all(all)
   }
+
+  picture(id: string) {
+    return this.service.input.proxy.channel.picture(id)
+  }
 }

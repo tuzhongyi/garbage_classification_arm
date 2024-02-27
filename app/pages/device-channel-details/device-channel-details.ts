@@ -1,8 +1,6 @@
-import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { CheckTool } from '../../common/tools/check-tool/check.tool'
 import { LocationTool } from '../../common/tools/location.tool'
-import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
-import { VideoSourceChannel } from '../../data-core/models/arm/video-source-channel.model'
 import { DeviceChannelDetailsBusiness } from './device-channel-details.business'
 import { DeviceChannelDetailsHtmlController } from './device-channel-details.html.controller'
 import { DeviceChannelDetailsMessage } from './device-channel-details.message'
@@ -31,58 +29,21 @@ export namespace DeviceChannelDetails {
       this.html.event.on('cancel', this.oncancel.bind(this))
     }
 
-    get check() {
-      if (!this.html.element.Name.value) {
-        this.message.result({
-          result: false,
-          message: '请输入通道名称',
-          inner: true,
-        })
-        return false
+    check(data: InputProxyChannel) {
+      let args = CheckTool.InputProxyChannel(data)
+      if (args.result) {
+        return true
       }
-      if (!this.html.element.HostAddress.value) {
-        this.message.result({
-          result: false,
-          message: '请输入设备IP地址',
-          inner: true,
-        })
-        return false
-      }
-      if (!this.html.element.PortNo.value) {
-        this.message.result({
-          result: false,
-          message: '请输入设备端口号',
-          inner: true,
-        })
-        return false
-      }
-      if (!this.html.element.ProtocolType.value) {
-        this.message.result({
-          result: false,
-          message: '请选择协议类型',
-          inner: true,
-        })
-        return false
-      }
-      if (!this.html.element.ChannelNo.value) {
-        this.message.result({
-          result: false,
-          message: '请输入设备视频通道编号',
-          inner: true,
-        })
-        return false
-      }
-
-      return true
+      this.message.result(args)
+      return false
     }
 
     oncancel() {
       this.message.close()
     }
     onok() {
-      if (!this.check) return
+      if (!this.check(this.html.get())) return
       let promise: Promise<InputProxyChannel>
-
       if (this.data) {
         promise = this.toupdate(this.data)
       } else {
@@ -103,72 +64,19 @@ export namespace DeviceChannelDetails {
     }
 
     toupdate(data: InputProxyChannel) {
-      data.Name = this.html.element.Name.value
-      data.PositionNo = HtmlTool.get(this.html.element.PositionNo.value, true)
-      data.SourceChannel = new VideoSourceChannel()
-      data.SourceChannel.HostAddress = this.html.element.HostAddress.value
-      data.SourceChannel.PortNo =
-        HtmlTool.get(this.html.element.PortNo.value, true) ?? 0
-      data.SourceChannel.ProtocolType = this.html.element.ProtocolType
-        .value as DeviceProtocolType
-      data.SourceChannel.ChannelNo =
-        HtmlTool.get(this.html.element.ChannelNo.value, true) ?? 0
-      data.SourceChannel.UserName = HtmlTool.get(
-        this.html.element.UserName.value
-      )
-      data.SourceChannel.Password = HtmlTool.get(
-        this.html.element.Password.value
-      )
-      data.SourceChannel.DeviceId = HtmlTool.get(
-        this.html.element.DeviceId.value
-      )
-      data.SourceChannel.SerialNumber = HtmlTool.get(
-        this.html.element.SerialNumber.value
-      )
-      data.SourceChannel.WebPortNo =
-        HtmlTool.get(this.html.element.WebPortNo.value, true) ?? 0
-      data.SourceChannel.DeviceModel = HtmlTool.get(
-        this.html.element.DeviceModel.value
-      )
-      return this.business.update(data)
+      let _data = this.html.get(data)
+      return this.business.update(_data)
     }
     tocreate() {
-      let data = new InputProxyChannel()
-      data.Id = 0
-      data.Name = this.html.element.Name.value
-      data.PositionNo = HtmlTool.get(this.html.element.PositionNo.value, true)
-      data.SourceChannel = new VideoSourceChannel()
-      data.SourceChannel.HostAddress = this.html.element.HostAddress.value
-      data.SourceChannel.PortNo =
-        HtmlTool.get(this.html.element.PortNo.value, true) ?? 0
-      data.SourceChannel.ProtocolType = this.html.element.ProtocolType
-        .value as DeviceProtocolType
-      data.SourceChannel.ChannelNo =
-        HtmlTool.get(this.html.element.ChannelNo.value, true) ?? 0
-      data.SourceChannel.UserName = HtmlTool.get(
-        this.html.element.UserName.value
-      )
-      data.SourceChannel.Password = HtmlTool.get(
-        this.html.element.Password.value
-      )
-      data.SourceChannel.DeviceId = HtmlTool.get(
-        this.html.element.DeviceId.value
-      )
-      data.SourceChannel.SerialNumber = HtmlTool.get(
-        this.html.element.SerialNumber.value
-      )
-      data.SourceChannel.WebPortNo =
-        HtmlTool.get(this.html.element.WebPortNo.value, true) ?? 0
-      data.SourceChannel.DeviceModel = HtmlTool.get(
-        this.html.element.DeviceModel.value
-      )
+      let data = this.html.get()
+
       return this.business.create(data)
     }
 
     get id() {
       console.log(location)
       if (location.search.length === 0) return undefined
-      let querys = LocationTool.querys(location.search)
+      let querys = LocationTool.query.decode(location.search)
       return querys.id
     }
   }

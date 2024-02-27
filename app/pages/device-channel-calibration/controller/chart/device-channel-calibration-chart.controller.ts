@@ -1,7 +1,9 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
+import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
 import { Point } from '../../../../data-core/models/arm/point.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
+import { DeviceChannelCalibrationConverter as Converter } from '../../device-channel-calibration.converter'
 import { DeviceChannelCalibrationChartPointController } from './device-channel-calibration-chart-point.controller'
 import { DeviceChannelCalibrationChartPolygonController } from './device-channel-calibration-chart-polygon.controller'
 import { DeviceChannelCalibrationChartHtmlController } from './device-channel-calibration-chart.html.controller'
@@ -36,6 +38,10 @@ export class DeviceChannelCalibrationChartController {
   private data = {
     points: [] as Point[],
     polygons: [] as Polygon[],
+    resolution: {
+      Width: 0,
+      Height: 0,
+    } as Resolution,
   }
   private point!: DeviceChannelCalibrationChartPointController
   private polygon!: DeviceChannelCalibrationChartPolygonController
@@ -89,7 +95,12 @@ export class DeviceChannelCalibrationChartController {
     this.html.event.on('pointdrawing', (point) => {
       this.current.point = point
       this.reload()
-      this.point.drawing(this.current.point)
+      let point_1 = Converter.point.from(
+        { Width: this.size.width, Height: this.size.height },
+        this.current.point
+      )
+      let point_2 = Converter.point.to(this.data.resolution, point_1)
+      this.point.drawing(this.current.point, `(${point_2.X}, ${point_2.Y})`)
     })
     this.html.event.on('pointover', () => {
       if (this.current.point) {
@@ -192,8 +203,11 @@ export class DeviceChannelCalibrationChartController {
     this.html.display(type)
   }
 
-  load(polygons: Polygon[] = [], points: Point[] = []) {
+  load(resolution: Resolution, polygons: Polygon[] = [], points: Point[] = []) {
     this.clear({ data: true })
+
+    this.data.resolution = resolution
+
     this.data.points = points.map((point) => {
       return {
         X: point.X * this.size.width,

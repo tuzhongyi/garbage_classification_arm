@@ -1,25 +1,58 @@
+import { HTMLTableElementColgroupTool } from './html-table-colgroup.tool'
 import { HTMLTableElementSortTool, Sort } from './html-table-sort.tool'
+import { HtmlTool } from './html.tool'
 
 export class HTMLTableElementTool {
   private _sort = new HTMLTableElementSortTool()
-  appendColgroup(table: HTMLTableElement, widths: string[] = []) {
-    let colgroup = document.createElement('colgroup')
-    for (let i = 0; i < widths.length; i++) {
-      const width = widths[i]
-      let col = document.createElement('col')
-      col.style.width = width
-      colgroup.appendChild(col)
-    }
-    table.appendChild(colgroup)
-  }
-  append(tbody: HTMLTableSectionElement, item: string[]) {
+
+  colgroup = new HTMLTableElementColgroupTool()
+
+  append(
+    tbody: HTMLTableSectionElement,
+    item: string[],
+    operations?: {
+      inner: string
+      id?: string
+      click: (args: { e: MouseEvent; button: HTMLElement }) => void
+    }[]
+  ) {
     let row = document.createElement('tr')
     for (let i = 0; i < item.length; i++) {
-      let cell = document.createElement('td')
-      cell.innerText = item[i]
-      cell.title = item[i]
-      row.appendChild(cell)
+      let td = document.createElement('td')
+      td.innerText = item[i]
+      td.title = item[i]
+      row.appendChild(td)
     }
+
+    if (operations) {
+      let td = document.createElement('td')
+      let operation = document.createElement('div')
+      operation.className = 'operation'
+      for (let i = 0; i < operations.length; i++) {
+        let opt = operations[i]
+        let btn = document.createElement('div')
+
+        btn.className = 'button-icon'
+        btn.innerHTML = opt.inner
+        if (opt.id) {
+          btn.id = opt.id
+        }
+        btn.addEventListener('click', (e) => {
+          let button = HtmlTool.element.findelement(
+            e.target as HTMLElement,
+            'button-icon'
+          ) as HTMLElement
+          opt.click({
+            e: e,
+            button: button,
+          })
+        })
+        operation.appendChild(btn)
+      }
+      td.appendChild(operation)
+      row.appendChild(td)
+    }
+
     tbody.appendChild(row)
   }
 

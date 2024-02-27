@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { Language } from '../../common/language'
+import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { CanType } from '../../data-core/enums/robot/robot-can-type.model'
 import { TrashCanThreshold } from '../../data-core/models/arm/analysis/trash-can-threshold.model'
 import { TrashCanWarningParams } from '../../data-core/models/arm/analysis/trash-can-warning-params.model'
@@ -25,11 +25,11 @@ export class DeviceTrashCanParamsHtmlController {
     })
   }
 
-  private append(item: TrashCanThreshold) {
+  private async append(item: TrashCanThreshold) {
     const clone = this.element.template.content.cloneNode(true) as HTMLElement
 
     let name = clone.querySelector('.name') as HTMLDivElement
-    name.innerHTML = Language.CanType(item.CanType)
+    name.innerHTML = await EnumTool.CanType(item.CanType)
     name.id = item.CanType
     let value = clone.querySelector('.value') as HTMLInputElement
     value.value = item.Threshold.toString()

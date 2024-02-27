@@ -44,8 +44,13 @@ export class DeviceChannelCalibrationHtmlController {
 
   properties = {
     robot: {
-      get: () => {
-        return this.element.select.robot.value
+      get: (): IIdNameModel => {
+        return {
+          Id: this.element.select.robot.value,
+          Name: this.element.select.robot.options[
+            this.element.select.robot.selectedIndex
+          ].text,
+        }
       },
       set: (value: string) => {
         this.element.select.robot.value = value
@@ -54,7 +59,7 @@ export class DeviceChannelCalibrationHtmlController {
     },
     channel: {
       get: () => {
-        return this.element.select.channel.value
+        return parseInt(this.element.select.channel.value)
       },
       set: (value: string) => {
         this.element.select.channel.value = value
@@ -141,7 +146,7 @@ export class DeviceChannelCalibrationHtmlController {
       HtmlTool.select.append(
         {
           Id: types[i],
-          Name: types[i],
+          Name: Language.LensType(types[i]),
         },
         this.element.select.lens_type
       )
@@ -171,11 +176,12 @@ export class DeviceChannelCalibrationHtmlController {
       HtmlTool.select.append(item, this.element.select.channel)
     }
 
-    if (this.element.select.robot.value) {
-      this.selectRobot(this.element.select.robot.value)
-    }
     if (this.element.select.channel.value) {
       this.selectChannel(this.element.select.channel.value)
+    }
+
+    if (this.element.select.robot.value) {
+      this.selectRobot(this.element.select.robot.value)
     }
     if (this.element.select.area_type.value) {
       this.selectAreaType(this.element.select.area_type.value)

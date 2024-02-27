@@ -2,12 +2,15 @@ import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { AddressingType } from '../../data-core/enums/addressing-type.enum'
 import { NetworkInterface } from '../../data-core/models/arm/network-interface.model'
+import { IIdNameModel } from '../../data-core/models/model.interface'
+import { Manager } from '../../data-core/requests/managers/manager'
 import { NetworkConfigTCPIPEvent } from './network-config-tcp-ip.event'
 
 import './network-config-tcp-ip.less'
 
 export class NetworkConfigTCPIPHtmlController {
   constructor() {
+    this._init()
     this.regist()
   }
 
@@ -43,7 +46,32 @@ export class NetworkConfigTCPIPHtmlController {
     save: document.getElementById('save') as HTMLButtonElement,
   }
 
-  regist() {
+  private _init() {
+    Manager.capability.network.then((x) => {
+      if (x.NetworkInterfaceDuplexs) {
+        this.element.Duplex.innerHTML = ''
+        x.NetworkInterfaceDuplexs.forEach((y) => {
+          let item: IIdNameModel = {
+            Id: y.Value,
+            Name: y.Name,
+          }
+          HtmlTool.select.append(item, this.element.Duplex)
+        })
+      }
+      if (x.NetworkInterfaceSpeeds) {
+        this.element.Speed.innerHTML = ''
+        x.NetworkInterfaceSpeeds.forEach((y) => {
+          let item: IIdNameModel = {
+            Id: y.Value,
+            Name: y.Name,
+          }
+          HtmlTool.select.append(item, this.element.Speed)
+        })
+      }
+    })
+  }
+
+  private regist() {
     this.element.Interface.addEventListener('change', () => {
       this.event.emit('select', parseInt(this.element.Interface.value))
     })
@@ -61,16 +89,11 @@ export class NetworkConfigTCPIPHtmlController {
     HtmlTool.input.number.mousewheelchangevalue(this.element.MTU)
   }
 
-  onnegotiationchange() {
+  private onnegotiationchange() {
     this.element.Speed.disabled = this.element.AutoNegotiation.checked
     this.element.Duplex.disabled = this.element.AutoNegotiation.checked
   }
-  ontypechange() {
-    this.element.IPAddress.IPv4.PrimaryDNS.disabled =
-      !this.element.IPAddress.AddressingType.checked
-    this.element.IPAddress.IPv4.SecondaryDNS.disabled =
-      !this.element.IPAddress.AddressingType.checked
-
+  private ontypechange() {
     this.element.IPAddress.IPv4.IPAddress.disabled =
       this.element.IPAddress.AddressingType.checked
     this.element.IPAddress.IPv4.SubnetMask.disabled =
@@ -79,7 +102,7 @@ export class NetworkConfigTCPIPHtmlController {
       this.element.IPAddress.AddressingType.checked
   }
 
-  appendInterface(index: number) {
+  private appendInterface(index: number) {
     let option = document.createElement('option')
     option.value = index.toString()
     option.innerHTML = `网口${index + 1}`

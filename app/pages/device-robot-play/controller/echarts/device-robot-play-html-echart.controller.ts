@@ -18,6 +18,12 @@ export class DeviceRobotPlayHtmlEChartController {
   }
 
   private canvas = document.getElementById('canvas') as HTMLCanvasElement
+  private images = {
+    Dry: document.getElementById('img_Dry') as HTMLImageElement,
+    Wet: document.getElementById('img_Wet') as HTMLImageElement,
+    Recycle: document.getElementById('img_Recycle') as HTMLImageElement,
+    Hazard: document.getElementById('img_Hazard') as HTMLImageElement,
+  }
   private echart: echarts.ECharts
   private option: any = Object.assign({}, option)
   private size: Size = {
@@ -123,7 +129,7 @@ export class DeviceRobotPlayHtmlEChartController {
       this.echart.setOption(this.option)
     },
   }
-  load(data: DeviceRobotModel) {
+  async load(data: DeviceRobotModel) {
     this.clear()
 
     for (let i = 0; i < data.nodes.length; i++) {
@@ -165,10 +171,11 @@ export class DeviceRobotPlayHtmlEChartController {
     for (let i = 0; i < data.trashcans.length; i++) {
       let item = data.trashcans[i]
       if (item.Position) {
-        this.appendMark(this.converter.TrashCan(data.trashcans[i]))
+        this.appendMark(
+          await this.converter.TrashCan(data.trashcans[i], this.images)
+        )
       }
     }
-    console.log(this.option)
     this.echart.setOption(this.option)
   }
 }

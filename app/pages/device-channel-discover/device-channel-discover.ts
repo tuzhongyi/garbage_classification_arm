@@ -1,4 +1,3 @@
-import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
 import { VideoSourceDescriptor } from '../../data-core/models/arm/video-source-descriptor.model'
 import { DeviceChannelDiscoverBusiness } from './device-channel-discover.business'
 import { DeviceChannelDiscoverHtmlController } from './device-channel-discover.html.controller'
@@ -10,49 +9,22 @@ export namespace DeviceChannelDiscover {
       this.regist()
       this.load()
     }
-    html = new DeviceChannelDiscoverHtmlController()
-    business = new DeviceChannelDiscoverBusiness()
-    message = new DeviceChannelDiscoverMessage()
-    datas: VideoSourceDescriptor[] = []
-    timeout = 10
-    sort?: Sort
+    private html = new DeviceChannelDiscoverHtmlController()
+    private business = new DeviceChannelDiscoverBusiness()
+    private message = new DeviceChannelDiscoverMessage()
+    private datas: VideoSourceDescriptor[] = []
 
-    async load(index = 0) {
-      if (index === this.timeout) return
-      let has = await this.loading()
-      index = has ? 0 : ++index
-      setTimeout(() => {
-        this.load(index)
-      }, 1000)
-    }
-
-    async loading() {
-      let datas = await this.business.load()
-      let noincludes = []
-      for (let i = 0; i < datas.length; i++) {
-        const data = datas[i]
-        let index = this.datas.findIndex(
-          (x) => x.HostAddress == data.HostAddress
-        )
-        if (index < 0) {
-          noincludes.push(data)
-        }
-      }
-      this.html.element.table.load(noincludes)
-      this.datas.push(...noincludes)
-      return noincludes.length > 0
+    async load() {
+      this.datas = await this.business.load()
+      this.html.load(this.datas)
     }
 
     regist() {
-      this.html.element.table.event.on('sort', this.onsort.bind(this))
       this.html.event.on('search', (text) => {
         this.onsearch(text)
       })
       this.html.event.on('refresh', () => {
         this.onrefresh()
-      })
-      this.html.event.on('password', () => {
-        this.onpassword()
       })
       this.html.event.on('ok', () => {
         this.onok()
@@ -62,17 +34,12 @@ export namespace DeviceChannelDiscover {
       })
     }
 
-    onsort(sort: Sort) {
-      this.sort = sort
-    }
-
     onok() {
-      if (this.html.element.table.selecteds.length > 0) {
-        let datas = this.datas.filter((x) =>
-          this.html.element.table.selecteds.includes(x.Id.toString())
-        )
+      if (this.html.selecteds.length > 0) {
+        let datas = this.html.selecteds
+        let info = this.html.confirm.get()
         this.business
-          .create(datas)
+          .create(datas, info.username, info.password)
           .then((x) => {
             this.message.result({
               result: true,
@@ -88,21 +55,20 @@ export namespace DeviceChannelDiscover {
       this.message.close()
     }
     onrefresh() {
-      this.html.element.table.clear()
       this.datas = []
+      this.html.clear()
       this.load()
     }
-    onpassword() {}
 
     onsearch(text: string) {
-      this.html.element.table.clear()
+      this.html.clear()
       if (text) {
         let datas = this.datas.filter((x) =>
           x.HostAddress.toLowerCase().includes(text.toLowerCase())
         )
-        this.html.element.table.load(datas)
+        this.html.load(datas)
       } else {
-        this.html.element.table.load(this.datas)
+        this.html.load(this.datas)
       }
     }
   }

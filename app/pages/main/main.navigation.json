@@ -31,16 +31,6 @@
       }
     ]
   },
-  "station": {
-    "id": "station",
-    "name": "投放点管理",
-    "children": [
-      {
-        "id": "station_info",
-        "name": "投放点信息"
-      }
-    ]
-  },
   "device": {
     "id": "device",
     "name": "设备管理",
@@ -56,14 +46,6 @@
       {
         "id": "device_trashcan",
         "name": "垃圾桶"
-      },
-      {
-        "id": "device_door",
-        "name": "感应门"
-      },
-      {
-        "id": "device_rfid",
-        "name": "读卡器"
       }
     ]
   },
@@ -72,12 +54,12 @@
     "name": "AI智能分析",
     "children": [
       {
-        "id": "ai_model",
-        "name": "AI模型"
-      },
-      {
         "id": "ai_event",
         "name": "AI事件"
+      },
+      {
+        "id": "ai_model",
+        "name": "AI模型"
       },
       {
         "id": "ai_server",

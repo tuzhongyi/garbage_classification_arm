@@ -1,9 +1,10 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { Language } from '../../common/language'
+import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
 import { DeviceRobotPlayHtmlStatusController } from './controller/details/device-robot-play.html-status.controller'
+import { DeviceRobotPlayHtmlTrashCansController } from './controller/details/device-robot-play.html-trashcans.controller'
 import { DeviceRobotPlayHtmlEChartController } from './controller/echarts/device-robot-play-html-echart.controller'
 import { DeviceRobotPlayEvent } from './device-robot-play.event'
 import './less/device-robot-play-details.less'
@@ -62,6 +63,7 @@ export class DeviceRobotPlayHtmlController {
   event: EventEmitter<DeviceRobotPlayEvent> = new EventEmitter()
   echart = new DeviceRobotPlayHtmlEChartController()
   status = new DeviceRobotPlayHtmlStatusController()
+  trashcans = new DeviceRobotPlayHtmlTrashCansController()
 
   private _ismove: boolean = true
   public get ismove(): boolean {
@@ -159,39 +161,41 @@ export class DeviceRobotPlayHtmlController {
     this.clearTarget()
   }
 
-  selectTarget(data: MeshNode) {
+  async selectTarget(data: MeshNode) {
     this.selected.target = data
     this.element.node.target.id.value = data.Id
     this.element.node.target.rfid.value = data.Rfid ?? ''
     this.element.node.target.name.value = data.Name ?? ''
-    this.element.node.target.nodeType.value = Language.MeshNodeType(
+    this.element.node.target.nodeType.value = await EnumTool.MeshNodeType(
       data.NodeType
     )
-    this.element.node.target.cantype.value = Language.CanType(data.CanType)
+    this.element.node.target.cantype.value = await EnumTool.CanType(
+      data.CanType
+    )
   }
-  selectDrop(data: MeshNode) {
+  async selectDrop(data: MeshNode) {
     this.selected.drop = data
     this.element.node.drop.id.value = data.Id
     this.element.node.drop.rfid.value = data.Rfid ?? ''
     this.element.node.drop.name.value = data.Name ?? ''
 
-    this.element.node.drop.cantype.value = Language.CanType(data.CanType)
+    this.element.node.drop.cantype.value = await EnumTool.CanType(data.CanType)
     this.echart.end.clear()
     this.echart.end.set(data.Id)
   }
-  selectStore(data: MeshNode) {
+  async selectStore(data: MeshNode) {
     this.selected.store = data
     this.element.node.store.id.value = data.Id
     this.element.node.store.rfid.value = data.Rfid ?? ''
     this.element.node.store.name.value = data.Name ?? ''
 
-    this.element.node.store.cantype.value = Language.CanType(data.CanType)
+    this.element.node.store.cantype.value = await EnumTool.CanType(data.CanType)
     this.echart.start.clear()
     this.echart.start.set(data.Id)
   }
 
   async load(model: DeviceRobotModel) {
     this.echart.load(model)
-    this.status.load(await model.robot, await model.battery, model.location)
+    this.status.load(model)
   }
 }

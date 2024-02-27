@@ -8,13 +8,13 @@ import {
 } from '../main/main.event'
 
 import {
-  DeviceTrashCanParamsMessageReceiverEvent,
-  DeviceTrashCanParamsMessageSenderEvent,
-} from '../device-trashcan-params/device-trashcan-params.message'
+  AIAnalysisServerSourceMessageReceiverEvent,
+  AIAnalysisServerSourceMessageSenderEvent,
+} from '../ai-analysis-server-source/ai-analysis-server-source.message'
 
 interface MessageReceiverEvent
-  extends DeviceTrashCanParamsMessageReceiverEvent {}
-interface MessageSenderEvent extends DeviceTrashCanParamsMessageSenderEvent {}
+  extends AIAnalysisServerSourceMessageReceiverEvent {}
+interface MessageSenderEvent extends AIAnalysisServerSourceMessageSenderEvent {}
 
 export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
   constructor(iframe: HTMLIFrameElement) {
@@ -28,19 +28,28 @@ export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
   >(['open', 'confirm'])
   proxy: EventMessageProxy<MessageSenderEvent>
 
+  command?: number
+
   regist() {
-    this.proxy.event.on('confirm', (args) => {
+    this.proxy.event.on('delete_confirm', (args) => {
+      this.command = 1
       this.client.sender.emit('confirm', args)
     })
-    this.client.receiver.on('result', (args) => {
-      this.result(args)
+    this.client.receiver.on('result', (result) => {
+      switch (this.command) {
+        case 1:
+          this.delete_result(result)
+          break
+        default:
+          break
+      }
     })
   }
 
-  result(args: ResultArgs): void {
+  delete_result(result: ResultArgs): void {
     this.proxy.message({
-      command: 'result',
-      value: args,
+      command: 'delete_result',
+      value: result,
       index: 0,
     })
   }

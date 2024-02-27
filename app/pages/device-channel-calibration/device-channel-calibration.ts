@@ -1,3 +1,4 @@
+import { CheckTool } from '../../common/tools/check-tool/check.tool'
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { LensType } from '../../data-core/enums/lens-type.enum'
@@ -5,6 +6,7 @@ import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { ChannelCalibrationArea } from '../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
+import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
 import { Polygon } from '../../data-core/models/arm/polygon.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { DeviceChannelCalibrationBusiness } from './business/device-channel-calibration.business'
@@ -54,17 +56,13 @@ export namespace DeviceChannelCalibration {
       }
       let id = this.model.data.Points!.length + 1
       let type = this.html.properties.areaType.get()
-      let _position = Converter.point.to(this.model.data.Resolution, position)
-      let point = Creater.Point(id, type, _position)
+      let point = Creater.Point(id, type, position)
       this.model.data.Points.push(point)
 
       this.html.details.chart.load(
-        this.model.data.Areas?.map((x) =>
-          Converter.polygon.from(this.model.data.Resolution, x.Polygon)
-        ),
-        this.model.data.Points?.map((x) =>
-          Converter.point.from(this.model.data.Resolution, x.Coordinate)
-        )
+        this.model.data.Resolution,
+        this.model.data.Areas?.map((x) => x.Polygon),
+        this.model.data.Points?.map((x) => x.Coordinate)
       )
       this.html.details.table.load(
         this.model.data.Areas,
@@ -79,17 +77,13 @@ export namespace DeviceChannelCalibration {
       }
       let id = this.model.data.Areas!.length + 1
       let type = this.html.properties.areaType.get()
-      let _polygon = Converter.polygon.to(this.model.data.Resolution, polygon)
-      let area = Creater.Area(id, type, _polygon)
+      let area = Creater.Area(id, type, polygon)
       this.model.data.Areas.push(area)
 
       this.html.details.chart.load(
-        this.model.data.Areas?.map((x) =>
-          Converter.polygon.from(this.model.data.Resolution, x.Polygon)
-        ),
-        this.model.data.Points?.map((x) =>
-          Converter.point.from(this.model.data.Resolution, x.Coordinate)
-        )
+        this.model.data.Resolution,
+        this.model.data.Areas?.map((x) => x.Polygon),
+        this.model.data.Points?.map((x) => x.Coordinate)
       )
       this.html.details.table.load(
         this.model.data.Areas,
@@ -132,18 +126,17 @@ export namespace DeviceChannelCalibration {
         })
 
         if (data instanceof ChannelCalibrationPoint) {
+          let _point = Converter.point.to(
+            this.model.data.Resolution,
+            data.Coordinate
+          )
           this.html.details.chart.selectPoint({
-            point: Converter.point.from(
-              this.model.data.Resolution,
-              data.Coordinate
-            ),
-            text: `(${data.Coordinate.X},${data.Coordinate.Y})`,
+            point: data.Coordinate,
+            text: `(${_point.X},${_point.Y})`,
           })
           this.html.details.chart.reload()
         } else if (data instanceof ChannelCalibrationArea) {
-          this.html.details.chart.selectPolygon(
-            Converter.polygon.from(this.model.data.Resolution, data.Polygon)
-          )
+          this.html.details.chart.selectPolygon(data.Polygon)
           this.html.details.chart.reload()
         }
       })
@@ -162,12 +155,9 @@ export namespace DeviceChannelCalibration {
 
         if (index >= 0) {
           this.html.details.chart.load(
-            this.model.data.Areas?.map((x) =>
-              Converter.polygon.from(this.model.data.Resolution, x.Polygon)
-            ),
-            this.model.data.Points?.map((x) =>
-              Converter.point.from(this.model.data.Resolution, x.Coordinate)
-            )
+            this.model.data.Resolution,
+            this.model.data.Areas?.map((x) => x.Polygon),
+            this.model.data.Points?.map((x) => x.Coordinate)
           )
         }
       })
@@ -224,12 +214,9 @@ export namespace DeviceChannelCalibration {
           }
 
           this.html.details.chart.load(
-            this.model.data.Areas?.map((x) =>
-              Converter.polygon.from(this.model.data.Resolution, x.Polygon)
-            ),
-            this.model.data.Points?.map((x) =>
-              Converter.point.from(this.model.data.Resolution, x.Coordinate)
-            )
+            this.model.data.Resolution,
+            this.model.data.Areas?.map((x) => x.Polygon),
+            this.model.data.Points?.map((x) => x.Coordinate)
           )
           this.html.details.table.load(
             this.model.data.Areas,
@@ -240,6 +227,7 @@ export namespace DeviceChannelCalibration {
           this.loadAreaType()
         })
         .catch((e) => {
+          this.model.data = new ChannelCalibration()
           if (resolution) {
             this.model.data.Resolution = resolution
           }
@@ -317,16 +305,36 @@ export namespace DeviceChannelCalibration {
       this.model.data.LensType = type
     }
 
+    check(data: ChannelCalibration) {
+      let args = CheckTool.ChannelCalibration(
+        data,
+        this.html.properties.areaType.get()
+      )
+      if (args.result) {
+        return true
+      }
+      MessageBar.warning(args.message)
+      return false
+    }
+
     save() {
-      this.business.channel.calibration
-        .set(this.model.data)
-        .then((x) => {
-          MessageBar.success('保存成功')
-          this.load(x.ChannelId.toString())
-        })
-        .catch((e) => {
-          MessageBar.error('保存失败')
-        })
+      let robot = this.html.properties.robot.get()
+      this.model.data.RobotId = robot.Id
+      this.model.data.RobotName = robot.Name
+      this.model.data.ChannelId = this.html.properties.channel.get()
+      this.model.data.LensType = this.html.properties.lensType.get()
+
+      if (this.check(this.model.data)) {
+        this.business.channel.calibration
+          .set(this.model.data)
+          .then((x) => {
+            MessageBar.success('保存成功')
+            this.load(x.ChannelId.toString())
+          })
+          .catch((e) => {
+            MessageBar.error('保存失败')
+          })
+      }
     }
   }
 

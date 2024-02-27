@@ -1,6 +1,4 @@
-import { LocaleCompare } from '../../common/tools/compare-tool/compare.tool'
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
-import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { DeviceChannelListBusiness } from './business/device-channel-list.business'
 import { DeviceChannelListHtmlController } from './device-channel-list.html.controller'
@@ -18,18 +16,16 @@ export namespace DeviceChannelList {
     message = new DeviceChannelListMessage()
     window = new DeviceChannelListWindow()
     datas: InputProxyChannel[] = []
-    sort?: Sort
+
     async load() {
       this.datas = await this.business.load()
-      if (this.sort) {
-        this.tosort(this.sort)
-      }
+      this.html.element.table.clear()
       this.html.element.table.load(this.datas)
     }
 
     regist() {
       this.html.element.table.event.on('modify', this.onmodify.bind(this))
-      this.html.element.table.event.on('sort', this.onsort.bind(this))
+      this.html.element.table.event.on('picture', this.onpicture.bind(this))
 
       this.html.event.on('create', this.oncreate.bind(this))
       this.html.event.on('search', this.onsearch.bind(this))
@@ -41,34 +37,6 @@ export namespace DeviceChannelList {
 
       this.html.event.on('sync', this.onsync.bind(this))
       this.message.event.on('tosync', this.tosync.bind(this))
-    }
-    tosort(sort: Sort) {
-      this.datas = this.datas.sort((a: any, b: any) => {
-        let _a = a
-        let _b = b
-        switch (sort.active) {
-          case 'HostAddress':
-          case 'PortNo':
-          case 'ProtocolType':
-          case 'DeviceModel':
-          case 'SerialNumber':
-            _a = a.SourceChannel
-            _b = b.SourceChannel
-            break
-          default:
-            break
-        }
-        return LocaleCompare.compare(
-          _a[sort.active],
-          _b[sort.active],
-          sort.direction === 'asc'
-        )
-      })
-    }
-    onsort(sort: Sort) {
-      this.sort = sort
-      this.tosort(sort)
-      this.html.element.table.load(this.datas)
     }
     ondiscover() {
       this.message.discover(this.window.discover)
@@ -94,6 +62,19 @@ export namespace DeviceChannelList {
           MessageBar.error('同步失败')
         }
       })
+    }
+
+    onpicture(id: string) {
+      let channel = this.datas.find((x) => x.Id.toString() === id)
+      if (channel) {
+        this.window.picture.query.title = channel.Name
+      }
+      this.window.picture.query.img = this.business.picture(id)
+      let width = window.innerWidth * 0.7
+      let height = (width / 16) * 9 + 50
+      this.window.picture.style.width = `${width}px`
+      this.window.picture.style.height = `${height}px`
+      this.message.picture(this.window.picture)
     }
     ondelete(ids: string[]) {
       this.window.confirm.ids = ids

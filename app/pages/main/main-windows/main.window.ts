@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../common/event-emitter'
 import { EventMessageProxy } from '../../../common/event-message/event-message.proxy'
+import { LocationTool } from '../../../common/tools/location.tool'
 import { WindowModel } from '../../window/window.model'
 import {
   MainWindowMessageEvent,
@@ -23,18 +24,7 @@ export class ArmMainWindow {
     this.opened = true
 
     if (args.query) {
-      let url = args.url
-      let index = 0
-      for (const key in args.query) {
-        if (index === 0) {
-          url += '?'
-        } else {
-          url += '&'
-        }
-        url += `${key}=${args.query[key]}`
-        index++
-      }
-      this.iframe.src = url
+      this.iframe.src = LocationTool.query.encode(args.url, args.query)
     } else {
       this.iframe.src = args.url
     }

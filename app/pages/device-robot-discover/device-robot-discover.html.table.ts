@@ -16,6 +16,13 @@ export class DeviceRobotDiscoverHtmlTable {
     '#table tbody'
   ) as HTMLTableSectionElement
 
+  public get show(): boolean {
+    return (this.table.parentElement as HTMLElement).style.display !== 'none'
+  }
+  public set show(v: boolean) {
+    ;(this.table.parentElement as HTMLElement).style.display = v ? '' : 'none'
+  }
+
   element = {
     thead: {
       checkall: document.getElementById('checkall') as HTMLInputElement,
@@ -41,12 +48,13 @@ export class DeviceRobotDiscoverHtmlTable {
   }
 
   private init() {
+    this.show = false
     this.initColGroup()
     // $(this.table).tablesorter()
   }
 
   private initColGroup() {
-    HtmlTool.table.appendColgroup(this.table, this.widths)
+    HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
   private append(id: string, item: string[]) {

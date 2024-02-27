@@ -4,13 +4,23 @@ import { Point } from '../../../../data-core/models/arm/point.model'
 export class DeviceChannelCalibrationChartPointController {
   constructor(private ctx: CanvasRenderingContext2D) {}
 
-  drawing(point: Point) {
+  drawing(point: Point, text: string) {
     this.ctx.beginPath()
     this.ctx.strokeStyle = ColorTool.canvas.stroke.drawing
     this.ctx.fillStyle = ColorTool.canvas.fill.drawing
     this.ctx.arc(point.X, point.Y, 5, 0, Math.PI * 2)
     this.ctx.fill()
     this.ctx.stroke()
+
+    if (text) {
+      this.ctx.beginPath()
+      this.ctx.font = '18px Arial'
+      this.ctx.fillStyle = '#fff'
+      this.ctx.textAlign = 'center'
+      this.ctx.fillText(text, point.X, point.Y + 30)
+      this.ctx.closePath()
+    }
+
     this.ctx.closePath()
   }
 

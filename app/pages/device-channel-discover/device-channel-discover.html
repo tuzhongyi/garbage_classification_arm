@@ -33,19 +33,20 @@
             </div>
           </div>
           <div class="device-channel-discover-body">
+            <div class="loading" id="loading">正在搜索，请稍候……</div>
             <div class="table">
               <table id="table" border="0" cellpadding="0" cellspacing="0">
                 <thead>
                   <tr>
                     <th><input type="checkbox" id="checkall" /></th>
                     <th>序号</th>
-                    <th>节点类型</th>
-                    <th>子类型</th>
-                    <th>通道数</th>
-                    <th>设备型号</th>
-                    <th>协议</th>
-                    <th>设备序列号</th>
-                    <th>MAC地址</th>
+                    <th sort="HostAddress">IP地址</th>
+                    <th sort="PortNo">端口号</th>
+                    <th sort="ChannelNumber">通道数</th>
+                    <th sort="DeviceModel">设备型号</th>
+                    <th sort="ProtocolType">协议</th>
+                    <th sort="SerialNumber">设备序列号</th>
+                    <th sort="MACAddress">MAC地址</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -58,6 +59,32 @@
       <div class="window-foot">
         <button class="button-blue-line" id="btn_ok">确定</button
         ><button class="button-line" id="btn_cancel">取消</button>
+      </div>
+
+      <div class="window-mask" id="confirm_mask" style="display: none">
+        <div class="window" id="confirm">
+          <div class="window-head">提示</div>
+          <div class="window-body">
+            <div class="forms">
+              <div class="form-item">
+                <div class="form-item-title">用户名</div>
+                <div class="form-item-value">
+                  <input type="text" id="confirm_username" />
+                </div>
+              </div>
+              <div class="form-item">
+                <div class="form-item-title">密码</div>
+                <div class="form-item-value">
+                  <input type="text" id="confirm_password" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="window-foot">
+            <button class="button-blue-line" id="btn_confirm_ok">确定</button
+            ><button class="button-line" id="btn_confirm_cancel">取消</button>
+          </div>
+        </div>
       </div>
     </div>
 
