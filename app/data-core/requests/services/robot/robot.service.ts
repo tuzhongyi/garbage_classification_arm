@@ -6,6 +6,7 @@ import { MeshEdge } from '../../../models/robot/mesh-edge.model'
 import { MeshLocation } from '../../../models/robot/mesh-location.model'
 import { MeshNode } from '../../../models/robot/mesh-node.model'
 import { RobotBattery } from '../../../models/robot/robot-battery.model'
+import { RobotCalibration } from '../../../models/robot/robot-calibration.model'
 import { RobotCommandResult } from '../../../models/robot/robot-command-result.model'
 import { RobotCommand } from '../../../models/robot/robot-command.model'
 import { RobotDeviceError } from '../../../models/robot/robot-device-error.model'
@@ -111,6 +112,12 @@ export class ArmRobotRequestService {
       let url = ArmRobotUrl.calibration.stop(id)
       return this.http.post<HowellResponse>(url).then((x) => {
         return x.FaultCode === 0
+      })
+    },
+    status: (id: string) => {
+      let url = ArmRobotUrl.calibration.status(id)
+      return this.http.get<HowellResponse<RobotCalibration>>(url).then((x) => {
+        return HowellResponseProcess.item(x, RobotCalibration)
       })
     },
   }

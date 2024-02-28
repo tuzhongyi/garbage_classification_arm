@@ -6,7 +6,7 @@ import { DeviceRobotModel } from '../device-robot/device-robot.model'
 import { DeviceRobotPlayBusiness } from './business/device-robot-play.business'
 import { DeviceRobotPlayHtmlController } from './device-robot-play.html.controller'
 
-export namespace DeviceRobotConfig {
+export namespace DeviceRobotCalibration {
   class Controller {
     constructor() {
       this.regist()

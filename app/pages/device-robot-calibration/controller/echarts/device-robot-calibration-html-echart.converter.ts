@@ -4,7 +4,7 @@ import { MeshEdge } from '../../../../data-core/models/robot/mesh-edge.model'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { Position, Size } from '../../../device-robot/device-robot.model'
 
-export class DeviceRobotConfigHtmlEChartConverter {
+export class DeviceRobotCalibrationHtmlEChartConverter {
   size: Size = {
     width: 0,
     height: 0,

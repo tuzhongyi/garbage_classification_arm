@@ -101,7 +101,7 @@ export namespace DeviceRobotIndex {
         case 1:
           return `../device-robot-info/device-robot-info.html${params}`
         case 2:
-          return `../device-robot-config/device-robot-config.html${params}`
+          return `../device-robot-calibration/device-robot-calibration.html${params}`
         case 3:
           return `../device-robot-play/device-robot-play.html${params}`
         case 4:

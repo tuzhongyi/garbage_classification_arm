@@ -4,26 +4,26 @@ import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 
-export interface DeviceRobotConfigMessageReceiverEvent {
+export interface DeviceRobotCalibrationMessageReceiverEvent {
   start_result(result: ResultArgs): void
 }
-export interface DeviceRobotConfigMessageSenderEvent {
+export interface DeviceRobotCalibrationMessageSenderEvent {
   start_confirm(window: ConfirmWindowModel): void
 }
 interface MessageEvent {
   tostart(): void
 }
 
-export class DeviceRobotConfigMessage
-  implements DeviceRobotConfigMessageSenderEvent
+export class DeviceRobotCalibrationMessage
+  implements DeviceRobotCalibrationMessageSenderEvent
 {
   event: EventEmitter<MessageEvent> = new EventEmitter()
   constructor() {
     this.reigst()
   }
   private client = new EventMessageClient<
-    DeviceRobotConfigMessageSenderEvent,
-    DeviceRobotConfigMessageReceiverEvent
+    DeviceRobotCalibrationMessageSenderEvent,
+    DeviceRobotCalibrationMessageReceiverEvent
   >(['start_confirm'])
   private reigst() {
     this.client.receiver.on('start_result', (args) => {

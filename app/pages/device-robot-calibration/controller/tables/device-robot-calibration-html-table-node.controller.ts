@@ -2,9 +2,9 @@ import { EventEmitter } from '../../../../common/event-emitter'
 import { EnumTool } from '../../../../common/tools/enum-tool/enum.tool'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
-import { DeviceRobotTableEvent } from '../../device-robot-config.event'
+import { DeviceRobotTableEvent } from '../../device-robot-calibration.event'
 
-export class DeviceRobotConfigHtmlNodeTableController {
+export class DeviceRobotCalibrationHtmlNodeTableController {
   event: EventEmitter<DeviceRobotTableEvent> = new EventEmitter()
   selected?: string
   constructor() {
@@ -28,7 +28,7 @@ export class DeviceRobotConfigHtmlNodeTableController {
     HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
-  private async append(index: number, node: MeshNode) {
+  private async append(node: MeshNode) {
     let row = document.createElement('tr')
     row.id = `tr_${node.Id}`
     row.addEventListener('click', (e: MouseEvent) => {
@@ -76,10 +76,10 @@ export class DeviceRobotConfigHtmlNodeTableController {
     this.selected = undefined
   }
 
-  load(datas: MeshNode[]) {
+  async load(datas: MeshNode[]) {
     this.clear()
     for (let i = 0; i < datas.length; i++) {
-      this.append(i + 1, datas[i])
+      await this.append(datas[i])
     }
   }
 

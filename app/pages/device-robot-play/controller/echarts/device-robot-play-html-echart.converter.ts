@@ -8,7 +8,7 @@ import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { RobotTrashCan } from '../../../../data-core/models/robot/robot-trash-can.model'
 import { Position, Size } from '../../../device-robot/device-robot.model'
 
-export class DeviceRobotConfigHtmlEChartConverter {
+export class DeviceRobotCalibrationHtmlEChartConverter {
   itemStyle = {
     MagneticPin: {
       itemStyle: {

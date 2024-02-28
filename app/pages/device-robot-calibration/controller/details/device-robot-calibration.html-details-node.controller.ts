@@ -4,9 +4,9 @@ import { CanType } from '../../../../data-core/enums/robot/robot-can-type.model'
 import { MeshEdge } from '../../../../data-core/models/robot/mesh-edge.model'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotTool } from '../../../device-robot/device-robot.tool'
-import { DeviceRobotConfigDetailsEvent } from '../../device-robot-config.event'
+import { DeviceRobotCalibrationDetailsEvent } from '../../device-robot-calibration.event'
 
-export class DeviceRobotConfigHtmlNodeDetailsController {
+export class DeviceRobotCalibrationHtmlNodeDetailsController {
   constructor() {
     this.regist()
   }
@@ -49,7 +49,7 @@ export class DeviceRobotConfigHtmlNodeDetailsController {
     save: document.getElementById('node_save') as HTMLButtonElement,
   }
 
-  event: EventEmitter<DeviceRobotConfigDetailsEvent> = new EventEmitter()
+  event: EventEmitter<DeviceRobotCalibrationDetailsEvent> = new EventEmitter()
 
   regist() {
     this.element.node.nodetype.ChargingPort.addEventListener('click', () => {

@@ -39,9 +39,9 @@ export class DeviceTrashCanParamsHtmlController {
   clear() {
     this.element.forms.innerHTML = ''
   }
-  load(data: TrashCanWarningParams = { CanThresholds: [] }) {
+  async load(data: TrashCanWarningParams = { CanThresholds: [] }) {
     for (let i = 0; i < data.CanThresholds.length; i++) {
-      this.append(data.CanThresholds[i])
+      await this.append(data.CanThresholds[i])
     }
   }
 

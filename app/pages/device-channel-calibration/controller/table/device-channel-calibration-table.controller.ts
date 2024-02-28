@@ -44,6 +44,7 @@ export class DeviceChannelCalibrationTableController {
       let item = this.data.points.find((x) => x.No.toString() == id)
       this.event.emit('remove', item)
     })
+    this.html.event.on('sort', (sort) => {})
   }
 
   private getId(type: CalibrationMode, no: number) {

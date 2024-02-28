@@ -1,4 +1,4 @@
-.device-robot-config {
+.device-robot-calibration {
   &-body {
 
 
@@ -28,10 +28,13 @@
         height: calc(100% - @startup-height - 8px);
 
         padding: 15px;
+        overflow-x: visible;
         box-sizing: border-box;
 
         &-content {
           height: calc(100% - 50px);
+          width: calc(100%);
+          padding-right: 15px;
           overflow-y: auto;
 
           .form-item {

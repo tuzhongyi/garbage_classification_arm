@@ -2,9 +2,9 @@ import { EventEmitter } from '../../common/event-emitter'
 import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import {
-  DeviceRobotConfigMessageReceiverEvent,
-  DeviceRobotConfigMessageSenderEvent,
-} from '../device-robot-config/device-robot-config.message'
+  DeviceRobotCalibrationMessageReceiverEvent,
+  DeviceRobotCalibrationMessageSenderEvent,
+} from '../device-robot-calibration/device-robot-calibration.message'
 import {
   DeviceRobotListMessageReceiverEvent,
   DeviceRobotListMessageSenderEvent,
@@ -24,10 +24,10 @@ interface MessageEvent {
 
 interface MessageReceiverEvent
   extends DeviceRobotListMessageReceiverEvent,
-    DeviceRobotConfigMessageReceiverEvent {}
+    DeviceRobotCalibrationMessageReceiverEvent {}
 interface MessageSenderEvent
   extends DeviceRobotListMessageSenderEvent,
-    DeviceRobotConfigMessageSenderEvent {}
+    DeviceRobotCalibrationMessageSenderEvent {}
 
 export class DeviceRobotIndexMessage implements MessageReceiverEvent {
   event: EventEmitter<MessageEvent> = new EventEmitter()

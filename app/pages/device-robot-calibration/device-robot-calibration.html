@@ -7,6 +7,7 @@
     <title>垃圾分类</title>
     <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
     <link rel="stylesheet" href="../../../assets/css/howell.css" />
+
     <script src="../../../assets/js/ext.js"></script>
     <script src="../../../assets/js/jquery.min.js"></script>
 
@@ -14,9 +15,9 @@
   </head>
 
   <body>
-    <div class="device-robot-config">
-      <div class="device-robot-config-body">
-        <div class="device-robot-config-body-left">
+    <div class="device-robot-calibration">
+      <div class="device-robot-calibration-body">
+        <div class="device-robot-calibration-body-left">
           <div class="startup">
             <button class="button-blue" id="btn_start">开始标定</button>
             <button class="button-blue" id="btn_stop" style="display: none">
@@ -130,7 +131,7 @@
             </div>
           </div>
         </div>
-        <div class="device-robot-config-body-display">
+        <div class="device-robot-calibration-body-display">
           <div class="status">
             <div class="status-item">
               <div class="status-item-title">设备：</div>
@@ -153,7 +154,7 @@
           </div>
         </div>
 
-        <div class="device-robot-config-body-right">
+        <div class="device-robot-calibration-body-right">
           <div class="mesh-nodes table">
             <table id="table" border="0" cellpadding="0" cellspacing="0">
               <thead>
@@ -189,5 +190,5 @@
       </div>
     </div>
   </body>
-  <script src="./device-robot-config.ts"></script>
+  <script src="./device-robot-calibration.ts"></script>
 </html>

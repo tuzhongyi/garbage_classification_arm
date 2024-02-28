@@ -5,11 +5,11 @@ import {
   DeviceRobotModel,
   Size,
 } from '../../../device-robot/device-robot.model'
-import { DeviceRobotConfigEChartEvent } from '../../device-robot-config.event'
-import { DeviceRobotConfigHtmlEChartConverter } from './device-robot-config-html-echart.converter'
-import { option } from './device-robot-config.option'
-export class DeviceRobotConfigHtmlEChartController {
-  event: EventEmitter<DeviceRobotConfigEChartEvent> = new EventEmitter()
+import { DeviceRobotCalibrationEChartEvent } from '../../device-robot-calibration.event'
+import { DeviceRobotCalibrationHtmlEChartConverter } from './device-robot-calibration-html-echart.converter'
+import { option } from './device-robot-calibration.option'
+export class DeviceRobotCalibrationHtmlEChartController {
+  event: EventEmitter<DeviceRobotCalibrationEChartEvent> = new EventEmitter()
   constructor() {
     this.initCanvas()
     this.echart = echarts.init(this.canvas)
@@ -23,7 +23,7 @@ export class DeviceRobotConfigHtmlEChartController {
     width: 0,
     height: 0,
   }
-  private converter = new DeviceRobotConfigHtmlEChartConverter()
+  private converter = new DeviceRobotCalibrationHtmlEChartConverter()
 
   disabled = false
 

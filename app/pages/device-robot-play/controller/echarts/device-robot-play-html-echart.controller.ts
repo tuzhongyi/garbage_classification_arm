@@ -7,7 +7,7 @@ import {
 } from '../../../device-robot/device-robot.model'
 import { DeviceRobotPlayEChartEvent } from '../../device-robot-play.event'
 
-import { DeviceRobotConfigHtmlEChartConverter } from './device-robot-play-html-echart.converter'
+import { DeviceRobotCalibrationHtmlEChartConverter } from './device-robot-play-html-echart.converter'
 import { option } from './device-robot-play.option'
 export class DeviceRobotPlayHtmlEChartController {
   event: EventEmitter<DeviceRobotPlayEChartEvent> = new EventEmitter()
@@ -30,7 +30,7 @@ export class DeviceRobotPlayHtmlEChartController {
     width: 0,
     height: 0,
   }
-  private converter = new DeviceRobotConfigHtmlEChartConverter()
+  private converter = new DeviceRobotCalibrationHtmlEChartConverter()
 
   private initCanvas() {
     this.canvas.width = this.canvas.parentElement!.clientWidth

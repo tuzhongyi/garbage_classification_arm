@@ -1,19 +1,19 @@
 import '../../../assets/styles/table-sticky.less'
 import { EventEmitter } from '../../common/event-emitter'
-import { DeviceRobotConfigHtmlEChartController } from './controller/echarts/device-robot-config-html-echart.controller'
-import { DeviceRobotConfigHtmlTableController } from './controller/tables/device-robot-config-html-table.controller'
+import { DeviceRobotCalibrationHtmlEChartController } from './controller/echarts/device-robot-calibration-html-echart.controller'
+import { DeviceRobotCalibrationHtmlTableController } from './controller/tables/device-robot-calibration-html-table.controller'
 
-import { DeviceRobotConfigHtmlNodeDetailsController } from './controller/details/device-robot-config.html-details-node.controller'
-import { DeviceRobotConfigEvent } from './device-robot-config.event'
+import { DeviceRobotCalibrationHtmlNodeDetailsController } from './controller/details/device-robot-calibration.html-details-node.controller'
+import { DeviceRobotCalibrationEvent } from './device-robot-calibration.event'
 
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
-import { DeviceRobotConfigHtmlStatusController } from './controller/details/device-robot-config.html-status.controller'
-import './less/device-robot-config-display.less'
-import './less/device-robot-config-left.less'
-import './less/device-robot-config-right.less'
-import './less/device-robot-config.less'
+import { DeviceRobotCalibrationHtmlStatusController } from './controller/details/device-robot-calibration.html-status.controller'
+import './less/device-robot-calibration-display.less'
+import './less/device-robot-calibration-left.less'
+import './less/device-robot-calibration-right.less'
+import './less/device-robot-calibration.less'
 
-export class DeviceRobotConfigHtmlController {
+export class DeviceRobotCalibrationHtmlController {
   constructor() {
     this.regist()
   }
@@ -33,13 +33,13 @@ export class DeviceRobotConfigHtmlController {
     message: document.getElementById('message') as HTMLDivElement,
 
     test: document.getElementById('test') as HTMLImageElement,
-    table: new DeviceRobotConfigHtmlTableController(),
+    table: new DeviceRobotCalibrationHtmlTableController(),
   }
 
-  echart = new DeviceRobotConfigHtmlEChartController()
-  event: EventEmitter<DeviceRobotConfigEvent> = new EventEmitter()
-  details = new DeviceRobotConfigHtmlNodeDetailsController()
-  status = new DeviceRobotConfigHtmlStatusController()
+  echart = new DeviceRobotCalibrationHtmlEChartController()
+  event: EventEmitter<DeviceRobotCalibrationEvent> = new EventEmitter()
+  details = new DeviceRobotCalibrationHtmlNodeDetailsController()
+  status = new DeviceRobotCalibrationHtmlStatusController()
 
   regist() {
     this.element.control.top.addEventListener('click', () => {

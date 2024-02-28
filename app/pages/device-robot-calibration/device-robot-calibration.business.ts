@@ -9,7 +9,7 @@ import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmRobotRequestService } from '../../data-core/requests/services/robot/robot.service'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
 
-export class DeviceRobotConfigBusiness {
+export class DeviceRobotCalibrationBusiness {
   constructor() {
     this._location.Position = new MeshNodePosition()
     this._location.Position.X = 0
@@ -28,6 +28,11 @@ export class DeviceRobotConfigBusiness {
     model.robot = this.robot(id)
     model.battery = this.battery(id)
     return model
+  }
+
+  async calibrating(id: string) {
+    let status = await this.service.calibration.status(id)
+    return status.UnderCalibration
   }
 
   edges(id: string) {

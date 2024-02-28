@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { Sort } from '../../../../common/tools/html-tool/html-table-sort.tool'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 
 export interface DeviceChannelCalibrationTableHtmlEvent {
@@ -6,6 +7,7 @@ export interface DeviceChannelCalibrationTableHtmlEvent {
   selectArea(id: string): void
   removePoint(id: string): void
   removeArea(id: string): void
+  sort(sort: Sort): void
 }
 
 export class DeviceChannelCalibrationTableHtmlController {
@@ -21,14 +23,23 @@ export class DeviceChannelCalibrationTableHtmlController {
   private tbody = document.querySelector(
     '#table tbody'
   ) as HTMLTableSectionElement
+  private thead = document.querySelector(
+    '#table thead'
+  ) as HTMLTableSectionElement
   private parent: HTMLDivElement
 
   private initColGroup() {
     HtmlTool.table.colgroup.append(this.table, this.widths)
   }
+  private initSort() {
+    HtmlTool.table.sort(this.thead, (sort) => {
+      this.event.emit('sort', sort)
+    })
+  }
 
   private init() {
     this.initColGroup()
+    this.initSort()
   }
 
   append(id: string, texts: string[], option?: string) {

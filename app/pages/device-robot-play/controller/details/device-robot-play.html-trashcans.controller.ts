@@ -44,7 +44,7 @@ export class DeviceRobotPlayHtmlTrashCansController {
     }
   }
 
-  load(datas: RobotTrashCan[]) {
+  async load(datas: RobotTrashCan[]) {
     let trashcans = datas.filter((x) => !x.Position)
     trashcans = trashcans.sort((a, b) => {
       let _a = this.getSortNumber(a.CanType)
@@ -52,7 +52,7 @@ export class DeviceRobotPlayHtmlTrashCansController {
       return _a - _b
     })
     for (let i = 0; i < trashcans.length; i++) {
-      this.append(trashcans[i])
+      await this.append(trashcans[i])
     }
   }
 }

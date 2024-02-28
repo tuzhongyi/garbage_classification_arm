@@ -6,21 +6,21 @@ import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-positio
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { RobotCommandResult } from '../../data-core/models/robot/robot-command-result.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
-import { DeviceRobotConfigBusiness } from './device-robot-config.business'
-import { DeviceRobotConfigHtmlController } from './device-robot-config.html.controller'
-import { DeviceRobotConfigMessage } from './device-robot-config.message'
-import { DeviceRobotConfigWindow } from './device-robot-config.model'
+import { DeviceRobotCalibrationBusiness } from './device-robot-calibration.business'
+import { DeviceRobotCalibrationHtmlController } from './device-robot-calibration.html.controller'
+import { DeviceRobotCalibrationMessage } from './device-robot-calibration.message'
+import { DeviceRobotCalibrationWindow } from './device-robot-calibration.model'
 
-export namespace DeviceRobotConfig {
+export namespace DeviceRobotCalibration {
   class Controller {
     constructor() {
       this.regist()
       this.load()
     }
-    html = new DeviceRobotConfigHtmlController()
-    business = new DeviceRobotConfigBusiness()
-    message = new DeviceRobotConfigMessage()
-    window = new DeviceRobotConfigWindow()
+    html = new DeviceRobotCalibrationHtmlController()
+    business = new DeviceRobotCalibrationBusiness()
+    message = new DeviceRobotCalibrationMessage()
+    window = new DeviceRobotCalibrationWindow()
     model?: DeviceRobotModel
 
     selected: {
@@ -258,24 +258,37 @@ export namespace DeviceRobotConfig {
       this.message.start_confirm(this.window.confirm)
     }
     tostart() {
-      this.business.stop(this.id).finally(() => {
-        this.business
-          .start(this.id)
-          .then((x) => {
-            this.load()
-            this.html.details.clear()
-            this.isruning = true
-            this.run()
-            this.html.element.control.start.style.display = 'none'
-            this.html.element.control.stop.style.display = ''
-            this.html.element.message.className = 'normal'
-            this.html.element.message.innerHTML = '启动成功'
-          })
-          .catch((e) => {
-            this.html.element.message.className = 'error'
-            this.html.element.message.innerHTML = '启动失败'
-          })
+      return new Promise<void>((resolve) => {
+        this.business.calibrating(this.id).then((x) => {
+          if (x) {
+            this.business.stop(this.id).finally(() => {
+              this.dostart()
+              resolve()
+            })
+          } else {
+            this.dostart()
+            resolve()
+          }
+        })
       })
+    }
+    dostart() {
+      this.business
+        .start(this.id)
+        .then((x) => {
+          this.load()
+          this.html.details.clear()
+          this.isruning = true
+          this.run()
+          this.html.element.control.start.style.display = 'none'
+          this.html.element.control.stop.style.display = ''
+          this.html.element.message.className = 'normal'
+          this.html.element.message.innerHTML = '启动成功'
+        })
+        .catch((e) => {
+          this.html.element.message.className = 'error'
+          this.html.element.message.innerHTML = '启动失败'
+        })
     }
     onstop() {
       this.isruning = false

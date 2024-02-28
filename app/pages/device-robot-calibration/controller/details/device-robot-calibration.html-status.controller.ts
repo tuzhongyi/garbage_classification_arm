@@ -3,7 +3,7 @@ import { RobotBatteryState } from '../../../../data-core/enums/robot/robot-batte
 import { RobotBattery } from '../../../../data-core/models/robot/robot-battery.model'
 import { Robot } from '../../../../data-core/models/robot/robot.model'
 
-export class DeviceRobotConfigHtmlStatusController {
+export class DeviceRobotCalibrationHtmlStatusController {
   constructor() {}
 
   element = {

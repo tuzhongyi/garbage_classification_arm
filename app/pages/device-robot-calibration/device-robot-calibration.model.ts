@@ -1,6 +1,6 @@
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 
-export class DeviceRobotConfigWindow {
+export class DeviceRobotCalibrationWindow {
   confirm = new ConfirmWindow()
 }
 class ConfirmWindow extends ConfirmWindowModel {

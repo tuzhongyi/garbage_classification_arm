@@ -55,6 +55,9 @@ export class ArmRobotUrl {
     stop: (id: string) => {
       return `${this.item(id)}/StopCalibration`
     },
+    status: (id: string) => {
+      return `${this.item(id)}/Calibration`
+    },
   }
   static mesh = {
     node: (id: string) => {
