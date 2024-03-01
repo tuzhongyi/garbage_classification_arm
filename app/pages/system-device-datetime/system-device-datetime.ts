@@ -31,9 +31,15 @@ export namespace SystemDeviceDatetime {
     system_handle?: NodeJS.Timer
 
     async load() {
-      let capability = await this.business.capability()
-      this.data = await this.business.load()
-      this.html.load(this.data, capability)
+      this.business
+        .load()
+        .then((data) => {
+          this.data = data
+          this.html.load(this.data)
+        })
+        .catch((x) => {
+          MessageBar.error('系统时间读取失败')
+        })
     }
 
     onsave() {

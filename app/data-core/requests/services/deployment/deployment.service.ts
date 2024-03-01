@@ -98,7 +98,7 @@ export class DeploymentISUPServersRequestService {
 
   async domains(id: string) {
     let url = ArmDeploymentUrl.servers.isup.domains(id)
-    return this.http.post<any, HowellResponse<ISUPDomain[]>>(url).then((x) => {
+    return this.http.get<HowellResponse<ISUPDomain[]>>(url).then((x) => {
       return HowellResponseProcess.array(x, ISUPDomain)
     })
   }

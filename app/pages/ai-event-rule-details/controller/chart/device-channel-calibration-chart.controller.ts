@@ -22,6 +22,7 @@ export class AIEventRuleDetailsChartController {
   private current?: Polygon
   private data?: Polygon
   private polygon!: AIEventRuleDetailsChartPolygonController
+  private inited = false
 
   private regist() {
     this.html.event.on('init', (canvas) => {
@@ -29,6 +30,7 @@ export class AIEventRuleDetailsChartController {
       this.size.height = canvas.height
       this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       this.polygon = new AIEventRuleDetailsChartPolygonController(this.ctx)
+      this.inited = true
     })
     this.html.event.on('buttonclear', () => {
       this.clear({
@@ -99,10 +101,6 @@ export class AIEventRuleDetailsChartController {
     })
   }
 
-  init() {
-    this.html.init()
-  }
-
   clear(args?: { data?: boolean; current?: boolean }) {
     if (!this.ctx) return
     this.ctx.clearRect(0, 0, this.size.width, this.size.height)
@@ -126,7 +124,7 @@ export class AIEventRuleDetailsChartController {
   load(polygon: Polygon) {
     wait(
       () => {
-        return !!this.polygon
+        return this.inited
       },
       () => {
         this.clear({ data: true })

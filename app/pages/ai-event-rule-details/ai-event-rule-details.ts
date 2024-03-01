@@ -38,29 +38,33 @@ export namespace AIEventRuleDetails {
       this.data.EventType = this.type
       this.source.type = this.type
       this.source.channels = this.business.channels()
-      this.html.initChannels(this.source.channels)
+      this.html.initChannels(this.source.channels, !this.id)
     }
 
     loadAIModels(channelId: string) {
       this.source.aimodels = this.business.aimodels(this.type, channelId)
-      this.html.initAIModels(this.source.aimodels)
+      this.html.initAIModels(this.source.aimodels, !this.id)
     }
 
     load() {
-      if (this.type && this.id) {
-        this.business.load(this.type, this.id).then((data) => {
-          this.data = data
-          this.html.load(this.data)
-          if (this.data.ModelRule) {
-            this.html.info.load(this.data.ModelRule)
-            if (
-              this.data.ModelRule.Regions &&
-              this.data.ModelRule.Regions.length > 0
-            ) {
-              this.html.chart.load(this.data.ModelRule.Regions[0])
-            }
-          }
-        })
+      if (this.type) {
+        if (this.id) {
+          this.business.load(this.type, this.id).then((data) => {
+            this.data = data
+            this.html.load(this.data).then((x) => {
+              if (this.data.ModelRule) {
+                this.html.info.load(this.data.ModelRule)
+                if (
+                  this.data.ModelRule.Regions &&
+                  this.data.ModelRule.Regions.length > 0
+                ) {
+                  this.html.chart.load(this.data.ModelRule.Regions[0])
+                }
+              }
+            })
+          })
+        } else {
+        }
       }
     }
 

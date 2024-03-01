@@ -127,8 +127,11 @@ export class AIEventRuleDetailsIllegalDropController
     )
   }
   get() {
-    if (this.data) return this.data
     let data = new IllegalDropRule()
+    if (this.data) {
+      data = this.data
+    }
+
     data.Confidence = parseInt(this.element.Confidence.value)
     data.Duration = parseInt(this.element.Duration.value)
     data.OverlapRatio = parseInt(this.element.OverlapRatio.value)

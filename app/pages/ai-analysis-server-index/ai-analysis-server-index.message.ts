@@ -8,13 +8,20 @@ import {
 } from '../main/main.event'
 
 import {
+  AIAnalysisServerInfoMessageReceiverEvent,
+  AIAnalysisServerInfoMessageSenderEvent,
+} from '../ai-analysis-server-info/ai-analysis-server-info.message'
+import {
   AIAnalysisServerSourceMessageReceiverEvent,
   AIAnalysisServerSourceMessageSenderEvent,
 } from '../ai-analysis-server-source/ai-analysis-server-source.message'
 
 interface MessageReceiverEvent
-  extends AIAnalysisServerSourceMessageReceiverEvent {}
-interface MessageSenderEvent extends AIAnalysisServerSourceMessageSenderEvent {}
+  extends AIAnalysisServerInfoMessageReceiverEvent,
+    AIAnalysisServerSourceMessageReceiverEvent {}
+interface MessageSenderEvent
+  extends AIAnalysisServerInfoMessageSenderEvent,
+    AIAnalysisServerSourceMessageSenderEvent {}
 
 export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
   constructor(iframe: HTMLIFrameElement) {
@@ -35,10 +42,17 @@ export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
       this.command = 1
       this.client.sender.emit('confirm', args)
     })
+    this.proxy.event.on('info_confirm', (args) => {
+      this.command = 2
+      this.client.sender.emit('confirm', args)
+    })
     this.client.receiver.on('result', (result) => {
       switch (this.command) {
         case 1:
           this.delete_result(result)
+          break
+        case 2:
+          this.info_result(result)
           break
         default:
           break
@@ -50,6 +64,13 @@ export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
     this.proxy.message({
       command: 'delete_result',
       value: result,
+      index: 0,
+    })
+  }
+  info_result(args: ResultArgs): void {
+    this.proxy.message({
+      command: 'info_result',
+      value: args,
       index: 0,
     })
   }

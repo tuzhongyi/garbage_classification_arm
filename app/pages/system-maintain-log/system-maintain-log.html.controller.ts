@@ -1,36 +1,78 @@
-import '../../../assets/styles/table-sticky.less'
+import { EventEmitter } from '../../common/event-emitter'
 import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { DateTimePickerView } from '../../common/tools/controls/date-time-picker/date-time-picker.model'
-import { DateTimeTool } from '../../common/tools/date-time-tool/datetime.tool'
-import { SystemMaintainLogHtmlTable } from './system-maintain-log.html.table'
+import { SystemMaintainLogEvent } from './system-maintain-log.event'
 import './system-maintain-log.less'
 export class SystemMaintainLogHtmlController {
+  event = new EventEmitter<SystemMaintainLogEvent>()
   constructor() {
     this.init()
+    this.regist()
   }
 
-  element = {
-    table: new SystemMaintainLogHtmlTable(),
+  private element = {
+    info: document.getElementById('info') as HTMLDivElement,
     filter: {
-      begin: document.getElementById('begin_time') as HTMLInputElement,
-      end: document.getElementById('end_time') as HTMLInputElement,
+      date: document.getElementById('date') as HTMLInputElement,
+    },
+    buttons: {
+      search: document.getElementById('search') as HTMLButtonElement,
+      download: document.getElementById('download') as HTMLButtonElement,
     },
   }
 
-  init() {
-    let duration = DateTimeTool.allDay(new Date())
-    this.initDateTimePicker(this.element.filter.begin, duration.begin)
-    this.initDateTimePicker(this.element.filter.end, duration.end)
+  private date = new Date()
+
+  private init() {
+    this.initDateTimePicker(this.element.filter.date, this.date)
   }
 
-  initDateTimePicker(element: HTMLInputElement, datetime: Date) {
+  private initDateTimePicker(element: HTMLInputElement, datetime: Date) {
     let picker = new DateTimePicker(element)
     picker.dateChange = (date: Date) => {
-      console.log(date.format('yyyy-MM-dd HH:mm:ss'))
+      this.date = new Date(date.getTime())
     }
-    picker.format = 'yyyy-MM-dd HH:mm:ss'
-    picker.minView = DateTimePickerView.hour
+    picker.format = 'yyyy-MM-dd'
+    picker.minView = DateTimePickerView.month
     picker.date = datetime
     picker.init()
   }
+
+  private regist() {
+    this.element.buttons.search.addEventListener('click', () => {
+      this.event.emit('search', this.date)
+    })
+    this.element.buttons.download.addEventListener('click', () => {
+      this.event.emit('download', this.date)
+    })
+  }
+
+  clear() {
+    this.element.info.innerHTML = ''
+  }
+
+  load(data: string) {
+    return new Promise<void>((x) => {
+      data = data.replace(/\n/g, '<br />')
+
+      let all = data.matchAll(this.Rex)
+
+      let current
+      while ((current = all.next())) {
+        if (!current.value) {
+          break
+        }
+
+        let status = current.value[0].match(/Information|Warning|Error/)
+
+        data = data.replace(
+          current.value[0],
+          `<div class="time ${status[0]}">${current.value[0]}</div>`
+        )
+      }
+      this.element.info.innerHTML = data
+    })
+  }
+
+  Rex = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d+ \+\d{2}:\d{2} \[\w+\]/g
 }

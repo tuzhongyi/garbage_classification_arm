@@ -1,8 +1,14 @@
+import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { RobotSearchResult } from '../../data-core/models/robot/robot-search-result.model'
 
+interface DeviceRobotDiscoverTableEvent {
+  select(selecteds: string[]): void
+}
+
 export class DeviceRobotDiscoverHtmlTable {
   selecteds: string[] = []
+  event = new EventEmitter<DeviceRobotDiscoverTableEvent>()
   constructor() {
     this.regist()
     this.init()
@@ -43,6 +49,7 @@ export class DeviceRobotDiscoverHtmlTable {
         } else {
           this.selecteds = []
         }
+        this.event.emit('select', this.selecteds)
       }
     )
   }
@@ -69,11 +76,7 @@ export class DeviceRobotDiscoverHtmlTable {
       e.stopImmediatePropagation()
       let checkbox = e.target as HTMLInputElement
       let id = checkbox.id.split('_')[1]
-      if (checkbox.checked) {
-        this.selecteds.push(id)
-      } else {
-        this.selecteds.splice(this.selecteds.indexOf(id), 1)
-      }
+      this.onselect(id, checkbox.checked)
     })
     checkbox.type = 'checkbox'
     checkbox.id = 'checkbox_' + id
@@ -98,7 +101,11 @@ export class DeviceRobotDiscoverHtmlTable {
     let id = tr.id.split('_')[1]
     let checkbox = document.getElementById(`checkbox_${id}`) as HTMLInputElement
     checkbox.checked = !checkbox.checked
-    if (checkbox.checked) {
+    this.onselect(id, checkbox.checked)
+  }
+
+  onselect(id: string, checked: boolean) {
+    if (checked) {
       if (!this.selecteds.includes(id)) {
         this.selecteds.push(id)
       }
@@ -107,11 +114,13 @@ export class DeviceRobotDiscoverHtmlTable {
         this.selecteds.splice(this.selecteds.indexOf(id), 1)
       }
     }
+    this.event.emit('select', this.selecteds)
   }
 
   clear() {
     this.tbody.innerHTML = ''
     this.selecteds = []
+    this.event.emit('select', this.selecteds)
   }
 
   load(datas: RobotSearchResult[]) {

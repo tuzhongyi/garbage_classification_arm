@@ -59,7 +59,8 @@
       },
       {
         "id": "ai_model",
-        "name": "AI模型"
+        "name": "AI模型",
+        "capability": "AIModel"
       },
       {
         "id": "ai_server",

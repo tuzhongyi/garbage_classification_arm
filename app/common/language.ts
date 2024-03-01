@@ -5,6 +5,7 @@ import { LensType } from '../data-core/enums/lens-type.enum'
 import { ProcessState } from '../data-core/enums/process-state.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
 import { CoverState } from '../data-core/enums/robot/cover-state.enum'
+import { MajorType } from '../data-core/enums/robot/major-type.enum'
 import { MeshNodeType } from '../data-core/enums/robot/mesh-node-type.model'
 import { RobotBatteryState } from '../data-core/enums/robot/robot-battery-state.enum'
 import { CanType } from '../data-core/enums/robot/robot-can-type.model'
@@ -232,6 +233,39 @@ export class Language {
       default:
         return '未知'
     }
+  }
+
+  static MajorType(value?: MajorType) {
+    switch (value) {
+      case MajorType.Alarm:
+        return '报警'
+      case MajorType.Operation:
+        return '操作'
+      case MajorType.Error:
+        return '异常'
+      case MajorType.Info:
+        return '信息'
+      default:
+        return '未知'
+    }
+  }
+
+  static Time(time?: number) {
+    if (time === undefined) return undefined
+    let day = Math.floor(time / 60 / 24)
+    let _time = time - day * 60 * 24
+    let hour = Math.floor(_time / 60)
+    _time -= hour * 60
+    let minute = Math.ceil(_time)
+    if (time < 60) {
+      return minute + '分钟'
+    }
+    if (time < 60 * 24) {
+      return hour + '小时' + (minute ? minute + '分钟' : '')
+    }
+    return (
+      day + '天' + (hour ? hour + '小时' : '') + (minute ? minute + '分钟' : '')
+    )
   }
 }
 

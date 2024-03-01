@@ -17,7 +17,7 @@ import {
 
 interface MessageEvent {
   info(id: string): void
-  config(id: string): void
+  calibration(id: string): void
   play(id: string): void
   log(id: string): void
 }
@@ -49,8 +49,8 @@ export class DeviceRobotIndexMessage implements MessageReceiverEvent {
     this.proxy.event.on('info', (id) => {
       this.event.emit('info', id)
     })
-    this.proxy.event.on('config', (id) => {
-      this.event.emit('config', id)
+    this.proxy.event.on('calibration', (id) => {
+      this.event.emit('calibration', id)
     })
     this.proxy.event.on('play', (id) => {
       this.event.emit('play', id)

@@ -53,7 +53,9 @@ export class DeviceRobotListHtmlController {
     PortNo.innerText = robot.PortNo.toString() ?? '-'
 
     let info = document.querySelector('.btn-info') as HTMLDivElement
-    let config = document.querySelector('.btn-config') as HTMLDivElement
+    let calibration = document.querySelector(
+      '.btn-calibration'
+    ) as HTMLDivElement
     let play = document.querySelector('.btn-play') as HTMLDivElement
     let log = document.querySelector('.btn-log') as HTMLDivElement
     let _delete = document.querySelector('.btn-delete') as HTMLDivElement
@@ -64,10 +66,10 @@ export class DeviceRobotListHtmlController {
         this.event.emit('info', card.id)
       }
     })
-    config.addEventListener('click', (e) => {
+    calibration.addEventListener('click', (e) => {
       let card = HtmlTool.element.findelement(e.target as HTMLElement, 'card')
       if (card) {
-        this.event.emit('config', card.id)
+        this.event.emit('calibration', card.id)
       }
     })
     play.addEventListener('click', (e) => {

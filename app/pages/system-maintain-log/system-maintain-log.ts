@@ -4,12 +4,25 @@ import { SystemMaintainLogHtmlController } from './system-maintain-log.html.cont
 export namespace SystemMaintainLog {
   class Controller {
     constructor() {
-      this.init()
+      this.regist()
     }
     html = new SystemMaintainLogHtmlController()
     business = new SystemMaintainLogBusiness()
-    async init() {
-      this.business.load()
+
+    load(date: Date) {
+      this.html.clear()
+      this.business.load(date).then((x) => {
+        this.html.load(x)
+      })
+    }
+
+    async regist() {
+      this.html.event.on('search', (date) => {
+        this.load(date)
+      })
+      this.html.event.on('download', (date) => {
+        this.business.download(date)
+      })
     }
   }
 

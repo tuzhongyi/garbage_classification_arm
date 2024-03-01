@@ -1,3 +1,4 @@
+import { Language } from '../../common/language'
 import { RunningStatus } from '../../data-core/models/arm/running-status.model'
 import './system-status-running.less'
 
@@ -21,7 +22,7 @@ export class SystemStatusRunningHtmlController {
     this.element.MemoryUsage.value = data.MemoryUsage.toString()
     this.element.TotalMemory.value = data.TotalMemory.toString()
     this.element.CPUUsage.value = data.CPUUsage.toString()
-    this.element.SystemUpTime.value = data.SystemUpTime.toString()
+    this.element.SystemUpTime.value = Language.Time(data.SystemUpTime) ?? ''
     this.element.ChipType.value = data.ChipType ?? ''
     this.element.NetworkSpeed.value = data.NetworkSpeed?.toString() ?? ''
   }

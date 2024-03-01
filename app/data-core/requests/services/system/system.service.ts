@@ -161,9 +161,9 @@ class SystemDataRequestService {
     },
   }
   log = {
-    download: () => {
-      let url = ArmSystemUrl.data.log()
-      return this.http.get<BinaryData>(url)
+    download: (filename: string) => {
+      let url = ArmSystemUrl.data.log(filename)
+      return this.http.get<string>(url)
     },
   }
 }

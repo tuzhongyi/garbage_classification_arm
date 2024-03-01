@@ -81,16 +81,7 @@ export class AIEventRuleDetailsHtmlController {
     },
     picture: {
       set: (url: string) => {
-        return new Promise<boolean>((resolve) => {
-          this.element.picture.src = url
-          this.element.picture.onload = () => {
-            this.chart.init()
-            resolve(true)
-          }
-          this.element.picture.onerror = () => {
-            resolve(false)
-          }
-        })
+        this.element.picture.src = url
       },
     },
   }
@@ -120,7 +111,7 @@ export class AIEventRuleDetailsHtmlController {
     this.event.emit('selectChannel', id)
   }
 
-  initChannels(source: Promise<InputProxyChannel[]>) {
+  initChannels(source: Promise<InputProxyChannel[]>, select = false) {
     this.element.select.channel.innerHTML = ''
     source.then((channels) => {
       for (let i = 0; i < channels.length; i++) {
@@ -130,13 +121,13 @@ export class AIEventRuleDetailsHtmlController {
         }
         HtmlTool.select.append(item, this.element.select.channel)
       }
-      if (this.element.select.channel.value) {
+      if (select) {
         this.selectChannel(this.element.select.channel.value)
       }
       this.inited.channel = true
     })
   }
-  initAIModels(source: Promise<CameraAIModel[]>) {
+  initAIModels(source: Promise<CameraAIModel[]>, select = false) {
     this.element.select.aimodel.innerHTML = ''
     source.then((aimodels) => {
       for (let i = 0; i < aimodels.length; i++) {
@@ -146,37 +137,37 @@ export class AIEventRuleDetailsHtmlController {
         }
         HtmlTool.select.append(item, this.element.select.aimodel)
       }
-      if (this.element.select.aimodel.value) {
+      if (select) {
         this.selectAIModel(this.element.select.aimodel.value)
       }
+
       this.inited.aimodel = true
     })
   }
 
   load(data: CameraAIEventRule) {
-    this.element.input.name.value = data.RuleName
+    return new Promise<void>((resolve) => {
+      this.element.input.name.value = data.RuleName
 
-    wait(
-      () => {
-        return this.inited.channel
-      },
-      () => {
-        if (this.element.select.channel.value != data.ChannelId.toString()) {
+      wait(
+        () => {
+          return this.inited.channel
+        },
+        () => {
           this.element.select.channel.value = data.ChannelId.toString()
           this.selectChannel(data.ChannelId.toString())
         }
-      }
-    )
-    wait(
-      () => {
-        return this.inited.aimodel
-      },
-      () => {
-        if (this.element.select.aimodel.value != data.ModelId) {
+      )
+      wait(
+        () => {
+          return this.inited.aimodel
+        },
+        () => {
           this.element.select.aimodel.value = data.ModelId
           this.selectAIModel(data.ModelId)
+          resolve()
         }
-      }
-    )
+      )
+    })
   }
 }

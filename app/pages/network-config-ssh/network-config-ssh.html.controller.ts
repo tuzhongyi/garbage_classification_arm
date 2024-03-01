@@ -5,7 +5,9 @@ import { NetworkConfigSSHEvent } from './network-config-ssh.event'
 import './network-config-ssh.less'
 
 export class NetworkConfigSSHHtmlController {
-  constructor() {}
+  constructor() {
+    this.regist()
+  }
 
   element = {
     Enabled: document.getElementById('Enabled') as HTMLSelectElement,
@@ -15,5 +17,11 @@ export class NetworkConfigSSHHtmlController {
 
   load(data: SSH) {
     this.element.Enabled.value = JSON.stringify(data.Enabled)
+  }
+
+  regist() {
+    this.element.save.addEventListener('click', () => {
+      this.event.emit('save')
+    })
   }
 }

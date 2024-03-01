@@ -1,9 +1,7 @@
 import { LocationTool } from '../../common/tools/location.tool'
-import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
-import { CanType } from '../../data-core/enums/robot/robot-can-type.model'
+import { MajorType } from '../../data-core/enums/robot/major-type.enum'
 import { Page } from '../../data-core/models/page-list.model'
 import { LogItem } from '../../data-core/models/robot/robot-log-item.model'
-import { Manager } from '../../data-core/requests/managers/manager'
 import { DeviceRobotLogBusiness } from './device-robot-log.business'
 import { DeviceRobotLogHtmlController } from './device-robot-log.html.controller'
 import { DeviceRobotLogTableArgs } from './device-robot-log.model'
@@ -24,16 +22,7 @@ export namespace DeviceRobotLog {
       return querys.id
     }
 
-    async init() {
-      let capability = {
-        robot: await Manager.capability.robot,
-        trashcan: await Manager.capability.trashcan,
-      }
-      this.html.load(
-        capability.robot.MeshNodeTypes ?? [],
-        capability.trashcan.CanTypes ?? []
-      )
-    }
+    async init() {}
 
     regist() {
       this.html.event.on('beginchange', (date) => {
@@ -43,10 +32,10 @@ export namespace DeviceRobotLog {
         this.args.duration.end = date
       })
       this.html.event.on('majorchange', (value) => {
-        this.args.nodeType = value as MeshNodeType
+        this.args.major = value as MajorType
       })
       this.html.event.on('minorchange', (value) => {
-        this.args.canType = value as CanType
+        this.args.minor = value
       })
       this.html.event.on('search', () => {
         this.load(1)

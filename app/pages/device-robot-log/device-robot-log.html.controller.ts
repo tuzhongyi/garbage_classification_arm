@@ -1,9 +1,11 @@
 import '../../../assets/styles/table-sticky.less'
 import { EventEmitter } from '../../common/event-emitter'
+import { Language } from '../../common/language'
 import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { DateTimePickerView } from '../../common/tools/controls/date-time-picker/date-time-picker.model'
 import { DateTimeTool } from '../../common/tools/date-time-tool/datetime.tool'
-import { EnumNameValue } from '../../data-core/models/capabilities/enum-name-value.model'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { MajorType } from '../../data-core/enums/robot/major-type.enum'
 import { DeviceRobotLogEvent } from './device-robot-log.event'
 import { DeviceRobotLogHtmlTable } from './device-robot-log.html.table'
 import './device-robot-log.less'
@@ -18,22 +20,22 @@ export class DeviceRobotLogHtmlController {
     filter: {
       begin: document.getElementById('begin_time') as HTMLInputElement,
       end: document.getElementById('end_time') as HTMLInputElement,
-      nodetype: document.getElementById('filter_nodetype') as HTMLSelectElement,
-      cantype: document.getElementById('filter_cantype') as HTMLSelectElement,
+      major: document.getElementById('filter_major') as HTMLSelectElement,
+      minor: document.getElementById('filter_minor') as HTMLSelectElement,
     },
     search: document.getElementById('search') as HTMLButtonElement,
   }
   event: EventEmitter<DeviceRobotLogEvent> = new EventEmitter()
 
-  regist() {
+  private regist() {
     this.element.search.addEventListener('click', () => {
       this.event.emit('search')
     })
-    this.element.filter.nodetype.addEventListener('change', () => {
-      this.event.emit('majorchange', this.element.filter.nodetype.value)
+    this.element.filter.major.addEventListener('change', () => {
+      this.event.emit('majorchange', this.element.filter.major.value)
     })
-    this.element.filter.cantype.addEventListener('change', () => {
-      this.event.emit('minorchange', this.element.filter.cantype.value)
+    this.element.filter.minor.addEventListener('change', () => {
+      this.event.emit('minorchange', this.element.filter.minor.value)
     })
   }
 
@@ -50,9 +52,11 @@ export class DeviceRobotLogHtmlController {
     end.dateChange = (date) => {
       this.event.emit('endchange', date)
     }
+
+    this.initFilter()
   }
 
-  initDateTimePicker(element: HTMLInputElement, datetime: Date) {
+  private initDateTimePicker(element: HTMLInputElement, datetime: Date) {
     let picker = new DateTimePicker(element)
     picker.dateChange = (date: Date) => {
       console.log(date.format('yyyy-MM-dd HH:mm:ss'))
@@ -64,18 +68,23 @@ export class DeviceRobotLogHtmlController {
     return picker
   }
 
-  load(nodeTypes: EnumNameValue[], cantypes: EnumNameValue[]) {
-    for (let i = 0; i < nodeTypes.length; i++) {
-      let option = document.createElement('option') as HTMLOptionElement
-      option.innerHTML = nodeTypes[i].Name
-      option.value = nodeTypes[i].Value
-      this.element.filter.nodetype.appendChild(option)
-    }
-    for (let i = 0; i < cantypes.length; i++) {
-      let option = document.createElement('option') as HTMLOptionElement
-      option.innerHTML = cantypes[i].Name
-      option.value = cantypes[i].Value
-      this.element.filter.cantype.appendChild(option)
+  private initFilter() {
+    this.initMajor()
+    this.initMinor()
+  }
+
+  private initMajor() {
+    for (const key in MajorType) {
+      if (typeof key === 'string') {
+        let item = {
+          Id: key,
+          Name: Language.MajorType(key as MajorType),
+        }
+        HtmlTool.select.append(item, this.element.filter.major)
+      }
     }
   }
+  private initMinor() {}
+
+  load() {}
 }

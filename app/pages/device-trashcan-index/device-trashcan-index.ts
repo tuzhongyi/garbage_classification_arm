@@ -25,7 +25,6 @@ export namespace DeviceTrashCanIndex {
 
     regist() {
       if (this.element.items) {
-        console.log(this)
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]
 

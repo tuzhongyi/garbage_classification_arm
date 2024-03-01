@@ -13,4 +13,8 @@ export class NetworkConfigTCPIPBusiness {
   update(data: NetworkInterface) {
     return this.service.network.interface.update(data)
   }
+
+  reboot() {
+    return this.service.reboot()
+  }
 }

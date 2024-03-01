@@ -1,12 +1,14 @@
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { Robot } from '../../data-core/models/robot/robot.model'
+import { DeviceRobotCapability } from '../device-robot/device-robot.capability'
 import { DeviceRobotListBusiness } from './device-robot-list.business'
 import { DeviceRobotListHtmlController } from './device-robot-list.html.controller'
 import { DeviceRobotListMessage } from './device-robot-list.message'
 import { DeviceRobotWindow } from './device-robot-list.model'
 
 export namespace DeviceRobotList {
-  export class HtmlController {
+  export class Controller {
+    capability = new DeviceRobotCapability()
     html = new DeviceRobotListHtmlController()
     business = new DeviceRobotListBusiness()
     message = new DeviceRobotListMessage()
@@ -22,14 +24,15 @@ export namespace DeviceRobotList {
     async load() {
       this.datas = (await this.business.load()) ?? []
       this.html.load(this.datas)
+      this.capability.init()
     }
 
     regist() {
       this.html.event.on('info', (id) => {
         this.message.info(id)
       })
-      this.html.event.on('config', (id) => {
-        this.message.config(id)
+      this.html.event.on('calibration', (id) => {
+        this.message.calibration(id)
       })
       this.html.event.on('play', (id) => {
         this.message.play(id)
@@ -78,5 +81,5 @@ export namespace DeviceRobotList {
     }
   }
 
-  const controller = new HtmlController()
+  const controller = new Controller()
 }

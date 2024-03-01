@@ -1,5 +1,6 @@
 import '../../../assets/styles/table-sticky.less'
 import { EventEmitter } from '../../common/event-emitter'
+import { Manager } from '../../data-core/requests/managers/manager'
 import { DeviceChannelListEvent } from './device-channel-list.event'
 import { DeviceChannelListHtmlTable } from './device-channel-list.html.table'
 import './device-channel-list.less'
@@ -25,7 +26,13 @@ export class DeviceChannelListHtmlController {
     this.regist()
   }
 
-  init() {}
+  init() {
+    Manager.capability.inputproxy.then((x) => {
+      if (!x.Searching) {
+        this.element.button.discover.style.display = 'none'
+      }
+    })
+  }
 
   regist() {
     this.element.button.create.addEventListener('click', () => {

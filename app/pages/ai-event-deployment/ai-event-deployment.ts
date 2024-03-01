@@ -96,9 +96,6 @@ export namespace AIEventDeployment {
         if (day) {
           day.Segments = datas
         }
-        if (datas.length > 0) {
-          console.log(JSON.stringify(datas[0]))
-        }
       }
     }
     sheetcopy(weeks: number[]) {

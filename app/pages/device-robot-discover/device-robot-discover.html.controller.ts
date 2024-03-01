@@ -58,6 +58,9 @@ export class DeviceRobotDiscoverHtmlController {
       this.clear()
       this.event.emit('search', this.element.search.text.value)
     })
+    this.table.event.on('select', (selecteds) => {
+      this.element.button.ok.disabled = !selecteds || selecteds.length === 0
+    })
   }
 
   load(datas: RobotSearchResult[] = []) {

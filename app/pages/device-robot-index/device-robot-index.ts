@@ -1,5 +1,6 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { DeviceRobotCapability } from '../device-robot/device-robot.capability'
 import './device-robot-index.less'
 import { DeviceRobotIndexMessage } from './device-robot-index.message'
 
@@ -9,7 +10,7 @@ export namespace DeviceRobotIndex {
       this.regist()
       this.init()
     }
-
+    capability = new DeviceRobotCapability()
     index = LocalStorageService.navigation.device.robot.get()
 
     element = {
@@ -48,7 +49,7 @@ export namespace DeviceRobotIndex {
       this.message.event.on('info', (id) => {
         this.onselect(this.element.items[1] as HTMLDivElement, id)
       })
-      this.message.event.on('config', (id) => {
+      this.message.event.on('calibration', (id) => {
         this.onselect(this.element.items[2] as HTMLDivElement, id)
       })
       this.message.event.on('play', (id) => {

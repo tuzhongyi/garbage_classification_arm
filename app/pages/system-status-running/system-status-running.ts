@@ -9,8 +9,9 @@ export namespace SystemStatusRunning {
     html = new SystemStatusRunningHtmlController()
     business = new SystemStatusRunningBusiness()
     async init() {
-      let status = await this.business.load()
-      this.html.load(status)
+      this.business.load().then((status) => {
+        this.html.load(status)
+      })
     }
   }
 

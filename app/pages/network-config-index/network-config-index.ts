@@ -1,5 +1,7 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
+import { NetworkConfigIndexCapability } from './network-config-index.capability'
 import './network-config-index.less'
+import { NetworkConfigIndexMessage } from './network-config-index.message'
 
 export namespace NetworkConfigIndex {
   export class HtmlController {
@@ -8,12 +10,14 @@ export namespace NetworkConfigIndex {
       this.init()
     }
 
+    capability = new NetworkConfigIndexCapability()
     index = LocalStorageService.navigation.network.config.get()
 
     element = {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
+    message = new NetworkConfigIndexMessage(this.element.iframe)
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)
@@ -22,7 +26,6 @@ export namespace NetworkConfigIndex {
 
     regist() {
       if (this.element.items) {
-        console.log(this)
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]
 

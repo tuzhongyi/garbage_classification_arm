@@ -68,6 +68,9 @@ export class DeviceChannelDiscoverHtmlController {
     this.confirm.event.on('ok', () => {
       this.event.emit('ok')
     })
+    this.table.event.on('select', (selecteds) => {
+      this.element.button.ok.disabled = !selecteds || selecteds.length === 0
+    })
   }
 
   load(datas: VideoSourceDescriptor[] = []) {

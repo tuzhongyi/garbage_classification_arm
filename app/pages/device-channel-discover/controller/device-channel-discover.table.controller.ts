@@ -1,10 +1,16 @@
+import { EventEmitter } from '../../../common/event-emitter'
 import { LocaleCompare } from '../../../common/tools/compare-tool/compare.tool'
 import { Sort } from '../../../common/tools/html-tool/html-table-sort.tool'
 import { HtmlTool } from '../../../common/tools/html-tool/html.tool'
 import { VideoSourceDescriptor } from '../../../data-core/models/arm/video-source-descriptor.model'
 
+interface DeviceChannelDiscoverTableEvent {
+  select(selecteds: string[]): void
+}
+
 export class DeviceChannelDiscoverTableController {
   selecteds: VideoSourceDescriptor[] = []
+  event = new EventEmitter<DeviceChannelDiscoverTableEvent>()
   constructor() {
     this.regist()
     this.init()
@@ -47,6 +53,7 @@ export class DeviceChannelDiscoverTableController {
           })
         } else {
           this.selecteds = []
+          this.event.emit('select', this.selecteds)
         }
       }
     )
@@ -122,6 +129,7 @@ export class DeviceChannelDiscoverTableController {
         this.selecteds.splice(index, 1)
       }
     }
+    this.event.emit('select', this.selecteds)
   }
 
   private sort(sort: Sort) {
@@ -142,6 +150,7 @@ export class DeviceChannelDiscoverTableController {
   clear() {
     this.tbody.innerHTML = ''
     this.selecteds = []
+    this.event.emit('select', this.selecteds)
   }
 
   load(datas: VideoSourceDescriptor[]) {

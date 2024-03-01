@@ -1,5 +1,6 @@
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { NetworkServerDeploymentBusiness } from './network-server-deployment.business'
+import { NetworkServerDeploymentCapability } from './network-server-deployment.capability'
 import { NetworkServerDeploymentHtmlController } from './network-server-deployment.html.controller'
 import { NetworkServerDeploymentModel } from './network-server-deployment.model'
 
@@ -9,6 +10,7 @@ export namespace NetworkServerDeployment {
       this.regist()
       this.load()
     }
+    capability = new NetworkServerDeploymentCapability()
     html = new NetworkServerDeploymentHtmlController()
     business = new NetworkServerDeploymentBusiness()
 

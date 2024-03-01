@@ -2,6 +2,8 @@ import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { SSH } from '../../data-core/models/arm/ssh.model'
 import { NetworkConfigSSHBusiness } from './network-config-ssh.business'
 import { NetworkConfigSSHHtmlController } from './network-config-ssh.html.controller'
+import { NetworkConfigSSHMessage } from './network-config-ssh.message'
+import { NetworkConfigSSHWindow } from './network-config-tcp-ip.window'
 
 export namespace NetworkConfigSSH {
   class Controller {
@@ -11,6 +13,8 @@ export namespace NetworkConfigSSH {
     }
     html = new NetworkConfigSSHHtmlController()
     business = new NetworkConfigSSHBusiness()
+    message = new NetworkConfigSSHMessage()
+    window = new NetworkConfigSSHWindow()
 
     data?: SSH
 
@@ -20,7 +24,10 @@ export namespace NetworkConfigSSH {
     }
 
     regist() {
-      this.html.event.on('save', this.onsave.bind(this))
+      this.html.event.on('save', () => {
+        this.message.save_confirm(this.window.confirm)
+      })
+      this.message.event.on('save', this.onsave.bind(this))
     }
 
     onsave() {

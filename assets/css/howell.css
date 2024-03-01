@@ -163,6 +163,7 @@ textarea:hover {
   font-size: 16px;
 }
 
+
 .button-blue i {
   margin-right: 5px;
 }
@@ -229,6 +230,18 @@ textarea:hover {
   font-weight: bold;
 }
 
+.button-blue-line:disabled {
+  background-color: transparent;
+  color: #aaa;
+  border: 2px solid #aaa;
+}
+
+.button-blue-line:disabled:hover {
+  background-color: transparent;
+  color: #aaa;
+  border: 2px solid #aaa;
+}
+
 .button-blue-line.nohover:hover {
 
   background-color: transparent;
@@ -246,7 +259,7 @@ textarea:hover {
 
 .button-blue-line:hover {
   background-color: #235f9c;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   color: white;
 }
 

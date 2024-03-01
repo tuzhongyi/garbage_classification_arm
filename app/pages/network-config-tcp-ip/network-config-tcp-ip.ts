@@ -7,6 +7,8 @@ import { IPv4Address } from '../../data-core/models/arm/ip-v4-address.model'
 import { NetworkInterface } from '../../data-core/models/arm/network-interface.model'
 import { NetworkConfigTCPIPBusiness } from './network-config-tcp-ip.business'
 import { NetworkConfigTCPIPHtmlController } from './network-config-tcp-ip.html.controller'
+import { NetworkConfigTCPIPMessage } from './network-config-tcp-ip.message'
+import { NetworkConfigTCPIPWindow } from './network-config-tcp-ip.window'
 
 export namespace NetworkConfigTCPIP {
   class Controller {
@@ -15,8 +17,9 @@ export namespace NetworkConfigTCPIP {
       this.load()
     }
     html = new NetworkConfigTCPIPHtmlController()
+    message = new NetworkConfigTCPIPMessage()
     business = new NetworkConfigTCPIPBusiness()
-
+    window = new NetworkConfigTCPIPWindow()
     datas: NetworkInterface[] = []
 
     async load() {
@@ -32,11 +35,19 @@ export namespace NetworkConfigTCPIP {
         this.html.load(this.datas[index])
       })
       this.html.event.on('save', (index) => {
-        this.onsave(index)
+        this.window.confirm.id = index
+        this.window.confirm.message = '是否保存网络信息参数？'
+        this.message.save_confirm(this.window.confirm)
       })
+      this.message.event.on('save', () => {
+        if (this.window.confirm.id !== undefined) {
+          this.tosave(this.window.confirm.id)
+        }
+      })
+      this.message.event.on('reboot', this.toreboot.bind(this))
     }
 
-    onsave(index: number) {
+    tosave(index: number) {
       if (this.datas && this.datas.length > index) {
         let data = this.datas[index]
         data.AutoNegotiation = this.html.element.AutoNegotiation.checked
@@ -72,11 +83,28 @@ export namespace NetworkConfigTCPIP {
           .update(data)
           .then((x) => {
             MessageBar.success('操作成功')
+            this.onreboot()
           })
           .catch((e) => {
             MessageBar.error('操作失败')
           })
       }
+    }
+
+    onreboot() {
+      this.window.confirm.clear()
+      this.window.confirm.message = '重启设备后生效，是否重启设备？'
+      this.message.reboot_confirm(this.window.confirm)
+    }
+    toreboot() {
+      this.business
+        .reboot()
+        .then((x) => {
+          MessageBar.success('重启成功')
+        })
+        .catch((e) => {
+          MessageBar.error('重启失败')
+        })
     }
   }
 

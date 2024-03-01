@@ -1,4 +1,5 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
+import { SystemDeviceIndexCapability } from './system-device-index.capability'
 import './system-device-index.less'
 import { SystemDeviceIndexMessage } from './system-device-index.message'
 
@@ -8,6 +9,8 @@ export namespace SystemDeviceIndex {
       this.regist()
       this.init()
     }
+
+    capability = new SystemDeviceIndexCapability()
 
     index = LocalStorageService.navigation.system.device.get()
 
@@ -25,7 +28,6 @@ export namespace SystemDeviceIndex {
 
     regist() {
       if (this.element.items) {
-        console.log(this)
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]
 

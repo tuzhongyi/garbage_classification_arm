@@ -1,4 +1,5 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
+import { NetworkServerIndexCapability } from './network-server-index.capability'
 import './network-server-index.less'
 
 export namespace NetworkServerIndex {
@@ -7,6 +8,8 @@ export namespace NetworkServerIndex {
       this.regist()
       this.init()
     }
+
+    capability = new NetworkServerIndexCapability()
 
     index = LocalStorageService.navigation.network.server.get()
 
@@ -22,7 +25,6 @@ export namespace NetworkServerIndex {
 
     regist() {
       if (this.element.items) {
-        console.log(this)
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]
 

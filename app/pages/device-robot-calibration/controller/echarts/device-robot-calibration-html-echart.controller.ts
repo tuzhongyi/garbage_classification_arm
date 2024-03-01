@@ -108,7 +108,6 @@ export class DeviceRobotCalibrationHtmlEChartController {
 
     this.appendNode(robot)
     this.echart.setOption(this.option)
-    console.log(this.option)
 
     setTimeout(() => {
       let robot = this.converter.Robot2({

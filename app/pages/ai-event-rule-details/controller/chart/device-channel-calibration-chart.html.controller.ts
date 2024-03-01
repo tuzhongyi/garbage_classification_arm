@@ -27,18 +27,17 @@ export class AIEventRuleDetailsChartHtmlController {
       clear: document.getElementById('button_clear') as HTMLButtonElement,
     },
     canvas: document.getElementById('canvas') as HTMLCanvasElement,
+    img: document.getElementById('picture') as HTMLImageElement,
   }
   drawing = false
 
-  init() {
-    let parent = this.element.canvas.parentElement as HTMLElement
-    let img = parent.querySelector('img') as HTMLImageElement
-    this.element.canvas.width = img.clientWidth
-    this.element.canvas.height = img.clientHeight
-    this.event.emit('init', this.element.canvas)
-  }
-
   private regist() {
+    this.element.img.addEventListener('load', (x) => {
+      let img = x.target as HTMLImageElement
+      this.element.canvas.width = img.clientWidth
+      this.element.canvas.height = img.clientHeight
+      this.event.emit('init', this.element.canvas)
+    })
     this.element.button.polygon.addEventListener('click', (e: Event) => {
       if (this.drawing) {
         this.clear()

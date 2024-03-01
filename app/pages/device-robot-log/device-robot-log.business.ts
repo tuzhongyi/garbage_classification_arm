@@ -13,30 +13,33 @@ export class DeviceRobotLogBusiness {
     params.PageSize = size
     params.BeginTime = args.duration.begin
     params.EndTime = args.duration.end
-    params.Major = args.nodeType
-    params.Minor = args.canType
+    params.Major = args.major
+    params.Minor = args.minor
 
-    return this.service.logs(id, params).then((x) => {
-      // if (x.Data.length === 0) {
-      //   let count = 250
-      //   x.Page.PageIndex = index
-      //   x.Page.PageSize = size
-      //   x.Page.PageCount = Math.ceil(250 / size)
-      //   x.Page.RecordCount =
-      //     x.Page.PageIndex === x.Page.PageCount ? 250 % 12 : size
-      //   x.Page.TotalRecordCount = count
+    return this.service.logs(id, params)
+    // .catch((x) => {
+    //   let paged = new PagedList()
+    //   paged.Page = new Page()
+    //   paged.Data = []
+    //   let count = 250
+    //   paged.Page.PageIndex = index
+    //   paged.Page.PageSize = size
+    //   paged.Page.PageCount = Math.ceil(250 / size)
+    //   paged.Page.RecordCount =
+    //     paged.Page.PageIndex === paged.Page.PageCount ? 250 % 12 : size
+    //   paged.Page.TotalRecordCount = count
 
-      //   for (let i = 0; i < x.Page.RecordCount; i++) {
-      //     let item = new LogItem()
-      //     item.Time = new Date()
-      //     item.Remote = '192.168.21.149'
-      //     item.Major = MeshNodeType.DropPort
-      //     item.Minor = CanType.Wet
-      //     item.Desc = ((index - 1) * size + i).toString()
-      //     x.Data.push(item)
-      //   }
-      // }
-      return x
-    })
+    //   for (let i = 0; i < paged.Page.RecordCount; i++) {
+    //     let item = new LogItem()
+    //     item.Time = new Date()
+    //     item.Remote = '192.168.21.149'
+    //     item.Major = MajorType.Alarm
+    //     item.Minor = '-'
+    //     item.Desc = ((index - 1) * size + i).toString()
+    //     paged.Data.push(item)
+    //   }
+
+    //   return paged
+    // })
   }
 }

@@ -5,12 +5,12 @@ import { Sort } from '../../../common/tools/html-tool/html-table-sort.tool'
 import { HtmlTool } from '../../../common/tools/html-tool/html.tool'
 import { CameraAIEventRule } from '../../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 
-export interface DeviceChannelListTableEvent {
+export interface AIEventRuleTableEvent {
   modify: (id: string) => void
 }
 
-export class DeviceChannelListTableController {
-  event: EventEmitter<DeviceChannelListTableEvent> = new EventEmitter()
+export class AIEventRuleTableController {
+  event: EventEmitter<AIEventRuleTableEvent> = new EventEmitter()
   selecteds: string[] = ['50px', '80px', 'auto', 'auto', 'auto', '50px']
   constructor() {
     this.regist()

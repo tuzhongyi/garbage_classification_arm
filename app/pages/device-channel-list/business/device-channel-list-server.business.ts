@@ -27,7 +27,6 @@ export class DeviceChannelListServerBusiness {
             this.service.source
               .sync(x.Id)
               .then((x) => {
-                console.log(x)
                 resolve(true)
                 return
               })

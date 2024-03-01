@@ -16,4 +16,8 @@ export class AIAnalysisServerInfoBusiness {
     }
     throw new Error('AnalysisServer is null')
   }
+
+  update(data: AnalysisServer) {
+    return this.service.update(data)
+  }
 }

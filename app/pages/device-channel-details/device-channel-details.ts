@@ -74,7 +74,6 @@ export namespace DeviceChannelDetails {
     }
 
     get id() {
-      console.log(location)
       if (location.search.length === 0) return undefined
       let querys = LocationTool.query.decode(location.search)
       return querys.id

@@ -3,7 +3,6 @@ import { DateTimePicker } from '../../common/tools/controls/date-time-picker/dat
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
-import { DeviceCapability } from '../../data-core/models/capabilities/arm/device-capability.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
 import { Manager } from '../../data-core/requests/managers/manager'
 import { SystemDeviceDatetimeHtmlEventArgs } from './system-device-datetime.event'
@@ -51,6 +50,11 @@ export class SystemDeviceDatetimeHtmlController {
   initNTPTimeMode() {
     Manager.capability.device
       .then((x) => {
+        if (!x.NTPServer) {
+          return
+        }
+        this.element.NTPTimeMode.style.display = ''
+        this.element.button.save.style.display = ''
         if (x.NTPTimeMode) {
           this.element.NTPTimeMode.innerHTML = ''
           x.NTPTimeMode.forEach((item) => {
@@ -60,9 +64,12 @@ export class SystemDeviceDatetimeHtmlController {
             }
             HtmlTool.select.append(_item, this.element.NTPTimeMode)
           })
+          this.onmodechange(NTPTimeMode.NTP)
         }
       })
-      .finally(() => {
+      .catch(() => {
+        this.element.NTPTimeMode.style.display = ''
+        this.element.button.save.style.display = ''
         this.onmodechange(NTPTimeMode.NTP)
       })
   }
@@ -106,11 +113,9 @@ export class SystemDeviceDatetimeHtmlController {
   }
 
   onmodechange(mode: NTPTimeMode) {
-    let elements = document.querySelectorAll(
-      `.form-item`
-    ) as NodeListOf<HTMLDivElement>
+    let elements = document.querySelectorAll<HTMLDivElement>(`.form-item`)
     for (let i = 0; i < elements.length; i++) {
-      ;(elements[i] as HTMLDivElement).style.display = ''
+      elements[i].style.display = ''
     }
     switch (mode) {
       case NTPTimeMode.Manual:
@@ -132,7 +137,7 @@ export class SystemDeviceDatetimeHtmlController {
     this.event.emit('onmodechange', mode)
   }
 
-  load(data: SystemTime, capability: DeviceCapability) {
+  load(data: SystemTime) {
     this.element.NTPTimeMode.value = data.TimeMode
     this.systemtime.stop()
     this.systemtime.run(data.LocalTime)
