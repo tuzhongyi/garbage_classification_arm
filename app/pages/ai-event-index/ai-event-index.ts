@@ -15,7 +15,7 @@ export namespace AIEventIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    message = new AIEventIndexMessage(this.element.iframe)
+    private message = new AIEventIndexMessage(this.element.iframe)
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)

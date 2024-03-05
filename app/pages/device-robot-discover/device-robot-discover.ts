@@ -9,9 +9,9 @@ export namespace DeviceRobotDiscover {
       this.regist()
       this.load()
     }
-    html = new DeviceRobotDiscoverHtmlController()
-    business = new DeviceRobotDiscoverBusiness()
-    message = new DeviceRobotDiscoverMessage()
+    private html = new DeviceRobotDiscoverHtmlController()
+    private business = new DeviceRobotDiscoverBusiness()
+    private message = new DeviceRobotDiscoverMessage()
     datas: RobotSearchResult[] = []
 
     async load() {

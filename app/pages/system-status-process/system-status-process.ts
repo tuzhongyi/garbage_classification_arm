@@ -6,16 +6,16 @@ export namespace SystemStatusProcess {
     constructor() {
       this.load()
     }
-    html = new SystemStatusProcessHtmlController()
-    business = new SystemStatusProcessBusiness()
-    load() {
+    private html = new SystemStatusProcessHtmlController()
+    private business = new SystemStatusProcessBusiness()
+    private load() {
       this.loading()
       setTimeout(() => {
         this.load()
       }, 1000 * 5)
     }
 
-    async loading() {
+    private loading() {
       return this.business.load().then((status) => {
         this.html.element.table.clear()
         this.html.element.table.load(status)

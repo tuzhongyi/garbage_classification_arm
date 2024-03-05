@@ -8,8 +8,8 @@ export namespace PictureWindow {
       this.regist()
       this.init()
     }
-    html = new PictureWindowHtmlController()
-    message = new PictureWindowMessage()
+    private html = new PictureWindowHtmlController()
+    private message = new PictureWindowMessage()
 
     get query() {
       return LocationTool.query.decode(location.search)

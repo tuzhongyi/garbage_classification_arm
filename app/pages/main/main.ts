@@ -7,12 +7,12 @@ import { ArmMainMessage } from './main.message'
 
 export namespace ArmMain {
   export class Controller {
-    html = new ArmMainHtmlController()
+    private html = new ArmMainHtmlController()
     client = new HowellHttpClient.HttpClient()
 
-    window = new ArmMainWindow()
+    private window = new ArmMainWindow()
     confirm = new ArmMainConfirm()
-    message = new ArmMainMessage(
+    private message = new ArmMainMessage(
       this.html.element.iframe,
       this.window,
       this.confirm

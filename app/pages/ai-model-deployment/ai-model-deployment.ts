@@ -9,10 +9,10 @@ export namespace AIModelDeployment {
       this.load()
       this.regist()
     }
-    html = new AIModelDeploymentHtmlController()
-    business = new AIModelDeploymentBusiness()
+    private html = new AIModelDeploymentHtmlController()
+    private business = new AIModelDeploymentBusiness()
 
-    window = new AIModelDeploymentWindow()
+    private window = new AIModelDeploymentWindow()
     datas: CameraAIModel[] = []
     async load() {
       this.datas = await this.business.list()

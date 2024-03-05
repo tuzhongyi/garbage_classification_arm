@@ -17,7 +17,7 @@ export namespace NetworkConfigIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    message = new NetworkConfigIndexMessage(this.element.iframe)
+    private message = new NetworkConfigIndexMessage(this.element.iframe)
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)

@@ -14,10 +14,10 @@ export namespace AIEventDeployment {
     constructor() {
       this.regist()
     }
-    html = new AIEventDeploymentHtmlController()
-    business = new AIEventDeploymentBusiness()
-    message = new AIEventDeploymentMessage()
-    window = new AIEventDeploymentWindow()
+    private html = new AIEventDeploymentHtmlController()
+    private business = new AIEventDeploymentBusiness()
+    private message = new AIEventDeploymentMessage()
+    private window = new AIEventDeploymentWindow()
     event?: CameraAIEvent
     week = 0
     isnew = true

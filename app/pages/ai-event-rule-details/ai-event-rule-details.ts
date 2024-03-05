@@ -17,8 +17,8 @@ export namespace AIEventRuleDetails {
       this.load()
     }
 
-    business = new AIEventRuleDetailsBusiness()
-    message = new AIEventRuleDetailsMessage()
+    private business = new AIEventRuleDetailsBusiness()
+    private message = new AIEventRuleDetailsMessage()
     source = new AIEventRuleDetailsSource()
     data = new CameraAIEventRule()
     get id() {
@@ -32,7 +32,7 @@ export namespace AIEventRuleDetails {
       }
       throw new Error('未指定事件类型')
     }
-    html = new AIEventRuleDetailsHtmlController(this.type)
+    private html = new AIEventRuleDetailsHtmlController(this.type)
 
     async init() {
       this.data.EventType = this.type

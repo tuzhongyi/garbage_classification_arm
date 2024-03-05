@@ -18,7 +18,7 @@ export namespace DeviceRobotIndex {
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
 
-    message = new DeviceRobotIndexMessage(this.element.iframe)
+    private message = new DeviceRobotIndexMessage(this.element.iframe)
     standby?: string
 
     init() {
@@ -106,7 +106,9 @@ export namespace DeviceRobotIndex {
         case 3:
           return `../device-robot-play/device-robot-play.html${params}`
         case 4:
-          return `../device-robot-log/device-robot-log.html${params}`
+          return `../device-robot-config/device-robot-config.html${params}`
+        // case 4:
+        //   return `../device-robot-log/device-robot-log.html${params}`
         default:
           return ''
       }

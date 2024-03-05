@@ -6,17 +6,17 @@ export namespace SystemMaintainLog {
     constructor() {
       this.regist()
     }
-    html = new SystemMaintainLogHtmlController()
-    business = new SystemMaintainLogBusiness()
+    private html = new SystemMaintainLogHtmlController()
+    private business = new SystemMaintainLogBusiness()
 
-    load(date: Date) {
+    private load(date: Date) {
       this.html.clear()
       this.business.load(date).then((x) => {
         this.html.load(x)
       })
     }
 
-    async regist() {
+    private regist() {
       this.html.event.on('search', (date) => {
         this.load(date)
       })

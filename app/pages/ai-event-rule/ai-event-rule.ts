@@ -12,10 +12,10 @@ export namespace AIEventRule {
       this.load()
       this.regist()
     }
-    html = new AIEventRuleHtmlController()
-    business = new AIEventRuleBusiness()
-    message = new AIEventRuleMessage()
-    window = new AIEventRuleWindow()
+    private html = new AIEventRuleHtmlController()
+    private business = new AIEventRuleBusiness()
+    private message = new AIEventRuleMessage()
+    private window = new AIEventRuleWindow()
     datas: CameraAIEventRule[] = []
     type = EventType.IllegalDrop
     load() {

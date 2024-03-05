@@ -1,7 +1,5 @@
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
-import { HowellHttpClient } from '../../data-core/requests/http-client'
-import { ArmSystemRequestService } from '../../data-core/requests/services/system/system.service'
 import { SystemMaintainConfigBusiness } from './system-maintain-config.business'
 import { SystemMaintainConfigHtmlController } from './system-maintain-config.html.controller'
 import { SystemMaintainConfigMessage } from './system-maintain-config.message'
@@ -12,14 +10,12 @@ export namespace SystemMaintainConfig {
     constructor() {
       this.regist()
     }
-    html = new SystemMaintainConfigHtmlController()
-    client = new HowellHttpClient.HttpClient()
-    service = new ArmSystemRequestService(this.client.http)
-    window = new SystemMaintainConfigWindow()
-    message = new SystemMaintainConfigMessage()
-    business = new SystemMaintainConfigBusiness()
+    private html = new SystemMaintainConfigHtmlController()
+    private window = new SystemMaintainConfigWindow()
+    private message = new SystemMaintainConfigMessage()
+    private business = new SystemMaintainConfigBusiness()
 
-    regist() {
+    private regist() {
       this.html.event.on(
         'configdownload',
         this.configuration.download.bind(this)
@@ -47,7 +43,7 @@ export namespace SystemMaintainConfig {
       })
     }
 
-    configuration = {
+    private configuration = {
       download: () => {
         this.business.configuration.download()
       },
@@ -67,7 +63,7 @@ export namespace SystemMaintainConfig {
       },
     }
 
-    reboot() {
+    private reboot() {
       this.business
         .reboot()
         .then((x) => {
@@ -81,7 +77,7 @@ export namespace SystemMaintainConfig {
           MessageBar.error('操作失败')
         })
     }
-    shutdown() {
+    private shutdown() {
       this.business
         .shutdown()
         .then((x) => {
@@ -95,7 +91,7 @@ export namespace SystemMaintainConfig {
           MessageBar.error('操作失败')
         })
     }
-    factoryreset(mode: FactoryResetMode) {
+    private factoryreset(mode: FactoryResetMode) {
       this.business.factory
         .reset(mode)
         .then((x) => {

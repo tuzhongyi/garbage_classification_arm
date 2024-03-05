@@ -11,11 +11,11 @@ export namespace SystemDeviceInfo {
       this.regist()
       this.load()
     }
-    html = new SystemDeviceInfoHtmlController()
-    business = new SystemDeviceInfoBusiness()
-    message = new SystemDeviceInfoMessage()
-    window = new SystemDeviceInfoWindow()
-    data?: DeviceInfo
+    private html = new SystemDeviceInfoHtmlController()
+    private business = new SystemDeviceInfoBusiness()
+    private message = new SystemDeviceInfoMessage()
+    private window = new SystemDeviceInfoWindow()
+    private data?: DeviceInfo
 
     private async load() {
       try {

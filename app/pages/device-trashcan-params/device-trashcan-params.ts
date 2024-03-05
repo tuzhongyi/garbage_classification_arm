@@ -10,10 +10,10 @@ export namespace DeviceTrashCanParams {
       this.regist()
       this.load()
     }
-    html = new DeviceTrashCanParamsHtmlController()
-    business = new DeviceTrashCanParamsBusiness()
-    message = new DeviceTrashCanParamsMessage()
-    window = new DeviceTrashCanParamsWindow()
+    private html = new DeviceTrashCanParamsHtmlController()
+    private business = new DeviceTrashCanParamsBusiness()
+    private message = new DeviceTrashCanParamsMessage()
+    private window = new DeviceTrashCanParamsWindow()
 
     private async load() {
       try {

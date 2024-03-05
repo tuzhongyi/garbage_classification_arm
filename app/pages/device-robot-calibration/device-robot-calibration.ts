@@ -17,10 +17,10 @@ export namespace DeviceRobotCalibration {
       this.regist()
       this.load()
     }
-    html = new DeviceRobotCalibrationHtmlController()
-    business = new DeviceRobotCalibrationBusiness()
-    message = new DeviceRobotCalibrationMessage()
-    window = new DeviceRobotCalibrationWindow()
+    private html = new DeviceRobotCalibrationHtmlController()
+    private business = new DeviceRobotCalibrationBusiness()
+    private message = new DeviceRobotCalibrationMessage()
+    private window = new DeviceRobotCalibrationWindow()
     model?: DeviceRobotModel
 
     selected: {

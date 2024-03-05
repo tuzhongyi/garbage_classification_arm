@@ -6,9 +6,9 @@ export namespace SystemStatusRunning {
     constructor() {
       this.init()
     }
-    html = new SystemStatusRunningHtmlController()
-    business = new SystemStatusRunningBusiness()
-    async init() {
+    private html = new SystemStatusRunningHtmlController()
+    private business = new SystemStatusRunningBusiness()
+    private init() {
       this.business.load().then((status) => {
         this.html.load(status)
       })

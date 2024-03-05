@@ -6,8 +6,8 @@ export namespace ConfirmWindow {
     constructor() {
       this.regist()
     }
-    html = new ConfirmWindowHtmlController()
-    message = new ConfirmWindowMessage()
+    private html = new ConfirmWindowHtmlController()
+    private message = new ConfirmWindowMessage()
 
     regist() {
       this.html.event.on('ok', this.onok.bind(this))

@@ -11,10 +11,10 @@ export namespace NetworkConfigSSH {
       this.regist()
       this.load()
     }
-    html = new NetworkConfigSSHHtmlController()
-    business = new NetworkConfigSSHBusiness()
-    message = new NetworkConfigSSHMessage()
-    window = new NetworkConfigSSHWindow()
+    private html = new NetworkConfigSSHHtmlController()
+    private business = new NetworkConfigSSHBusiness()
+    private message = new NetworkConfigSSHMessage()
+    private window = new NetworkConfigSSHWindow()
 
     data?: SSH
 

@@ -7,12 +7,12 @@ import { ArmGuideMessage } from './guide.message'
 
 export namespace ArmGuide {
   export class Controller {
-    html = new ArmGuideHtmlController()
+    private html = new ArmGuideHtmlController()
     client = new HowellHttpClient.HttpClient()
 
-    window = new ArmGuideWindow()
+    private window = new ArmGuideWindow()
     confirm = new ArmGuideConfirm()
-    message = new ArmGuideMessage(
+    private message = new ArmGuideMessage(
       this.html.element.iframe,
       this.window,
       this.confirm

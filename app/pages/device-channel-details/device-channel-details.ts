@@ -11,9 +11,9 @@ export namespace DeviceChannelDetails {
       this.regist()
       this.init()
     }
-    html = new DeviceChannelDetailsHtmlController()
-    business = new DeviceChannelDetailsBusiness()
-    message = new DeviceChannelDetailsMessage()
+    private html = new DeviceChannelDetailsHtmlController()
+    private business = new DeviceChannelDetailsBusiness()
+    private message = new DeviceChannelDetailsMessage()
     data?: InputProxyChannel
     async init() {
       if (this.id) {

@@ -9,10 +9,10 @@ import { DeviceRobotWindow } from './device-robot-list.model'
 export namespace DeviceRobotList {
   export class Controller {
     capability = new DeviceRobotCapability()
-    html = new DeviceRobotListHtmlController()
-    business = new DeviceRobotListBusiness()
-    message = new DeviceRobotListMessage()
-    window = new DeviceRobotWindow()
+    private html = new DeviceRobotListHtmlController()
+    private business = new DeviceRobotListBusiness()
+    private message = new DeviceRobotListMessage()
+    private window = new DeviceRobotWindow()
 
     constructor() {
       this.regist()

@@ -16,10 +16,10 @@ export namespace NetworkConfigTCPIP {
       this.regist()
       this.load()
     }
-    html = new NetworkConfigTCPIPHtmlController()
-    message = new NetworkConfigTCPIPMessage()
-    business = new NetworkConfigTCPIPBusiness()
-    window = new NetworkConfigTCPIPWindow()
+    private html = new NetworkConfigTCPIPHtmlController()
+    private message = new NetworkConfigTCPIPMessage()
+    private business = new NetworkConfigTCPIPBusiness()
+    private window = new NetworkConfigTCPIPWindow()
     datas: NetworkInterface[] = []
 
     async load() {

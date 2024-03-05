@@ -9,7 +9,7 @@ export namespace ArmLogin {
       this.regist()
     }
 
-    html = new ArmLoginHtmlController()
+    private html = new ArmLoginHtmlController()
     client = new HowellHttpClient.HttpClient()
 
     timeout() {

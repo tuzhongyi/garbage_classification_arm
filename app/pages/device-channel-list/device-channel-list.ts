@@ -11,10 +11,10 @@ export namespace DeviceChannelList {
       this.load()
       this.regist()
     }
-    html = new DeviceChannelListHtmlController()
-    business = new DeviceChannelListBusiness()
-    message = new DeviceChannelListMessage()
-    window = new DeviceChannelListWindow()
+    private html = new DeviceChannelListHtmlController()
+    private business = new DeviceChannelListBusiness()
+    private message = new DeviceChannelListMessage()
+    private window = new DeviceChannelListWindow()
     datas: InputProxyChannel[] = []
 
     async load() {

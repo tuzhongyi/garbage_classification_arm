@@ -9,16 +9,16 @@ import { SystemDeviceDatetimeWindow } from './system-device-datetime.window'
 
 export namespace SystemDeviceDatetime {
   class Controller {
-    html = new SystemDeviceDatetimeHtmlController()
-    business = new SystemDeviceDatetimeBusiness()
-    message = new SystemDeviceDatetimeMessage()
-    window = new SystemDeviceDatetimeWindow()
+    private html = new SystemDeviceDatetimeHtmlController()
+    private business = new SystemDeviceDatetimeBusiness()
+    private message = new SystemDeviceDatetimeMessage()
+    private window = new SystemDeviceDatetimeWindow()
     constructor() {
       this.regist()
       this.load()
     }
 
-    regist() {
+    private regist() {
       this.html.event.on('save', () => {
         this.window.confirm.message = '是否保存修改？'
         this.message.confirm(this.window.confirm)
@@ -26,11 +26,9 @@ export namespace SystemDeviceDatetime {
       this.message.event.on('save', this.onsave.bind(this))
     }
 
-    data?: SystemTime
-    local_handle?: NodeJS.Timer
-    system_handle?: NodeJS.Timer
+    private data?: SystemTime
 
-    async load() {
+    private async load() {
       this.business
         .load()
         .then((data) => {
@@ -42,7 +40,7 @@ export namespace SystemDeviceDatetime {
         })
     }
 
-    onsave() {
+    private onsave() {
       if (this.data) {
         this.data.TimeMode = this.html.element.NTPTimeMode.value as NTPTimeMode
         switch (this.data.TimeMode) {

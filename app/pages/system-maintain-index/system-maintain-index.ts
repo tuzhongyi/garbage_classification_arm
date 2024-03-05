@@ -9,20 +9,20 @@ export namespace SystemMaintainIndex {
       this.init()
     }
 
-    index = LocalStorageService.navigation.system.maintain.get()
+    private index = LocalStorageService.navigation.system.maintain.get()
 
-    element = {
+    private element = {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
     message = new SystemMaintainIndexMessage(this.element.iframe)
-    init() {
+    private init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)
       }
     }
 
-    regist() {
+    private regist() {
       if (this.element.items) {
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]
@@ -34,7 +34,7 @@ export namespace SystemMaintainIndex {
       }
     }
 
-    onselect(current: HTMLDivElement) {
+    private onselect(current: HTMLDivElement) {
       let selected = document.querySelector('.selected') as HTMLDivElement
       if (selected) {
         selected.classList.remove('selected')

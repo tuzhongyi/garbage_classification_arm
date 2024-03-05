@@ -15,7 +15,7 @@ export namespace AIAnalysisServerIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    message = new AIAnalysisServerIndexMessage(this.element.iframe)
+    private message = new AIAnalysisServerIndexMessage(this.element.iframe)
 
     init() {
       if (this.element.items && this.element.items.length > 0) {

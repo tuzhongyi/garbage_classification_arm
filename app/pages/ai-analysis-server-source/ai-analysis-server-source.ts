@@ -11,10 +11,10 @@ export namespace AIAnalysisServerSource {
       this.regist()
       this.load()
     }
-    html = new AIAnalysisServerSourceHtmlController()
-    business = new AIAnalysisServerSourceBusiness()
-    message = new AIAnalysisServerSourceMessage()
-    window = new AIAnalysisServerSourceWindow()
+    private html = new AIAnalysisServerSourceHtmlController()
+    private business = new AIAnalysisServerSourceBusiness()
+    private message = new AIAnalysisServerSourceMessage()
+    private window = new AIAnalysisServerSourceWindow()
     datas: VideoSource[] = []
     async load() {
       this.datas = await this.business.load()

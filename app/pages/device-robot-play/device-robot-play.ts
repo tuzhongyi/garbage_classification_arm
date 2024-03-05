@@ -13,8 +13,8 @@ export namespace DeviceRobotCalibration {
       this.load()
       this.status()
     }
-    html = new DeviceRobotPlayHtmlController()
-    business = new DeviceRobotPlayBusiness()
+    private html = new DeviceRobotPlayHtmlController()
+    private business = new DeviceRobotPlayBusiness()
     model?: DeviceRobotModel
 
     battery?: RobotBattery

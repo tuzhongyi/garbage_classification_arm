@@ -12,10 +12,10 @@ export namespace AIAnalysisServerInfo {
       this.regist()
       this.load()
     }
-    html = new AIAnalysisServerInfoHtmlController()
-    business = new AIAnalysisServerInfoBusiness()
-    message = new AIAnalysisServerInfoMessage()
-    window = new AIAnalysisServerInfoWindow()
+    private html = new AIAnalysisServerInfoHtmlController()
+    private business = new AIAnalysisServerInfoBusiness()
+    private message = new AIAnalysisServerInfoMessage()
+    private window = new AIAnalysisServerInfoWindow()
 
     private async load() {
       try {

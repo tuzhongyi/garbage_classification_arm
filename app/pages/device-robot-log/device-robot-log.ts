@@ -12,8 +12,8 @@ export namespace DeviceRobotLog {
       this.regist()
       this.init()
     }
-    html = new DeviceRobotLogHtmlController()
-    business = new DeviceRobotLogBusiness()
+    private html = new DeviceRobotLogHtmlController()
+    private business = new DeviceRobotLogBusiness()
     args = new DeviceRobotLogTableArgs()
     datas: LogItem[] = []
     page?: Page

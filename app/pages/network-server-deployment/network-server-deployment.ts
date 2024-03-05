@@ -13,19 +13,19 @@ export namespace NetworkServerDeployment {
       this.load()
     }
     capability = new NetworkServerDeploymentCapability()
-    html = new NetworkServerDeploymentHtmlController()
-    business = new NetworkServerDeploymentBusiness()
-    message = new NetworkServerDeploymentMessage()
-    window = new NetworkServerDeploymentWindow()
+    private html = new NetworkServerDeploymentHtmlController()
+    private business = new NetworkServerDeploymentBusiness()
+    private message = new NetworkServerDeploymentMessage()
+    private window = new NetworkServerDeploymentWindow()
 
-    data?: NetworkServerDeploymentModel
+    private data?: NetworkServerDeploymentModel
 
-    async load() {
+    private async load() {
       this.data = await this.business.load()
       this.html.load(this.data)
     }
 
-    regist() {
+    private regist() {
       this.html.event.on('test', this.ontest.bind(this))
       this.html.event.on('isupserverchange', (id) => {
         this.onisupserverchange(id)
@@ -37,12 +37,12 @@ export namespace NetworkServerDeployment {
       this.message.event.on('save', this.onsave.bind(this))
     }
 
-    onisupserverchange(id: string) {
+    private onisupserverchange(id: string) {
       this.business.server.isup.domain(id).then((x) => {
         this.html.load(x)
       })
     }
-    ontest() {
+    private ontest() {
       this.business
         .test()
         .then((x) => {
@@ -57,7 +57,7 @@ export namespace NetworkServerDeployment {
         })
     }
 
-    onsave() {
+    private onsave() {
       if (this.data && this.data.deployment) {
         this.data.deployment.HostAddress =
           this.html.element.deployment.HostAddress.value

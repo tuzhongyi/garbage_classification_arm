@@ -12,22 +12,22 @@ export namespace NetworkServerIndex {
 
     capability = new NetworkServerIndexCapability()
 
-    index = LocalStorageService.navigation.network.server.get()
+    private index = LocalStorageService.navigation.network.server.get()
 
-    element = {
+    private element = {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
 
     message = new NetworkServerIndexMessage(this.element.iframe)
 
-    init() {
+    private init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)
       }
     }
 
-    regist() {
+    private regist() {
       if (this.element.items) {
         for (let i = 0; i < this.element.items.length; i++) {
           const item = this.element.items[i]

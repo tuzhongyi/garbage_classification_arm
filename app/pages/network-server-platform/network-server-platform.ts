@@ -10,17 +10,17 @@ export namespace NetworkServerPlatform {
       this.regist()
       this.load()
     }
-    html = new NetworkServerPlatformHtmlController()
-    business = new NetworkServerPlatformBusiness()
-    message = new NetworkServerPlatformMessage()
-    window = new NetworkServerPlatformWindow()
+    private html = new NetworkServerPlatformHtmlController()
+    private business = new NetworkServerPlatformBusiness()
+    private message = new NetworkServerPlatformMessage()
+    private window = new NetworkServerPlatformWindow()
 
     async load() {
       let data = await this.business.load()
       this.html.load(data)
     }
 
-    regist() {
+    private regist() {
       this.html.event.on('test', this.ontest.bind(this))
       this.html.event.on('save', () => {
         this.window.confirm.message = '是否保存平台信息？'
@@ -29,7 +29,7 @@ export namespace NetworkServerPlatform {
       this.message.event.on('save', this.onsave.bind(this))
     }
 
-    ontest() {
+    private ontest() {
       this.business
         .test()
         .then((x) => {
@@ -44,7 +44,7 @@ export namespace NetworkServerPlatform {
         })
     }
 
-    onsave() {
+    private onsave() {
       let data = this.html.get()
       this.business
         .update(data)

@@ -186,8 +186,8 @@ export namespace DeviceChannelCalibration {
       this.regist()
       this.init()
     }
-    html = new DeviceChannelCalibrationHtmlController()
-    business = new DeviceChannelCalibrationBusiness()
+    private html = new DeviceChannelCalibrationHtmlController()
+    private business = new DeviceChannelCalibrationBusiness()
     model = new DeviceChannelCalibrationModel()
     chart = new ChartController(this.html, this.business, () => {
       return this.model

@@ -12,8 +12,8 @@ export namespace DeviceRobotInfo {
       this.regist()
       this.load()
     }
-    html = new DeviceRobotInfoHtmlController()
-    business = new DeviceRobotInfoBusiness()
+    private html = new DeviceRobotInfoHtmlController()
+    private business = new DeviceRobotInfoBusiness()
     get id() {
       let querys = LocationTool.query.decode(location.search)
       return querys.id

@@ -15,7 +15,7 @@ export namespace DeviceTrashCanIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    message = new DeviceTrashCanIndexMessage(this.element.iframe)
+    private message = new DeviceTrashCanIndexMessage(this.element.iframe)
 
     init() {
       if (this.element.items && this.element.items.length > 0) {
