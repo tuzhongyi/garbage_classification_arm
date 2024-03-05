@@ -11,7 +11,7 @@ export interface AIEventRuleMessageReceiverEvent {
 }
 export interface AIEventRuleMessageSenderEvent {
   open(window: WindowModel): void
-  confirm(window: ConfirmWindowModel): void
+  delete_confirm(window: ConfirmWindowModel): void
 }
 interface MessageEvent {
   load(): void
@@ -28,7 +28,7 @@ export class AIEventRuleMessage {
   private client = new EventMessageClient<
     AIEventRuleMessageSenderEvent,
     AIEventRuleMessageReceiverEvent
-  >(['open', 'confirm'])
+  >(['open', 'delete_confirm'])
 
   private reigst() {
     this.client.receiver.on('details_result', (args: ResultArgs) => {
@@ -57,7 +57,7 @@ export class AIEventRuleMessage {
   modify(window: WindowModel) {
     this.client.sender.emit('open', window)
   }
-  confirm(window: ConfirmWindowModel) {
-    this.client.sender.emit('confirm', window)
+  delete_confirm(window: ConfirmWindowModel) {
+    this.client.sender.emit('delete_confirm', window)
   }
 }

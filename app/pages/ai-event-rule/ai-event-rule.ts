@@ -60,7 +60,7 @@ export namespace AIEventRule {
     ondelete(ids: string[]) {
       this.window.confirm.ids = ids
       this.window.confirm.message = `确定要删除这 ${ids.length} 条记录吗?`
-      this.message.confirm(this.window.confirm)
+      this.message.delete_confirm(this.window.confirm)
     }
     todelete() {
       if (this.window.confirm.ids.length > 0) {

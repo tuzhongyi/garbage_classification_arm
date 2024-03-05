@@ -6,6 +6,7 @@ import { ArmMainWindow } from './main-windows/main.window'
 import {
   MainMessageRequestEvent,
   MainWindowMessageResponseEvent,
+  ResultArgs,
 } from './main.event'
 
 export class ArmMainMessage implements MainWindowMessageResponseEvent {
@@ -45,7 +46,7 @@ export class ArmMainMessage implements MainWindowMessageResponseEvent {
     this.window.close()
   }
 
-  result(args: { result: boolean; message?: string | undefined }): void {
+  result(args: ResultArgs): void {
     let data: EventMessageData = {
       command: 'result',
       value: args,

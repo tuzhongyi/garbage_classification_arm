@@ -2,39 +2,47 @@ import { EventMessageProxy } from '../../common/event-message/event-message.prox
 import { EventMessageData } from '../../common/event-message/event-message.proxy.model'
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import {
+  AIEventDeploymentMessageReceiverEvent,
+  AIEventDeploymentMessageSenderEvent,
+} from '../ai-event-deployment/ai-event-deployment.message'
+import {
+  AIEventRuleMessageReceiverEvent,
+  AIEventRuleMessageSenderEvent,
+} from '../ai-event-rule/ai-event-rule.message'
+import {
   DeviceChannelListMessageReceiverEvent,
   DeviceChannelListMessageSenderEvent,
 } from '../device-channel-list/device-channel-list.message'
-import { MainMessageResponseEvent, ResultArgs } from '../main/main.event'
+import {
+  MainMessageRequestEvent,
+  MainMessageResponseEvent,
+  ResultArgs,
+} from '../main/main.event'
 import {
   NetworkConfigTCPIPMessageReceiverEvent,
   NetworkConfigTCPIPMessageSenderEvent,
 } from '../network-config-tcp-ip/network-config-tcp-ip.message'
 import {
-  NetworkServerDeploymentMessageReceiverEvent,
-  NetworkServerDeploymentMessageSenderEvent,
-} from '../network-server-deployment/network-server-deployment.message'
-import {
   NetworkServerPlatformMessageReceiverEvent,
   NetworkServerPlatformMessageSenderEvent,
 } from '../network-server-platform/network-server-platform.message'
-import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 import { ArmGuideConfirm } from './guide-windows/guide.confirm'
 import { ArmGuideWindow } from './guide-windows/guide.window'
 
 interface MessageReceiverEvent
   extends NetworkConfigTCPIPMessageReceiverEvent,
-    NetworkServerDeploymentMessageReceiverEvent,
-    NetworkServerPlatformMessageReceiverEvent,
     DeviceChannelListMessageReceiverEvent,
+    AIEventDeploymentMessageReceiverEvent,
+    AIEventRuleMessageReceiverEvent,
+    NetworkServerPlatformMessageReceiverEvent,
     MainMessageResponseEvent {}
 interface MessageSenderEvent
   extends NetworkConfigTCPIPMessageSenderEvent,
-    NetworkServerDeploymentMessageSenderEvent,
+    DeviceChannelListMessageSenderEvent,
+    AIEventDeploymentMessageSenderEvent,
+    AIEventRuleMessageSenderEvent,
     NetworkServerPlatformMessageSenderEvent,
-    DeviceChannelListMessageSenderEvent {
-  confirm(args: ConfirmWindowModel): void
-}
+    MainMessageRequestEvent {}
 
 enum MessageCommand {
   default,
@@ -62,6 +70,7 @@ export class ArmGuideMessage implements MessageReceiverEvent {
   regist() {
     // 注册子页面触发事件
     this.proxy.event.on('open', (args) => {
+      this.command = MessageCommand.default
       this.window.open(args)
     })
     this.proxy.event.on('confirm', (args) => {
@@ -90,10 +99,37 @@ export class ArmGuideMessage implements MessageReceiverEvent {
         MessageBar.warning(args.message)
         return
       }
-      this.result(args)
+
+      switch (this.command) {
+        case MessageCommand.default:
+          this.details_result(args)
+          break
+
+        default:
+          break
+      }
     })
     this.confirm.event.on('result', (args) => {
-      this.result(args)
+      switch (this.command) {
+        case MessageCommand.default:
+          this.details_result(args)
+          break
+        case MessageCommand.delete:
+          this.delete_result(args)
+          break
+        case MessageCommand.reboot:
+          this.reboot_result(args)
+          break
+        case MessageCommand.save:
+          this.save_result(args)
+          break
+        case MessageCommand.sync:
+          this.sync_result(args)
+          break
+
+        default:
+          break
+      }
     })
   }
 
@@ -101,7 +137,7 @@ export class ArmGuideMessage implements MessageReceiverEvent {
     this.window.close()
   }
 
-  result(args: { result: boolean; message?: string | undefined }): void {
+  result(args: ResultArgs): void {
     let data: EventMessageData = {
       command: 'result',
       value: args,

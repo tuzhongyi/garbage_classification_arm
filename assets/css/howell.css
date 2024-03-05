@@ -86,7 +86,7 @@ input[type="password"],
 select,
 textarea {
   outline: none;
-  border: 2px solid #cbcbcb;
+  border: 1px solid #7f7f7f;
   border-radius: 0.25rem;
   color: #333;
   height: 30px;
@@ -137,7 +137,7 @@ select option {
 input:hover,
 select:hover,
 textarea:hover {
-  border-color: #235f9c;
+  border-color: #2d76ce;
 }
 
 
@@ -151,7 +151,7 @@ textarea:hover {
 .button-blue {
   border-radius: 4px;
   color: white;
-  background-color: #235f9c;
+  background-color: #2d76ce;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,7 +170,7 @@ textarea:hover {
 
 .button-blue.nohover:hover {
   color: white;
-  background-color: #235f9c;
+  background-color: #2d76ce;
   border: 1px solid transparent;
 }
 
@@ -179,9 +179,8 @@ textarea:hover {
 }
 
 .button-blue:hover {
-  background-color: transparent;
-  border: 1px solid #235f9c;
-  color: #235f9c;
+  background-color: #5791d8;
+  border: 1px solid #5791d8;
 }
 
 .button-white {
@@ -216,8 +215,8 @@ textarea:hover {
 .button-blue-line {
   border-radius: 4px;
   background-color: transparent;
-  color: #235f9c;
-  border: 2px solid #235f9c;
+  color: #2d76ce;
+  border: 2px solid #2d76ce;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,8 +244,8 @@ textarea:hover {
 .button-blue-line.nohover:hover {
 
   background-color: transparent;
-  color: #235f9c;
-  border: 2px solid #235f9c;
+  color: #2d76ce;
+  border: 2px solid #2d76ce;
 }
 
 .button-blue-line i {
@@ -258,7 +257,7 @@ textarea:hover {
 }
 
 .button-blue-line:hover {
-  background-color: #235f9c;
+  background-color: #2d76ce;
   border: 2px solid transparent;
   color: white;
 }

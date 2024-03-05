@@ -3,6 +3,7 @@ import { MeshEdge } from '../../data-core/models/robot/mesh-edge.model'
 import { MeshLocation } from '../../data-core/models/robot/mesh-location.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
+import { RobotCalibration } from '../../data-core/models/robot/robot-calibration.model'
 import { RobotMeshStepCommand } from '../../data-core/models/robot/robot-command-mesh-step.model'
 import { RobotCommandResult } from '../../data-core/models/robot/robot-command-result.model'
 import { HowellHttpClient } from '../../data-core/requests/http-client'
@@ -19,6 +20,7 @@ export class DeviceRobotCalibrationBusiness {
   private service = new ArmRobotRequestService(this.client.http)
   private commandId = -1
   private _location = new MeshLocation()
+  private status?: RobotCalibration
 
   async load(id: string) {
     let model = new DeviceRobotModel()
@@ -31,8 +33,10 @@ export class DeviceRobotCalibrationBusiness {
   }
 
   async calibrating(id: string) {
-    let status = await this.service.calibration.status(id)
-    return status.UnderCalibration
+    if (!this.status) {
+      this.status = await this.service.calibration.status(id)
+    }
+    return this.status.UnderCalibration
   }
 
   edges(id: string) {
@@ -74,7 +78,8 @@ export class DeviceRobotCalibrationBusiness {
     return this.service.calibration.start(id)
   }
 
-  stop(id: string) {
+  async stop(id: string) {
+    if (await this.calibrating(id)) return false
     return this.service.calibration.stop(id)
   }
 

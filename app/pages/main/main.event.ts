@@ -13,8 +13,8 @@ export interface MainMessageResponseEvent {
   result(result: ResultArgs): void
 }
 export interface MainMessageRequestEvent {
-  open<T extends WindowModel>(args: T): void
-  confirm<T extends ConfirmWindowModel>(args: T): void
+  open(args: WindowModel): void
+  confirm(args: ConfirmWindowModel): void
 }
 export interface MainWindowMessageResponseEvent {
   close(): void

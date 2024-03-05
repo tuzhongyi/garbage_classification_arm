@@ -6,28 +6,33 @@
   },
   {
     "step": "第二步",
-    "name": "部署服务器",
-    "url": "/network-server-deployment/network-server-deployment.html"
-  },
-  {
-    "step": "第三步",
-    "name": "部署接入平台",
-    "url": "/network-server-platform/network-server-platform.html"
-  },
-  {
-    "step": "第四步",
     "name": "部署智能机器人",
     "url": "/device-robot-index/device-robot-index.html",
     "nomessage": true
   },
   {
-    "step": "第五步",
+    "step": "第三步",
     "name": "添加代理通道",
     "url": "/device-channel-list/device-channel-list.html"
   },
   {
-    "step": "第六步",
+    "step": "第四步",
     "name": "代理通道标定",
     "url": "/device-channel-calibration/device-channel-calibration.html"
+  },
+  {
+    "step": "第五步",
+    "name": "AI事件部署",
+    "url": "/ai-event-deployment/ai-event-deployment.html"
+  },
+  {
+    "step": "第六步",
+    "name": "AI事件分析规则",
+    "url": "/ai-event-rule/ai-event-rule.html"
+  },
+  {
+    "step": "第七步",
+    "name": "部署接入平台",
+    "url": "/network-server-platform/network-server-platform.html"
   }
 ]

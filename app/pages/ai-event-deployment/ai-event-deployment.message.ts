@@ -4,10 +4,10 @@ import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 
 export interface AIEventDeploymentMessageReceiverEvent {
-  result(args: ResultArgs): void
+  save_result(args: ResultArgs): void
 }
 export interface AIEventDeploymentMessageSenderEvent {
-  confirm(window: ConfirmWindowModel): void
+  save_confirm(window: ConfirmWindowModel): void
 }
 interface MessageEvent {
   save(): void
@@ -24,16 +24,16 @@ export class AIEventDeploymentMessage
   private client = new EventMessageClient<
     AIEventDeploymentMessageSenderEvent,
     AIEventDeploymentMessageReceiverEvent
-  >(['confirm'])
+  >(['save_confirm'])
   private reigst() {
-    this.client.receiver.on('result', (args) => {
+    this.client.receiver.on('save_result', (args) => {
       if (args.result) {
         this.event.emit('save')
       }
     })
   }
 
-  confirm(window: ConfirmWindowModel): void {
-    this.client.sender.emit('confirm', window)
+  save_confirm(window: ConfirmWindowModel): void {
+    this.client.sender.emit('save_confirm', window)
   }
 }

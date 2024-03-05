@@ -59,7 +59,10 @@ export class SystemStatusProcessHtmlTable {
 
   async load(data: RunningStatus) {
     this.datas = []
-    let radio = (data.MemoryUsage / data.TotalMemory) * 100
+    let radio = 0
+    if (data.TotalMemory > 0) {
+      radio = (data.MemoryUsage / data.TotalMemory) * 100
+    }
     this.theads.MemoryUsage.innerHTML = radio.toFixed(radio === 100 ? 0 : 2)
     this.theads.CPUUsage.innerHTML = data.CPUUsage.toString()
     this.theads.NetworkSpeed.innerHTML = data.NetworkSpeed?.toString() ?? ''

@@ -44,9 +44,9 @@ export namespace AIEventDeployment {
 
     private regist() {
       this.html.event.on('save', () => {
-        // this.window.confirm.message = '是否保存事件部署信息?'
-        // this.message.confirm(this.window.confirm)
-        this.save()
+        this.window.confirm.message = '是否保存事件部署信息?'
+        this.message.save_confirm(this.window.confirm)
+        // this.save()
       })
       this.message.event.on('save', this.save.bind(this))
 
