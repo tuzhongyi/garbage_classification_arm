@@ -17,12 +17,14 @@ export class HowellAuthHttp {
     })
   }
 
-  get<R>(path: string) {
+  get<R>(path: string, config?: AxiosRequestConfig) {
     return new Promise<R>((resolve, reject) => {
-      const myHeaders = this.getHttpHeaders('GET', path)
-      const httpOptions = {
-        headers: myHeaders,
-      }
+      const myHeaders = this.getHttpHeaders('GET', path, config)
+      const httpOptions = myHeaders
+        ? {
+            headers: myHeaders,
+          }
+        : config
       axios
         .get(path, httpOptions)
         .then((res) => {
@@ -37,15 +39,19 @@ export class HowellAuthHttp {
         })
     })
   }
+
   post<R>(path: string): Promise<R>
   post<T>(path: string, data?: T): Promise<T>
   post<T, R>(path: string, data?: T): Promise<R>
+  post<R, T>(path: string, data?: T, config?: AxiosRequestConfig): Promise<R>
   post<R, T = any>(path: string, data?: T, config?: AxiosRequestConfig) {
     return new Promise<R>((resolve, reject) => {
       const myHeaders = this.getHttpHeaders('POST', path, config)
-      const httpOptions = {
-        headers: myHeaders,
-      }
+      const httpOptions = myHeaders
+        ? {
+            headers: myHeaders,
+          }
+        : config
       axios
         .post<T, AxiosResponse<R>>(path, data, httpOptions)
         .then((res) => {

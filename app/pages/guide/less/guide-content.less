@@ -1,0 +1,46 @@
+.arm-guide-body-content {
+  width: calc(100% - 260px);
+  height: 100%;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+
+  &-head {
+    display: flex;
+    height: 50px;
+    border-bottom: 2px solid #e5e5e5;
+    font-size: 18px;
+
+    &>div {
+      display: flex;
+      width: 150px;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      color: #235f9c;
+      border-bottom-color: #235f9c;
+    }
+
+
+  }
+
+  &.nomessage {
+    padding: 0;
+
+    &>.arm-guide-body-content-head {
+      display: none;
+    }
+
+    &>.arm-guide-body-content-body {
+      height: 100%;
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 52px);
+    overflow: hidden;
+  }
+}

@@ -1,6 +1,7 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import { NetworkServerIndexCapability } from './network-server-index.capability'
 import './network-server-index.less'
+import { NetworkServerIndexMessage } from './network-server-index.message'
 
 export namespace NetworkServerIndex {
   export class HtmlController {
@@ -17,6 +18,9 @@ export namespace NetworkServerIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
+
+    message = new NetworkServerIndexMessage(this.element.iframe)
+
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)

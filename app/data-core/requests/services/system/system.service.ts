@@ -153,11 +153,21 @@ class SystemDataRequestService {
   configuration = {
     download: () => {
       let url = ArmSystemUrl.data.configuration()
-      return this.http.get<BinaryData>(url)
+      return this.http.get<Blob>(url, {
+        responseType: 'blob',
+      })
     },
     upload: (data: BinaryData) => {
       let url = ArmSystemUrl.data.configuration()
-      return this.http.put<BinaryData, HowellResponse>(url, data)
+      return this.http
+        .post<HowellResponse, BinaryData>(url, data, {
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+        })
+        .then((x) => {
+          return x.FaultCode == 0
+        })
     },
   }
   log = {

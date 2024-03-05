@@ -2,7 +2,9 @@ import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { NetworkServerDeploymentBusiness } from './network-server-deployment.business'
 import { NetworkServerDeploymentCapability } from './network-server-deployment.capability'
 import { NetworkServerDeploymentHtmlController } from './network-server-deployment.html.controller'
+import { NetworkServerDeploymentMessage } from './network-server-deployment.message'
 import { NetworkServerDeploymentModel } from './network-server-deployment.model'
+import { NetworkServerDeploymentWindow } from './network-server-deployment.window'
 
 export namespace NetworkServerDeployment {
   class Controller {
@@ -13,6 +15,8 @@ export namespace NetworkServerDeployment {
     capability = new NetworkServerDeploymentCapability()
     html = new NetworkServerDeploymentHtmlController()
     business = new NetworkServerDeploymentBusiness()
+    message = new NetworkServerDeploymentMessage()
+    window = new NetworkServerDeploymentWindow()
 
     data?: NetworkServerDeploymentModel
 
@@ -22,11 +26,15 @@ export namespace NetworkServerDeployment {
     }
 
     regist() {
-      this.html.event.on('save', this.onsave.bind(this))
       this.html.event.on('test', this.ontest.bind(this))
       this.html.event.on('isupserverchange', (id) => {
         this.onisupserverchange(id)
       })
+      this.html.event.on('save', () => {
+        this.window.confirm.message = '是否保存服务器部署信息？'
+        this.message.save_confirm(this.window.confirm)
+      })
+      this.message.event.on('save', this.onsave.bind(this))
     }
 
     onisupserverchange(id: string) {

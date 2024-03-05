@@ -62,7 +62,7 @@ export class DeviceRobotIndexMessage implements MessageReceiverEvent {
       this.command = 0
       this.client.sender.emit('open', args)
     })
-    this.proxy.event.on('confirm', (args) => {
+    this.proxy.event.on('delete_confirm', (args) => {
       this.command = 1
       this.client.sender.emit('confirm', args)
     })

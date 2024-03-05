@@ -54,7 +54,7 @@ export namespace DeviceRobotList {
         this.window.confirm.message = `是否删除机器人 ${
           data.Name ?? data.HostAddress
         }`
-        this.message.confirm(this.window.confirm)
+        this.message.delete_confirm(this.window.confirm)
       })
       this.message.event.on('load', () => {
         this.html.clear()

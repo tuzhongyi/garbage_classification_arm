@@ -1,0 +1,92 @@
+@import "./guide-menu.less";
+@import "./guide-content.less";
+
+.arm-guide {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  &-head {
+    height: 50px;
+    background-color: #235f9c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    &-left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100%;
+    }
+
+    &-title {
+      height: calc(100% - 10px);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 24px;
+    }
+
+
+
+    &-info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &>div {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        i {
+          font-size: 24px;
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - 50px);
+    display: flex;
+    overflow: hidden;
+
+    &-menu {
+      width: 260px;
+      height: 100%;
+    }
+
+
+  }
+
+
+}
+
+.window-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .window {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background-color: white;
+  }
+}

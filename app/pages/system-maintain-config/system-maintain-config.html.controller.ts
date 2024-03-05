@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { UploadControl } from '../../common/tools/controls/upload-control/upload-control'
+import { FileReadType } from '../../common/tools/controls/upload-control/upload-control.model'
 import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
 import { SystemMaintainConfigEvent } from './system-maintain-config.event'
 import './system-maintain-config.less'
@@ -7,6 +8,7 @@ import './system-maintain-config.less'
 export class SystemMaintainConfigHtmlController {
   event = new EventEmitter<SystemMaintainConfigEvent>()
   constructor() {
+    this.init()
     this.regist()
   }
 
@@ -50,7 +52,17 @@ export class SystemMaintainConfigHtmlController {
     },
   }
 
-  regist() {
+  private file: {
+    config?: ArrayBuffer
+    upgrade?: ArrayBuffer
+  } = {}
+
+  private init() {
+    this.element.config.upload.accept = '.zip'
+    this.element.config.upload.type = FileReadType.ArrayBuffer
+  }
+
+  private regist() {
     this.element.power.reboot.addEventListener('click', () => {
       this.event.emit('reboot')
     })
@@ -67,16 +79,20 @@ export class SystemMaintainConfigHtmlController {
       this.event.emit('configdownload')
     })
     this.element.config.upload.event.on('upload', (args) => {
-      this.event.emit('configfile', args)
+      this.file.config = args as ArrayBuffer
     })
     this.element.config.input.addEventListener('click', () => {
-      this.event.emit('configupload')
+      if (this.file.config) {
+        this.event.emit('configupload', this.file.config)
+      }
     })
     this.element.upgrade.upload.event.on('upload', (args) => {
-      this.event.emit('upgradefile', args)
+      this.file.upgrade = args as ArrayBuffer
     })
     this.element.upgrade.input.addEventListener('click', () => {
-      this.event.emit('upgradeupload')
+      if (this.file.upgrade) {
+        this.event.emit('upgradeupload', this.file.upgrade)
+      }
     })
   }
 }

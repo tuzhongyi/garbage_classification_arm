@@ -20,9 +20,11 @@ export namespace SystemMaintainConfig {
     business = new SystemMaintainConfigBusiness()
 
     regist() {
-      this.html.event.on('configdownload', () => {
-        this.business.download()
-      })
+      this.html.event.on(
+        'configdownload',
+        this.configuration.download.bind(this)
+      )
+      this.html.event.on('configupload', this.configuration.upload.bind(this))
       this.html.event.on('reboot', () => {
         this.window.confirm.message = '是否确认重启设备？'
         this.message.reboot_confirm(this.window.confirm)
@@ -43,6 +45,26 @@ export namespace SystemMaintainConfig {
       this.message.event.on('tofactoryreset', () => {
         this.factoryreset(this.window.confirm.args)
       })
+    }
+
+    configuration = {
+      download: () => {
+        this.business.configuration.download()
+      },
+      upload: (file: ArrayBuffer) => {
+        this.business.configuration
+          .upload(file)
+          .then((x) => {
+            if (x) {
+              MessageBar.success('配置文件上传成功！')
+            } else {
+              MessageBar.error('配置文件上传失败！')
+            }
+          })
+          .catch((x) => {
+            MessageBar.error('配置文件上传失败！')
+          })
+      },
     }
 
     reboot() {

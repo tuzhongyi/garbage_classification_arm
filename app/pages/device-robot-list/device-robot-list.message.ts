@@ -15,7 +15,7 @@ export interface DeviceRobotListMessageSenderEvent {
   play(id: string): void
   log(id: string): void
   open(window: WindowModel): void
-  confirm(window: ConfirmWindowModel): void
+  delete_confirm(window: ConfirmWindowModel): void
 }
 interface MessageEvent {
   load(): void
@@ -32,7 +32,7 @@ export class DeviceRobotListMessage
   private client = new EventMessageClient<
     DeviceRobotListMessageSenderEvent,
     DeviceRobotListMessageReceiverEvent
-  >(['info', 'calibration', 'play', 'log', 'open', 'confirm'])
+  >(['info', 'calibration', 'play', 'log', 'open', 'delete_confirm'])
   private reigst() {
     this.client.receiver.on('details_result', (args) => {
       if (args.result) {
@@ -66,7 +66,7 @@ export class DeviceRobotListMessage
   open(window: WindowModel): void {
     this.client.sender.emit('open', window)
   }
-  confirm(window: ConfirmWindowModel): void {
-    this.client.sender.emit('confirm', window)
+  delete_confirm(window: ConfirmWindowModel): void {
+    this.client.sender.emit('delete_confirm', window)
   }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="x5-orientation" content="portrait" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="arm-guide">
+      <div class="arm-guide-head">
+        <div class="arm-guide-head-left">
+          <div class="arm-guide-head-title">垃圾厢房设备配置向导</div>
+        </div>
+        <div class="arm-guide-head-info">
+          <div id="back"><i class="mdi mdi-logout"></i> <span>退出</span></div>
+        </div>
+      </div>
+      <div class="arm-guide-body">
+        <div class="arm-guide-body-menu">
+          <div class="menu"></div>
+          <div class="controls">
+            <button class="button-blue-line" id="menu_prev">上一步</button>
+            <button class="button-blue-line" id="menu_next">下一步</button>
+          </div>
+        </div>
+        <div class="arm-guide-body-content">
+          <div class="arm-guide-body-content-head">
+            <div id="name"></div>
+          </div>
+          <div class="arm-guide-body-content-body">
+            <iframe src="" id="iframe"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="window-mask" id="window_mask" style="display: none">
+      <div class="window" id="window">
+        <iframe src="" frameborder="0"></iframe>
+      </div>
+    </div>
+    <div class="window-mask" id="confirm_mask" style="display: none">
+      <div class="window" id="confirm">
+        <iframe
+          src="../window-confirm/window-confirm.html"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+  </body>
+
+  <script src="./guide.ts"></script>
+</html>

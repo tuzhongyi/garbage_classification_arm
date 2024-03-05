@@ -4,7 +4,15 @@ import './upload-control.less'
 import { FileReadType } from './upload-control.model'
 
 export class UploadControl {
-  accept?: string
+  private _accept?: string
+  public get accept(): string | undefined {
+    return this._accept
+  }
+  public set accept(v: string | undefined) {
+    this._accept = v
+    this.file.accept = v ?? ''
+  }
+
   type: FileReadType = FileReadType.DataURL
   encoding?: string
   event: EventEmitter<UploadControlEventArgs> = new EventEmitter()
@@ -16,8 +24,6 @@ export class UploadControl {
   ) {
     this.regist()
   }
-
-  private init() {}
 
   private regist() {
     this.button.addEventListener('click', () => {

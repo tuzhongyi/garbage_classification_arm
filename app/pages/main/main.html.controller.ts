@@ -17,6 +17,7 @@ export class ArmMainHtmlController {
     logout: document.querySelector('#logout') as HTMLDivElement,
     iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     username: document.getElementById('username') as HTMLElement,
+    guide: document.getElementById('guide') as HTMLElement,
   }
 
   event: EventEmitter<ArmMainEventArgs> = new EventEmitter()
@@ -31,6 +32,9 @@ export class ArmMainHtmlController {
   private regist() {
     this.element.logout.addEventListener('click', () => {
       this.event.emit('logout')
+    })
+    this.element.guide.addEventListener('click', () => {
+      location.href = '../guide/guide.html'
     })
   }
 

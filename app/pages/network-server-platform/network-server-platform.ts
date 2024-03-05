@@ -1,6 +1,8 @@
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { NetworkServerPlatformBusiness } from './network-server-platform.business'
 import { NetworkServerPlatformHtmlController } from './network-server-platform.html.controller'
+import { NetworkServerPlatformMessage } from './network-server-platform.message'
+import { NetworkServerPlatformWindow } from './network-server-Platform.window'
 
 export namespace NetworkServerPlatform {
   class Controller {
@@ -10,6 +12,8 @@ export namespace NetworkServerPlatform {
     }
     html = new NetworkServerPlatformHtmlController()
     business = new NetworkServerPlatformBusiness()
+    message = new NetworkServerPlatformMessage()
+    window = new NetworkServerPlatformWindow()
 
     async load() {
       let data = await this.business.load()
@@ -17,8 +21,12 @@ export namespace NetworkServerPlatform {
     }
 
     regist() {
-      this.html.event.on('save', this.onsave.bind(this))
       this.html.event.on('test', this.ontest.bind(this))
+      this.html.event.on('save', () => {
+        this.window.confirm.message = '是否保存平台信息？'
+        this.message.save_confirm(this.window.confirm)
+      })
+      this.message.event.on('save', this.onsave.bind(this))
     }
 
     ontest() {
