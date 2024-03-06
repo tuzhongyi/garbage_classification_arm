@@ -5,7 +5,7 @@ import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 export interface DeviceChannelCalibrationEvent {
   save(): void
   selectRobot(id: string): void
-  selectChannel(id: string): void
+  selectChannel(id: number): void
   selectAreaType(type: CalibrationAreaType): void
   selectLensType(type: LensType): void
 }

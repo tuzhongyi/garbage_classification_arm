@@ -9,6 +9,7 @@ import '../../../assets/styles/table-sticky.less'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LensType } from '../../data-core/enums/lens-type.enum'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
+import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceChannelCalibrationChartController } from './controller/chart/device-channel-calibration-chart.controller'
@@ -43,38 +44,6 @@ export class DeviceChannelCalibrationHtmlController {
   }
 
   properties = {
-    robot: {
-      get: (): IIdNameModel => {
-        return {
-          Id: this.element.select.robot.value,
-          Name: this.element.select.robot.options[
-            this.element.select.robot.selectedIndex
-          ].text,
-        }
-      },
-      set: (value: string) => {
-        this.element.select.robot.value = value
-        this.selectRobot(value)
-      },
-    },
-    channel: {
-      get: () => {
-        return parseInt(this.element.select.channel.value)
-      },
-      set: (value: string) => {
-        this.element.select.channel.value = value
-        this.selectChannel(value)
-      },
-    },
-    lensType: {
-      get: () => {
-        return this.element.select.lens_type.value as LensType
-      },
-      set: (value: LensType) => {
-        this.element.select.lens_type.value = value
-        this.selectLensType(value)
-      },
-    },
     areaType: {
       get: () => {
         return this.element.select.area_type.value as CalibrationAreaType
@@ -113,7 +82,7 @@ export class DeviceChannelCalibrationHtmlController {
     this.event.emit('selectRobot', id)
   }
   private selectChannel(id: string) {
-    this.event.emit('selectChannel', id)
+    this.event.emit('selectChannel', HtmlTool.get(id, true))
   }
   private selectAreaType(type: string) {
     this.event.emit('selectAreaType', type)
@@ -193,7 +162,7 @@ export class DeviceChannelCalibrationHtmlController {
 
   set = {
     picture: (url: string) => {
-      return new Promise<Resolution>((resolve) => {
+      return new Promise<Resolution>((resolve, reject) => {
         this.element.chart.picture.src = url
         this.element.chart.picture.onload = () => {
           let r = new Resolution()
@@ -201,7 +170,21 @@ export class DeviceChannelCalibrationHtmlController {
           r.Height = this.element.chart.picture.naturalHeight
           resolve(r)
         }
+        this.element.chart.picture.onerror = (e) => {
+          reject(e)
+        }
       })
     },
+  }
+
+  get(data: ChannelCalibration) {
+    data.RobotId = this.element.select.robot.value
+    data.RobotName =
+      this.element.select.robot.options[
+        this.element.select.robot.selectedIndex
+      ].text
+    data.ChannelId = parseInt(this.element.select.channel.value)
+    data.LensType = this.element.select.lens_type.value
+    return data
   }
 }

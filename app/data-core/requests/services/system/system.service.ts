@@ -410,7 +410,7 @@ class SystemInputProxyChannelRequestService {
     throw new Error(response.FaultReason)
   }
 
-  picture(id: string, stream: number = 1, type: string = 'JPEG') {
+  picture(id: number, stream: number = 1, type: string = 'JPEG') {
     return ArmSystemUrl.input.proxy.channel.picture(id, stream, type)
     // return this.http.get<string>(url)
   }
@@ -440,7 +440,7 @@ class SystemInputProxyChannelCalibrationRequestService {
         return HowellResponseProcess.item(x, ChannelCalibration)
       })
   }
-  get(id: string) {
+  get(id: number) {
     let url = ArmSystemUrl.input.proxy.channel.calibration(id)
     return this.http.get<HowellResponse<ChannelCalibration>>(url).then((x) => {
       return HowellResponseProcess.item(x, ChannelCalibration)

@@ -46,14 +46,38 @@
 
           .week-panel {
             position: absolute;
-            width: 100px;
+            width: 260px;
             left: 40px;
             top: 0;
-            padding: 10px;
             background-color: white;
             border: 1px solid #aaa;
 
+            &-head {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 10px;
+              background-color: #d7d7d7;
+              padding: 10px;
+
+              .head-title {
+                font-weight: bold;
+              }
+
+              &>* {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+              }
+            }
+
             .week-list {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+
+              padding: 10px;
+
               &>* {
                 display: flex;
                 align-items: center;
@@ -66,8 +90,8 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              margin-top: 10px;
               gap: 10px;
+              padding: 10px;
 
               .week-button-ok {
                 color: green;

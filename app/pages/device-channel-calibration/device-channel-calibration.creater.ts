@@ -2,6 +2,8 @@ import { Language } from '../../common/language'
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { ChannelCalibrationArea } from '../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../data-core/models/arm/analysis/channel-calibration-point.model'
+import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
+import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
 import { Point } from '../../data-core/models/arm/point.model'
 import { Polygon } from '../../data-core/models/arm/polygon.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
@@ -31,5 +33,14 @@ export class DeviceChannelCalibrationCreater {
     point.NodePosition.Y = 0
 
     return point
+  }
+
+  static Calibration(resolution?: Resolution) {
+    let calibration = new ChannelCalibration()
+    if (resolution) {
+      calibration.Resolution = resolution
+    }
+
+    return calibration
   }
 }

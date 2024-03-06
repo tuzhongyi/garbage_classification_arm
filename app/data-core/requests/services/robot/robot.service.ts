@@ -210,6 +210,16 @@ class ArmRobotMeshNodesRequestService {
         return HowellResponseProcess.item(x, MeshNode)
       })
   }
+
+  sync(robotId: string, data: MeshNode[]) {
+    let url = ArmRobotUrl.mesh.node(robotId).sync()
+    let plain = instanceToPlain(data)
+    return this.http
+      .post<any, HowellResponse<MeshNode[]>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.array(x, MeshNode)
+      })
+  }
   get(robotId: string, itemId: string) {
     let url = ArmRobotUrl.mesh.node(robotId).item(itemId)
     return this.http.get<HowellResponse<MeshNode>>(url).then((x) => {

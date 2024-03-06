@@ -22,18 +22,14 @@ export namespace DeviceRobotConfig {
     download() {
       this.business.download(this.id)
     }
-    upload(file: ArrayBuffer) {
+    upload(file: string) {
       this.business
-        .upload(file)
+        .upload(this.id, file)
         .then((x) => {
-          if (x) {
-            MessageBar.success('配置文件上传成功！')
-          } else {
-            MessageBar.error('配置文件上传失败！')
-          }
+          MessageBar.success('上传成功！')
         })
         .catch((x) => {
-          MessageBar.error('配置文件上传失败！')
+          MessageBar.error('上传失败！')
         })
     }
   }

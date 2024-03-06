@@ -27,14 +27,11 @@ export class DeviceRobotConfigHtmlController {
     },
   }
 
-  private file: {
-    config?: ArrayBuffer
-    upgrade?: ArrayBuffer
-  } = {}
+  private file?: string
 
   private init() {
-    this.element.config.upload.accept = '.zip'
-    this.element.config.upload.type = FileReadType.ArrayBuffer
+    this.element.config.upload.accept = '.json'
+    this.element.config.upload.type = FileReadType.Text
   }
 
   private regist() {
@@ -42,11 +39,11 @@ export class DeviceRobotConfigHtmlController {
       this.event.emit('download')
     })
     this.element.config.upload.event.on('upload', (args) => {
-      this.file.config = args as ArrayBuffer
+      this.file = args as string
     })
     this.element.config.input.addEventListener('click', () => {
-      if (this.file.config) {
-        this.event.emit('upload', this.file.config)
+      if (this.file) {
+        this.event.emit('upload', this.file)
       }
     })
   }

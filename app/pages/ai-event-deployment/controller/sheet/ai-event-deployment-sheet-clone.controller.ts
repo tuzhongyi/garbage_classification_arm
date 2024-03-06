@@ -12,6 +12,7 @@ export class AIEventDeploymentSheetCloneController {
   private element = {
     panel: document.querySelector('.week-panel') as HTMLDivElement,
     weeks: document.getElementsByName('week') as NodeListOf<HTMLInputElement>,
+    all: document.getElementById('copyall') as HTMLInputElement,
     button: {
       ok: document.querySelector(
         '.week-panel .week-button-ok'
@@ -32,6 +33,13 @@ export class AIEventDeploymentSheetCloneController {
   }
 
   private regist() {
+    this.element.all.addEventListener('change', () => {
+      this.element.weeks.forEach((e) => {
+        if (!e.disabled) {
+          e.checked = this.element.all.checked
+        }
+      })
+    })
     this.element.button.ok.addEventListener('click', () => {
       let weeks: number[] = []
       this.element.weeks.forEach((e) => {

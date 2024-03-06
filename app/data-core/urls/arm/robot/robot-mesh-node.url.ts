@@ -4,4 +4,8 @@ export class RobotMeshNodeUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/MeshNodes`)
   }
+
+  sync() {
+    return `${this.basic()}/Sync`
+  }
 }

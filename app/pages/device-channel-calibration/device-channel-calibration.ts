@@ -3,184 +3,17 @@ import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { LensType } from '../../data-core/enums/lens-type.enum'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
-import { ChannelCalibrationArea } from '../../data-core/models/arm/analysis/channel-calibration-area.model'
-import { ChannelCalibrationPoint } from '../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
 import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
-import { Polygon } from '../../data-core/models/arm/polygon.model'
-import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 import { DeviceChannelCalibrationBusiness } from './business/device-channel-calibration.business'
-import { DeviceChannelCalibrationConverter as Converter } from './device-channel-calibration.converter'
+import { DeviceChannelCalibrationChart } from './controller/chart/device-channel-calibration-chart'
+import { DeviceChannelCalibrationInfo } from './controller/info/device-channel-calibration-info'
+import { DeviceChannelCalibrationTable } from './controller/table/device-channel-calibration-table'
 import { DeviceChannelCalibrationCreater as Creater } from './device-channel-calibration.creater'
 import { DeviceChannelCalibrationHtmlController } from './device-channel-calibration.html.controller'
-import {
-  DeviceChannelCalibrationMode as CalibrationMode,
-  DeviceChannelCalibrationModel,
-} from './device-channel-calibration.model'
+import { DeviceChannelCalibrationModel } from './device-channel-calibration.model'
 
 export namespace DeviceChannelCalibration {
-  class ChartController {
-    constructor(
-      private html: DeviceChannelCalibrationHtmlController,
-      private business: DeviceChannelCalibrationBusiness,
-      private getModel: () => DeviceChannelCalibrationModel
-    ) {
-      this.regist()
-    }
-
-    get model() {
-      return this.getModel()
-    }
-
-    regist() {
-      this.html.details.chart.event.on('createPoint', (position) => {
-        this.createPoint(position)
-      })
-      this.html.details.chart.event.on('createPolygon', (polygon) => {
-        this.createPolygon(polygon)
-      })
-      this.html.details.chart.event.on('clear', () => {
-        this.model.data.Areas = []
-        this.model.data.Points = []
-        this.clear()
-      })
-    }
-
-    private clear() {
-      this.html.details.table.clear()
-    }
-
-    private createPoint(position: MeshNodePosition) {
-      if (!this.model.data.Points) {
-        this.model.data.Points = []
-      }
-      let id = this.model.data.Points!.length + 1
-      let type = this.html.properties.areaType.get()
-      let point = Creater.Point(id, type, position)
-      this.model.data.Points.push(point)
-
-      this.html.details.chart.load(
-        this.model.data.Resolution,
-        this.model.data.Areas?.map((x) => x.Polygon),
-        this.model.data.Points?.map((x) => x.Coordinate)
-      )
-      this.html.details.table.load(
-        this.model.data.Areas,
-        this.model.data.Points,
-        this.model.data.Resolution
-      )
-      this.html.details.table.select(CalibrationMode.point, id)
-    }
-    private createPolygon(polygon: Polygon) {
-      if (!this.model.data.Areas) {
-        this.model.data.Areas = []
-      }
-      let id = this.model.data.Areas!.length + 1
-      let type = this.html.properties.areaType.get()
-      let area = Creater.Area(id, type, polygon)
-      this.model.data.Areas.push(area)
-
-      this.html.details.chart.load(
-        this.model.data.Resolution,
-        this.model.data.Areas?.map((x) => x.Polygon),
-        this.model.data.Points?.map((x) => x.Coordinate)
-      )
-      this.html.details.table.load(
-        this.model.data.Areas,
-        this.model.data.Points,
-        this.model.data.Resolution
-      )
-      this.html.details.table.select(CalibrationMode.polygon, id)
-    }
-  }
-  class TableController {
-    constructor(
-      private html: DeviceChannelCalibrationHtmlController,
-      private business: DeviceChannelCalibrationBusiness,
-      private getModel: () => DeviceChannelCalibrationModel
-    ) {
-      this.regist()
-    }
-
-    get model() {
-      return this.getModel()
-    }
-
-    regist() {
-      this.html.details.table.event.on('select', (data) => {
-        let robotId = this.model.data.RobotId
-        let type = this.html.properties.areaType.get()
-        let isdrop = type === CalibrationAreaType.DropPort
-        if (isdrop) {
-          this.html.details.info.loadAreaType([CalibrationAreaType.DropPort])
-        } else {
-          this.html.details.info.loadAreaType([
-            CalibrationAreaType.StorePort,
-            CalibrationAreaType.Ground,
-          ])
-        }
-
-        this.business.robot.nodes(robotId, isdrop).then((nodes) => {
-          this.html.details.info.loadNode(nodes, !isdrop)
-          this.html.details.info.load(data)
-        })
-
-        if (data instanceof ChannelCalibrationPoint) {
-          let _point = Converter.point.to(
-            this.model.data.Resolution,
-            data.Coordinate
-          )
-          this.html.details.chart.selectPoint({
-            point: data.Coordinate,
-            text: `(${_point.X},${_point.Y})`,
-          })
-          this.html.details.chart.reload()
-        } else if (data instanceof ChannelCalibrationArea) {
-          this.html.details.chart.selectPolygon(data.Polygon)
-          this.html.details.chart.reload()
-        }
-      })
-      this.html.details.table.event.on('remove', (data) => {
-        let index = -1
-        if (data instanceof ChannelCalibrationPoint && this.model.data.Points) {
-          index = this.model.data.Points.findIndex(
-            (item) => item.No === data.No
-          )
-          this.model.data.Points.splice(index, 1)
-        }
-        if (data instanceof ChannelCalibrationArea && this.model.data.Areas) {
-          index = this.model.data.Areas.findIndex((item) => item.No === data.No)
-          this.model.data.Areas.splice(index, 1)
-        }
-
-        if (index >= 0) {
-          this.html.details.chart.load(
-            this.model.data.Resolution,
-            this.model.data.Areas?.map((x) => x.Polygon),
-            this.model.data.Points?.map((x) => x.Coordinate)
-          )
-        }
-      })
-    }
-  }
-  class InfoController {
-    constructor(
-      private html: DeviceChannelCalibrationHtmlController,
-      private business: DeviceChannelCalibrationBusiness,
-      private getModel: () => DeviceChannelCalibrationModel
-    ) {
-      this.regist()
-    }
-
-    get model() {
-      return this.getModel()
-    }
-
-    private regist() {
-      this.html.details.info.event.on('selectNode', (node) => {})
-    }
-  }
-
   class Controller {
     constructor() {
       this.regist()
@@ -189,13 +22,13 @@ export namespace DeviceChannelCalibration {
     private html = new DeviceChannelCalibrationHtmlController()
     private business = new DeviceChannelCalibrationBusiness()
     model = new DeviceChannelCalibrationModel()
-    chart = new ChartController(this.html, this.business, () => {
+    chart = new DeviceChannelCalibrationChart(this.html, this.business, () => {
       return this.model
     })
-    table = new TableController(this.html, this.business, () => {
+    table = new DeviceChannelCalibrationTable(this.html, this.business, () => {
       return this.model
     })
-    info = new InfoController(this.html, this.business, () => {
+    info = new DeviceChannelCalibrationInfo(this.html, this.business, () => {
       return this.model
     })
 
@@ -204,14 +37,13 @@ export namespace DeviceChannelCalibration {
       this.html.load(this.model.robots, this.model.channels)
     }
 
-    load(channelId: string, resolution?: Resolution) {
+    load(channelId: number, resolution?: Resolution) {
+      this.clear()
       this.business.channel.calibration
         .get(channelId)
         .then((x) => {
           this.model.data = x
-          if (resolution) {
-            this.model.data.Resolution = resolution
-          }
+          this.model.data.Resolution = resolution ?? this.model.data.Resolution
 
           this.html.details.chart.load(
             this.model.data.Resolution,
@@ -227,12 +59,8 @@ export namespace DeviceChannelCalibration {
           this.loadAreaType()
         })
         .catch((e) => {
-          this.model.data = new ChannelCalibration()
-          if (resolution) {
-            this.model.data.Resolution = resolution
-          }
-          this.html.details.chart.clear()
-          this.html.details.table.clear()
+          this.model.data = Creater.Calibration(resolution)
+          this.model.data = this.html.get(this.model.data)
         })
     }
 
@@ -254,22 +82,27 @@ export namespace DeviceChannelCalibration {
       })
     }
 
-    selectRobot(id: string) {
-      let robot = this.model.robots.find((x) => x.Id == id)
+    async selectRobot(id: string) {
+      let robot = await this.business.robot.get(id)
       if (robot) {
         this.model.data.RobotId = robot.Id
         this.model.data.RobotName = robot.Name
       }
     }
-    selectChannel(id: string) {
-      let channel = this.model.channels.find((x) => x.Id.toString() == id)
+    async selectChannel(id: number) {
+      let channel = await this.business.channel.get(id)
       if (channel) {
         this.model.data.ChannelId = channel.Id
       }
       let url = this.business.channel.picture(id)
-      this.html.set.picture(url).then((x) => {
-        this.load(id, x)
-      })
+      this.html.set
+        .picture(url)
+        .then((x) => {
+          this.load(id, x)
+        })
+        .catch((e) => {
+          this.load(id)
+        })
     }
 
     loadAreaType() {
@@ -305,6 +138,11 @@ export namespace DeviceChannelCalibration {
       this.model.data.LensType = type
     }
 
+    clear() {
+      this.html.details.chart.clear({ data: true, current: true })
+      this.html.details.table.clear()
+    }
+
     check(data: ChannelCalibration) {
       let args = CheckTool.ChannelCalibration(
         data,
@@ -318,18 +156,14 @@ export namespace DeviceChannelCalibration {
     }
 
     save() {
-      let robot = this.html.properties.robot.get()
-      this.model.data.RobotId = robot.Id
-      this.model.data.RobotName = robot.Name
-      this.model.data.ChannelId = this.html.properties.channel.get()
-      this.model.data.LensType = this.html.properties.lensType.get()
+      this.model.data = this.html.get(this.model.data)
 
       if (this.check(this.model.data)) {
         this.business.channel.calibration
           .set(this.model.data)
           .then((x) => {
             MessageBar.success('保存成功')
-            this.load(x.ChannelId.toString())
+            this.load(x.ChannelId)
           })
           .catch((e) => {
             MessageBar.error('保存失败')

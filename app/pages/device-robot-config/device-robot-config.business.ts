@@ -26,7 +26,8 @@ export class DeviceRobotConfigBusiness {
       })
     })
   }
-  upload(file: ArrayBuffer): Promise<boolean> {
-    throw new Error('Method not implemented.')
+  upload(id: string, file: string) {
+    let nodes = JSON.parse(file)
+    return this.service.mesh.node.sync(id, nodes)
   }
 }
