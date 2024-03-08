@@ -19,7 +19,7 @@ import { Robot } from '../../../models/robot/robot.model'
 import { ArmRobotUrl } from '../../../urls/arm/robot/robot.url'
 import { HowellAuthHttp } from '../../auth/howell-auth-http'
 import { HowellResponseProcess } from '../../service-process'
-import { SearchLogParams } from './robot.prams'
+import { SearchLogParams } from './robot.params'
 
 export class ArmRobotRequestService {
   constructor(private http: HowellAuthHttp) {}

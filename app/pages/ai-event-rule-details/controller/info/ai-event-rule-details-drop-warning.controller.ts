@@ -10,11 +10,13 @@ import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 export class AIEventRuleDetailsDropWarningController
   implements IAIEventRuleController<DropWarningRule>
 {
+  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
+
   constructor() {
     this._init()
     this.regist()
   }
-  element = {
+  private element = {
     Duration: document.getElementById('Duration') as HTMLInputElement,
     Confidence: document.getElementById('Confidence') as HTMLInputElement,
 
@@ -23,9 +25,7 @@ export class AIEventRuleDetailsDropWarningController
       document.getElementById('ObjectLabels') as HTMLDivElement
     ),
   }
-  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
   private inited = false
-  private data?: DropWarningRule
   private source = {
     labels: [] as ModelLabel[],
   }
@@ -37,54 +37,9 @@ export class AIEventRuleDetailsDropWarningController
   }
 
   private regist() {
-    this.element.Duration.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Duration = parseInt(this.element.Duration.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Duration,
-      (value) => {
-        if (this.data) {
-          this.data.Duration = value
-        }
-      }
-    )
-    this.element.Confidence.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Confidence = parseInt(this.element.Confidence.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Confidence,
-      (value) => {
-        if (this.data) {
-          this.data.Confidence = value
-        }
-      }
-    )
-    this.element.TargetRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TargetRatio = parseInt(this.element.TargetRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TargetRatio,
-      (value) => {
-        if (this.data) {
-          this.data.TargetRatio = value
-        }
-      }
-    )
-    this.element.ObjectLabels.event.on('select', (items) => {
-      if (this.data) {
-        this.data.ObjectLabels = items.map((item) => {
-          return this.source.labels.find(
-            (label) => label.LabelId === item.Id
-          ) as ModelLabel
-        })
-      }
-    })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Duration)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Confidence)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TargetRatio)
   }
 
   init(labels: ModelLabel[]) {
@@ -101,7 +56,6 @@ export class AIEventRuleDetailsDropWarningController
   }
 
   load(info: DropWarningRule) {
-    this.data = info
     this.element.Confidence.value = info.Confidence.toString()
     this.element.Duration.value = info.Duration.toString()
     this.element.TargetRatio.value = info.TargetRatio.toString()
@@ -121,9 +75,7 @@ export class AIEventRuleDetailsDropWarningController
     )
   }
 
-  get() {
-    if (this.data) return this.data
-    let data = new DropWarningRule()
+  get(data = new DropWarningRule()) {
     data.Confidence = parseInt(this.element.Confidence.value)
     data.Duration = parseInt(this.element.Duration.value)
     data.TargetRatio = parseInt(this.element.TargetRatio.value)

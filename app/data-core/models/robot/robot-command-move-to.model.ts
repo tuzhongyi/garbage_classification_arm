@@ -6,6 +6,8 @@ import { RobotCommand } from './robot-command.model'
 export class RobotMoveToCommandData {
   /**	MeshDestination	目的地	M	*/
   Destination!: MeshDestination
+  /**	Double	垃圾的重量，单位KG，精度：小数点后两位	O	RW */
+  Weight?: number
 }
 
 /**	RobotMoveToCommand (移动目的地)	*/

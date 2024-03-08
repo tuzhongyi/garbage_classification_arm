@@ -9,21 +9,26 @@ export class HtmlTool {
   static input = new HTMLInputElementTool()
   static table = new HTMLTableElementTool()
 
-  static get(value: string): string | undefined
-  static get(value: string, isnumber: boolean): number | undefined
-  static get(value: string, isnumber: boolean = false) {
-    if (isnumber) {
+  static get(value: string): string
+  static get(value: string, type: 'number'): number
+  static get(value: string, type: 'boolean'): boolean
+  static get(value: string, type: 'string' | 'number' | 'boolean' = 'string') {
+    if (type === 'number') {
       return parseInt(value)
+    } else if (type === 'boolean') {
+      return value.toLowerCase() === 'true'
+    } else if (type === 'string') {
+      if (value) {
+        return value.trim()
+      }
     }
-    if (value) {
-      return value.trim()
-    }
+
     return undefined
   }
 
-  static set(value?: string | number | boolean): string {
+  static set(value?: string | number | boolean, def: string = ''): string {
     if (value == undefined || value == null) {
-      return ''
+      return def
     } else if (typeof value === 'number') {
       return value.toString()
     } else if (typeof value === 'boolean') {

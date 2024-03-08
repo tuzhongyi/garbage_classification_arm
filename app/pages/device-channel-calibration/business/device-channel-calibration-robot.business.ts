@@ -23,19 +23,12 @@ export class DeviceChannelCalibrationRobotBusiness {
     return array.find((x) => x.Id === id)
   }
 
-  async nodes(id: string, isdrop: boolean = false) {
+  async nodes(id: string, types: MeshNodeType[]) {
     if (this._nodes.length <= 0) {
       this._nodes = await this.service.mesh.node.array(id)
     }
     return this._nodes.filter((x) => {
-      if (isdrop) {
-        return x.NodeType === MeshNodeType.DropPort
-      } else {
-        return (
-          x.NodeType == MeshNodeType.ChargingPort ||
-          x.NodeType == MeshNodeType.StorePort
-        )
-      }
+      return types.includes(x.NodeType)
     })
   }
 }

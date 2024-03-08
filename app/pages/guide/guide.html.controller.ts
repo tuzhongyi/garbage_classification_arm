@@ -12,8 +12,16 @@ interface IMenuItem {
 }
 
 export class ArmGuideHtmlController {
-  json = Json as IMenuItem[]
-  element = {
+  event: EventEmitter<ArmGuideEvent> = new EventEmitter()
+
+  private json = Json as IMenuItem[]
+
+  constructor() {
+    this.init()
+    this.regist()
+  }
+
+  private element = {
     menu: document.querySelector('.menu') as HTMLDivElement,
     back: document.querySelector('#back') as HTMLDivElement,
     iframe: document.querySelector('#iframe') as HTMLIFrameElement,
@@ -25,12 +33,8 @@ export class ArmGuideHtmlController {
       '.arm-guide-body-content'
     ) as HTMLDivElement,
   }
-
-  event: EventEmitter<ArmGuideEvent> = new EventEmitter()
-
-  constructor() {
-    this.init()
-    this.regist()
+  get iframe() {
+    return this.element.iframe
   }
 
   private regist() {

@@ -29,7 +29,7 @@ export class DeviceRobotDiscoverHtmlTable {
     ;(this.table.parentElement as HTMLElement).style.display = v ? '' : 'none'
   }
 
-  element = {
+  private element = {
     thead: {
       checkall: document.getElementById('checkall') as HTMLInputElement,
     },

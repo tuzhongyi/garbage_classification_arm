@@ -32,7 +32,7 @@ export namespace NetworkConfigSSH {
 
     onsave() {
       if (this.data) {
-        this.data.Enabled = JSON.parse(this.html.element.Enabled.value)
+        this.data = this.html.get(this.data)
         this.business
           .update(this.data)
           .then((x) => {

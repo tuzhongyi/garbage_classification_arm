@@ -53,7 +53,7 @@
       <div class="device-robot-play-command">
         <div class="command-mode buttons">
           <div>
-            <button class="button-blue nohover" id="mode_move">移动模式</button>
+            <button class="button-blue nohover" id="mode_move">单桶模式</button>
           </div>
           <div>
             <button class="button-blue-line nohover" id="mode_change">
@@ -178,12 +178,21 @@
             </div>
           </div>
           <div class="buttons">
-            <div>
-              <button class="button-white" id="btn_reset">重选</button>
-            </div>
-            <div>
-              <button class="button-blue-line" id="btn_command">移动</button>
-            </div>
+            <button class="button-white" id="btn_reset" style="display: none">
+              重选
+            </button>
+
+            <button
+              class="button-blue-line"
+              id="btn_command_change"
+              style="display: none"
+            >
+              换桶
+            </button>
+            <button class="button-blue-line" id="btn_command_move">移动</button>
+            <button class="button-blue-line" id="btn_command_weigh">
+              称重
+            </button>
           </div>
         </div>
       </div>

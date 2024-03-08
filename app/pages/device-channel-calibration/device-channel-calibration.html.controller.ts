@@ -79,12 +79,15 @@ export class DeviceChannelCalibrationHtmlController {
     this.event.emit('save')
   }
   private selectRobot(id: string) {
+    this.details.info.clear()
     this.event.emit('selectRobot', id)
   }
   private selectChannel(id: string) {
-    this.event.emit('selectChannel', HtmlTool.get(id, true))
+    this.details.info.clear()
+    this.event.emit('selectChannel', HtmlTool.get(id, 'number'))
   }
   private selectAreaType(type: string) {
+    this.details.info.clear()
     this.event.emit('selectAreaType', type)
   }
   private selectLensType(type: string) {

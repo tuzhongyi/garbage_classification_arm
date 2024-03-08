@@ -5,6 +5,8 @@ import { MeshNodePosition } from './mesh-node-position.model'
 
 /**	TrashCan (垃圾桶信息)	*/
 export class RobotTrashCan implements IModel {
+  /**	Int32	编号	O	R */
+  No?: number
   /**	String	桶类型	M	*/
   CanType!: CanType
   /**	String	所在节点Id，如果桶在节点区域内，则提供节点ID	O	*/
@@ -19,4 +21,13 @@ export class RobotTrashCan implements IModel {
   CoverState!: CoverState
   /**	String	颜色（保留）	O	*/
   Color?: string
+
+  /**	Int32	综合置信度[0-100]	O	R */
+  Confidence?: number
+  /**	String	数据来源(摄像机)	O	R */
+  SourceFrom?: string
+  /**	DateTime	更新时间	M	R */
+  UpdateTime!: Date
+  /**	String	节点类型	O	RW */
+  NodeType?: string
 }

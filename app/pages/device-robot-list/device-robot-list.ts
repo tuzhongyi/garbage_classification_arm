@@ -37,6 +37,9 @@ export namespace DeviceRobotList {
       this.html.event.on('play', (id) => {
         this.message.play(id)
       })
+      this.html.event.on('config', (id) => {
+        this.message.config(id)
+      })
       this.html.event.on('log', (id) => {
         this.message.log(id)
       })

@@ -64,6 +64,7 @@ export namespace AIEventRuleDetails {
             })
           })
         } else {
+          this.data.ModelRule = Creater.fromType(this.type)
         }
       }
     }
@@ -75,20 +76,16 @@ export namespace AIEventRuleDetails {
       this.html.event.on('ok', this.ok.bind(this))
 
       this.html.chart.event.on('polygon', (polygon) => {
-        if (this.type) {
-          if (!this.data.ModelRule) {
-            this.data.ModelRule = Creater.fromType(this.type)
-          }
+        if (this.type && this.data.ModelRule) {
           this.data.ModelRule.Regions = [polygon]
           this.html.chart.load(polygon)
-          this.html.info.load(this.data.ModelRule)
         }
       })
-      this.html.chart.event.on('clear', () => {
-        if (this.data.ModelRule) {
-          this.data.ModelRule.Regions = []
-        }
-      })
+      // this.html.chart.event.on('clear', () => {
+      //   if (this.data.ModelRule) {
+      //     this.data.ModelRule.Regions = []
+      //   }
+      // })
     }
 
     selectChannel(id: string) {
@@ -156,15 +153,9 @@ export namespace AIEventRuleDetails {
 
     create() {
       this.data.RuleId = Guid.NewGuid().ToString('N')
-      this.data.RuleName = this.html.properties.name.get()
-      let channel = this.html.properties.channel.get()
-      this.data.ChannelId = parseInt(channel.Id)
-      this.data.ChannelName = channel.Name
-      let aimodel = this.html.properties.aimodel.get()
-      this.data.ModelId = aimodel.Id
-      this.data.ModelName = aimodel.Name
-      this.data.ModelRule = this.html.info.get()
-
+      this.data = this.html.get(this.data)
+      this.data.ModelRule = this.html.info.get(this.data.ModelRule)
+      this.data.ModelRule.Regions = [this.html.chart.get()]
       if (this.check(this.data)) {
         this.business
           .create(this.data)
@@ -182,14 +173,9 @@ export namespace AIEventRuleDetails {
       }
     }
     update(data: CameraAIEventRule) {
-      this.data.RuleName = this.html.properties.name.get()
-      let channel = this.html.properties.channel.get()
-      this.data.ChannelId = parseInt(channel.Id)
-      this.data.ChannelName = channel.Name
-      let aimodel = this.html.properties.aimodel.get()
-      this.data.ModelId = aimodel.Id
-      this.data.ModelName = aimodel.Name
-      this.data.ModelRule = this.html.info.get()
+      this.data = this.html.get(this.data)
+      this.data.ModelRule = this.html.info.get(this.data.ModelRule)
+      this.data.ModelRule.Regions = [this.html.chart.get()]
       if (this.check(this.data)) {
         this.business
           .update(data)

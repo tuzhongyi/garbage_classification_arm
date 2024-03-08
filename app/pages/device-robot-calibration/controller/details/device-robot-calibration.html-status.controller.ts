@@ -6,7 +6,7 @@ import { Robot } from '../../../../data-core/models/robot/robot.model'
 export class DeviceRobotCalibrationHtmlStatusController {
   constructor() {}
 
-  element = {
+  private element = {
     robot: {
       name: document.getElementById('robot_name') as HTMLDivElement,
     },

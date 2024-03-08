@@ -23,6 +23,12 @@ export class DeviceRobotPlayHtmlTrashCansController {
     if (trashcan.CoverState) {
       title += `\n桶盖：${await EnumTool.CoverState(trashcan.CoverState)}`
     }
+    if (trashcan.Confidence) {
+      title += `\n置信度：${trashcan.Confidence}`
+    }
+    if (trashcan.SourceFrom) {
+      title += `\n数据来源：${trashcan.SourceFrom}`
+    }
     div.setAttribute('data-title', title)
     let images = this.element.images as { [key: string]: HTMLImageElement }
     div.style.backgroundImage = `url(${images[trashcan.CanType].src})`

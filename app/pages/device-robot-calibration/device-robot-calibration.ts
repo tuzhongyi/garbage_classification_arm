@@ -35,7 +35,7 @@ export namespace DeviceRobotCalibration {
     public set isruning(v: boolean) {
       this._isruning = v
       this.html.echart.disable(this.isruning)
-      this.html.element.table.node.disable(this.isruning)
+      this.html.table.node.disable(this.isruning)
       this.html.disable(!this.isruning)
     }
 
@@ -46,8 +46,8 @@ export namespace DeviceRobotCalibration {
     public set saving(v: boolean) {
       this._saving = v
       this.html.disable(this.saving)
-      this.html.element.message.className = ''
-      this.html.element.message.innerHTML = '← 请保存并继续'
+      this.html.message.className = ''
+      this.html.message.innerHTML = '← 请保存并继续'
     }
 
     command = -1
@@ -87,7 +87,7 @@ export namespace DeviceRobotCalibration {
       })
     }
     private registTable() {
-      this.html.element.table.node.event.on('select', (id) => {
+      this.html.table.node.event.on('select', (id) => {
         this.onnodeselect(id)
       })
     }
@@ -140,7 +140,7 @@ export namespace DeviceRobotCalibration {
       this.model = await this.business.load(this.id)
 
       this.html.load(this.model)
-      this.html.element.table.node.load(this.model.nodes)
+      this.html.table.node.load(this.model.nodes)
       return true
     }
 
@@ -165,13 +165,13 @@ export namespace DeviceRobotCalibration {
         this.business
           .update(this.id, this.selected.node)
           .then((x) => {
-            this.html.element.message.className = ''
-            this.html.element.message.innerHTML = '请继续操纵机器人 →'
+            this.html.message.className = ''
+            this.html.message.innerHTML = '请继续操纵机器人 →'
             this.load()
           })
           .catch((e) => {
-            this.html.element.message.className = 'error'
-            this.html.element.message.innerHTML = '保存失败'
+            this.html.message.className = 'error'
+            this.html.message.innerHTML = '保存失败'
           })
       }
     }
@@ -280,14 +280,13 @@ export namespace DeviceRobotCalibration {
           this.html.details.clear()
           this.isruning = true
           this.run()
-          this.html.element.control.start.style.display = 'none'
-          this.html.element.control.stop.style.display = ''
-          this.html.element.message.className = 'normal'
-          this.html.element.message.innerHTML = '启动成功'
+          this.html.start()
+          this.html.message.className = 'normal'
+          this.html.message.innerHTML = '启动成功'
         })
         .catch((e) => {
-          this.html.element.message.className = 'error'
-          this.html.element.message.innerHTML = '启动失败'
+          this.html.message.className = 'error'
+          this.html.message.innerHTML = '启动失败'
         })
     }
     onstop() {
@@ -296,14 +295,13 @@ export namespace DeviceRobotCalibration {
         .stop(this.id)
         .then((x) => {
           this.html.details.clear()
-          this.html.element.control.start.style.display = ''
-          this.html.element.control.stop.style.display = 'none'
-          this.html.element.message.className = ''
-          this.html.element.message.innerHTML = '标定已停止'
+          this.html.stop()
+          this.html.message.className = ''
+          this.html.message.innerHTML = '标定已停止'
         })
         .catch((e) => {
-          this.html.element.message.className = 'error'
-          this.html.element.message.innerHTML = '停止命令执行失败'
+          this.html.message.className = 'error'
+          this.html.message.innerHTML = '停止命令执行失败'
         })
     }
 
@@ -380,8 +378,8 @@ export namespace DeviceRobotCalibration {
             return
           }
           this.command = e.Id
-          this.html.element.message.className = 'warm'
-          this.html.element.message.innerHTML = e.Desc
+          this.html.message.className = 'warm'
+          this.html.message.innerHTML = e.Desc
         })
     }
 
@@ -431,8 +429,8 @@ export namespace DeviceRobotCalibration {
         }
       }
       return this.business.createNode(this.id, node).catch((x) => {
-        this.html.element.message.className = 'error'
-        this.html.element.message.innerHTML = '点位创建失败'
+        this.html.message.className = 'error'
+        this.html.message.innerHTML = '点位创建失败'
         return undefined
       })
     }

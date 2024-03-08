@@ -1,17 +1,18 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { Robot } from '../../data-core/models/robot/robot.model'
 import '../window/window.less'
 import { DeviceRobotDetailsEvent } from './device-robot-details.event'
 import './device-robot-details.less'
 
 export class DeviceRobotDetailsHtmlController {
+  event: EventEmitter<DeviceRobotDetailsEvent> = new EventEmitter()
   constructor() {
+    this.init()
     this.regist()
   }
 
-  event: EventEmitter<DeviceRobotDetailsEvent> = new EventEmitter()
-  private parser = new DOMParser()
-
-  element = {
+  private element = {
     Name: document.getElementById('Name') as HTMLInputElement,
     Model: document.getElementById('Model') as HTMLInputElement,
     SerialNumber: document.getElementById('SerialNumber') as HTMLInputElement,
@@ -26,12 +27,27 @@ export class DeviceRobotDetailsHtmlController {
     cancel: document.getElementById('cancel') as HTMLButtonElement,
   }
 
-  regist() {
+  private init() {
+    HtmlTool.input.number.mousewheelchangevalue(this.element.PortNo)
+  }
+
+  private regist() {
     this.element.ok.addEventListener('click', () => {
       this.event.emit('ok')
     })
     this.element.cancel.addEventListener('click', () => {
       this.event.emit('cancel')
     })
+  }
+
+  get(data: Robot) {
+    data.CustomizedInfo = HtmlTool.get(this.element.CustomizedInfo.value)
+    data.DeviceType = this.element.DeviceType.value
+    data.ProtocolType = this.element.ProtocolType.value
+    data.HostAddress = this.element.HostAddress.value
+    data.SerialNumber = this.element.SerialNumber.value
+    data.PortNo = parseInt(this.element.PortNo.value)
+    data.Name = HtmlTool.get(this.element.Name.value)
+    return data
   }
 }

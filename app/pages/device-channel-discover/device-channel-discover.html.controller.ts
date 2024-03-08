@@ -7,7 +7,7 @@ import { DeviceChannelDiscoverTableController } from './controller/device-channe
 import { DeviceChannelDiscoverEvent } from './device-channel-discover.event'
 import './device-channel-discover.less'
 export class DeviceChannelDiscoverHtmlController {
-  element = {
+  private element = {
     loading: document.getElementById('loading') as HTMLDivElement,
     search: {
       text: document.getElementById('search_text') as HTMLInputElement,

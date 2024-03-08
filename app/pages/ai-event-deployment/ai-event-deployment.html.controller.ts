@@ -19,7 +19,7 @@ export class AIEventDeploymentHtmlController {
   property = {
     Name: {
       get: () => {
-        return HtmlTool.get(this.element.Name.value) ?? ''
+        return HtmlTool.get(this.element.Name.value)
       },
     },
   }

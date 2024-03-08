@@ -51,28 +51,43 @@ export class SystemMaintainLogHtmlController {
     this.element.info.innerHTML = ''
   }
 
-  load(data: string) {
-    return new Promise<void>((x) => {
-      data = data.replace(/\n/g, '<br />')
+  private process(data: string) {
+    return new Promise<string>((resolve) => {
+      setTimeout(() => {
+        data = data.replace(/\n/g, '<br />')
 
-      let all = data.matchAll(this.Rex)
-
-      let current
-      while ((current = all.next())) {
-        if (!current.value) {
-          break
-        }
-
-        let status = current.value[0].match(/Information|Warning|Error/)
-
-        data = data.replace(
-          current.value[0],
-          `<div class="time ${status[0]}">${current.value[0]}</div>`
+        let all = data.matchAll(
+          /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d+ \+\d{2}:\d{2} \[\w+\]/g
         )
-      }
-      this.element.info.innerHTML = data
+
+        let current
+        let content = ''
+        while ((current = all.next())) {
+          if (!current.value) {
+            break
+          }
+          let status = current.value[0].match(/Information|Warning|Error/)
+
+          data = data.replace(
+            current.value[0],
+            `<div class="time ${status[0]}">${current.value[0]}</div>`
+          )
+        }
+        resolve(data)
+      }, 1000)
     })
   }
 
-  Rex = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d+ \+\d{2}:\d{2} \[\w+\]/g
+  load(data: string) {
+    // this.element.info.innerText = data
+    let content = data.replace(/\n/g, '<br />')
+
+    this.element.info.innerHTML = content.replace(
+      /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d+ \+\d{2}:\d{2} \[\w+\]/g,
+      (matching, value) => {
+        let status = matching.match(/Information|Warning|Error/) ?? ''
+        return `<div class="time ${status[0]}">${matching}</div>`
+      }
+    )
+  }
 }

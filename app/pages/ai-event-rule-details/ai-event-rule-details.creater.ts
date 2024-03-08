@@ -3,6 +3,7 @@ import { DropWarningRule } from '../../data-core/models/arm/analysis/rules/drop-
 import { GarbageDropRule } from '../../data-core/models/arm/analysis/rules/garbage-drop-rule.model'
 import { IllegalDropRule } from '../../data-core/models/arm/analysis/rules/illegal-drop-rule.model'
 import { MixedIntoRule } from '../../data-core/models/arm/analysis/rules/mixed-into-rule.model'
+import { Polygon } from '../../data-core/models/arm/polygon.model'
 
 export class AIEventRuleDetailsCreater {
   static fromType(type: EventType) {
@@ -67,5 +68,11 @@ export class AIEventRuleDetailsCreater {
     rule.TargetRatio = 100
 
     return rule
+  }
+
+  static Polygon() {
+    let data = new Polygon()
+    data.Coordinates = []
+    return data
   }
 }

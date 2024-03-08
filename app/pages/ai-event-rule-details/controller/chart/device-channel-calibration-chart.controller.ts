@@ -1,6 +1,9 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { wait } from '../../../../common/tools/wait'
+import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
+import { AIEventRuleDetailsConverter as Converter } from '../../ai-event-rule-details.converter'
+import { AIEventRuleDetailsCreater as Creater } from '../../ai-event-rule-details.creater'
 import { AIEventRuleDetailsChartPolygonController } from './device-channel-calibration-chart-polygon.controller'
 import { AIEventRuleDetailsChartHtmlController } from './device-channel-calibration-chart.html.controller'
 export interface AIEventRuleDetailsChartEvent {
@@ -15,19 +18,19 @@ export class AIEventRuleDetailsChartController {
   }
   private html = new AIEventRuleDetailsChartHtmlController()
   private ctx?: CanvasRenderingContext2D
-  private size = {
-    width: 0,
-    height: 0,
+  private size: Resolution = {
+    Width: 0,
+    Height: 0,
   }
   private current?: Polygon
-  private data?: Polygon
+  private data = Creater.Polygon()
   private polygon!: AIEventRuleDetailsChartPolygonController
   private inited = false
 
   private regist() {
     this.html.event.on('init', (canvas) => {
-      this.size.width = canvas.width
-      this.size.height = canvas.height
+      this.size.Width = canvas.width
+      this.size.Height = canvas.height
       this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
       this.polygon = new AIEventRuleDetailsChartPolygonController(this.ctx)
       this.inited = true
@@ -46,15 +49,14 @@ export class AIEventRuleDetailsChartController {
       this.reload()
     })
     this.html.event.on('buttonrectangle', () => {
-      let polygon = new Polygon()
-      polygon.Coordinates = [
+      this.data.Coordinates = [
         { X: 0, Y: 0 },
         { X: 0, Y: 1 },
         { X: 1, Y: 1 },
         { X: 1, Y: 0 },
         { X: 0, Y: 0 },
       ]
-      this.event.emit('polygon', polygon)
+      this.event.emit('polygon', this.data)
     })
     this.html.event.on('buttonpolygon', () => {
       this.clear({
@@ -65,8 +67,7 @@ export class AIEventRuleDetailsChartController {
 
     this.html.event.on('drawing', (point) => {
       if (!this.current) {
-        this.current = new Polygon()
-        this.current.Coordinates = []
+        this.current = Creater.Polygon()
       }
       this.current.Coordinates.push(point)
       this.reload()
@@ -83,17 +84,16 @@ export class AIEventRuleDetailsChartController {
     })
     this.html.event.on('over', () => {
       if (this.current && this.current.Coordinates.length > 2) {
-        let polygon = new Polygon()
-        polygon.Coordinates = []
+        this.data = Creater.Polygon()
         for (let i = 0; i < this.current.Coordinates.length; i++) {
           const point = this.current.Coordinates[i]
-          polygon.Coordinates.push({
-            X: point.X / this.size.width,
-            Y: point.Y / this.size.height,
+          this.data.Coordinates.push({
+            X: point.X / this.size.Width,
+            Y: point.Y / this.size.Height,
           })
         }
-        polygon.Coordinates.push(polygon.Coordinates[0])
-        this.event.emit('polygon', polygon)
+        this.data.Coordinates.push(this.data.Coordinates[0])
+        this.event.emit('polygon', this.data)
       } else {
         this.reload()
       }
@@ -103,10 +103,10 @@ export class AIEventRuleDetailsChartController {
 
   clear(args?: { data?: boolean; current?: boolean }) {
     if (!this.ctx) return
-    this.ctx.clearRect(0, 0, this.size.width, this.size.height)
+    this.ctx.clearRect(0, 0, this.size.Width, this.size.Height)
     if (args) {
       if (args.data) {
-        this.data = undefined
+        this.data = Creater.Polygon()
       }
       if (args.current) {
         this.current = undefined
@@ -128,17 +128,19 @@ export class AIEventRuleDetailsChartController {
       },
       () => {
         this.clear({ data: true })
-        this.data = new Polygon()
-        this.data.Coordinates = []
         for (let i = 0; i < polygon.Coordinates.length; i++) {
           const point = polygon.Coordinates[i]
           this.data.Coordinates.push({
-            X: point.X * this.size.width,
-            Y: point.Y * this.size.height,
+            X: point.X * this.size.Width,
+            Y: point.Y * this.size.Height,
           })
         }
         this.polygon.drawing(this.data)
       }
     )
+  }
+
+  get() {
+    return Converter.polygon.from(this.size, this.data)
   }
 }

@@ -55,8 +55,11 @@ export namespace DeviceRobotIndex {
       this.message.event.on('play', (id) => {
         this.onselect(this.element.items[3] as HTMLDivElement, id)
       })
-      this.message.event.on('log', (id) => {
+      this.message.event.on('config', (id) => {
         this.onselect(this.element.items[4] as HTMLDivElement, id)
+      })
+      this.message.event.on('log', (id) => {
+        this.onselect(this.element.items[5] as HTMLDivElement, id)
       })
     }
 
@@ -107,8 +110,8 @@ export namespace DeviceRobotIndex {
           return `../device-robot-play/device-robot-play.html${params}`
         case 4:
           return `../device-robot-config/device-robot-config.html${params}`
-        // case 4:
-        //   return `../device-robot-log/device-robot-log.html${params}`
+        case 5:
+          return `../device-robot-log/device-robot-log.html${params}`
         default:
           return ''
       }

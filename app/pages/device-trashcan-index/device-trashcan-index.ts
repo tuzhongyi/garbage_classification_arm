@@ -66,6 +66,8 @@ export namespace DeviceTrashCanIndex {
       switch (index) {
         case 0:
           return '../device-trashcan-params/device-trashcan-params.html'
+        case 1:
+          return '../device-trashcan-log/device-trashcan-log.html'
         default:
           return ''
       }

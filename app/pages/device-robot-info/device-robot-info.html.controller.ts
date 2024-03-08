@@ -1,18 +1,20 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotInfoEvent } from './device-robot-info.event'
 
 import './device-robot-info.less'
 
 export class DeviceRobotInfoHtmlController {
+  event: EventEmitter<DeviceRobotInfoEvent> = new EventEmitter()
+
   constructor() {
     this.regist()
   }
 
-  event: EventEmitter<DeviceRobotInfoEvent> = new EventEmitter()
   private parser = new DOMParser()
 
-  element = {
+  private element = {
     Name: document.getElementById('Name') as HTMLInputElement,
     Model: document.getElementById('Model') as HTMLInputElement,
     SerialNumber: document.getElementById('SerialNumber') as HTMLInputElement,
@@ -63,5 +65,15 @@ export class DeviceRobotInfoHtmlController {
     this.element.HostAddress.value = data.HostAddress
     this.element.PortNo.value = data.PortNo.toString()
     this.element.ProtocolType.value = data.ProtocolType
+  }
+
+  get(data: Robot) {
+    data.CustomizedInfo = HtmlTool.get(this.element.CustomizedInfo.value)
+    data.DeviceType = this.element.DeviceType.value
+    data.ProtocolType = this.element.ProtocolType.value
+    data.HostAddress = this.element.HostAddress.value
+    data.PortNo = parseInt(this.element.PortNo.value)
+    data.Name = HtmlTool.get(this.element.Name.value)
+    return data
   }
 }

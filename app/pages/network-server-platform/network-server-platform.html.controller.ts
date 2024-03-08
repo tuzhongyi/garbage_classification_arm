@@ -61,14 +61,14 @@ export class NetworkServerPlatformHtmlController {
   get() {
     let data = new Platform()
     data.Enabled = this.element.Enabled.checked
-    data.DeviceId = HtmlTool.get(this.element.DeviceId.value)!
+    data.DeviceId = HtmlTool.get(this.element.DeviceId.value)
     data.ProtocolVersion = HtmlTool.get(
       this.element.ProtocolVersion.value
     ) as PlatformProtocolVersion
-    data.HostAddress = HtmlTool.get(this.element.HostAddress.value)!
-    data.PortNo = HtmlTool.get(this.element.PortNo.value, true)!
-    data.DeviceId = HtmlTool.get(this.element.DeviceId.value)!
-    data.DeviceKey = HtmlTool.get(this.element.DeviceKey.value)!
+    data.HostAddress = HtmlTool.get(this.element.HostAddress.value)
+    data.PortNo = HtmlTool.get(this.element.PortNo.value, 'number')
+    data.DeviceId = HtmlTool.get(this.element.DeviceId.value)
+    data.DeviceKey = HtmlTool.get(this.element.DeviceKey.value)
     return data
   }
 }

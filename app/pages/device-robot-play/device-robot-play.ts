@@ -48,9 +48,13 @@ export namespace DeviceRobotCalibration {
     regist() {
       this.html.event.on('moveto', this.onmove.bind(this))
       this.html.event.on('changeto', this.onchange.bind(this))
+      this.html.event.on('weigh', this.onweigh.bind(this))
     }
     onmove(target: MeshNode) {
       this.business.moveto(this.id, target)
+    }
+    onweigh(target: MeshNode) {
+      this.business.weigh(this.id, target)
     }
     onchange(store: MeshNode, drop: MeshNode) {
       this.business.changeto(this.id, store, drop)

@@ -10,13 +10,14 @@ import { DeviceRobotLogEvent } from './device-robot-log.event'
 import { DeviceRobotLogHtmlTable } from './device-robot-log.html.table'
 import './device-robot-log.less'
 export class DeviceRobotLogHtmlController {
+  event: EventEmitter<DeviceRobotLogEvent> = new EventEmitter()
+
   constructor() {
     this.regist()
     this.init()
   }
 
-  element = {
-    table: new DeviceRobotLogHtmlTable(),
+  private element = {
     filter: {
       begin: document.getElementById('begin_time') as HTMLInputElement,
       end: document.getElementById('end_time') as HTMLInputElement,
@@ -25,8 +26,7 @@ export class DeviceRobotLogHtmlController {
     },
     search: document.getElementById('search') as HTMLButtonElement,
   }
-  event: EventEmitter<DeviceRobotLogEvent> = new EventEmitter()
-
+  table = new DeviceRobotLogHtmlTable()
   private regist() {
     this.element.search.addEventListener('click', () => {
       this.event.emit('search')

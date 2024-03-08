@@ -11,6 +11,6 @@ export class AIEventRuleDetailsSource {
 
 export interface IAIEventRuleController<T> {
   load(data: T): void
-  get(): T
+  get(data?: T): T
   init(labels: CameraAIModelDTOLabel[]): void
 }

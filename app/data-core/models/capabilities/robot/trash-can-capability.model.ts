@@ -11,4 +11,6 @@ export class TrashCanCapability implements IModel {
   RunningStatus!: boolean
   /**	EnumNameValue[]	进程状态	O	*/
   ProcessStates?: EnumNameValue[]
+
+  TrashCanRecordTypes?: EnumNameValue[]
 }

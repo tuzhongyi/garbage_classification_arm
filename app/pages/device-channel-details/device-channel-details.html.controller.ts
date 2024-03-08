@@ -18,7 +18,7 @@ export class DeviceChannelDetailsHtmlController {
 
   event: EventEmitter<DeviceChannelDetailsEvent> = new EventEmitter()
 
-  element = {
+  private element = {
     Name: document.getElementById('Name') as HTMLInputElement,
     PositionNo: document.getElementById('PositionNo') as HTMLInputElement,
     HostAddress: document.getElementById('HostAddress') as HTMLInputElement,
@@ -99,22 +99,28 @@ export class DeviceChannelDetailsHtmlController {
   get(source?: InputProxyChannel): InputProxyChannel {
     let data = source ?? InputProxyChannel.create()
     data.Name = this.element.Name.value
-    data.PositionNo = HtmlTool.get(this.element.PositionNo.value, true)
+    data.PositionNo = HtmlTool.get(this.element.PositionNo.value, 'number')
     data.SourceChannel.HostAddress = this.element.HostAddress.value
-    data.SourceChannel.PortNo =
-      HtmlTool.get(this.element.PortNo.value, true) ?? 0
+    data.SourceChannel.PortNo = HtmlTool.get(
+      this.element.PortNo.value,
+      'number'
+    )
     data.SourceChannel.ProtocolType = this.element.ProtocolType
       .value as DeviceProtocolType
-    data.SourceChannel.ChannelNo =
-      HtmlTool.get(this.element.ChannelNo.value, true) ?? 0
+    data.SourceChannel.ChannelNo = HtmlTool.get(
+      this.element.ChannelNo.value,
+      'number'
+    )
     data.SourceChannel.UserName = HtmlTool.get(this.element.UserName.value)
     data.SourceChannel.Password = HtmlTool.get(this.element.Password.value)
     data.SourceChannel.DeviceId = HtmlTool.get(this.element.DeviceId.value)
     data.SourceChannel.SerialNumber = HtmlTool.get(
       this.element.SerialNumber.value
     )
-    data.SourceChannel.WebPortNo =
-      HtmlTool.get(this.element.WebPortNo.value, true) ?? 0
+    data.SourceChannel.WebPortNo = HtmlTool.get(
+      this.element.WebPortNo.value,
+      'number'
+    )
     data.SourceChannel.DeviceModel = HtmlTool.get(
       this.element.DeviceModel.value
     )

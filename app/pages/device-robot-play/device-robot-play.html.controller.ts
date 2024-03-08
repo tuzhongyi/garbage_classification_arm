@@ -56,7 +56,11 @@ export class DeviceRobotPlayHtmlController {
     },
     buttons: {
       reset: document.getElementById('btn_reset') as HTMLButtonElement,
-      command: document.getElementById('btn_command') as HTMLButtonElement,
+      move: document.getElementById('btn_command_move') as HTMLButtonElement,
+      change: document.getElementById(
+        'btn_command_change'
+      ) as HTMLButtonElement,
+      weigh: document.getElementById('btn_command_weigh') as HTMLButtonElement,
     },
   }
 
@@ -76,7 +80,10 @@ export class DeviceRobotPlayHtmlController {
       this.element.mode.change.className = 'button-blue-line nohover'
       this.element.details.changeto.style.display = 'none'
       this.element.details.moveto.style.display = ''
-      this.element.buttons.command.innerHTML = '移动'
+      this.element.buttons.move.style.display = ''
+      this.element.buttons.weigh.style.display = ''
+      this.element.buttons.change.style.display = 'none'
+      this.element.buttons.reset.style.display = 'none'
       this.echart.start.clear()
       this.echart.end.clear()
       this.clearDrop()
@@ -86,7 +93,10 @@ export class DeviceRobotPlayHtmlController {
       this.element.mode.change.className = 'button-blue nohover'
       this.element.details.changeto.style.display = ''
       this.element.details.moveto.style.display = 'none'
-      this.element.buttons.command.innerHTML = '换桶'
+      this.element.buttons.move.style.display = 'none'
+      this.element.buttons.weigh.style.display = 'none'
+      this.element.buttons.change.style.display = ''
+      this.element.buttons.reset.style.display = ''
       this.clearTarget()
     }
   }
@@ -104,15 +114,19 @@ export class DeviceRobotPlayHtmlController {
     this.element.mode.change.addEventListener('click', (e) => {
       this.ismove = false
     })
-    this.element.buttons.command.addEventListener('click', (e) => {
-      if (this.ismove) {
-        if (this.selected.target) {
-          this.event.emit('moveto', this.selected.target)
-        }
-      } else {
-        if (this.selected.store && this.selected.drop) {
-          this.event.emit('changeto', this.selected.store, this.selected.drop)
-        }
+    this.element.buttons.move.addEventListener('click', (e) => {
+      if (this.selected.target) {
+        this.event.emit('moveto', this.selected.target)
+      }
+    })
+    this.element.buttons.weigh.addEventListener('click', (e) => {
+      if (this.selected.target) {
+        this.event.emit('weigh', this.selected.target)
+      }
+    })
+    this.element.buttons.change.addEventListener('click', (e) => {
+      if (this.selected.store && this.selected.drop) {
+        this.event.emit('changeto', this.selected.store, this.selected.drop)
       }
     })
     this.element.buttons.reset.addEventListener('click', (e) => {

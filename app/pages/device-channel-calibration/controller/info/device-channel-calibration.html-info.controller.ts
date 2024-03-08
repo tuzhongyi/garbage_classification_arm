@@ -10,10 +10,12 @@ import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
 import { DeviceChannelCalibrationInfoEvent } from '../../device-channel-calibration.event'
 
 export class DeviceChannelCalibrationHtmlInfoController {
+  event: EventEmitter<DeviceChannelCalibrationInfoEvent> = new EventEmitter()
+
   constructor() {
     this.regist()
   }
-  element = {
+  private element = {
     name: document.getElementById('info_name') as HTMLInputElement,
     node: document.getElementById('info_node') as HTMLSelectElement,
     point: {
@@ -35,7 +37,6 @@ export class DeviceChannelCalibrationHtmlInfoController {
       ) as NodeListOf<HTMLElement>,
     },
   }
-  event: EventEmitter<DeviceChannelCalibrationInfoEvent> = new EventEmitter()
 
   private data = {
     nodes: [] as MeshNode[],
@@ -129,6 +130,31 @@ export class DeviceChannelCalibrationHtmlInfoController {
     )
   }
 
+  private loadPoint(info: ChannelCalibrationPoint) {
+    this.element.div.areas.forEach((div) => {
+      div.style.display = 'none'
+    })
+    this.element.div.points.forEach((div) => {
+      div.style.display = ''
+    })
+    this.element.name.value = info.Name
+    this.element.node.value = info.NodeId ?? ''
+    this.element.point.corner.value = info.IsCorner ? 'true' : ''
+    this.element.point.position.x.value = info.NodePosition.X.toString()
+    this.element.point.position.y.value = info.NodePosition.Y.toString()
+  }
+  private loadArea(info: ChannelCalibrationArea) {
+    this.element.div.areas.forEach((div) => {
+      div.style.display = ''
+    })
+    this.element.div.points.forEach((div) => {
+      div.style.display = 'none'
+    })
+    this.element.name.value = info.Name
+    this.element.node.value = info.NodeId ?? ''
+    this.element.area.type.value = info.AreaType
+  }
+
   loadNode(nodes: MeshNode[], cannull = false) {
     this.element.node.innerHTML = ''
     this.data.nodes = nodes
@@ -169,28 +195,12 @@ export class DeviceChannelCalibrationHtmlInfoController {
     }
   }
 
-  private loadPoint(info: ChannelCalibrationPoint) {
-    this.element.div.areas.forEach((div) => {
-      div.style.display = 'none'
-    })
-    this.element.div.points.forEach((div) => {
-      div.style.display = ''
-    })
-    this.element.name.value = info.Name
-    this.element.node.value = info.NodeId ?? ''
-    this.element.point.corner.value = info.IsCorner ? 'true' : ''
-    this.element.point.position.x.value = info.NodePosition.X.toString()
-    this.element.point.position.y.value = info.NodePosition.Y.toString()
-  }
-  private loadArea(info: ChannelCalibrationArea) {
-    this.element.div.areas.forEach((div) => {
-      div.style.display = ''
-    })
-    this.element.div.points.forEach((div) => {
-      div.style.display = 'none'
-    })
-    this.element.name.value = info.Name
-    this.element.node.value = info.NodeId ?? ''
-    this.element.area.type.value = info.AreaType
+  clear() {
+    this.element.name.value = ''
+    this.element.node.innerHTML = ''
+    this.element.point.corner.value = ''
+    this.element.point.position.x.value = ''
+    this.element.point.position.y.value = ''
+    this.element.area.type.value = ''
   }
 }

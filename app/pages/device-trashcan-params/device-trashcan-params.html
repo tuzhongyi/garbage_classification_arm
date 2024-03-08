@@ -16,7 +16,37 @@
   <body>
     <div class="device-trashcan-params">
       <div class="device-trashcan-params-body">
-        <div class="forms" id="forms"></div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-title">启用报警信号量满溢</div>
+            <div class="form-item-value">
+              <input type="checkbox" id="OverflowFromIOEnabled" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">启用更换垃圾桶</div>
+            <div class="form-item-value">
+              <input type="checkbox" id="ChangeTrashCanEnabled" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">最长有效时间，单位（秒）</div>
+            <div class="form-item-value">
+              <input type="number" id="TrashCanTimeout" min="30" max="300" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">无可更换垃圾桶时长，单位（秒）</div>
+            <div class="form-item-value">
+              <input
+                type="number"
+                id="NoReplacementTimeout"
+                min="30"
+                max="300"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="device-trashcan-params-foot">
         <button class="button-blue default" id="save">
@@ -25,10 +55,18 @@
       </div>
     </div>
     <template id="template-item">
-      <div class="form-item">
-        <div class="form-item-title name"></div>
-        <div class="form-item-value">
-          <input class="value" type="number" autocomplete="off" />
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-title Threshold-CanType"></div>
+          <div class="form-item-value">
+            <input class="Threshold" type="number" autocomplete="off" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title ChangeThreshold-CanType"></div>
+          <div class="form-item-value">
+            <input class="ChangeThreshold" type="number" autocomplete="off" />
+          </div>
         </div>
       </div>
     </template>

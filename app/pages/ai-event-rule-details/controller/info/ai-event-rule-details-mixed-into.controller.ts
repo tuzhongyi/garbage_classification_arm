@@ -11,11 +11,13 @@ import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 export class AIEventRuleDetailsMixedIntoController
   implements IAIEventRuleController<MixedIntoRule>
 {
+  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
+
   constructor() {
     this._init()
     this.regist()
   }
-  element = {
+  private element = {
     Duration: document.getElementById('Duration') as HTMLInputElement,
     Confidence: document.getElementById('Confidence') as HTMLInputElement,
 
@@ -28,9 +30,7 @@ export class AIEventRuleDetailsMixedIntoController
       document.getElementById('TrashCanLabels') as HTMLDivElement
     ),
   }
-  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
   private inited = false
-  private data?: MixedIntoRule
   private source = {
     labels: [] as ModelLabel[],
     aimodels: [] as CameraAIModel[],
@@ -43,78 +43,10 @@ export class AIEventRuleDetailsMixedIntoController
     }
   }
   private regist() {
-    this.element.Duration.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Duration = parseInt(this.element.Duration.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Duration,
-      (value) => {
-        if (this.data) {
-          this.data.Duration = value
-        }
-      }
-    )
-    this.element.Confidence.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Confidence = parseInt(this.element.Confidence.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Confidence,
-      (value) => {
-        if (this.data) {
-          this.data.Confidence = value
-        }
-      }
-    )
-    this.element.TargetRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TargetRatio = parseInt(this.element.TargetRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TargetRatio,
-      (value) => {
-        if (this.data) {
-          this.data.TargetRatio = value
-        }
-      }
-    )
-
-    this.element.TrashCanRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TrashCanRatio = parseInt(this.element.TrashCanRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TrashCanRatio,
-      (value) => {
-        if (this.data) {
-          this.data.TrashCanRatio = value
-        }
-      }
-    )
-
-    this.element.ObjectLabels.event.on('select', (items) => {
-      if (this.data) {
-        this.data.ObjectLabels = items.map((item) => {
-          return this.source.labels.find(
-            (label) => label.LabelId === item.Id
-          ) as ModelLabel
-        })
-      }
-    })
-    this.element.TrashCanLabels.event.on('select', (items) => {
-      if (this.data) {
-        this.data.TrashCanLabels = items.map((item) => {
-          return this.source.labels.find(
-            (label) => label.LabelId === item.Id
-          ) as ModelLabel
-        })
-      }
-    })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Duration)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Confidence)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TargetRatio)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TrashCanRatio)
   }
 
   init(labels: ModelLabel[]) {
@@ -133,14 +65,10 @@ export class AIEventRuleDetailsMixedIntoController
   }
 
   load(info: MixedIntoRule) {
-    this.data = info
     this.element.Confidence.value = info.Confidence.toString()
     this.element.Duration.value = info.Duration.toString()
-
     this.element.TargetRatio.value = info.TargetRatio.toString()
-
     this.element.TrashCanRatio.value = info.TrashCanRatio.toString()
-
     wait(
       () => {
         return this.inited
@@ -165,11 +93,7 @@ export class AIEventRuleDetailsMixedIntoController
     )
   }
 
-  get() {
-    if (this.data) {
-      return this.data
-    }
-    let data = new MixedIntoRule()
+  get(data = new MixedIntoRule()) {
     data.Confidence = parseInt(this.element.Confidence.value)
     data.Duration = parseInt(this.element.Duration.value)
     data.TargetRatio = parseInt(this.element.TargetRatio.value)

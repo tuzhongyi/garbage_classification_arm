@@ -19,13 +19,13 @@ export namespace DeviceChannelList {
 
     async load() {
       this.datas = await this.business.load()
-      this.html.element.table.clear()
-      this.html.element.table.load(this.datas)
+      this.html.table.clear()
+      this.html.table.load(this.datas)
     }
 
     regist() {
-      this.html.element.table.event.on('modify', this.onmodify.bind(this))
-      this.html.element.table.event.on('picture', this.onpicture.bind(this))
+      this.html.table.event.on('modify', this.onmodify.bind(this))
+      this.html.table.event.on('picture', this.onpicture.bind(this))
 
       this.html.event.on('create', this.oncreate.bind(this))
       this.html.event.on('search', this.onsearch.bind(this))
@@ -100,9 +100,9 @@ export namespace DeviceChannelList {
         let datas = this.datas.filter((x) =>
           x.Name.toLowerCase().includes(text.toLowerCase())
         )
-        this.html.element.table.load(datas)
+        this.html.table.load(datas)
       } else {
-        this.html.element.table.load(this.datas)
+        this.html.table.load(this.datas)
       }
     }
   }

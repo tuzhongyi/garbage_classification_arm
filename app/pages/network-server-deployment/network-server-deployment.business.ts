@@ -3,7 +3,7 @@ import { HowellHttpClient } from '../../data-core/requests/http-client'
 import { ArmSystemRequestService } from '../../data-core/requests/services/system/system.service'
 import { NetworkServerDeploymentGarbageServerBusiness } from './network-server-deployment-server-garbage.business'
 import { NetworkServerDeploymentISUPServerBusiness } from './network-server-deployment-server-isup.business'
-import { NetworkServerDeploymentModel } from './network-server-deployment.model'
+import { NetworkServerDeploymentSource } from './network-server-deployment.model'
 
 export class NetworkServerDeploymentBusiness {
   client = new HowellHttpClient.HttpClient()
@@ -14,13 +14,17 @@ export class NetworkServerDeploymentBusiness {
     isup: new NetworkServerDeploymentISUPServerBusiness(),
   }
 
-  async load() {
-    let model = new NetworkServerDeploymentModel()
-    model.deployment = await this.service.network.deployment.get()
-    model.server.garbage = await this.server.garbage.load()
-    model.server.isup = await this.server.isup.load()
-    return model
+  load(): NetworkServerDeploymentSource {
+    return {
+      garbage: this.server.garbage.load(),
+      isup: this.server.isup.load(),
+    }
   }
+
+  get() {
+    return this.service.network.deployment.get()
+  }
+
   update(data: Deployment) {
     return this.service.network.deployment.update(data)
   }

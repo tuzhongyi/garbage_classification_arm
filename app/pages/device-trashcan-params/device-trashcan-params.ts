@@ -1,4 +1,5 @@
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
+import { TrashCanWarningParams } from '../../data-core/models/arm/analysis/trash-can-warning-params.model'
 import { DeviceTrashCanParamsBusiness } from './device-trashcan-params.business'
 import { DeviceTrashCanParamsHtmlController } from './device-trashcan-params.html.controller'
 import { DeviceTrashCanParamsMessage } from './device-trashcan-params.message'
@@ -14,12 +15,13 @@ export namespace DeviceTrashCanParams {
     private business = new DeviceTrashCanParamsBusiness()
     private message = new DeviceTrashCanParamsMessage()
     private window = new DeviceTrashCanParamsWindow()
+    private data?: TrashCanWarningParams
 
     private async load() {
       try {
-        let data = await this.business.load()
+        this.data = await this.business.load()
         this.html.clear()
-        this.html.load(data)
+        this.html.load(this.data)
       } catch (error) {
         MessageBar.error('垃圾桶参数获取失败')
       }
@@ -34,9 +36,9 @@ export namespace DeviceTrashCanParams {
     }
 
     private save() {
-      let data = this.html.get()
+      this.data = this.html.get(this.data)
       this.business
-        .update(data)
+        .update(this.data)
         .then((x) => {
           MessageBar.success('保存成功')
           this.load()

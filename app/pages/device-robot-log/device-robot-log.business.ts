@@ -1,5 +1,5 @@
 import { HowellHttpClient } from '../../data-core/requests/http-client'
-import { SearchLogParams } from '../../data-core/requests/services/robot/robot.prams'
+import { SearchLogParams } from '../../data-core/requests/services/robot/robot.params'
 import { ArmRobotRequestService } from '../../data-core/requests/services/robot/robot.service'
 import { DeviceRobotLogTableArgs } from './device-robot-log.model'
 

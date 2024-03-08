@@ -22,13 +22,22 @@ export namespace DeviceChannelCalibration {
     private html = new DeviceChannelCalibrationHtmlController()
     private business = new DeviceChannelCalibrationBusiness()
     model = new DeviceChannelCalibrationModel()
+    info = new DeviceChannelCalibrationInfo(
+      this.html,
+      () => {
+        return this.model
+      },
+      this.business
+    )
+    table = new DeviceChannelCalibrationTable(
+      this.html,
+      () => {
+        return this.model
+      },
+      this.business,
+      this.info
+    )
     chart = new DeviceChannelCalibrationChart(this.html, this.business, () => {
-      return this.model
-    })
-    table = new DeviceChannelCalibrationTable(this.html, this.business, () => {
-      return this.model
-    })
-    info = new DeviceChannelCalibrationInfo(this.html, this.business, () => {
       return this.model
     })
 
@@ -37,7 +46,7 @@ export namespace DeviceChannelCalibration {
       this.html.load(this.model.robots, this.model.channels)
     }
 
-    load(channelId: number, resolution?: Resolution) {
+    private load(channelId: number, resolution?: Resolution) {
       this.clear()
       this.business.channel.calibration
         .get(channelId)
@@ -64,32 +73,22 @@ export namespace DeviceChannelCalibration {
         })
     }
 
-    regist() {
-      this.html.event.on('selectAreaType', (type) => {
-        this.selectAreaType(type)
-      })
-      this.html.event.on('selectLensType', (type) => {
-        this.selectLensType(type)
-      })
-      this.html.event.on('selectRobot', (id) => {
-        this.selectRobot(id)
-      })
-      this.html.event.on('selectChannel', (id) => {
-        this.selectChannel(id)
-      })
-      this.html.event.on('save', () => {
-        this.save()
-      })
+    private regist() {
+      this.html.event.on('selectAreaType', this.selectAreaType.bind(this))
+      this.html.event.on('selectLensType', this.selectLensType.bind(this))
+      this.html.event.on('selectRobot', this.selectRobot.bind(this))
+      this.html.event.on('selectChannel', this.selectChannel.bind(this))
+      this.html.event.on('save', this.save.bind(this))
     }
 
-    async selectRobot(id: string) {
+    private async selectRobot(id: string) {
       let robot = await this.business.robot.get(id)
       if (robot) {
         this.model.data.RobotId = robot.Id
         this.model.data.RobotName = robot.Name
       }
     }
-    async selectChannel(id: number) {
+    private async selectChannel(id: number) {
       let channel = await this.business.channel.get(id)
       if (channel) {
         this.model.data.ChannelId = channel.Id
@@ -105,7 +104,7 @@ export namespace DeviceChannelCalibration {
         })
     }
 
-    loadAreaType() {
+    private loadAreaType() {
       if (this.model.data.Areas) {
         for (let i = 0; i < this.model.data.Areas.length; i++) {
           const area = this.model.data.Areas[i]
@@ -131,19 +130,19 @@ export namespace DeviceChannelCalibration {
       }
     }
 
-    selectAreaType(type: CalibrationAreaType) {
+    private selectAreaType(type: CalibrationAreaType) {
       this.html.details.chart.display(type)
     }
-    selectLensType(type: LensType) {
+    private selectLensType(type: LensType) {
       this.model.data.LensType = type
     }
 
-    clear() {
+    private clear() {
       this.html.details.chart.clear({ data: true, current: true })
       this.html.details.table.clear()
     }
 
-    check(data: ChannelCalibration) {
+    private check(data: ChannelCalibration) {
       let args = CheckTool.ChannelCalibration(
         data,
         this.html.properties.areaType.get()
@@ -155,7 +154,7 @@ export namespace DeviceChannelCalibration {
       return false
     }
 
-    save() {
+    private save() {
       this.model.data = this.html.get(this.model.data)
 
       if (this.check(this.model.data)) {

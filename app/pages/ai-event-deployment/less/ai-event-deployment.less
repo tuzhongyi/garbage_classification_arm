@@ -10,15 +10,19 @@
   box-sizing: border-box;
 
   .forms {
-    width: 500px;
+    width: 630px;
 
     .form-item {
+
+      justify-content: space-between;
+
       &-title {
         width: 200px;
       }
 
       &-value {
-        width: calc(100% - 200px);
+        width: 400px;
+        flex-grow: 0;
       }
 
     }
@@ -43,6 +47,10 @@
 
     &-trigger {
       height: 250px;
+
+      .forms {
+        width: 610px;
+      }
     }
   }
 

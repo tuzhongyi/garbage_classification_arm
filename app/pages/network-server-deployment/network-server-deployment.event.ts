@@ -1,5 +1,6 @@
 export interface NetworkServerDeploymentEvent {
-  test: () => void
-  save: () => void
-  isupserverchange: (id: string) => void
+  test(): void
+  save(): void
+  inited(): void
+  isupserverchange(id: string): void
 }

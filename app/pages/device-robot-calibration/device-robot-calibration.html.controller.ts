@@ -18,7 +18,7 @@ export class DeviceRobotCalibrationHtmlController {
     this.regist()
   }
 
-  element = {
+  private element = {
     control: {
       top: document.getElementById('btn_top') as HTMLButtonElement,
       down: document.getElementById('btn_down') as HTMLButtonElement,
@@ -33,15 +33,18 @@ export class DeviceRobotCalibrationHtmlController {
     message: document.getElementById('message') as HTMLDivElement,
 
     test: document.getElementById('test') as HTMLImageElement,
-    table: new DeviceRobotCalibrationHtmlTableController(),
   }
 
+  get message() {
+    return this.element.message
+  }
+  table = new DeviceRobotCalibrationHtmlTableController()
   echart = new DeviceRobotCalibrationHtmlEChartController()
   event: EventEmitter<DeviceRobotCalibrationEvent> = new EventEmitter()
   details = new DeviceRobotCalibrationHtmlNodeDetailsController()
   status = new DeviceRobotCalibrationHtmlStatusController()
 
-  regist() {
+  private regist() {
     this.element.control.top.addEventListener('click', () => {
       this.event.emit('top')
     })
@@ -64,9 +67,9 @@ export class DeviceRobotCalibrationHtmlController {
       this.event.emit('clear')
     })
     this.echart.event.on('select', (data) => {
-      this.element.table.node.select(data.Id)
+      this.table.node.select(data.Id)
     })
-    this.element.table.node.event.on('select', (id) => {
+    this.table.node.event.on('select', (id) => {
       this.echart.select(id)
     })
   }
@@ -92,5 +95,14 @@ export class DeviceRobotCalibrationHtmlController {
       this.element.control.left.classList.remove('disabled')
       this.element.control.right.classList.remove('disabled')
     }
+  }
+
+  stop() {
+    this.element.control.start.style.display = ''
+    this.element.control.stop.style.display = 'none'
+  }
+  start() {
+    this.element.control.start.style.display = 'none'
+    this.element.control.stop.style.display = ''
   }
 }

@@ -1,5 +1,4 @@
 import { Guid } from '../../common/tools/guid/guid'
-import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LocationTool } from '../../common/tools/location.tool'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotDetailsBusiness } from './device-robot-details.business'
@@ -33,13 +32,7 @@ export namespace DeviceRobotDetails {
     onok() {
       let data = new Robot()
       data.Id = Guid.NewGuid().ToString('N')
-      data.CustomizedInfo = HtmlTool.get(this.html.element.CustomizedInfo.value)
-      data.DeviceType = this.html.element.DeviceType.value
-      data.ProtocolType = this.html.element.ProtocolType.value
-      data.HostAddress = this.html.element.HostAddress.value
-      data.SerialNumber = this.html.element.SerialNumber.value
-      data.PortNo = parseInt(this.html.element.PortNo.value)
-      data.Name = HtmlTool.get(this.html.element.Name.value)
+      data = this.html.get(data)
       this.business
         .create(data)
         .then((x) => {

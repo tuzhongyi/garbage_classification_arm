@@ -1,6 +1,7 @@
 import { MeshNode } from '../../../data-core/models/robot/mesh-node.model'
 import { RobotChangeToCommand } from '../../../data-core/models/robot/robot-command-change-to.model'
 import { RobotMoveToCommand } from '../../../data-core/models/robot/robot-command-move-to.model'
+import { RobotWeighCommand } from '../../../data-core/models/robot/robot-command-weigh.model'
 import { Robot } from '../../../data-core/models/robot/robot.model'
 import { HowellHttpClient } from '../../../data-core/requests/http-client'
 import { ArmRobotRequestService } from '../../../data-core/requests/services/robot/robot.service'
@@ -52,6 +53,16 @@ export class DeviceRobotPlayBusiness {
   moveto(id: string, node: MeshNode) {
     this.commandId++
     let command = new RobotMoveToCommand()
+    command.Id = this.commandId
+    command.Data = {
+      Destination: node,
+    }
+    this.service.command.send(id, command)
+  }
+
+  weigh(id: string, node: MeshNode) {
+    this.commandId++
+    let command = new RobotWeighCommand()
     command.Id = this.commandId
     command.Data = {
       Destination: node,

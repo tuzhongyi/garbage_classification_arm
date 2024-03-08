@@ -10,11 +10,13 @@ import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 export class AIEventRuleDetailsGarbageDropController
   implements IAIEventRuleController<GarbageDropRule>
 {
+  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
+
   constructor() {
     this._init()
     this.regist()
   }
-  element = {
+  private element = {
     Confidence: document.getElementById('Confidence') as HTMLInputElement,
     TargetRatio: document.getElementById('TargetRatio') as HTMLInputElement,
     MinTargetNumber: document.getElementById(
@@ -31,9 +33,7 @@ export class AIEventRuleDetailsGarbageDropController
       document.getElementById('ObjectLabels') as HTMLDivElement
     ),
   }
-  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
   private inited = false
-  private data?: GarbageDropRule
   private source = {
     labels: [] as ModelLabel[],
   }
@@ -46,96 +46,14 @@ export class AIEventRuleDetailsGarbageDropController
   }
 
   private regist() {
-    this.element.Confidence.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Confidence = parseInt(this.element.Confidence.value)
-      }
-    })
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Confidence)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TargetRatio)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.MinTargetNumber)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.CountInterval)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TimeoutInterval)
     HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Confidence,
-      (value) => {
-        if (this.data) {
-          this.data.Confidence = value
-        }
-      }
+      this.element.SuperTimeoutInterval
     )
-    this.element.TargetRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TargetRatio = parseInt(this.element.TargetRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TargetRatio,
-      (value) => {
-        if (this.data) {
-          this.data.TargetRatio = value
-        }
-      }
-    )
-    this.element.MinTargetNumber.addEventListener('input', () => {
-      if (this.data) {
-        this.data.MinTargetNumber = parseInt(this.element.MinTargetNumber.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.MinTargetNumber,
-      (value) => {
-        if (this.data) {
-          this.data.MinTargetNumber = value
-        }
-      }
-    )
-    this.element.CountInterval.addEventListener('input', () => {
-      if (this.data) {
-        this.data.CountInterval = parseInt(this.element.CountInterval.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.CountInterval,
-      (value) => {
-        if (this.data) {
-          this.data.CountInterval = value
-        }
-      }
-    )
-    this.element.TimeoutInterval.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TimeoutInterval = parseInt(this.element.TimeoutInterval.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TimeoutInterval,
-      (value) => {
-        if (this.data) {
-          this.data.TimeoutInterval = value
-        }
-      }
-    )
-    this.element.SuperTimeoutInterval.addEventListener('input', () => {
-      if (this.data) {
-        this.data.SuperTimeoutInterval = parseInt(
-          this.element.SuperTimeoutInterval.value
-        )
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.SuperTimeoutInterval,
-      (value) => {
-        if (this.data) {
-          this.data.SuperTimeoutInterval = value
-        }
-      }
-    )
-
-    this.element.ObjectLabels.event.on('select', (items) => {
-      if (this.data) {
-        this.data.ObjectLabels = items.map((item) => {
-          return this.source.labels.find(
-            (label) => label.LabelId === item.Id
-          ) as ModelLabel
-        })
-      }
-    })
   }
 
   init(labels: ModelLabel[]) {
@@ -152,7 +70,6 @@ export class AIEventRuleDetailsGarbageDropController
   }
 
   load(info: GarbageDropRule) {
-    this.data = info
     this.element.Confidence.value = info.Confidence.toString()
     this.element.TargetRatio.value = info.TargetRatio.toString()
     this.element.MinTargetNumber.value = info.MinTargetNumber.toString()
@@ -173,9 +90,7 @@ export class AIEventRuleDetailsGarbageDropController
       }
     )
   }
-  get() {
-    if (this.data) return this.data
-    let data = new GarbageDropRule()
+  get(data = new GarbageDropRule()) {
     data.Confidence = parseInt(this.element.Confidence.value)
     data.CountInterval = parseInt(this.element.CountInterval.value)
     data.MinTargetNumber = parseInt(this.element.MinTargetNumber.value)

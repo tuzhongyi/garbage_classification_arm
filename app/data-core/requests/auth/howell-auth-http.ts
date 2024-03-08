@@ -143,6 +143,7 @@ export class HowellAuthHttp {
   }
   //获取已授权的头部
   getHttpHeaders(method: string, uri: string, config?: AxiosRequestConfig) {
+    return undefined
     let digistWindow = window as DigestWindow
     let sign = LocalStorageService.login.get()
     if (digistWindow.digest && sign) {

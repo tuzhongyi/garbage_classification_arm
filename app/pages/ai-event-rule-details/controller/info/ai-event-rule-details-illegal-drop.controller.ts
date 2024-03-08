@@ -10,11 +10,12 @@ import { IAIEventRuleController } from '../../ai-event-rule-details.model'
 export class AIEventRuleDetailsIllegalDropController
   implements IAIEventRuleController<IllegalDropRule>
 {
+  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
   constructor() {
     this._init()
     this.regist()
   }
-  element = {
+  private element = {
     Duration: document.getElementById('Duration') as HTMLInputElement,
     Confidence: document.getElementById('Confidence') as HTMLInputElement,
     TargetRatio: document.getElementById('TargetRatio') as HTMLInputElement,
@@ -23,9 +24,8 @@ export class AIEventRuleDetailsIllegalDropController
       document.getElementById('ObjectLabels') as HTMLDivElement
     ),
   }
-  event: EventEmitter<AIEventRuleDetailsInfoEvent> = new EventEmitter()
+
   private inited = false
-  private data?: IllegalDropRule
   private source = {
     labels: [] as ModelLabel[],
   }
@@ -38,58 +38,10 @@ export class AIEventRuleDetailsIllegalDropController
   }
 
   private regist() {
-    this.element.Duration.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Duration = parseInt(this.element.Duration.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Duration,
-      (value) => {
-        if (this.data) {
-          this.data.Duration = value
-        }
-      }
-    )
-    this.element.Confidence.addEventListener('input', () => {
-      if (this.data) {
-        this.data.Confidence = parseInt(this.element.Confidence.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.Confidence,
-      (value) => {
-        if (this.data) {
-          this.data.Confidence = value
-        }
-      }
-    )
-    this.element.TargetRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.TargetRatio = parseInt(this.element.TargetRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.TargetRatio,
-      (value) => {
-        if (this.data) {
-          this.data.TargetRatio = value
-        }
-      }
-    )
-    this.element.OverlapRatio.addEventListener('input', () => {
-      if (this.data) {
-        this.data.OverlapRatio = parseInt(this.element.OverlapRatio.value)
-      }
-    })
-    HtmlTool.input.number.mousewheelchangevalue(
-      this.element.OverlapRatio,
-      (value) => {
-        if (this.data) {
-          this.data.OverlapRatio = value
-        }
-      }
-    )
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Duration)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.Confidence)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.TargetRatio)
+    HtmlTool.input.number.mousewheelchangevalue(this.element.OverlapRatio)
   }
 
   init(labels: ModelLabel[]) {
@@ -106,7 +58,6 @@ export class AIEventRuleDetailsIllegalDropController
   }
 
   load(info: IllegalDropRule) {
-    this.data = info
     this.element.Confidence.value = info.Confidence.toString()
     this.element.Duration.value = info.Duration.toString()
     this.element.OverlapRatio.value = info.OverlapRatio.toString()
@@ -126,12 +77,7 @@ export class AIEventRuleDetailsIllegalDropController
       }
     )
   }
-  get() {
-    let data = new IllegalDropRule()
-    if (this.data) {
-      data = this.data
-    }
-
+  get(data = new IllegalDropRule()) {
     data.Confidence = parseInt(this.element.Confidence.value)
     data.Duration = parseInt(this.element.Duration.value)
     data.OverlapRatio = parseInt(this.element.OverlapRatio.value)

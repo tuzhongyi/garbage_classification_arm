@@ -9,8 +9,7 @@ import { DeviceChannelCalibrationTableHtmlController } from './device-channel-ca
 
 export interface DeviceChannelCalibrationTableEvent {
   select(data: ChannelCalibrationArea | ChannelCalibrationPoint): void
-  remove(point: ChannelCalibrationPoint): void
-  remove(area: ChannelCalibrationArea): void
+  remove(point: ChannelCalibrationArea | ChannelCalibrationPoint): void
 }
 
 export class DeviceChannelCalibrationTableController {
@@ -96,5 +95,6 @@ export class DeviceChannelCalibrationTableController {
         `${point.X}, ${point.Y}`
       )
     }
+    this.html.scrollTop = this.html.scrollTop
   }
 }

@@ -40,7 +40,7 @@ export namespace DeviceRobotLog {
       this.html.event.on('search', () => {
         this.load(1)
       })
-      this.html.element.table.event.on('page', (index) => {
+      this.html.table.event.on('page', (index) => {
         this.load(index)
       })
     }
@@ -49,7 +49,7 @@ export namespace DeviceRobotLog {
       let paged = await this.business.load(this.id, index, size, this.args)
       this.datas = paged.Data
       this.page = paged.Page
-      this.html.element.table.load(this.datas, this.page)
+      this.html.table.load(this.datas, this.page)
     }
   }
 

@@ -10,8 +10,14 @@ export let option = {
         if (data) {
           let str = '<div style="min-width:150px;">'
 
-          if (data.Volume) {
+          if (Number.isFinite(data.Volume)) {
             str += `<div style="display:flex;justify-content: space-between;"><div>桶容量</div><div>${data.Volume}</div></div>`
+          }
+          if (Number.isFinite(data.Confidence)) {
+            str += `<div style="display:flex;justify-content: space-between;"><div>置信度</div><div>${data.Confidence}</div></div>`
+          }
+          if (data.SourceFrom) {
+            str += `<div style="display:flex;justify-content: space-between;"><div>数据来源 </div>&nbsp;&nbsp;<div>${data.SourceFrom}</div></div>`
           }
           if (data.CoverState) {
             str += `<div style="display:flex;justify-content: space-between;"><div>桶盖</div><div>${Language.CoverState(
@@ -40,7 +46,7 @@ export let option = {
               data.CanType
             )}</div></div>`
           }
-          if (data.Distance) {
+          if (Number.isFinite(data.Distance)) {
             str += `<div style="display:flex;justify-content: space-between;"><div>距离</div><div>${data.Distance}cm</div></div>`
           }
           str += '</div>'

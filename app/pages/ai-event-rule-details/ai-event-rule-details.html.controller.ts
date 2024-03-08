@@ -170,4 +170,13 @@ export class AIEventRuleDetailsHtmlController {
       )
     })
   }
+
+  get(data: CameraAIEventRule) {
+    data.RuleName = this.element.input.name.value
+    data.ChannelId = parseInt(this.element.select.channel.value)
+    data.ChannelName = this.element.select.channel.selectedOptions[0].text
+    data.ModelId = this.element.select.aimodel.value
+    data.ModelName = this.element.select.aimodel.selectedOptions[0].text
+    return data
+  }
 }

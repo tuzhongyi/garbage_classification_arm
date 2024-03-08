@@ -208,6 +208,27 @@ export class EnumTool {
     })
   }
 
+  static async TrashCanRecordType(value?: string): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Manager.capability.trashcan
+        .then((capability) => {
+          if (capability.TrashCanRecordTypes) {
+            let _enum = capability.TrashCanRecordTypes.find(
+              (x) => x.Value == value
+            )
+            if (_enum) {
+              resolve(_enum.Name)
+              return
+            }
+          }
+          resolve(value ?? '')
+        })
+        .catch((x) => {
+          resolve(value ?? '')
+        })
+    })
+  }
+
   // NTPTimeMode
   // AuthTypes
   // PlatformProtocolVersions

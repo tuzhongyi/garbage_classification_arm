@@ -13,6 +13,7 @@ export interface DeviceRobotListMessageSenderEvent {
   info(id: string): void
   calibration(id: string): void
   play(id: string): void
+  config(id: string): void
   log(id: string): void
   open(window: WindowModel): void
   delete_confirm(window: ConfirmWindowModel): void
@@ -29,10 +30,11 @@ export class DeviceRobotListMessage
   constructor() {
     this.reigst()
   }
+
   private client = new EventMessageClient<
     DeviceRobotListMessageSenderEvent,
     DeviceRobotListMessageReceiverEvent
-  >(['info', 'calibration', 'play', 'log', 'open', 'delete_confirm'])
+  >(['info', 'calibration', 'play', 'config', 'log', 'open', 'delete_confirm'])
   private reigst() {
     this.client.receiver.on('details_result', (args) => {
       if (args.result) {
@@ -59,6 +61,9 @@ export class DeviceRobotListMessage
   }
   play(id: string): void {
     this.client.sender.emit('play', id)
+  }
+  config(id: string): void {
+    this.client.sender.emit('config', id)
   }
   log(id: string): void {
     this.client.sender.emit('log', id)

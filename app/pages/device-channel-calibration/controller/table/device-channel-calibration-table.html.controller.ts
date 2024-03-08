@@ -16,6 +16,7 @@ export class DeviceChannelCalibrationTableHtmlController {
   constructor() {
     this.parent = this.table.parentElement as HTMLDivElement
     this.init()
+    this.regist()
   }
 
   private widths = ['100px', 'auto', '130px']
@@ -37,9 +38,26 @@ export class DeviceChannelCalibrationTableHtmlController {
     })
   }
 
+  private _scrollTop: number = 0
+  public get scrollTop(): number {
+    return this._scrollTop
+  }
+  public set scrollTop(v: number) {
+    this._scrollTop = v
+    this.parent.scrollTop = v
+  }
+
   private init() {
     this.initColGroup()
     this.initSort()
+  }
+  private regist() {
+    this.parent.addEventListener('scroll', (e) => {
+      let element = e.target as HTMLDivElement
+      if (element.scrollTop) {
+        this._scrollTop = element.scrollTop
+      }
+    })
   }
 
   append(id: string, texts: string[], option?: string) {
