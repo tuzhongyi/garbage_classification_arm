@@ -21,7 +21,7 @@ export namespace SystemDeviceDatetime {
     private regist() {
       this.html.event.on('save', () => {
         this.window.confirm.message = '是否保存修改？'
-        this.message.confirm(this.window.confirm)
+        this.message.save_confirm(this.window.confirm)
       })
       this.message.event.on('save', this.onsave.bind(this))
     }

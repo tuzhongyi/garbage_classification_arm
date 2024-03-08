@@ -29,7 +29,7 @@ export namespace SystemDeviceInfo {
     private regist() {
       this.html.event.on('save', () => {
         this.window.confirm.message = '是否保存设备信息?'
-        this.message.confirm(this.window.confirm)
+        this.message.save_confirm(this.window.confirm)
       })
       this.message.event.on('save', this.save.bind(this))
     }

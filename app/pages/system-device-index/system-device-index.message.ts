@@ -35,17 +35,17 @@ export class SystemDeviceIndexMessage implements MessageReceiverEvent {
   proxy: EventMessageProxy<MessageSenderEvent>
 
   regist() {
-    this.proxy.event.on('confirm', (args) => {
+    this.proxy.event.on('save_confirm', (args) => {
       this.client.sender.emit('confirm', args)
     })
     this.client.receiver.on('result', (args) => {
-      this.result(args)
+      this.save_result(args)
     })
   }
 
-  result(args: ResultArgs): void {
+  save_result(args: ResultArgs): void {
     this.proxy.message({
-      command: 'result',
+      command: 'save_result',
       value: args,
       index: 0,
     })

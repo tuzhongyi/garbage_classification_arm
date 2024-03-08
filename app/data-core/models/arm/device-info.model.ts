@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer'
 import { IModel } from '../model.interface'
-import { transformDateTime } from '../transformer'
+import { transformDate } from '../transformer'
 
 /**	DeviceInfo (设备信息)	*/
 export class DeviceInfo implements IModel {
@@ -15,7 +15,7 @@ export class DeviceInfo implements IModel {
   /**	String	软件版本号 1.0.1	M	*/
   FirmwareVersion!: string
   /**	DateTime	编译时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(transformDate)
   FirmwareBuildDate!: Date
   /**	String	公司名	M	*/
   Company!: string

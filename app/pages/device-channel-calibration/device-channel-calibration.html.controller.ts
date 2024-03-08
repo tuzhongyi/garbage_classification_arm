@@ -8,6 +8,7 @@ import { DeviceChannelCalibrationEvent } from './device-channel-calibration.even
 import '../../../assets/styles/table-sticky.less'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { LensType } from '../../data-core/enums/lens-type.enum'
+import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
 import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
@@ -17,7 +18,7 @@ import { DeviceChannelCalibrationHtmlInfoController } from './controller/info/de
 import './device-channel-calibration.less'
 export class DeviceChannelCalibrationHtmlController {
   constructor() {
-    this.init()
+    this._init()
     this.regist()
   }
 
@@ -94,7 +95,7 @@ export class DeviceChannelCalibrationHtmlController {
     this.event.emit('selectLensType', type)
   }
 
-  private init() {
+  private _init() {
     this.initAreaType()
     this.initLensType()
   }
@@ -132,7 +133,7 @@ export class DeviceChannelCalibrationHtmlController {
     this.element.select.channel.innerHTML = ''
   }
 
-  load(robots: Robot[], channels: InputProxyChannel[]) {
+  init(robots: Robot[], channels: InputProxyChannel[]) {
     for (let i = 0; i < robots.length; i++) {
       let item: IIdNameModel = {
         Id: robots[i].Id,
@@ -152,32 +153,60 @@ export class DeviceChannelCalibrationHtmlController {
       this.selectChannel(this.element.select.channel.value)
     }
 
-    if (this.element.select.robot.value) {
-      this.selectRobot(this.element.select.robot.value)
-    }
-    if (this.element.select.area_type.value) {
-      this.selectAreaType(this.element.select.area_type.value)
-    }
-    if (this.element.select.lens_type.value) {
-      this.selectLensType(this.element.select.lens_type.value)
-    }
+    // if (this.element.select.robot.value) {
+    //   this.selectRobot(this.element.select.robot.value)
+    // }
+    // if (this.element.select.area_type.value) {
+    //   this.selectAreaType(this.element.select.area_type.value)
+    // }
+    // if (this.element.select.lens_type.value) {
+    //   this.selectLensType(this.element.select.lens_type.value)
+    // }
   }
 
-  set = {
-    picture: (url: string) => {
-      return new Promise<Resolution>((resolve, reject) => {
-        this.element.chart.picture.src = url
-        this.element.chart.picture.onload = () => {
-          let r = new Resolution()
-          r.Width = this.element.chart.picture.naturalWidth
-          r.Height = this.element.chart.picture.naturalHeight
-          resolve(r)
-        }
-        this.element.chart.picture.onerror = (e) => {
-          reject(e)
-        }
-      })
-    },
+  load(data: ChannelCalibration) {
+    this.element.select.robot.value = data.RobotId
+    this.selectRobot(this.element.select.robot.value)
+    this.element.select.lens_type.value = data.LensType
+    this.selectLensType(this.element.select.lens_type.value)
+    if (data.Areas && data.Areas.length > 0) {
+      this.element.select.area_type.value =
+        data.Areas[0].AreaType === CalibrationAreaType.DropPort
+          ? CalibrationAreaType.DropPort
+          : CalibrationAreaType.StorePort
+    } else if (data.Points && data.Points.length > 0) {
+      this.element.select.area_type.value =
+        data.Points[0].NodeType === MeshNodeType.DropPort
+          ? CalibrationAreaType.DropPort
+          : CalibrationAreaType.StorePort
+    } else {
+    }
+    this.selectAreaType(this.element.select.area_type.value)
+    this.loadDetails(data)
+  }
+
+  loadDetails(data: ChannelCalibration) {
+    this.details.chart.load(
+      data.Resolution,
+      data.Areas?.map((x) => x.Polygon),
+      data.Points?.map((x) => x.Coordinate)
+    )
+    this.details.table.load(data.Resolution, data.Areas, data.Points)
+  }
+
+  picture(url: string) {
+    return new Promise<Resolution>((resolve, reject) => {
+      this.element.chart.picture.src = url
+      this.element.chart.picture.onload = () => {
+        let r = new Resolution()
+        r.Width = this.element.chart.picture.naturalWidth
+        r.Height = this.element.chart.picture.naturalHeight
+        resolve(r)
+      }
+      this.element.chart.picture.onerror = (e) => {
+        reject(e)
+      }
+    })
   }
 
   get(data: ChannelCalibration) {

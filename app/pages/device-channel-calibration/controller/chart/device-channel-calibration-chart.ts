@@ -22,20 +22,17 @@ export class DeviceChannelCalibrationChart {
   }
 
   regist() {
-    this.html.details.chart.event.on('createPoint', (position) => {
-      this.createPoint(position)
-    })
-    this.html.details.chart.event.on('createPolygon', (polygon) => {
-      this.createPolygon(polygon)
-    })
-    this.html.details.chart.event.on('clear', () => {
-      this.model.data.Areas = []
-      this.model.data.Points = []
-      this.clear()
-    })
+    this.html.details.chart.event.on('createPoint', this.createPoint.bind(this))
+    this.html.details.chart.event.on(
+      'createPolygon',
+      this.createPolygon.bind(this)
+    )
+    this.html.details.chart.event.on('clear', this.clear.bind(this))
   }
 
   private clear() {
+    this.model.data.Areas = []
+    this.model.data.Points = []
     this.html.details.table.clear()
   }
 
@@ -48,16 +45,7 @@ export class DeviceChannelCalibrationChart {
     let point = Creater.Point(id, type, position)
     this.model.data.Points.push(point)
 
-    this.html.details.chart.load(
-      this.model.data.Resolution,
-      this.model.data.Areas?.map((x) => x.Polygon),
-      this.model.data.Points?.map((x) => x.Coordinate)
-    )
-    this.html.details.table.load(
-      this.model.data.Areas,
-      this.model.data.Points,
-      this.model.data.Resolution
-    )
+    this.html.loadDetails(this.model.data)
     this.html.details.table.select(CalibrationMode.point, id)
   }
   private createPolygon(polygon: Polygon) {
@@ -69,16 +57,7 @@ export class DeviceChannelCalibrationChart {
     let area = Creater.Area(id, type, polygon)
     this.model.data.Areas.push(area)
 
-    this.html.details.chart.load(
-      this.model.data.Resolution,
-      this.model.data.Areas?.map((x) => x.Polygon),
-      this.model.data.Points?.map((x) => x.Coordinate)
-    )
-    this.html.details.table.load(
-      this.model.data.Areas,
-      this.model.data.Points,
-      this.model.data.Resolution
-    )
+    this.html.loadDetails(this.model.data)
     this.html.details.table.select(CalibrationMode.polygon, id)
   }
 }

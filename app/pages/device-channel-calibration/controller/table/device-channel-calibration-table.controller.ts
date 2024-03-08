@@ -71,9 +71,9 @@ export class DeviceChannelCalibrationTableController {
   }
 
   load(
+    resolution: Resolution,
     areas: ChannelCalibrationArea[] = [],
-    points: ChannelCalibrationPoint[] = [],
-    resolution: Resolution
+    points: ChannelCalibrationPoint[] = []
   ) {
     this.clear()
     this.data.areas = areas

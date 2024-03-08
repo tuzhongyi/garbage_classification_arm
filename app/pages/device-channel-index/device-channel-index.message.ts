@@ -1,6 +1,10 @@
 import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { EventMessageProxy } from '../../common/event-message/event-message.proxy'
 import {
+  DeviceChannelCalibrationMessageReceiverEvent,
+  DeviceChannelCalibrationMessageSenderEvent,
+} from '../device-channel-calibration/device-channel-calibration.message'
+import {
   DeviceChannelListMessageReceiverEvent,
   DeviceChannelListMessageSenderEvent,
 } from '../device-channel-list/device-channel-list.message'
@@ -10,9 +14,22 @@ import {
   ResultArgs,
 } from '../main/main.event'
 
-export class DeviceChannelIndexMessage
-  implements DeviceChannelListMessageReceiverEvent
-{
+interface MessageReceiverEvent
+  extends DeviceChannelListMessageReceiverEvent,
+    DeviceChannelCalibrationMessageReceiverEvent {}
+
+interface MessageSenderEvent
+  extends DeviceChannelListMessageSenderEvent,
+    DeviceChannelCalibrationMessageSenderEvent {}
+
+enum MessageCommand {
+  default,
+  delete,
+  sync,
+  save,
+}
+
+export class DeviceChannelIndexMessage implements MessageReceiverEvent {
   constructor(iframe: HTMLIFrameElement) {
     this.proxy = new EventMessageProxy(iframe)
     this.regist()
@@ -22,33 +39,40 @@ export class DeviceChannelIndexMessage
     MainMessageRequestEvent,
     MainMessageResponseEvent
   >(['open', 'confirm'])
-  proxy: EventMessageProxy<DeviceChannelListMessageSenderEvent>
+  proxy: EventMessageProxy<MessageSenderEvent>
 
-  command?: number
+  command?: MessageCommand
 
   regist() {
     this.proxy.event.on('open', (args) => {
-      this.command = 0
+      this.command = MessageCommand.default
       this.client.sender.emit('open', args)
     })
     this.proxy.event.on('delete_confirm', (args) => {
-      this.command = 1
+      this.command = MessageCommand.delete
       this.client.sender.emit('confirm', args)
     })
     this.proxy.event.on('sync_confirm', (args) => {
-      this.command = 2
+      this.command = MessageCommand.sync
+      this.client.sender.emit('confirm', args)
+    })
+    this.proxy.event.on('save_confirm', (args) => {
+      this.command = MessageCommand.save
       this.client.sender.emit('confirm', args)
     })
     this.client.receiver.on('result', (result) => {
       switch (this.command) {
-        case 0:
+        case MessageCommand.default:
           this.details_result(result)
           break
-        case 1:
+        case MessageCommand.delete:
           this.delete_result(result)
           break
-        case 2:
+        case MessageCommand.sync:
           this.sync_result(result)
+          break
+        case MessageCommand.save:
+          this.save_result(result)
           break
         default:
           break
@@ -74,6 +98,14 @@ export class DeviceChannelIndexMessage
     this.proxy.message({
       command: 'sync_result',
       value: result,
+      index: 0,
+    })
+  }
+
+  save_result(args: ResultArgs): void {
+    this.proxy.message({
+      command: 'save_result',
+      value: args,
       index: 0,
     })
   }
