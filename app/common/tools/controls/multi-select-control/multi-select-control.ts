@@ -143,18 +143,20 @@ export class MultiSelectControl {
 
   select(items: IIdNameModel[]) {
     this._selecteds.clear()
-    for (let i = 0; i < items.length; i++) {
-      let item = this.items.find((x) => x.Id == items[i].Id)
-      if (item) {
-        let id = this.setItemId(item.Id)
-        let div = document.getElementById(id) as HTMLDivElement
-        if (div) {
-          let checkbox = div.querySelector('input') as HTMLInputElement
-          checkbox.checked = true
-          this._selecteds.set(item.Id, item)
-        }
+    for (let i = 0; i < this.items.length; i++) {
+      let item = this.items[i]
+      let id = this.setItemId(item.Id)
+      let div = this.element.querySelector(`#${id}`) as HTMLDivElement
+      let checkbox = div.querySelector('input') as HTMLInputElement
+      let selected = items.find((x) => x.Id == item.Id)
+      if (selected) {
+        checkbox.checked = true
+        this._selecteds.set(item.Id, item)
+      } else {
+        checkbox.checked = false
       }
     }
+
     this.loadSelection()
   }
 }

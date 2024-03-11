@@ -7,7 +7,7 @@ import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analys
 import { IIdNameModel } from '../../../../data-core/models/model.interface'
 import { MeshNodePosition } from '../../../../data-core/models/robot/mesh-node-position.model'
 import { MeshNode } from '../../../../data-core/models/robot/mesh-node.model'
-import { DeviceChannelCalibrationInfoEvent } from '../../device-channel-calibration.event'
+import { DeviceChannelCalibrationInfoEvent } from './device-channel-calibration-info.event'
 
 export class DeviceChannelCalibrationHtmlInfoController {
   event: EventEmitter<DeviceChannelCalibrationInfoEvent> = new EventEmitter()

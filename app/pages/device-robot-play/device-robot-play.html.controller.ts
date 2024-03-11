@@ -3,6 +3,7 @@ import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
+import { DeviceRobotPlayStateChartController } from './controller/details/device-robot-play-state-color.controller'
 import { DeviceRobotPlayHtmlStatusController } from './controller/details/device-robot-play.html-status.controller'
 import { DeviceRobotPlayHtmlTrashCansController } from './controller/details/device-robot-play.html-trashcans.controller'
 import { DeviceRobotPlayHtmlEChartController } from './controller/echarts/device-robot-play-html-echart.controller'
@@ -67,6 +68,7 @@ export class DeviceRobotPlayHtmlController {
   event: EventEmitter<DeviceRobotPlayEvent> = new EventEmitter()
   echart = new DeviceRobotPlayHtmlEChartController()
   status = new DeviceRobotPlayHtmlStatusController()
+  statechart = new DeviceRobotPlayStateChartController()
   trashcans = new DeviceRobotPlayHtmlTrashCansController()
 
   private _ismove: boolean = true

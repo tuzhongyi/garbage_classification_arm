@@ -31,9 +31,7 @@ export namespace DeviceRobotCalibration {
 
     async load() {
       this.model = await this.business.load(this.id)
-
       this.html.load(this.model)
-
       this.html.trashcans.load(this.model.trashcans)
     }
 

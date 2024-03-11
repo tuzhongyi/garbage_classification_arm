@@ -1,4 +1,3 @@
-import { Language } from '../../common/language'
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { ChannelCalibrationArea } from '../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../data-core/models/arm/analysis/channel-calibration-point.model'
@@ -14,9 +13,24 @@ export class DeviceChannelCalibrationCreater {
     area.AreaType = type
     area.No = id
     area.Polygon = polygon
-    area.Name = `${Language.CalibrationAreaType(area.AreaType)}-${id}`
+    area.Name = `${this.language(area.AreaType, false)}-${id}`
     return area
   }
+
+  private static language(type: CalibrationAreaType, ispoint = false) {
+    switch (type) {
+      case CalibrationAreaType.DropPort:
+        return '投放口'
+      case CalibrationAreaType.StorePort:
+        return `存桶${ispoint ? '口' : '区'}`
+      case CalibrationAreaType.Ground:
+        return '地面区域'
+
+      default:
+        return '未知'
+    }
+  }
+
   static Point(
     id: number,
     type: CalibrationAreaType,
@@ -27,7 +41,7 @@ export class DeviceChannelCalibrationCreater {
     point.Coordinate.X = position.X
     point.Coordinate.Y = position.Y
     point.No = id
-    point.Name = `${Language.CalibrationAreaType(type)}-${point.No}`
+    point.Name = `${this.language(type, true)}-${point.No}`
     point.NodePosition = new MeshNodePosition()
     point.NodePosition.X = 0
     point.NodePosition.Y = 0
