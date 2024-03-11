@@ -25,5 +25,13 @@ export class SystemStatusRunningHtmlController {
     this.element.SystemUpTime.value = Language.Time(data.SystemUpTime) ?? ''
     this.element.ChipType.value = data.ChipType ?? ''
     this.element.NetworkSpeed.value = data.NetworkSpeed?.toString() ?? ''
+    this.run(++data.SystemUpTime)
+  }
+
+  run(time: number) {
+    setTimeout(() => {
+      this.element.SystemUpTime.value = Language.Time(time) ?? ''
+      this.run(++time)
+    }, 1000)
   }
 }

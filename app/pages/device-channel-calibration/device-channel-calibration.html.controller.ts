@@ -166,7 +166,9 @@ export class DeviceChannelCalibrationHtmlController {
 
   load(data: ChannelCalibration) {
     this.element.select.robot.value = data.RobotId
-    this.selectRobot(this.element.select.robot.value)
+    if (data.RobotId && !this.element.select.robot.value) {
+      this.selectRobot(this.element.select.robot.value)
+    }
     this.element.select.lens_type.value = data.LensType
     this.selectLensType(this.element.select.lens_type.value)
     if (data.Areas && data.Areas.length > 0) {

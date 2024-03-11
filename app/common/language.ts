@@ -250,7 +250,51 @@ export class Language {
     }
   }
 
-  static Time(time?: number) {
+  static Time(time: number = 0, unit: 'second' | 'minute' = 'second') {
+    if (unit === 'second') {
+      return this.TimeFromSecond(time)
+    } else {
+      return this.TimeFromMinute(time)
+    }
+  }
+
+  private static TimeFromSecond(time?: number) {
+    if (time === undefined) return undefined
+    let day = Math.floor(time / 60 / 60 / 24)
+    let _time = time - day * 60 * 60 * 24
+    let hour = Math.floor(_time / 60 / 60)
+    _time -= hour * 60 * 60
+    let minute = Math.floor(_time / 60)
+    _time -= minute * 60
+    let second = Math.ceil(_time)
+    if (time < 60) {
+      return second.toString().padStart(2, '0') + '秒'
+    }
+    if (time < 60 * 60) {
+      return (
+        minute.toString().padStart(2, '0') +
+        '分钟' +
+        (second ? second.toString().padStart(2, '0') + '秒' : '')
+      )
+    }
+    if (time < 60 * 60 * 24) {
+      return (
+        hour.toString().padStart(2, '0') +
+        '小时' +
+        (minute ? minute.toString().padStart(2, '0') + '分钟' : '') +
+        (second ? second.toString().padStart(2, '0') + '秒' : '')
+      )
+    }
+    return (
+      day +
+      '天' +
+      (hour ? hour.toString().padStart(2, '0') + '小时' : '') +
+      (minute ? minute.toString().padStart(2, '0') + '分钟' : '') +
+      (second ? second.toString().padStart(2, '0') + '秒' : '')
+    )
+  }
+
+  private static TimeFromMinute(time?: number) {
     if (time === undefined) return undefined
     let day = Math.floor(time / 60 / 24)
     let _time = time - day * 60 * 24
