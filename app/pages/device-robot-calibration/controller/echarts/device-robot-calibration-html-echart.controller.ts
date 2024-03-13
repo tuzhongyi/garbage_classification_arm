@@ -45,15 +45,27 @@ export class DeviceRobotCalibrationHtmlEChartController {
         }
       }
     })
+    this.echart.on('graphroam', (params: any) => {
+      let option = this.echart.getOption() as any
+      if (params.zoom != null && params.zoom != undefined) {
+        option.series[1].zoom = option.series[0].zoom
+        option.series[1].center = option.series[0].center
+      } else {
+        option.series[1].center = option.series[0].center
+      }
+      this.echart.setOption(option)
+    })
   }
 
   private appendNode(data: any) {
     let _data = this.converter.Position(data)
     this.option.series[0].data.push(_data)
+    this.option.series[1].data.push(_data)
   }
-  private insertNode(data: any) {
+
+  private appendItem(data: any) {
     let _data = this.converter.Position(data)
-    this.option.series[0].data.unshift(_data)
+    this.option.series[1].data.push(_data)
   }
 
   private appendLink(data: any) {
@@ -69,8 +81,9 @@ export class DeviceRobotCalibrationHtmlEChartController {
   clear() {
     this.option.series[0].data = []
     this.option.series[0].links = []
+    this.option.series[1].data = []
   }
-  async load(data: DeviceRobotModel) {
+  load(data: DeviceRobotModel) {
     this.clear()
 
     for (let i = 0; i < data.nodes.length; i++) {
@@ -101,23 +114,13 @@ export class DeviceRobotCalibrationHtmlEChartController {
       let link = this.converter.Link(data.edges[i])
       this.appendLink(link)
     }
-    let robot = this.converter.Robot1((await data.robot).Id ?? '-|-', {
+    let robot = this.converter.Robot({
       x: data.location.Position.X,
       y: data.location.Position.Y,
     })
 
-    this.appendNode(robot)
+    this.appendItem(robot)
     this.echart.setOption(this.option)
-
-    setTimeout(() => {
-      let robot = this.converter.Robot2({
-        x: data.location.Position.X,
-        y: data.location.Position.Y,
-      })
-
-      this.appendNode(robot)
-      this.echart.setOption(this.option)
-    }, 0)
   }
 
   select(id: string) {

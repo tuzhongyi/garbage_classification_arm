@@ -146,6 +146,31 @@ export class DeviceRobotCalibrationHtmlEChartConverter {
     }
     return robot
   }
+  Robot(position: Position) {
+    let robot = {
+      x: position.x,
+      y: position.y,
+      name: '机器人',
+      label: {
+        show: false,
+      },
+      symbol: ImageTool.robot,
+      symbolSize: 20,
+      itemStyle: {
+        color: '#000',
+      },
+      tooltip: {
+        show: false,
+      },
+      select: {
+        disabled: true,
+      },
+      emphasis: {
+        disabled: true,
+      },
+    }
+    return robot
+  }
   Position(data: Position) {
     data.y = this.size.height - data.y
     return data

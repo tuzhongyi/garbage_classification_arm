@@ -50,11 +50,27 @@ export class DeviceRobotPlayHtmlEChartController {
         this.event.emit('edgeselect', e.data.data)
       }
     })
+    this.echart.on('graphroam', (params: any) => {
+      let option = this.echart.getOption() as any
+      if (params.zoom != null && params.zoom != undefined) {
+        option.series[1].zoom = option.series[0].zoom
+        option.series[1].center = option.series[0].center
+      } else {
+        option.series[1].center = option.series[0].center
+      }
+      this.echart.setOption(option)
+    })
   }
 
   private appendNode(data: any) {
     let _data = this.converter.Position(this.size, data)
     this.option.series[0].data.push(_data)
+    this.option.series[1].data.push(_data)
+  }
+
+  private appendItem(data: any) {
+    let _data = this.converter.Position(this.size, data)
+    this.option.series[1].data.push(_data)
   }
 
   private appendMark(data: any) {
@@ -72,6 +88,7 @@ export class DeviceRobotPlayHtmlEChartController {
   clear() {
     this.option.series[0].data = []
     this.option.series[0].links = []
+    this.option.series[1].data = []
   }
   start = {
     set: (id: string) => {
@@ -165,13 +182,13 @@ export class DeviceRobotPlayHtmlEChartController {
       x: data.location.Position.X,
       y: data.location.Position.Y,
     })
-    this.appendMark(robot)
+    this.appendItem(robot)
     this.echart.setOption(this.option)
 
     for (let i = 0; i < data.trashcans.length; i++) {
       let item = data.trashcans[i]
       if (item.Position) {
-        this.appendMark(
+        this.appendItem(
           await this.converter.TrashCan(data.trashcans[i], this.images)
         )
       }
