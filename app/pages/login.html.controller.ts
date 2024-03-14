@@ -19,12 +19,21 @@ export class ArmLoginHtmlController {
   regist() {
     if (this.element.submit) {
       this.element.submit.addEventListener('click', () => {
-        if (this.check) {
-          this.event.emit('login', {
-            username: this.element.username.value,
-            password: this.element.password.value,
-          })
-        }
+        this.login()
+      })
+    }
+    window.addEventListener('keypress', (e) => {
+      if (e.keyCode == 13) {
+        this.login()
+      }
+    })
+  }
+
+  login() {
+    if (this.check) {
+      this.event.emit('login', {
+        username: this.element.username.value,
+        password: this.element.password.value,
       })
     }
   }
