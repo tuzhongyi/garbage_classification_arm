@@ -8,40 +8,22 @@ import { Polygon } from '../../data-core/models/arm/polygon.model'
 import { MeshNodePosition } from '../../data-core/models/robot/mesh-node-position.model'
 
 export class DeviceChannelCalibrationCreater {
-  static Area(id: number, type: CalibrationAreaType, polygon: Polygon) {
+  static Area(id: number, polygon: Polygon) {
     let area = new ChannelCalibrationArea()
-    area.AreaType = type
+    area.AreaType = CalibrationAreaType.StorePort
     area.No = id
     area.Polygon = polygon
-    area.Name = `${this.language(area.AreaType, false)}-${id}`
+    area.Name = `区域-${id}`
     return area
   }
 
-  private static language(type: CalibrationAreaType, ispoint = false) {
-    switch (type) {
-      case CalibrationAreaType.DropPort:
-        return '投放口'
-      case CalibrationAreaType.StorePort:
-        return `存桶${ispoint ? '口' : '区'}`
-      case CalibrationAreaType.Ground:
-        return '地面区域'
-
-      default:
-        return '未知'
-    }
-  }
-
-  static Point(
-    id: number,
-    type: CalibrationAreaType,
-    position: MeshNodePosition
-  ) {
+  static Point(id: number, position: MeshNodePosition) {
     let point = new ChannelCalibrationPoint()
     point.Coordinate = new Point()
     point.Coordinate.X = position.X
     point.Coordinate.Y = position.Y
     point.No = id
-    point.Name = `${this.language(type, true)}-${point.No}`
+    point.Name = `点位-${point.No}`
     point.NodePosition = new MeshNodePosition()
     point.NodePosition.X = 0
     point.NodePosition.Y = 0

@@ -1,7 +1,9 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { Language } from '../../../../common/language'
+import { EnumTool } from '../../../../common/tools/enum-tool/enum.tool'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
 import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
+import { MeshNodeType } from '../../../../data-core/enums/robot/mesh-node-type.model'
 import { ChannelCalibrationArea } from '../../../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { IIdNameModel } from '../../../../data-core/models/model.interface'
@@ -14,6 +16,7 @@ export class DeviceChannelCalibrationHtmlInfoController {
 
   constructor() {
     this.regist()
+    this.init()
   }
   private element = {
     name: document.getElementById('info_name') as HTMLInputElement,
@@ -25,8 +28,9 @@ export class DeviceChannelCalibrationHtmlInfoController {
         y: document.getElementById('info_point_position_y') as HTMLInputElement,
       },
     },
-    area: {
-      type: document.getElementById('info_area_type') as HTMLSelectElement,
+    type: {
+      area: document.getElementById('info_area_type') as HTMLSelectElement,
+      node: document.getElementById('info_node_type') as HTMLSelectElement,
     },
     div: {
       points: document.querySelectorAll(
@@ -46,50 +50,71 @@ export class DeviceChannelCalibrationHtmlInfoController {
       | undefined,
   }
 
-  private regist() {
-    this.element.node.addEventListener('change', () => {
-      if (this.element.node.value) {
-        let node = this.data.nodes.find((n) => n.Id == this.element.node.value)
-        if (node) {
-          if (this.data.info instanceof ChannelCalibrationPoint) {
-            this.element.point.position.x.value = node.Position.X.toString()
-            this.element.point.position.y.value = node.Position.Y.toString()
+  private async init(data?: ChannelCalibrationPoint | ChannelCalibrationArea) {
+    let types = [
+      MeshNodeType.StorePort,
+      MeshNodeType.DropPort,
+      MeshNodeType.ChargingPort,
+      MeshNodeType.MagneticPin,
+      MeshNodeType.Other,
+    ]
+    this.element.type.node.innerHTML = ''
 
-            this.data.info.NodeId = this.element.node.value
-            this.data.info.NodeType = node.NodeType
-            this.data.info.CanType = node.CanType
-            this.data.info.NodePosition = new MeshNodePosition()
-            this.data.info.NodePosition.X = node.Position.X
-            this.data.info.NodePosition.Y = node.Position.Y
-          } else if (this.data.info instanceof ChannelCalibrationArea) {
-            this.data.info.NodeId = this.element.node.value
-          } else {
-          }
-        } else {
-          if (this.data.info instanceof ChannelCalibrationPoint) {
-            this.data.info.NodeId = ''
-            this.data.info.NodeType = undefined
-            this.data.info.CanType = undefined
-            this.data.info.NodePosition = new MeshNodePosition()
-            this.data.info.NodePosition.X = 0
-            this.data.info.NodePosition.Y = 0
-          } else if (this.data.info instanceof ChannelCalibrationArea) {
-            this.data.info.NodeId = undefined
-          } else {
-          }
-        }
+    if (data instanceof ChannelCalibrationArea) {
+      types = [
+        MeshNodeType.StorePort,
+        MeshNodeType.DropPort,
+        MeshNodeType.Other,
+      ]
+    } else if (data instanceof ChannelCalibrationPoint) {
+      types = [
+        MeshNodeType.StorePort,
+        MeshNodeType.ChargingPort,
+        MeshNodeType.MagneticPin,
+        MeshNodeType.Other,
+      ]
+    }
 
-        this.event.emit('selectNode', node)
+    HtmlTool.select.append({ Id: '', Name: '全部' }, this.element.type.node)
+    for (let i = 0; i < types.length; i++) {
+      let item = {
+        Id: types[i],
+        Name: await EnumTool.MeshNodeType(types[i]),
       }
+      HtmlTool.select.append(item, this.element.type.node)
+    }
+  }
+
+  private regist() {
+    this.element.type.node.addEventListener('change', (e) => {
+      let none: IIdNameModel = {
+        Id: '',
+        Name: '无',
+      }
+      let nodes: IIdNameModel[] = this.data.nodes
+      if (this.element.type.node.value == MeshNodeType.Other) {
+        nodes = [none]
+      } else if (this.element.type.node.value) {
+        nodes = this.data.nodes.filter(
+          (n) => n.NodeType == this.element.type.node.value
+        )
+      } else {
+        nodes = [none, ...nodes]
+      }
+
+      this.loadNode(nodes)
+    })
+    this.element.node.addEventListener('change', () => {
+      this.selectNode()
     })
     this.element.name.addEventListener('input', () => {
       if (this.data.info) {
         this.data.info.Name = this.element.name.value
       }
     })
-    this.element.area.type.addEventListener('change', () => {
+    this.element.type.area.addEventListener('change', () => {
       if (this.data.info instanceof ChannelCalibrationArea) {
-        this.data.info.AreaType = this.element.area.type
+        this.data.info.AreaType = this.element.type.area
           .value as CalibrationAreaType
       }
     })
@@ -130,6 +155,42 @@ export class DeviceChannelCalibrationHtmlInfoController {
     )
   }
 
+  private selectNode() {
+    if (this.element.node.value) {
+      let node = this.data.nodes.find((n) => n.Id == this.element.node.value)
+      if (node) {
+        if (this.data.info instanceof ChannelCalibrationPoint) {
+          this.element.point.position.x.value = node.Position.X.toString()
+          this.element.point.position.y.value = node.Position.Y.toString()
+
+          this.data.info.NodeId = this.element.node.value
+          this.data.info.NodeType = node.NodeType
+          this.data.info.CanType = node.CanType
+          this.data.info.NodePosition = new MeshNodePosition()
+          this.data.info.NodePosition.X = node.Position.X
+          this.data.info.NodePosition.Y = node.Position.Y
+        } else if (this.data.info instanceof ChannelCalibrationArea) {
+          this.data.info.NodeId = this.element.node.value
+        } else {
+        }
+      } else {
+        if (this.data.info instanceof ChannelCalibrationPoint) {
+          this.data.info.NodeId = ''
+          this.data.info.NodeType = undefined
+          this.data.info.CanType = undefined
+          this.data.info.NodePosition = new MeshNodePosition()
+          this.data.info.NodePosition.X = 0
+          this.data.info.NodePosition.Y = 0
+        } else if (this.data.info instanceof ChannelCalibrationArea) {
+          this.data.info.NodeId = undefined
+        } else {
+        }
+      }
+
+      this.event.emit('selectNode', node)
+    }
+  }
+
   private loadPoint(info: ChannelCalibrationPoint) {
     this.element.div.areas.forEach((div) => {
       div.style.display = 'none'
@@ -152,38 +213,31 @@ export class DeviceChannelCalibrationHtmlInfoController {
     })
     this.element.name.value = info.Name
     this.element.node.value = info.NodeId ?? ''
-    this.element.area.type.value = info.AreaType
+    this.element.type.area.value = info.AreaType
   }
 
-  loadNode(nodes: MeshNode[], cannull = false) {
+  private loadNode(nodes: IIdNameModel[]) {
     this.element.node.innerHTML = ''
-    this.data.nodes = nodes
-    if (cannull) {
-      let none: IIdNameModel = {
-        Id: '',
-        Name: '无',
-      }
-      HtmlTool.select.append(none, this.element.node)
-    }
-
     for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i]
-      HtmlTool.select.append(node, this.element.node)
+      HtmlTool.select.append(nodes[i], this.element.node)
     }
+    this.selectNode()
   }
+
   loadAreaType(types: CalibrationAreaType[]) {
-    this.element.area.type.innerHTML = ''
+    this.element.type.area.innerHTML = ''
     for (let i = 0; i < types.length; i++) {
       let model: IIdNameModel = {
         Id: types[i],
         Name: Language.CalibrationAreaType(types[i]),
       }
-      HtmlTool.select.append(model, this.element.area.type)
+      HtmlTool.select.append(model, this.element.type.area)
     }
   }
 
   load(info: ChannelCalibrationPoint | ChannelCalibrationArea) {
     this.data.info = info
+    this.init(info)
     if (info instanceof ChannelCalibrationArea) {
       this.loadArea(info)
     } else if (info instanceof ChannelCalibrationPoint) {
@@ -201,6 +255,16 @@ export class DeviceChannelCalibrationHtmlInfoController {
     this.element.point.corner.value = ''
     this.element.point.position.x.value = ''
     this.element.point.position.y.value = ''
-    this.element.area.type.value = ''
+    this.element.type.area.value = ''
+  }
+
+  async initNode(nodes: MeshNode[]) {
+    this.data.nodes = nodes
+    let none: IIdNameModel = {
+      Id: '',
+      Name: '无',
+    }
+
+    this.loadNode([none, ...this.data.nodes])
   }
 }

@@ -1,4 +1,3 @@
-import { CalibrationAreaType } from '../../../data-core/enums/calibration_area_type.enum'
 import { NTPTimeMode } from '../../../data-core/enums/ntp-time-mode.enum'
 import { AnalysisServer } from '../../../data-core/models/arm/analysis/analysis-server.model'
 import { ChannelCalibration } from '../../../data-core/models/arm/channel-calibration.model'
@@ -57,10 +56,7 @@ export class CheckTool {
       result: true,
     }
   }
-  static ChannelCalibration(
-    data: ChannelCalibration,
-    type?: CalibrationAreaType
-  ): ResultArgs {
+  static ChannelCalibration(data: ChannelCalibration): ResultArgs {
     if (!data.ChannelId) {
       return {
         result: false,
@@ -95,22 +91,6 @@ export class CheckTool {
         message: '请绘制分析目标',
         inner: true,
       }
-    }
-
-    switch (type) {
-      case CalibrationAreaType.DropPort:
-        if (!data.Areas || data.Areas.length === 0) {
-          return {
-            result: false,
-            message: '请绘制分析区域',
-            inner: true,
-          }
-        }
-        break
-      case CalibrationAreaType.StorePort:
-        break
-      default:
-        break
     }
 
     return {

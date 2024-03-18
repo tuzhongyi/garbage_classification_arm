@@ -1,6 +1,5 @@
 import { CheckTool } from '../../common/tools/check-tool/check.tool'
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
-import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum'
 import { LensType } from '../../data-core/enums/lens-type.enum'
 import { Resolution } from '../../data-core/models/arm/analysis/resolution.model'
 import { ChannelCalibration } from '../../data-core/models/arm/channel-calibration.model'
@@ -31,17 +30,18 @@ export namespace DeviceChannelCalibration {
       },
       this.business
     )
+    chart = new DeviceChannelCalibrationChart(this.html, this.business, () => {
+      return this.model
+    })
     table = new DeviceChannelCalibrationTable(
       this.html,
       () => {
         return this.model
       },
       this.business,
-      this.info
+      this.info,
+      this.chart
     )
-    chart = new DeviceChannelCalibrationChart(this.html, this.business, () => {
-      return this.model
-    })
 
     async init() {
       this.model = await this.business.source()
@@ -66,12 +66,15 @@ export namespace DeviceChannelCalibration {
           this.model.data = this.html.get(this.model.data)
         })
         .finally(() => {
+          this.business.robot.nodes(this.model.data.RobotId).then((nodes) => {
+            this.html.details.info.initNode(nodes)
+          })
+
           this.html.load(this.model.data)
         })
     }
 
     private regist() {
-      this.html.event.on('selectAreaType', this.selectAreaType.bind(this))
       this.html.event.on('selectLensType', this.selectLensType.bind(this))
       this.html.event.on('selectRobot', this.selectRobot.bind(this))
       this.html.event.on('selectChannel', this.selectChannel.bind(this))
@@ -85,10 +88,7 @@ export namespace DeviceChannelCalibration {
     }
 
     private check(data: ChannelCalibration) {
-      let args = CheckTool.ChannelCalibration(
-        data,
-        this.html.properties.areaType.get()
-      )
+      let args = CheckTool.ChannelCalibration(data)
       if (args.result) {
         return true
       }
@@ -147,10 +147,6 @@ export namespace DeviceChannelCalibration {
         .catch((e) => {
           this.load(id)
         })
-    }
-
-    selectAreaType(type: CalibrationAreaType) {
-      this.html.details.chart.display(type)
     }
     selectLensType(type: LensType) {
       this.model.data.LensType = type

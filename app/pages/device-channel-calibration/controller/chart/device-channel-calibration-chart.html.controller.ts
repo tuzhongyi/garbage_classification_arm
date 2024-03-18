@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
 import { Point } from '../../../../data-core/models/arm/point.model'
 import { DeviceChannelCalibrationMode as CalibrationMode } from '../../device-channel-calibration.model'
 
@@ -24,6 +23,7 @@ export class DeviceChannelCalibrationChartHtmlController {
     this.regist()
   }
   private element = {
+    message: document.getElementById('message') as HTMLDivElement,
     button: {
       polygon: document.getElementById('button_polygon') as HTMLButtonElement,
       rectangle: document.getElementById(
@@ -91,6 +91,7 @@ export class DeviceChannelCalibrationChartHtmlController {
       switch (this.mode) {
         case CalibrationMode.point:
           this.event.emit('pointdrawing', point)
+          this.element.message.innerText = '右击保存'
           break
         case CalibrationMode.polygon:
           this.event.emit('polygondrawing', point)
@@ -111,6 +112,7 @@ export class DeviceChannelCalibrationChartHtmlController {
       return false
     }
     this.element.canvas.addEventListener('contextmenu', () => {
+      this.element.message.innerText = ''
       switch (this.mode) {
         case CalibrationMode.point:
           this.event.emit('pointover')
@@ -125,25 +127,10 @@ export class DeviceChannelCalibrationChartHtmlController {
   }
 
   clear() {
+    this.element.message.innerText = ''
     let selected = document.querySelector('button.selected')
     if (selected) {
       selected.classList.remove('selected')
-    }
-  }
-
-  display(type: CalibrationAreaType) {
-    switch (type) {
-      case CalibrationAreaType.DropPort:
-        this.element.button.polygon.style.display = ''
-        this.element.button.rectangle.style.display = ''
-        this.element.button.point.style.display = 'none'
-        break
-
-      default:
-        this.element.button.polygon.style.display = ''
-        this.element.button.rectangle.style.display = 'none'
-        this.element.button.point.style.display = ''
-        break
     }
   }
 }

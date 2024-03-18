@@ -6,9 +6,10 @@ import {
   Size,
 } from '../../../device-robot/device-robot.model'
 import { DeviceRobotPlayEChartEvent } from '../../device-robot-play.event'
+import { DeviceRobotPlayEChartDisplay } from '../details/device-robot-play-chart-display.model'
 
+import { option } from './device-robot-play-chart.option'
 import { DeviceRobotCalibrationHtmlEChartConverter } from './device-robot-play-html-echart.converter'
-import { option } from './device-robot-play.option'
 export class DeviceRobotPlayHtmlEChartController {
   event: EventEmitter<DeviceRobotPlayEChartEvent> = new EventEmitter()
   constructor() {
@@ -31,6 +32,7 @@ export class DeviceRobotPlayHtmlEChartController {
     height: 0,
   }
   private converter = new DeviceRobotCalibrationHtmlEChartConverter()
+  config?: DeviceRobotPlayEChartDisplay
 
   private initCanvas() {
     this.canvas.width = this.canvas.parentElement!.clientWidth
@@ -63,9 +65,39 @@ export class DeviceRobotPlayHtmlEChartController {
   }
 
   private appendNode(data: any) {
-    let _data = this.converter.Position(this.size, data)
+    let _data = this.converter.Position(this.size, data) as any
     this.option.series[0].data.push(_data)
     this.option.series[1].data.push(_data)
+  }
+
+  label(display: boolean) {
+    for (let i = 0; i < this.option.series[0].data.length; i++) {
+      this.option.series[0].data[i].label = {
+        show: display,
+        formatter: this.option.series[0].data[i].id,
+      }
+      if (this.start.id && this.start.id == this.option.series[0].data[i].id) {
+        this.option.series[0].data[i].label = {
+          show: true,
+          formatter: '✔',
+        }
+      }
+      if (this.end.id && this.end.id == this.option.series[0].data[i].id) {
+        this.option.series[0].data[i].label = {
+          show: true,
+          formatter: '✔',
+        }
+      }
+      if (
+        this.target.id &&
+        this.target.id == this.option.series[0].data[i].id
+      ) {
+        this.option.series[0].data[i].label = {
+          show: true,
+          formatter: '✔',
+        }
+      }
+    }
   }
 
   private appendItem(data: any) {
@@ -90,65 +122,48 @@ export class DeviceRobotPlayHtmlEChartController {
     this.option.series[0].links = []
     this.option.series[1].data = []
   }
-  start = {
+  target = {
+    id: undefined as string | undefined,
     set: (id: string) => {
-      let index = this.start.index(id)
-      if (index >= 0) {
-        let data = this.option.series[0].data[index]
-        data.label = {
-          show: true,
-          formatter: '✔',
-        }
-        this.echart.setOption(this.option)
-      }
-    },
-    index: (id: string) => {
-      return (this.option.series[0].data as any[]).findIndex((x) => x.id === id)
+      this.start.id = id
+      this.label(this.config ? this.config.label : false)
+      this.echart.setOption(this.option)
     },
     clear: () => {
-      for (let i = 0; i < this.option.series[0].data.length; i++) {
-        let data = this.option.series[0].data[i]
-        if (data.data) {
-          if (data.data.NodeType == MeshNodeType.StorePort) {
-            data.label.formatter = ''
-          }
-        }
-      }
-    },
-  }
-  end = {
-    set: (id: string) => {
-      let index = this.start.index(id)
-      if (index >= 0) {
-        let data = this.option.series[0].data[index]
-        data.label = {
-          show: true,
-          formatter: '✔',
-        }
-        this.echart.setOption(this.option)
-      }
-    },
-    index: (id: string) => {
-      return (this.option.series[0].data as any[]).findIndex((x) => x.id === id)
-    },
-    clear: () => {
-      for (let i = 0; i < this.option.series[0].data.length; i++) {
-        let data = this.option.series[0].data[i]
-        if (data.data) {
-          if (data.data.NodeType == MeshNodeType.DropPort) {
-            data.label = {
-              show: false,
-              formatter: '',
-            }
-          }
-        }
-      }
+      this.start.id = undefined
+      this.label(this.config ? this.config.label : false)
       this.echart.setOption(this.option)
     },
   }
-  async load(data: DeviceRobotModel) {
+  start = {
+    id: undefined as string | undefined,
+    set: (id: string) => {
+      this.start.id = id
+      this.label(this.config ? this.config.label : false)
+      this.echart.setOption(this.option)
+    },
+    clear: () => {
+      this.start.id = undefined
+      this.label(this.config ? this.config.label : false)
+      this.echart.setOption(this.option)
+    },
+  }
+  end = {
+    id: undefined as string | undefined,
+    set: (id: string) => {
+      this.end.id = id
+      this.label(this.config ? this.config.label : false)
+      this.echart.setOption(this.option)
+    },
+    clear: () => {
+      this.end.id = undefined
+      this.label(this.config ? this.config.label : false)
+      this.echart.setOption(this.option)
+    },
+  }
+  async load(data: DeviceRobotModel, config: DeviceRobotPlayEChartDisplay) {
     this.clear()
-
+    this.config = config
     for (let i = 0; i < data.nodes.length; i++) {
       let node = data.nodes[i]
       let port: any = {}
@@ -178,11 +193,16 @@ export class DeviceRobotPlayHtmlEChartController {
       this.appendLink(link)
     }
 
-    let robot = this.converter.Robot({
-      x: data.location.Position.X,
-      y: data.location.Position.Y,
-    })
-    this.appendItem(robot)
+    if (this.config.robot) {
+      let robot = this.converter.Robot({
+        x: data.location.Position.X,
+        y: data.location.Position.Y,
+      })
+      this.appendItem(robot)
+    }
+
+    this.label(this.config.label)
+
     this.echart.setOption(this.option)
 
     for (let i = 0; i < data.trashcans.length; i++) {

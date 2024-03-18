@@ -1,5 +1,4 @@
 import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
-import { MeshNodeType } from '../../../../data-core/enums/robot/mesh-node-type.model'
 import { ChannelCalibrationArea } from '../../../../data-core/models/arm/analysis/channel-calibration-area.model'
 import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { DeviceChannelCalibrationBusiness } from '../../business/device-channel-calibration.business'
@@ -24,34 +23,22 @@ export class DeviceChannelCalibrationInfo {
     this.html.details.info.event.on('selectNode', (node) => {})
   }
 
-  loadAreaType(isdrop: boolean) {
-    if (isdrop) {
-      this.html.details.info.loadAreaType([CalibrationAreaType.DropPort])
-    } else {
-      this.html.details.info.loadAreaType([
-        CalibrationAreaType.StorePort,
-        CalibrationAreaType.Ground,
-      ])
-    }
+  loadAreaType() {
+    this.html.details.info.loadAreaType([
+      CalibrationAreaType.DropPort,
+      CalibrationAreaType.StorePort,
+      CalibrationAreaType.Ground,
+    ])
   }
   loadChannelCalibration(
-    robotId: string,
-    isdrop: boolean,
     data: ChannelCalibrationPoint | ChannelCalibrationArea
   ) {
-    let nodetypes: MeshNodeType[] = []
     if (data instanceof ChannelCalibrationPoint) {
-      nodetypes = [MeshNodeType.ChargingPort, MeshNodeType.StorePort]
       this.loadPoint(data)
     } else if (data instanceof ChannelCalibrationArea) {
-      nodetypes = isdrop ? [MeshNodeType.DropPort] : [MeshNodeType.StorePort]
       this.loadArea(data)
     }
-    this.html.details.chart.reload()
-    this.business.robot.nodes(robotId, nodetypes).then((nodes) => {
-      this.html.details.info.loadNode(nodes, !isdrop)
-      this.html.details.info.load(data)
-    })
+    this.html.details.info.load(data)
   }
 
   private loadPoint(data: ChannelCalibrationPoint) {

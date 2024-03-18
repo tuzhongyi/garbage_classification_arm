@@ -50,7 +50,12 @@ export class DeviceRobotPlayHtmlTrashCansController {
     }
   }
 
+  clear() {
+    this.element.trashcans.innerHTML = ''
+  }
+
   async load(datas: RobotTrashCan[]) {
+    this.clear()
     let trashcans = datas.filter((x) => !x.Position)
     trashcans = trashcans.sort((a, b) => {
       let _a = this.getSortNumber(a.CanType)

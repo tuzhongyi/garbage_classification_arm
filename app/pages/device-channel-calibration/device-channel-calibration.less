@@ -88,6 +88,7 @@
       &-foot {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .buttons {
           height: 50px;
@@ -125,7 +126,7 @@
 
 
       &-table {
-        height: calc(100% - 270px - 10px);
+        height: calc(100% - @info-height - 10px);
         border: 1px solid #ccc;
         box-sizing: border-box;
 
@@ -148,8 +149,12 @@
             width: calc(100% + 2px);
             margin: 0 -1px;
 
+
+
             tbody {
               tr {
+                height: 36px;
+
                 .option {
                   display: flex;
                   justify-content: space-between;
@@ -179,8 +184,10 @@
 
       }
 
+      @info-height: 270px;
+
       &-info {
-        height: 270px;
+        height: @info-height;
         margin-top: 10px;
         border: 1px solid #ccc;
         box-sizing: border-box;
@@ -202,6 +209,13 @@
 
           .form-item {
             margin: 20px 0;
+
+            select {
+              option {
+                display: flex;
+                justify-content: space-between;
+              }
+            }
           }
         }
       }

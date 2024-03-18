@@ -1,6 +1,9 @@
+import { ChannelCalibrationArea } from '../../../../data-core/models/arm/analysis/channel-calibration-area.model'
+import { ChannelCalibrationPoint } from '../../../../data-core/models/arm/analysis/channel-calibration-point.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { MeshNodePosition } from '../../../../data-core/models/robot/mesh-node-position.model'
 import { DeviceChannelCalibrationBusiness } from '../../business/device-channel-calibration.business'
+import { DeviceChannelCalibrationConverter as Converter } from '../../device-channel-calibration.converter'
 import { DeviceChannelCalibrationCreater as Creater } from '../../device-channel-calibration.creater'
 import { DeviceChannelCalibrationHtmlController } from '../../device-channel-calibration.html.controller'
 import {
@@ -41,8 +44,8 @@ export class DeviceChannelCalibrationChart {
       this.model.data.Points = []
     }
     let id = this.model.data.Points!.length + 1
-    let type = this.html.properties.areaType.get()
-    let point = Creater.Point(id, type, position)
+
+    let point = Creater.Point(id, position)
     this.model.data.Points.push(point)
 
     this.html.loadDetails(this.model.data)
@@ -53,11 +56,26 @@ export class DeviceChannelCalibrationChart {
       this.model.data.Areas = []
     }
     let id = this.model.data.Areas!.length + 1
-    let type = this.html.properties.areaType.get()
-    let area = Creater.Area(id, type, polygon)
+    let area = Creater.Area(id, polygon)
     this.model.data.Areas.push(area)
 
     this.html.loadDetails(this.model.data)
     this.html.details.table.select(CalibrationMode.polygon, id)
+  }
+
+  select(data: ChannelCalibrationPoint | ChannelCalibrationArea) {
+    if (data instanceof ChannelCalibrationPoint) {
+      let point = Converter.point.to(
+        this.model.data.Resolution,
+        data.Coordinate
+      )
+      this.html.details.chart.selectPoint({
+        point: data.Coordinate,
+        text: `(${point.X}, ${point.Y})`,
+      })
+    } else if (data instanceof ChannelCalibrationArea) {
+      this.html.details.chart.selectPolygon(data.Polygon)
+    }
+    this.html.details.chart.reload()
   }
 }

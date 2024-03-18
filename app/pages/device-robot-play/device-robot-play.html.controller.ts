@@ -3,6 +3,8 @@ import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
+import { DeviceRobotPlayEChartDisplayController } from './controller/details/device-robot-play-chart-display.controller'
+import { DeviceRobotPlayEChartDisplay } from './controller/details/device-robot-play-chart-display.model'
 import { DeviceRobotPlayStateChartController } from './controller/details/device-robot-play-state-color.controller'
 import { DeviceRobotPlayHtmlStatusController } from './controller/details/device-robot-play.html-status.controller'
 import { DeviceRobotPlayHtmlTrashCansController } from './controller/details/device-robot-play.html-trashcans.controller'
@@ -70,6 +72,7 @@ export class DeviceRobotPlayHtmlController {
   status = new DeviceRobotPlayHtmlStatusController()
   statechart = new DeviceRobotPlayStateChartController()
   trashcans = new DeviceRobotPlayHtmlTrashCansController()
+  display = new DeviceRobotPlayEChartDisplayController()
 
   private _ismove: boolean = true
   public get ismove(): boolean {
@@ -99,6 +102,7 @@ export class DeviceRobotPlayHtmlController {
       this.element.buttons.weigh.style.display = 'none'
       this.element.buttons.change.style.display = ''
       this.element.buttons.reset.style.display = ''
+      this.echart.target.clear()
       this.clearTarget()
     }
   }
@@ -188,6 +192,7 @@ export class DeviceRobotPlayHtmlController {
     this.element.node.target.cantype.value = await EnumTool.CanType(
       data.CanType
     )
+    this.echart.target.set(data.Id)
   }
   async selectDrop(data: MeshNode) {
     this.selected.drop = data
@@ -196,7 +201,6 @@ export class DeviceRobotPlayHtmlController {
     this.element.node.drop.name.value = data.Name ?? ''
 
     this.element.node.drop.cantype.value = await EnumTool.CanType(data.CanType)
-    this.echart.end.clear()
     this.echart.end.set(data.Id)
   }
   async selectStore(data: MeshNode) {
@@ -206,12 +210,11 @@ export class DeviceRobotPlayHtmlController {
     this.element.node.store.name.value = data.Name ?? ''
 
     this.element.node.store.cantype.value = await EnumTool.CanType(data.CanType)
-    this.echart.start.clear()
     this.echart.start.set(data.Id)
   }
 
-  async load(model: DeviceRobotModel) {
-    this.echart.load(model)
+  async load(model: DeviceRobotModel, config: DeviceRobotPlayEChartDisplay) {
+    this.echart.load(model, config)
     this.status.load(model)
   }
 }

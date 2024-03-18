@@ -30,12 +30,6 @@
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-title">通道对应区域</div>
-            <div class="form-item-value">
-              <select id="select_area_type"></select>
-            </div>
-          </div>
-          <div class="form-item">
             <div class="form-item-title">镜头类型</div>
             <div class="form-item-value">
               <select id="select_lens_type"></select>
@@ -53,29 +47,24 @@
             <div class="buttons">
               <button
                 class="button-white polygon"
+                id="button_rectangle"
+                title="绘制全屏矩形"
+              >
+                <i class="howell-icon-full_screen"></i>
+              </button>
+              <button
+                class="button-white polygon"
                 id="button_polygon"
                 title="绘制多边形"
               >
                 <i class="mdi mdi-pentagon-outline"></i>
               </button>
-              <button
-                class="button-white polygon"
-                id="button_rectangle"
-                style="display: none"
-                title="绘制全屏矩形"
-              >
-                <i class="howell-icon-full_screen"></i>
-              </button>
 
-              <button
-                class="button-white"
-                id="button_point"
-                style="display: none"
-                title="绘制点"
-              >
+              <button class="button-white" id="button_point" title="绘制点">
                 <i class="mdi mdi-checkbox-blank-circle"></i>
               </button>
             </div>
+            <div class="calibration-message" id="message"></div>
             <div class="buttons">
               <button
                 class="button-white"
@@ -108,15 +97,21 @@
             </div>
           </div>
           <div class="device-channel-calibration-body-details-info">
-            <div class="device-channel-calibration-body-details-info-head">
+            <!-- <div class="device-channel-calibration-body-details-info-head">
               详情信息
-            </div>
+            </div> -->
             <div class="device-channel-calibration-body-details-info-body">
               <div class="forms">
                 <div class="form-item">
                   <div class="form-item-title">名称</div>
                   <div class="form-item-value">
                     <input type="text" id="info_name" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">节点类型</div>
+                  <div class="form-item-value">
+                    <select id="info_node_type"></select>
                   </div>
                 </div>
                 <div class="form-item">

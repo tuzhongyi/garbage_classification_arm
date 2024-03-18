@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { CalibrationAreaType } from '../../../../data-core/enums/calibration_area_type.enum'
 import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
 import { Point } from '../../../../data-core/models/arm/point.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
@@ -198,9 +197,6 @@ export class DeviceChannelCalibrationChartController {
     } else {
       this.selected.polygon = polygon
     }
-  }
-  display(type: CalibrationAreaType) {
-    this.html.display(type)
   }
 
   load(resolution: Resolution, polygons: Polygon[] = [], points: Point[] = []) {
