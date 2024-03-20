@@ -6,7 +6,7 @@ export class HTMLTableElementSortTool {
       let th_sort = th.getAttribute('sort')
       let c_sort = current.getAttribute('sort')
       if (th_sort != c_sort) {
-        let span = th.querySelector('span')
+        let span = th.querySelector('.sort-span')
         if (span) {
           th.removeAttribute('direction')
           th.removeChild(span)
@@ -18,13 +18,14 @@ export class HTMLTableElementSortTool {
   private icon = {
     create: (th: HTMLTableCellElement, icon: string) => {
       let span = document.createElement('span')
+      span.className = 'sort-span'
       let i = document.createElement('i')
       i.className = icon
       span.appendChild(i)
       th.appendChild(span)
     },
     set: (th: HTMLTableCellElement, icon: string) => {
-      ;(th.querySelector('span > i') as HTMLElement).className = icon
+      ;(th.querySelector('.sort-span > i') as HTMLElement).className = icon
     },
   }
   sort(thead: HTMLTableSectionElement, callback?: (args: Sort) => void) {

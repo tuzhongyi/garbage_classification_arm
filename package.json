@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "parcel ./app/pages/login.html --port 4200 --no-cache true --no-hmr",
-    "build": "parcel build ./app/pages/login.html ./app/pages/login.html --out-dir build",
-    "clean": "rmdir /q /s build"
+    "build": "parcel build ./app/pages/login.html ./app/pages/login.html --out-dir build/arm_web",
+    "clean": "rmdir /q /s build\\arm_web"
   },
   "dependencies": {
     "axios": "^1.6.2",

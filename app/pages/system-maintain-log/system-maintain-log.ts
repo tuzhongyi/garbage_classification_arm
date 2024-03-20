@@ -1,3 +1,4 @@
+import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { SystemMaintainLogBusiness } from './system-maintain-log.business'
 import { SystemMaintainLogHtmlController } from './system-maintain-log.html.controller'
 
@@ -11,9 +12,14 @@ export namespace SystemMaintainLog {
 
     private load(date: Date) {
       this.html.clear()
-      this.business.load(date).then((x) => {
-        this.html.load(x)
-      })
+      this.business
+        .load(date)
+        .then((x) => {
+          this.html.load(x)
+        })
+        .catch((e) => {
+          MessageBar.warning('没找到当天日志')
+        })
     }
 
     private regist() {
