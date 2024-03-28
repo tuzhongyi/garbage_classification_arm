@@ -106,13 +106,17 @@ export class DeviceRobotCalibrationBusiness {
     return this.step(id, 90)
   }
 
-  deleteNode(robotId: string, nodeIds: string[]) {
-    let all = nodeIds.map((x) => this.service.mesh.node.delete(robotId, x))
-    return Promise.all(all)
+  async deleteNode(robotId: string, nodeIds: string[]) {
+    for (let i = 0; i < nodeIds.length; i++) {
+      await this.service.mesh.node.delete(robotId, nodeIds[i])
+    }
+    return true
   }
-  deleteEdge(robotId: string, edgeIds: string[]) {
-    let all = edgeIds.map((x) => this.service.mesh.edge.delete(robotId, x))
-    return Promise.all(all)
+  async deleteEdge(robotId: string, edgeIds: string[]) {
+    for (let i = 0; i < edgeIds.length; i++) {
+      await this.service.mesh.edge.delete(robotId, edgeIds[i])
+    }
+    return true
   }
 
   update(id: string, node: MeshNode) {

@@ -19,4 +19,6 @@ export class Platform implements IModel {
   DeviceId!: string
   /**	String	密钥，BASE64(SM4()),默认密钥：howell1409	M	*/
   DeviceKey!: string
+  /**	Int32	状态，0-正常，1-离线	O	*/
+  Status?: number
 }

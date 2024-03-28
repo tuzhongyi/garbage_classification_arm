@@ -18,6 +18,7 @@ export class ArmMainHtmlController {
     iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     username: document.getElementById('username') as HTMLElement,
     guide: document.getElementById('guide') as HTMLElement,
+    help: document.getElementById('help') as HTMLElement,
   }
 
   event: EventEmitter<ArmMainEventArgs> = new EventEmitter()
@@ -35,6 +36,9 @@ export class ArmMainHtmlController {
     })
     this.element.guide.addEventListener('click', () => {
       location.href = '../guide/guide.html'
+    })
+    this.element.help.addEventListener('click', () => {
+      window.open('../help/help.html', '_blank')
     })
   }
 

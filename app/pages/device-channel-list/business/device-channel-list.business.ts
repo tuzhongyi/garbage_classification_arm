@@ -11,14 +11,14 @@ export class DeviceChannelListBusiness {
     return this.service.input.proxy.channel.array()
   }
 
-  delete(ids: string[]) {
-    let all = ids.map((id) => {
-      return this.service.input.proxy.channel.delete(id)
-    })
-    return Promise.all(all)
+  async delete(ids: string[]) {
+    for (let i = 0; i < ids.length; i++) {
+      this.service.input.proxy.channel.delete(ids[i])
+    }
+    return true
   }
 
   picture(id: string) {
-    return this.service.input.proxy.channel.picture(id)
+    return this.service.input.proxy.channel.picture(parseInt(id))
   }
 }

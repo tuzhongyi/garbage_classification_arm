@@ -28,10 +28,16 @@ export class DeviceChannelDiscoverBusiness {
     return this.service.input.proxy.search()
   }
 
-  create(datas: VideoSourceDescriptor[], username: string, password: string) {
+  async create(
+    datas: VideoSourceDescriptor[],
+    username: string,
+    password: string
+  ) {
     let channels = datas.map((x) => this.convert(x, username, password))
-    let all = channels.map((x) => this.service.input.proxy.channel.create(x))
-    return Promise.all(all)
+    for (let i = 0; i < channels.length; i++) {
+      await this.service.input.proxy.channel.create(channels[i])
+    }
+    return true
   }
 
   convert(video: VideoSourceDescriptor, username: string, password: string) {

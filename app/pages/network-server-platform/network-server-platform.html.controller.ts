@@ -20,6 +20,7 @@ export class NetworkServerPlatformHtmlController {
     PortNo: document.getElementById('PortNo') as HTMLInputElement,
     DeviceId: document.getElementById('DeviceId') as HTMLInputElement,
     DeviceKey: document.getElementById('DeviceKey') as HTMLInputElement,
+    Status: document.getElementById('Status') as HTMLInputElement,
 
     save: document.getElementById('save') as HTMLButtonElement,
     test: document.getElementById('test') as HTMLButtonElement,
@@ -55,6 +56,7 @@ export class NetworkServerPlatformHtmlController {
     this.element.PortNo.value = HtmlTool.set(data.PortNo)
     this.element.DeviceId.value = HtmlTool.set(data.DeviceId)
     this.element.DeviceKey.value = HtmlTool.set(data.DeviceKey)
+    this.element.Status.value = data.Status === 0 ? '正常' : '离线'
     this.onenabledchange(data.Enabled)
   }
 

@@ -14,10 +14,10 @@ export class AIEventRuleBusiness {
     return this.service.event.array()
   }
 
-  delete(type: EventType, ids: string[]) {
-    let all = ids.map((x) => {
-      return this.service.event.rule.delete(type, x)
-    })
-    return Promise.all(all)
+  async delete(type: EventType, ids: string[]) {
+    for (let i = 0; i < ids.length; i++) {
+      await this.service.event.rule.delete(type, ids[i])
+    }
+    return true
   }
 }

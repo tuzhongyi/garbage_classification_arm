@@ -30,10 +30,12 @@ export class DeviceRobotDiscoverBusiness {
     return this.service.array()
   }
 
-  create(results: RobotSearchResult[]) {
+  async create(results: RobotSearchResult[]) {
     let datas = results.map((x) => this.convert(x))
-    let all = datas.map((x) => this.service.create(x))
-    return Promise.all(all)
+    for (let i = 0; i < datas.length; i++) {
+      await this.service.create(datas[i])
+    }
+    return true
   }
 
   convert(source: RobotSearchResult) {
