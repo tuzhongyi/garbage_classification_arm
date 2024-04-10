@@ -67,5 +67,15 @@
         "name": "分析服务器"
       }
     ]
+  },
+  "event": {
+    "id": "event",
+    "name": "事件",
+    "children": [
+      {
+        "id": "event_record",
+        "name": "事件记录"
+      }
+    ]
   }
 }

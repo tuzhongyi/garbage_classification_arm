@@ -19,7 +19,7 @@ class DetailsWindow extends WindowModel<DetailsWindowQuery> {
   }
   style = {
     width: '600px',
-    height: '600px',
+    height: '620px',
   }
   url: string = '../device-channel-details/device-channel-details.html'
 }

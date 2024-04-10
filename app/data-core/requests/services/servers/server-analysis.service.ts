@@ -4,6 +4,7 @@ import { AnalysisServer } from '../../../models/arm/analysis/analysis-server.mod
 import { Analyzer } from '../../../models/arm/analysis/analyzer.model'
 
 import { AnalysisEventRecord } from '../../../models/arm/analysis/objects/analysis-event-record.model'
+import { VideoSourceIasParams } from '../../../models/arm/analysis/video-source-las-params.model'
 import { VideoSource } from '../../../models/arm/analysis/video-source.model'
 import { HowellResponse } from '../../../models/response'
 import { ArmServerUrl } from '../../../urls/arm/server/server.url'
@@ -129,5 +130,37 @@ class ArmServerAnalysisSourceRequestService {
     return this.http.post<HowellResponse<string>>(url).then((x) => {
       return HowellResponseProcess.basic<string>(x)
     })
+  }
+
+  private _ias?: { params: ArmServerAnalysisSourceIasParamsRequestService }
+  public get ias(): { params: ArmServerAnalysisSourceIasParamsRequestService } {
+    if (!this._ias) {
+      this._ias = {
+        params: new ArmServerAnalysisSourceIasParamsRequestService(this.http),
+      }
+    }
+    return this._ias
+  }
+}
+
+class ArmServerAnalysisSourceIasParamsRequestService {
+  constructor(private http: HowellAuthHttp) {}
+
+  get(serverId: string, sourceId: string) {
+    let url = ArmServerUrl.analysis.source(serverId).ias.params(sourceId)
+    return this.http
+      .get<HowellResponse<VideoSourceIasParams>>(url)
+      .then((x) => {
+        return HowellResponseProcess.item(x, VideoSourceIasParams)
+      })
+  }
+  set(serverId: string, data: VideoSourceIasParams) {
+    let url = ArmServerUrl.analysis.source(serverId).ias.params(data.Id)
+    let plain = instanceToPlain(data)
+    return this.http
+      .put<any, HowellResponse<VideoSourceIasParams>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, VideoSourceIasParams)
+      })
   }
 }

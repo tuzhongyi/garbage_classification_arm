@@ -1,6 +1,17 @@
 import { TransformationType, TransformFnParams } from 'class-transformer'
 import { Time } from './common/time.model'
 
+export function transformArraySort(params: TransformFnParams) {
+  if (params.value === undefined || params.value === null) return undefined
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    return params.value.sort((a: any, b: any) => {
+      return a.Name.length - b.Name.length || a.Name.localeCompare(b.Name)
+    })
+  } else {
+    return params.value
+  }
+}
+
 export function transformDateTime(params: TransformFnParams) {
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
     return new Date(params.value)

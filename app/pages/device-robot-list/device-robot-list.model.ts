@@ -10,7 +10,7 @@ export class DeviceRobotWindow {
 class DetailsWindow extends WindowModel {
   style = {
     width: '600px',
-    height: '440px',
+    height: '460px',
   }
   url: string = '../device-robot-details/device-robot-details.html'
 }

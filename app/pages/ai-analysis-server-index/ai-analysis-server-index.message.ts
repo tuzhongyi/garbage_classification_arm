@@ -38,6 +38,10 @@ export class AIAnalysisServerIndexMessage implements MessageReceiverEvent {
   command?: number
 
   regist() {
+    this.proxy.event.on('open', (args) => {
+      this.command = 0
+      this.client.sender.emit('open', args)
+    })
     this.proxy.event.on('delete_confirm', (args) => {
       this.command = 1
       this.client.sender.emit('confirm', args)

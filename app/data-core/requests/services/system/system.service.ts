@@ -431,9 +431,7 @@ class SystemInputProxyChannelCalibrationRequestService {
 
   set(data: ChannelCalibration) {
     let plain = instanceToPlain(data)
-    let url = ArmSystemUrl.input.proxy.channel.calibration(
-      data.ChannelId.toString()
-    )
+    let url = ArmSystemUrl.input.proxy.channel.calibration(data.ChannelId)
     return this.http
       .put<any, HowellResponse<ChannelCalibration>>(url, plain)
       .then((x) => {

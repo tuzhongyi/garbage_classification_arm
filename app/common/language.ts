@@ -311,6 +311,28 @@ export class Language {
       day + '天' + (hour ? hour + '小时' : '') + (minute ? minute + '分钟' : '')
     )
   }
+
+  static YesOrNo(bool?: boolean) {
+    switch (bool) {
+      case true:
+        return '是'
+      case false:
+        return '否'
+      default:
+        return '未知'
+    }
+  }
+
+  static Uploaded(bool?: boolean) {
+    switch (bool) {
+      case true:
+        return '已上传'
+      case false:
+        return '未上传'
+      default:
+        return '未知'
+    }
+  }
 }
 
 export class Icon {

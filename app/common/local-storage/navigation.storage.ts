@@ -5,6 +5,7 @@ import { NavigationAIModelStorage } from './navigation-ai-model.storage'
 import { NavigationDeviceChannelStorage } from './navigation-device-channel.storage'
 import { NavigationDeviceRobotStorage } from './navigation-device-robot.storage'
 import { NavigationDeviceTrashCanStorage } from './navigation-device-trashcan.storage'
+import { NavigationEventRecordStorage } from './navigation-event-record.storage'
 import { NavigationNetworkConfigStorage } from './navigation-network-config.storage'
 import { NavigationNetworkServerStorage } from './navigation-network-server.storage'
 import { NavigationSystemDeviceStorage } from './navigation-system-device.storage'
@@ -61,5 +62,8 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
     model: new NavigationAIModelStorage(),
     event: new NavigationAIEventStorage(),
     server: new NavigationAIAnalysisServerStorage(),
+  }
+  event = {
+    record: new NavigationEventRecordStorage(),
   }
 }

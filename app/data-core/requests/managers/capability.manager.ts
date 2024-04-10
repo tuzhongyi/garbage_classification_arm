@@ -4,11 +4,13 @@ import { DepolymentCapability } from '../../models/capabilities/arm/depolyment-c
 import { DeviceCapability } from '../../models/capabilities/arm/device-capability.model'
 import { InputProxyCapability } from '../../models/capabilities/arm/input-proxy-capability.model'
 import { NetworkCapability } from '../../models/capabilities/arm/network-capability.model'
+import { EventCapability } from '../../models/capabilities/events/event-capability.model'
 import { RobotCapability } from '../../models/capabilities/robot/robot-capability.model'
 import { TrashCanCapability } from '../../models/capabilities/robot/trash-can-capability.model'
 import { HowellAuthHttp } from '../auth/howell-auth-http'
 import { HowellHttpClient } from '../http-client'
 import { ArmDeploymentRequestService } from '../services/deployment/deployment.service'
+import { ArmEventRequestService } from '../services/event/event.service'
 import { ArmRobotRequestService } from '../services/robot/robot.service'
 import { ArmServerRequestService } from '../services/servers/server.service'
 import { ArmSystemRequestService } from '../services/system/system.service'
@@ -21,6 +23,7 @@ export class CapabilityManager {
     depolyment: new ArmDeploymentRequestService(this.client.http),
     robot: new ArmRobotRequestService(this.client.http),
     trashcan: new ArmTrashCansRequestService(this.client.http),
+    event: new ArmEventRequestService(this.client.http),
   }
 
   private _device?: DeviceCapability
@@ -127,6 +130,20 @@ export class CapabilityManager {
       this._server = new ServerCapabilityManager(this.client.http)
     }
     return this._server
+  }
+
+  private _event?: EventCapability
+  public get event(): Promise<EventCapability> {
+    return new Promise<EventCapability>((resolve) => {
+      if (!this._event) {
+        this.service.event.capability().then((x) => {
+          this._event = x
+          resolve(this._event)
+        })
+      } else {
+        return resolve(this._event)
+      }
+    })
   }
 }
 

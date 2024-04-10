@@ -7,6 +7,7 @@ import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { VideoSource } from '../../data-core/models/arm/analysis/video-source.model'
 interface AIAnalysisServerSourceTableEvent {
   delete(id: string): void
+  modify(id: string): void
 }
 declare const $: any
 export class AIAnalysisServerSourceHtmlTable {
@@ -23,7 +24,19 @@ export class AIAnalysisServerSourceHtmlTable {
     '#table thead'
   ) as HTMLTableSectionElement
 
-  private widths = ['50px']
+  private widths = [
+    '50px',
+    'auto',
+    '150px',
+    '7.5%',
+    '5%',
+    '7.5%',
+    '7.5%',
+    '10%',
+    '7.5%',
+    '10%',
+    '10%',
+  ]
   private datas: VideoSource[] = []
 
   private init() {
@@ -47,7 +60,15 @@ export class AIAnalysisServerSourceHtmlTable {
   private append(id: string, items: string[]) {
     HtmlTool.table.append(this.tbody, items, [
       {
-        inner: `<i class="howell-icon-Close"></i>`,
+        inner: `<i class="howell-icon-modification"></i>`,
+        id: `modify_${id}`,
+        click: (args) => {
+          let id = args.button.id.replace('modify_', '')
+          this.event.emit('modify', id)
+        },
+      },
+      {
+        inner: `<i class="howell-icon-delete2"></i>`,
         id: `del_${id}`,
         click: (args) => {
           let id = args.button.id.replace('del_', '')
@@ -80,7 +101,7 @@ export class AIAnalysisServerSourceHtmlTable {
         Language.DeviceType(data.DeviceType),
         HtmlTool.set(await EnumTool.VideoSourceProtocolType(data.ProtocolType)),
         HtmlTool.set(await EnumTool.VideoSourceMode(data.Mode)),
-        HtmlTool.set(data.Vendor),
+        HtmlTool.set(data.Vendor, '-'),
       ]
       this.append(data.Id, items)
     }

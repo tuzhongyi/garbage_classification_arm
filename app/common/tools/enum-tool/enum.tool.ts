@@ -70,9 +70,12 @@ export class EnumTool {
     })
   }
 
-  static async EventType(value?: EventType): Promise<string> {
+  static async EventType(value?: EventType, record = false): Promise<string> {
     return new Promise<string>((resolve) => {
-      Manager.capability.depolyment
+      let service = record
+        ? Manager.capability.event
+        : Manager.capability.depolyment
+      service
         .then((capability) => {
           if (capability.EventTypes) {
             let _enum = capability.EventTypes.find(

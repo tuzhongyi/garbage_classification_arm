@@ -10,4 +10,5 @@ export enum ArmPagePath {
   ai_model_index = '../ai-model-index/ai-model-index.html',
   ai_event_index = '../ai-event-index/ai-event-index.html',
   ai_analysis_server_index = '../ai-analysis-server-index/ai-analysis-server-index.html',
+  event_record_index = '../event-record-index/event-record-index.html',
 }

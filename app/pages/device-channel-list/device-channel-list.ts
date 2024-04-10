@@ -96,6 +96,7 @@ export namespace DeviceChannelList {
     }
 
     onsearch(text: string) {
+      this.html.table.clear()
       if (text) {
         let datas = this.datas.filter((x) =>
           x.Name.toLowerCase().includes(text.toLowerCase())

@@ -141,6 +141,8 @@ export class ArmMainHtmlController {
         return ArmPagePath.ai_event_index
       case 'ai_server':
         return ArmPagePath.ai_analysis_server_index
+      case 'event_record':
+        return ArmPagePath.event_record_index
       default:
         return ''
     }

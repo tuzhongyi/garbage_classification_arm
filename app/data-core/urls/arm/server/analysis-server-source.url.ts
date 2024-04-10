@@ -8,4 +8,10 @@ export class AnalysisServerSourceUrl extends AbstractUrl {
   sync() {
     return `${this.basic()}/Sync`
   }
+
+  ias = {
+    params: (id: string) => {
+      return `${this.item(id)}/IasParams`
+    },
+  }
 }

@@ -3,12 +3,14 @@ import { EventMessageClient } from '../../common/event-message/event-message.cli
 import { MessageBar } from '../../common/tools/controls/message-bar/message-bar'
 import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
+import { WindowModel } from '../window/window.model'
 
 export interface AIAnalysisServerSourceMessageReceiverEvent {
   delete_result(result: ResultArgs): void
 }
 export interface AIAnalysisServerSourceMessageSenderEvent {
   delete_confirm(window: ConfirmWindowModel): void
+  open(window: WindowModel): void
 }
 interface MessageEvent {
   todelete(): void
@@ -24,7 +26,7 @@ export class AIAnalysisServerSourceMessage {
   private client = new EventMessageClient<
     AIAnalysisServerSourceMessageSenderEvent,
     AIAnalysisServerSourceMessageReceiverEvent
-  >(['delete_confirm'])
+  >(['open', 'delete_confirm'])
 
   private reigst() {
     this.client.receiver.on('delete_result', (args) => {
@@ -37,5 +39,9 @@ export class AIAnalysisServerSourceMessage {
   }
   delete_confirm(window: ConfirmWindowModel) {
     this.client.sender.emit('delete_confirm', window)
+  }
+
+  params(window: WindowModel) {
+    this.client.sender.emit('open', window)
   }
 }

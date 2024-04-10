@@ -30,6 +30,17 @@ export namespace AIAnalysisServerSource {
         this.message.delete_confirm(this.window.confirm)
       })
       this.message.event.on('todelete', this.todelete.bind(this))
+      this.html.table.event.on('modify', async (id) => {
+        let item = this.datas.find((x) => x.Id === id) as VideoSource
+        let picture = await this.business.channel.picture(item.Id)
+        if (picture) {
+          this.window.params.query.serverId = item.AnalysisServerId!
+          this.window.params.query.title = item.Name
+          this.window.params.query.img = picture
+          this.window.params.query.sourceId = item.Id
+          this.message.params(this.window.params)
+        }
+      })
     }
     todelete() {
       let id = this.window.confirm.id

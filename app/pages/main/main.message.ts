@@ -31,8 +31,12 @@ export class ArmMainMessage implements MainWindowMessageResponseEvent {
     })
     //注册窗口页面返回结果事件
     this.window.event.on('result', (args) => {
-      if (args.result === false && args.inner) {
-        MessageBar.warning(args.message)
+      if (args.inner) {
+        if (args.result) {
+          MessageBar.success(args.message)
+        } else {
+          MessageBar.warning(args.message)
+        }
         return
       }
       this.result(args)
