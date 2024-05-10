@@ -73,12 +73,12 @@ export namespace NetworkConfigTCPIP {
             this.html.element.IPAddress.IPv4.SubnetMask.value
           data.IPAddress.IPv4Address.DefaultGateway =
             this.html.element.IPAddress.IPv4.Gateway.value
-        } else {
-          data.IPAddress.IPv4Address.PrimaryDNS =
-            this.html.element.IPAddress.IPv4.PrimaryDNS.value
-          data.IPAddress.IPv4Address.SecondaryDNS =
-            this.html.element.IPAddress.IPv4.SecondaryDNS.value
         }
+        data.IPAddress.IPv4Address.PrimaryDNS =
+          this.html.element.IPAddress.IPv4.PrimaryDNS.value
+        data.IPAddress.IPv4Address.SecondaryDNS =
+          this.html.element.IPAddress.IPv4.SecondaryDNS.value
+
         this.business
           .update(data)
           .then((x) => {

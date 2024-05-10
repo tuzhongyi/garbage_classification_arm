@@ -1,8 +1,8 @@
+import { CheckTool } from '../../common/tools/check-tool/check.tool'
 import { Guid } from '../../common/tools/guid/guid'
 import { LocationTool } from '../../common/tools/location.tool'
 import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEventRule } from '../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
-import { ResultArgs } from '../main/main.event'
 import { AIEventRuleDetailsCreater as Creater } from './ai-event-rule-details.creater'
 import { AIEventRuleDetailsHtmlController } from './ai-event-rule-details.html.controller'
 import { AIEventRuleDetailsMessage } from './ai-event-rule-details.message'
@@ -113,42 +113,50 @@ export namespace AIEventRuleDetails {
     }
 
     check(data?: CameraAIEventRule) {
-      let args: ResultArgs = {
-        result: false,
-        inner: true,
-      }
+      // let args: ResultArgs = {
+      //   result: false,
+      //   inner: true,
+      // }
+      // if (!data) {
+      //   return false
+      // }
+      // if (!data.EventType) {
+      //   args.message = '请选择事件类型'
+      //   this.message.result(args)
+      //   return false
+      // }
+      // if (data.ChannelId == undefined) {
+      //   args.message = '请选择代理通道'
+      //   this.message.result(args)
+      //   return false
+      // }
+      // if (!data.RuleName) {
+      //   args.message = '请输入规则名称'
+      //   this.message.result(args)
+      //   return false
+      // }
+      // if (!data.ModelId) {
+      //   args.message = '请选择AI模型'
+      //   this.message.result(args)
+      //   return false
+      // }
+      // if (!data.ModelRule) {
+      //   return false
+      // }
+      // if (!data.ModelRule.Regions || data.ModelRule.Regions.length == 0) {
+      //   args.message = '请绘制识别区域'
+      //   this.message.result(args)
+      //   return false
+      // }
+      // return true
       if (!data) {
         return false
       }
-      if (!data.EventType) {
-        args.message = '请选择事件类型'
-        this.message.result(args)
-        return false
+      let result = CheckTool.CameraAIEventRule(data)
+      if (!result.result && result.inner) {
+        this.message.result(result)
       }
-      if (data.ChannelId == undefined) {
-        args.message = '请选择代理通道'
-        this.message.result(args)
-        return false
-      }
-      if (!data.RuleName) {
-        args.message = '请输入规则名称'
-        this.message.result(args)
-        return false
-      }
-      if (!data.ModelId) {
-        args.message = '请选择AI模型'
-        this.message.result(args)
-        return false
-      }
-      if (!data.ModelRule) {
-        return false
-      }
-      if (!data.ModelRule.Regions || data.ModelRule.Regions.length == 0) {
-        args.message = '请绘制识别区域'
-        this.message.result(args)
-        return false
-      }
-      return true
+      return result.result
     }
 
     create() {

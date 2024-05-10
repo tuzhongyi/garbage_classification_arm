@@ -113,14 +113,23 @@ export class TimeControl {
   }
 
   private regist() {
-    this._element.hour.addEventListener('input', () => {
-      this._element.hour.value = this._element.hour.value.padStart(2, '0')
+    this._element.hour.addEventListener('click', (e) => {
+      this.onclick(e)
     })
-    this._element.minute.addEventListener('input', () => {
-      this._element.minute.value = this._element.minute.value.padStart(2, '0')
+    this._element.minute.addEventListener('click', (e) => {
+      this.onclick(e)
     })
-    this._element.second.addEventListener('input', () => {
-      this._element.second.value = this._element.second.value.padStart(2, '0')
+    this._element.second.addEventListener('click', (e) => {
+      this.onclick(e)
+    })
+    this._element.hour.addEventListener('input', (e) => {
+      this.hour = this.oninput(e)
+    })
+    this._element.minute.addEventListener('input', (e) => {
+      this.minute = this.oninput(e)
+    })
+    this._element.second.addEventListener('input', (e) => {
+      this.second = this.oninput(e)
     })
 
     this._element.hour.addEventListener('mousewheel', (e) => {
@@ -147,5 +156,18 @@ export class TimeControl {
         this.second--
       }
     })
+  }
+
+  private oninput(e: Event) {
+    let element = e.target as HTMLInputElement
+    let value = parseInt(element.value)
+    element.value = value.toString().padStart(2, '0')
+    element.value = element.value.substring(0, 2)
+    return parseInt(element.value)
+  }
+  private onclick(e: Event) {
+    let element = e.target as HTMLInputElement
+    element.focus()
+    element.select()
   }
 }

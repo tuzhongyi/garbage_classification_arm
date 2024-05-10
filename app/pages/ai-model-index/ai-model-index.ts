@@ -1,6 +1,5 @@
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import './ai-model-index.less'
-import { AIModelIndexMessage } from './ai-model-index.message'
 
 export namespace AIModelIndex {
   export class HtmlController {
@@ -15,7 +14,6 @@ export namespace AIModelIndex {
       items: document.getElementsByClassName('menu-item'),
       iframe: document.querySelector('#iframe') as HTMLIFrameElement,
     }
-    private message = new AIModelIndexMessage(this.element.iframe)
     init() {
       if (this.element.items && this.element.items.length > 0) {
         this.onselect(this.element.items.item(this.index) as HTMLDivElement)
