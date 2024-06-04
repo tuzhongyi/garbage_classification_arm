@@ -7,12 +7,14 @@ import { NetworkCapability } from '../../models/capabilities/arm/network-capabil
 import { EventCapability } from '../../models/capabilities/events/event-capability.model'
 import { RobotCapability } from '../../models/capabilities/robot/robot-capability.model'
 import { TrashCanCapability } from '../../models/capabilities/robot/trash-can-capability.model'
+import { SortationCapability } from '../../models/capabilities/sortation/sortation-capability.model'
 import { HowellAuthHttp } from '../auth/howell-auth-http'
 import { HowellHttpClient } from '../http-client'
 import { ArmDeploymentRequestService } from '../services/deployment/deployment.service'
 import { ArmEventRequestService } from '../services/event/event.service'
 import { ArmRobotRequestService } from '../services/robot/robot.service'
 import { ArmServerRequestService } from '../services/servers/server.service'
+import { ArmSortationRequestService } from '../services/sortation/sortation.service'
 import { ArmSystemRequestService } from '../services/system/system.service'
 import { ArmTrashCansRequestService } from '../services/trash-cans/trash-cans.service'
 
@@ -24,6 +26,7 @@ export class CapabilityManager {
     robot: new ArmRobotRequestService(this.client.http),
     trashcan: new ArmTrashCansRequestService(this.client.http),
     event: new ArmEventRequestService(this.client.http),
+    sortation: new ArmSortationRequestService(this.client.http),
   }
 
   private _device?: DeviceCapability
@@ -142,6 +145,20 @@ export class CapabilityManager {
         })
       } else {
         return resolve(this._event)
+      }
+    })
+  }
+
+  private _sortation?: SortationCapability
+  public get sortation(): Promise<SortationCapability> {
+    return new Promise<SortationCapability>((resolve) => {
+      if (!this._sortation) {
+        this.service.sortation.capability().then((x) => {
+          this._sortation = x
+          resolve(this._sortation)
+        })
+      } else {
+        return resolve(this._sortation)
       }
     })
   }

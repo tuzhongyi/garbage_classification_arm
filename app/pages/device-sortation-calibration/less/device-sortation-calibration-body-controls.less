@@ -1,0 +1,43 @@
+@import "./device-sortation-calibration-body-controls-direction.less";
+
+.device-sortation-calibration-body-content-controller-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  &>div {
+    height: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+
+  &-direction {
+    width: calc((100% - 10px) * 0.382);
+  }
+
+  &-command {
+
+    width: calc((100% - 10px) * 0.618);
+
+    &>div {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      &>div {
+        flex-grow: 1;
+
+        &:first-child,
+        &:last-child {
+          flex-grow: 0;
+        }
+
+      }
+    }
+
+  }
+}

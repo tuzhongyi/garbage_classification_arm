@@ -20,6 +20,7 @@ export namespace ArmGuide {
       })
       this.html.event.on('select', (key) => {
         LocalStorageService.navigation.device.robot.clear()
+        LocalStorageService.navigation.device.sortation.clear()
         this.load(key)
       })
     }

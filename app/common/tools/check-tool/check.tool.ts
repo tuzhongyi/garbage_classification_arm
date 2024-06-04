@@ -9,6 +9,7 @@ import { TrashCanWarningParams } from '../../../data-core/models/arm/analysis/tr
 import { ChannelCalibration } from '../../../data-core/models/arm/channel-calibration.model'
 import { InputProxyChannel } from '../../../data-core/models/arm/input-proxy-channel.model'
 import { SystemTime } from '../../../data-core/models/arm/system-time.model'
+import { SortationCalibration } from '../../../data-core/models/sortation/sortation-calibration.model'
 import { ResultArgs } from '../../../pages/main/main.event'
 
 export class CheckTool {
@@ -399,6 +400,63 @@ export class CheckTool {
       return {
         result: false,
         message: '无可更换垃圾桶时长范围为30-300秒',
+        inner: true,
+      }
+    }
+    return { result: true }
+  }
+  static SortationCalibration(data: SortationCalibration): ResultArgs {
+    if (!data.ChannelId) {
+      return {
+        result: false,
+        message: '请选择代理通道',
+        inner: true,
+      }
+    }
+    if (!data.Rotation) {
+      return {
+        result: false,
+        message: '请选择角度',
+        inner: true,
+      }
+    }
+    if (!data.Columns) {
+      return {
+        result: false,
+        message: '请输入列数',
+        inner: true,
+      }
+    }
+    if (!data.Rows) {
+      return {
+        result: false,
+        message: '请输入行数',
+        inner: true,
+      }
+    }
+    if (!data.DeviceId) {
+      return {
+        result: false,
+        message: '请选择所需标定的设备',
+        inner: true,
+      }
+    }
+    if (!data.ConsoleArea) {
+      return {
+        result: false,
+        message: '请绘制标定区域',
+        inner: true,
+      }
+    }
+    if (
+      !data.ConsoleArea.Top ||
+      !data.ConsoleArea.Left ||
+      !data.ConsoleArea.Height ||
+      !data.ConsoleArea.Width
+    ) {
+      return {
+        result: false,
+        message: '绘制标定区域异常',
         inner: true,
       }
     }

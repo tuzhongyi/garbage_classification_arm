@@ -44,6 +44,10 @@
         "name": "智能机器人"
       },
       {
+        "id": "device_sortation",
+        "name": "分拣设备"
+      },
+      {
         "id": "device_trashcan",
         "name": "垃圾桶"
       }

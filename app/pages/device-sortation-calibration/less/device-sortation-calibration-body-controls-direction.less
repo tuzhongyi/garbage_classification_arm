@@ -1,0 +1,123 @@
+.device-sortation-calibration-body-content-controller-controls-direction {
+
+  .controls {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+
+
+    &-direction {
+      width: 130px;
+      height: 130px;
+      position: relative;
+
+
+      &>* {
+        width: 60px;
+        height: 86px;
+        background-color: #aaa;
+        clip-path: path("M29.1000,86.000 L29.000,86.000 L0.000,57.000 L-0.000,4.165 C9.386,0.831 19.478,-0.000 29.1000,-0.000 C40.522,-0.000 50.614,0.831 59.1000,4.165 L59.1000,57.000 L31.000,86.000 L29.1000,86.000 Z");
+        cursor: pointer;
+        position: absolute;
+        transform-origin: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 36px;
+        flex-direction: column;
+
+
+        i {
+          transform: rotate(-90deg) translateX(10px)
+        }
+
+        span {
+          font-size: 23px;
+          position: absolute;
+          top: 38px;
+        }
+
+        &:hover {
+          opacity: 0.5;
+        }
+
+        &.disabled:hover {
+          opacity: 1;
+          cursor: default;
+        }
+
+        &.top {
+          top: -13px;
+          left: 50%;
+          transform: translate(-50%, 0) scale(0.72);
+        }
+
+        &.right {
+          transform: rotate(90deg) translate(-43px, 2px) scale(0.72);
+          right: 0;
+          top: 50%;
+
+          span {
+            transform: rotate(-90deg)
+          }
+        }
+
+        &.left {
+          transform: rotate(270deg) translate(43px, 2px) scale(0.72);
+          left: 0;
+          top: 50%;
+
+          span {
+            transform: rotate(90deg)
+          }
+        }
+
+        &.bottom {
+          transform: rotate(180deg) translateX(50%) scale(0.72);
+          bottom: -13px;
+          left: 50%;
+
+
+          span {
+            transform: rotate(180deg)
+          }
+        }
+
+      }
+
+
+    }
+
+    &-other {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 130px;
+
+      .button-gray {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+      }
+    }
+
+    &-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+
+      &.center {
+        justify-content: center;
+      }
+
+
+    }
+
+
+
+  }
+}

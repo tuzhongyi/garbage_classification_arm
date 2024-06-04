@@ -96,14 +96,23 @@ export class NetworkServerDeploymentHtmlController {
   }
 
   get(data: Deployment) {
-    data.HostAddress = this.element.deployment.HostAddress.value
-    data.PortNo = parseInt(this.element.deployment.PortNo.value)
-    data.UserName = this.element.deployment.UserName.value
-    data.Password = this.element.deployment.Password.value
+    data.HostAddress = HtmlTool.get(this.element.deployment.HostAddress.value)
+    data.PortNo = HtmlTool.get(this.element.deployment.PortNo.value, 'number')
+    data.UserName = HtmlTool.get(this.element.deployment.UserName.value)
+    data.Password = HtmlTool.get(this.element.deployment.Password.value)
 
-    data.GarbageServerId = this.element.GarbageServer.value
-    data.ISUPServerId = this.element.ISUPServer.value
-    data.ISUPDomainId = this.element.ISUPDomain.value
+    data.GarbageServerId = HtmlTool.get(this.element.GarbageServer.value)
+    data.ISUPServerId = HtmlTool.get(this.element.ISUPServer.value)
+    data.ISUPDomainId = HtmlTool.get(this.element.ISUPDomain.value)
     return data
+  }
+
+  equals(a: Deployment, b: Deployment) {
+    return (
+      a.HostAddress == b.HostAddress &&
+      a.PortNo == b.PortNo &&
+      a.UserName == b.UserName &&
+      a.Password == b.Password
+    )
   }
 }

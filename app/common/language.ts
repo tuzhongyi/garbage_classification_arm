@@ -333,6 +333,29 @@ export class Language {
         return '未知'
     }
   }
+
+  static OnlineStatus(status?: number) {
+    switch (status) {
+      case 0:
+        return '在线'
+      case 1:
+        return '离线'
+
+      default:
+        return undefined
+    }
+  }
+  static OpenOrClose(status?: number) {
+    switch (status) {
+      case 0:
+        return '关闭'
+      case 1:
+        return '开启'
+
+      default:
+        return undefined
+    }
+  }
 }
 
 export class Icon {

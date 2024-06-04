@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="device-sortation-play">
+      <div class="device-sortation-play-body">
+        <div class="device-sortation-play-body-status">
+          <div>
+            <div>在线状态：</div>
+            <div><span id="Status"></span></div>
+          </div>
+          <div>
+            <div>投口门状态：</div>
+            <div><span id="DropPortStatus"></span></div>
+          </div>
+          <div>
+            <div>气泵压力值(Mpa)：</div>
+            <div><span id="AirPressure"></span></div>
+          </div>
+          <div>
+            <div>控制台开关状态：</div>
+            <div><span id="ConsoleOpenStatus"></span></div>
+          </div>
+        </div>
+        <div class="device-sortation-play-body-content">
+          <div class="device-sortation-play-body-content-controller">
+            <div class="device-sortation-play-body-content-controller-picture">
+              <div
+                class="device-sortation-play-body-content-controller-picture-body"
+              >
+                <img id="picture" alt="" />
+                <canvas id="canvas"></canvas>
+              </div>
+              <div
+                class="device-sortation-play-body-content-controller-picture-foot"
+              >
+                <div class="buttons">
+                  <button
+                    class="button-white"
+                    id="button_refresh"
+                    title="刷新摄像机图片"
+                  >
+                    <i class="howell-icon-refresh"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="device-sortation-play-body-content-controller-controls">
+              <div
+                class="device-sortation-play-body-content-controller-controls-direction"
+              >
+                <div class="controls">
+                  <div class="controls-direction">
+                    <div id="btn_top" class="top">
+                      <i class="howell-icon-play"></i>
+                      <span id="btn_top_code">1</span>
+                    </div>
+                    <div id="btn_right" class="right">
+                      <i class="howell-icon-play"></i>
+                      <span id="btn_right_code">H</span>
+                    </div>
+                    <div id="btn_left" class="left">
+                      <i class="howell-icon-play"></i>
+                      <span id="btn_left_code">A</span>
+                    </div>
+                    <div id="btn_bottom" class="bottom">
+                      <i class="howell-icon-play"></i>
+                      <span id="btn_bottom_code">8</span>
+                    </div>
+                  </div>
+                  <div class="controls-other">
+                    <button id="btn_up" class="button-gray">
+                      <i class="howell-icon-arrowupbold"></i>
+                    </button>
+                    <button id="btn_down" class="button-gray">
+                      <i class="howell-icon-arrowdownbold"></i>
+                    </button>
+                    <button id="btn_stop" class="button-gray">
+                      <i class="mdi mdi-stop"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="device-sortation-play-body-content-controller-controls-command"
+              >
+                <div>
+                  <div>抓取点位</div>
+                  <div>
+                    <select id="grid"></select>
+                  </div>
+                  <div>
+                    <button class="button-white" id="grab">抓取</button>
+                  </div>
+                </div>
+                <div>
+                  <div>操作命令</div>
+                  <div>
+                    <select id="command_code"></select>
+                  </div>
+                  <div>
+                    <button class="button-white" id="command_do">执行</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./device-sortation-play.ts"></script>
+</html>

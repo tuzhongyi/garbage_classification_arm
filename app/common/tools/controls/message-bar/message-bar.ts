@@ -20,7 +20,7 @@ export class MessageBar {
       position: `${y}-${x}`,
       loaderBg: '#e6294b',
       icon: 'error',
-      hideAfter: 35000,
+      hideAfter: 3500,
       stack: 6,
     })
   }

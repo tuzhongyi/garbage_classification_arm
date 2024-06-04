@@ -30,18 +30,25 @@ export namespace NetworkServerPlatform {
     }
 
     private ontest() {
-      this.business
-        .test()
-        .then((x) => {
-          if (x) {
-            MessageBar.success('测试成功')
-          } else {
-            MessageBar.error('测试失败')
-          }
-        })
-        .catch((e) => {
-          MessageBar.error('测试失败')
-        })
+      this.business.load().then((data) => {
+        let current = this.html.get()
+        if (this.html.equals(data, current)) {
+          this.business
+            .test()
+            .then((x) => {
+              if (x) {
+                MessageBar.success('测试成功')
+              } else {
+                MessageBar.error('测试失败')
+              }
+            })
+            .catch((e) => {
+              MessageBar.error('测试失败')
+            })
+        } else {
+          MessageBar.warning('接入平台信息已修改，请先保存')
+        }
+      })
     }
 
     private onsave() {

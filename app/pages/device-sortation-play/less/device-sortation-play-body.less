@@ -1,0 +1,39 @@
+@import "./device-sortation-play-body-picture.less";
+@import "./device-sortation-play-body-controls.less";
+
+.device-sortation-play-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-status {
+    display: flex;
+    gap: 20px;
+    height: 24px;
+
+    &>div {
+      display: flex;
+
+      &>div {
+        &:last-child {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  &-content {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    height: calc(100% - 10px - 24px);
+
+    &-controller {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+    }
+
+  }
+}

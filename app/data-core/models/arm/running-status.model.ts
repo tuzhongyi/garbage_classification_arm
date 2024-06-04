@@ -15,6 +15,8 @@ export class RunningStatus implements IModel {
   ChipType?: string
   /**	Double	网络速率，（单位：Mbps）	O	*/
   NetworkSpeed?: number
+  /**	Double	CPU芯片温度，单位：摄氏度	O	R */
+  ChipTemperature?: number
   /**	Process[]	进程状态，只监视主要的业务进程	O	*/
   Processes?: Process[]
 }

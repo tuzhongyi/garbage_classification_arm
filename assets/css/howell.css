@@ -224,6 +224,34 @@ textarea:hover {
 }
 
 
+.button-gray {
+  border: none;
+  background-color: #aaa;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0 10px;
+  width: 36px;
+  height: 36px;
+}
+
+
+
+.button-gray:hover {
+  opacity: 0.5;
+
+}
+
+.button-gray:active {
+  box-shadow: none;
+}
+
+
+
+
 .button-blue-line {
   border-radius: 4px;
   background-color: transparent;

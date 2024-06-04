@@ -63,7 +63,6 @@ export class NetworkServerPlatformHtmlController {
   get() {
     let data = new Platform()
     data.Enabled = this.element.Enabled.checked
-    data.DeviceId = HtmlTool.get(this.element.DeviceId.value)
     data.ProtocolVersion = HtmlTool.get(
       this.element.ProtocolVersion.value
     ) as PlatformProtocolVersion
@@ -72,5 +71,16 @@ export class NetworkServerPlatformHtmlController {
     data.DeviceId = HtmlTool.get(this.element.DeviceId.value)
     data.DeviceKey = HtmlTool.get(this.element.DeviceKey.value)
     return data
+  }
+
+  equals(a: Platform, b: Platform) {
+    return (
+      a.Enabled == b.Enabled &&
+      a.ProtocolVersion == b.ProtocolVersion &&
+      a.HostAddress == b.HostAddress &&
+      a.PortNo == b.PortNo &&
+      a.DeviceId == b.DeviceId &&
+      a.DeviceKey == b.DeviceKey
+    )
   }
 }

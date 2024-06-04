@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+  </head>
+
+  <body>
+    <div class="device-sortation-index">
+      <div class="device-sortation-index-menu menu">
+        <div class="menu-item main selected">
+          <span class="main-title">智能机器人管理</span>
+          <span class="main-back"
+            ><i class="howell-icon-arrowleftbold"></i
+          ></span>
+        </div>
+        <div class="menu-item">设备信息</div>
+        <div class="menu-item" name="Capability.Calibration">分拣标定</div>
+        <div class="menu-item">操作预览</div>
+      </div>
+      <div class="device-sortation-index-content">
+        <iframe id="iframe"></iframe>
+      </div>
+    </div>
+    <div style="display: none">
+      <a href="../device-sortation-list/device-sortation-list.html"></a>
+      <a href="../device-sortation-info/device-sortation-info.html"></a>
+      <a href="../device-sortation-details/device-sortation-details.html"></a>
+      <a
+        href="../device-sortation-calibration/device-sortation-calibration.html"
+      ></a>
+      <a href="../device-sortation-play/device-sortation-play.html"></a>
+    </div>
+  </body>
+  <script src="./device-sortation-index.ts"></script>
+</html>

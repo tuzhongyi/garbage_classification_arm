@@ -2,7 +2,6 @@ import { EventEmitter } from '../../common/event-emitter'
 import { LocalStorageService } from '../../common/local-storage/local-storage.service'
 import { ArmMainEventArgs } from './main.event'
 import './main.less'
-import { ArmPagePath } from './main.model'
 import navigation from './main.navigation.json'
 
 interface IEnumItem {
@@ -120,29 +119,31 @@ export class ArmMainHtmlController {
   private get src() {
     switch (this.navigation.selected) {
       case 'system_device':
-        return ArmPagePath.system_device_index
+        return '../system-device-index/system-device-index.html'
       case 'system_status':
-        return ArmPagePath.system_status_index
+        return '../system-status-index/system-status-index.html'
       case 'system_maintain':
-        return ArmPagePath.system_maintain_index
+        return '../system-maintain-index/system-maintain-index.html'
       case 'network_config':
-        return ArmPagePath.network_config_index
+        return '../network-config-index/network-config-index.html'
       case 'network_server':
-        return ArmPagePath.network_server_index
+        return '../network-server-index/network-server-index.html'
       case 'device_channel':
-        return ArmPagePath.device_channel_index
+        return '../device-channel-index/device-channel-index.html'
       case 'device_robot':
-        return ArmPagePath.device_robot_index
+        return '../device-robot-index/device-robot-index.html'
+      case 'device_sortation':
+        return '../device-sortation-index/device-sortation-index.html'
       case 'device_trashcan':
-        return ArmPagePath.device_trashcan_index
+        return '../device-trashcan-index/device-trashcan-index.html'
       case 'ai_model':
-        return ArmPagePath.ai_model_index
+        return '../ai-model-index/ai-model-index.html'
       case 'ai_event':
-        return ArmPagePath.ai_event_index
+        return '../ai-event-index/ai-event-index.html'
       case 'ai_server':
-        return ArmPagePath.ai_analysis_server_index
+        return '../ai-analysis-server-index/ai-analysis-server-index.html'
       case 'event_record':
-        return ArmPagePath.event_record_index
+        return '../event-record-index/event-record-index.html'
       default:
         return ''
     }
@@ -157,8 +158,13 @@ export class ArmMainHtmlController {
     let selected = document.querySelector('.selected') as HTMLDivElement
     if (selected) {
       selected.classList.remove('selected')
-      if (selected.id === 'device_robot' && current.id !== 'device_robot') {
+      if (
+        (selected.id === 'device_robot' && current.id !== 'device_robot') ||
+        (selected.id === 'device_sortation' &&
+          current.id !== 'device_sortation')
+      ) {
         LocalStorageService.navigation.device.robot.clear()
+        LocalStorageService.navigation.device.sortation.clear()
       }
     }
     current.classList.add('selected')

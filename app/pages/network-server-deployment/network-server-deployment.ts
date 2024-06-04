@@ -51,18 +51,26 @@ export namespace NetworkServerDeployment {
     }
 
     private ontest() {
-      this.business
-        .test()
-        .then((x) => {
-          if (x) {
-            MessageBar.success('测试成功')
-          } else {
-            MessageBar.error('测试失败')
-          }
-        })
-        .catch((e) => {
-          MessageBar.error('测试失败')
-        })
+      this.business.get().then((data) => {
+        let current = this.data ?? new Deployment()
+        current = this.html.get(current)
+        if (this.html.equals(current, data)) {
+          this.business
+            .test()
+            .then((x) => {
+              if (x) {
+                MessageBar.success('测试成功')
+              } else {
+                MessageBar.error('测试失败')
+              }
+            })
+            .catch((e) => {
+              MessageBar.error('测试失败')
+            })
+        } else {
+          MessageBar.warning('部署信息已修改，请先保存')
+        }
+      })
     }
 
     private onsave() {
