@@ -65,8 +65,10 @@ export namespace DeviceTrashCanIndex {
     private factory(index: number): string {
       switch (index) {
         case 0:
-          return '../device-trashcan-params/device-trashcan-params.html'
+          return '../device-trashcan-list/device-trashcan-list.html'
         case 1:
+          return '../device-trashcan-params/device-trashcan-params.html'
+        case 2:
           return '../device-trashcan-log/device-trashcan-log.html'
         default:
           return ''

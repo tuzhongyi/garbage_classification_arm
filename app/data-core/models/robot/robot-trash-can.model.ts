@@ -1,6 +1,9 @@
+import { Transform } from 'class-transformer'
 import { CoverState } from '../../enums/robot/cover-state.enum'
+import { MeshNodeType } from '../../enums/robot/mesh-node-type.model'
 import { CanType } from '../../enums/robot/robot-can-type.model'
 import { IModel } from '../model.interface'
+import { transformDateTime } from '../transformer'
 import { MeshNodePosition } from './mesh-node-position.model'
 
 /**	TrashCan (垃圾桶信息)	*/
@@ -27,7 +30,8 @@ export class RobotTrashCan implements IModel {
   /**	String	数据来源(摄像机)	O	R */
   SourceFrom?: string
   /**	DateTime	更新时间	M	R */
+  @Transform(transformDateTime)
   UpdateTime!: Date
   /**	String	节点类型	O	RW */
-  NodeType?: string
+  NodeType?: MeshNodeType
 }
