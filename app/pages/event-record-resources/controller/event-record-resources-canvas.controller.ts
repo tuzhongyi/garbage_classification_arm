@@ -88,6 +88,10 @@ export class EventRecordResourcesCanvasController {
     }
   }
 
+  clear() {
+    this.ctx.clearRect(0, 0, this.size.width, this.size.height)
+  }
+
   load(objects?: EventDataObject[], rules?: EventRule[]) {
     if (objects && objects.length > 0) {
       this.loadObjects(objects)

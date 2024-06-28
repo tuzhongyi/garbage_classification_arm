@@ -53,11 +53,13 @@ export namespace EventRecordResources {
         this.index = 0
         return
       }
+      this.html.canvas.clear()
       this.load()
     }
 
     onnext() {
       this.index++
+      this.html.canvas.clear()
       this.load()
     }
 

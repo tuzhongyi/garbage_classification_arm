@@ -119,9 +119,12 @@ export class EventRecordListHtmlTable {
     this.tbody.innerHTML = ''
   }
 
-  load(datas: EventRecord[], page: Page) {
+  async load(datas: EventRecord[], page: Page) {
+    datas = datas.sort((a, b) => {
+      return LocaleCompare.compare(a.EventTime.getTime(), b.EventTime.getTime())
+    })
     for (let i = 0; i < datas.length; i++) {
-      this.appendTr(this.tbody, datas[i])
+      await this.appendTr(this.tbody, datas[i])
     }
     $('#pagination').paging({
       pageNum: page.PageIndex, // 当前页面
