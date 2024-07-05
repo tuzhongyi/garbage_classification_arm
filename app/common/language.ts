@@ -356,6 +356,16 @@ export class Language {
         return undefined
     }
   }
+  static NetworkProtocol(value: number) {
+    switch (value) {
+      case 0:
+        return 'TCP'
+      case 1:
+        return 'UDP'
+      default:
+        return ''
+    }
+  }
 }
 
 export class Icon {

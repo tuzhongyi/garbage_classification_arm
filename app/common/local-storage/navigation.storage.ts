@@ -8,6 +8,7 @@ import { NavigationDeviceSortationStorage } from './navigation-device-sortation.
 import { NavigationDeviceTrashCanStorage } from './navigation-device-trashcan.storage'
 import { NavigationEventRecordStorage } from './navigation-event-record.storage'
 import { NavigationNetworkConfigStorage } from './navigation-network-config.storage'
+import { NavigationNetworkFrpStorage } from './navigation-network-frp.storage'
 import { NavigationNetworkServerStorage } from './navigation-network-server.storage'
 import { NavigationSystemDeviceStorage } from './navigation-system-device.storage'
 import { NavigationSystemMaintainStorage } from './navigation-system-maintain.storage'
@@ -60,6 +61,7 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
   network = {
     config: new NavigationNetworkConfigStorage(),
     server: new NavigationNetworkServerStorage(),
+    frp: new NavigationNetworkFrpStorage(),
   }
   device = {
     robot: new NavigationDeviceRobotStorage(),

@@ -128,6 +128,8 @@ export class ArmMainHtmlController {
         return '../network-config-index/network-config-index.html'
       case 'network_server':
         return '../network-server-index/network-server-index.html'
+      case 'network_frp':
+        return '../network-frp-index/network-frp-index.html'
       case 'device_channel':
         return '../device-channel-index/device-channel-index.html'
       case 'device_robot':

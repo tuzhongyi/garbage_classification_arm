@@ -9,6 +9,7 @@ import { TrashCanWarningParams } from '../../../data-core/models/arm/analysis/tr
 import { ChannelCalibration } from '../../../data-core/models/arm/channel-calibration.model'
 import { InputProxyChannel } from '../../../data-core/models/arm/input-proxy-channel.model'
 import { SystemTime } from '../../../data-core/models/arm/system-time.model'
+import { FrpInfo } from '../../../data-core/models/frp-info/frp-info.model'
 import { SortationCalibration } from '../../../data-core/models/sortation/sortation-calibration.model'
 import { ResultArgs } from '../../../pages/main/main.event'
 
@@ -457,6 +458,31 @@ export class CheckTool {
       return {
         result: false,
         message: '绘制标定区域异常',
+        inner: true,
+      }
+    }
+    return { result: true }
+  }
+
+  static FrpInfo(data: FrpInfo) {
+    if (!data.Localhost) {
+      return {
+        result: false,
+        message: '请输入本地主机地址',
+        inner: true,
+      }
+    }
+    if (data.LocalPort < 0 || 65535 < data.LocalPort) {
+      return {
+        result: false,
+        message: '本地端口号范围为0-65535',
+        inner: true,
+      }
+    }
+    if (data.RemotePort < 0 || 65535 < data.RemotePort) {
+      return {
+        result: false,
+        message: '远程服务器端口号范围为0-65535',
         inner: true,
       }
     }

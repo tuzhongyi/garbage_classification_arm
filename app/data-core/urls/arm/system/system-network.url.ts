@@ -1,5 +1,6 @@
 import { AbstractUrl } from '../../abstract.url'
 import { SystemNetworkDeploymentUrl } from './system-network-deployment.url'
+import { SystemNetworkFrpInfosUrl } from './system-network-frp-info.url'
 import { SystemNetworkInterfacesUrl } from './system-network-interface.url'
 import { SystemNetworkPlatformAccessUrl } from './system-network-platform-access.url'
 
@@ -21,5 +22,9 @@ export class SystemNetworkUrl extends AbstractUrl {
   }
   get deployment() {
     return new SystemNetworkDeploymentUrl(this.basic())
+  }
+
+  get frp() {
+    return new SystemNetworkFrpInfosUrl(this.basic())
   }
 }

@@ -28,6 +28,10 @@
       {
         "id": "network_server",
         "name": "服务器配置"
+      },
+      {
+        "id": "network_frp",
+        "name": "端口映射"
       }
     ]
   },

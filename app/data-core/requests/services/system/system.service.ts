@@ -17,6 +17,7 @@ import { DeviceCapability } from '../../../models/capabilities/arm/device-capabi
 import { InputProxyCapability } from '../../../models/capabilities/arm/input-proxy-capability.model'
 import { NetworkCapability } from '../../../models/capabilities/arm/network-capability.model'
 
+import { FrpInfo } from '../../../models/frp-info/frp-info.model'
 import { HowellResponse } from '../../../models/response'
 import { ArmSystemUrl } from '../../../urls/arm/system/system.url'
 import { HowellAuthHttp } from '../../auth/howell-auth-http'
@@ -222,6 +223,14 @@ class SystemNetworkRequestService {
     }
     return this._deployment
   }
+
+  private _frp?: SystemNetworkFrpInfosRequestService
+  public get frp(): SystemNetworkFrpInfosRequestService {
+    if (!this._frp) {
+      this._frp = new SystemNetworkFrpInfosRequestService(this.http)
+    }
+    return this._frp
+  }
 }
 class SystemNetworkInterfaceRequestService {
   constructor(private http: HowellAuthHttp) {}
@@ -284,6 +293,34 @@ class SystemNetworkPlatformAccessRequestService {
     return this.http.post<HowellResponse>(url).then((x) => {
       return x.FaultCode === 0
     })
+  }
+}
+class SystemNetworkFrpInfosRequestService {
+  constructor(private http: HowellAuthHttp) {}
+
+  async array() {
+    let url = ArmSystemUrl.network.frp.basic()
+    let response = await this.http.get<HowellResponse<FrpInfo[]>>(url)
+    return plainToInstance(FrpInfo, response.Data)
+  }
+  async create(item: FrpInfo) {
+    let plain = instanceToPlain(item)
+    let url = ArmSystemUrl.network.frp.basic()
+    let response = await this.http.post<any, HowellResponse<FrpInfo>>(
+      url,
+      plain
+    )
+    return plainToInstance(FrpInfo, response.Data)
+  }
+
+  get(id: string) {
+    let url = ArmSystemUrl.network.frp.item(id)
+    return this.http.get<HowellResponse<FrpInfo>>(url)
+  }
+
+  delete(id: string) {
+    let url = ArmSystemUrl.network.frp.item(id)
+    return this.http.delete<HowellResponse<FrpInfo>>(url)
   }
 }
 class SystemNetworkDeploymentRequestService {
