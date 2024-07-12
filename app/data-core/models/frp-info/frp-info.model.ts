@@ -1,4 +1,5 @@
 import { Transform } from 'class-transformer'
+import { FrpInfoState } from '../../enums/frp-info/frp-info-state.enum'
 import { IModel } from '../model.interface'
 import { transformDateTime } from '../transformer'
 
@@ -19,6 +20,6 @@ export class FrpInfo implements IModel {
   /**	DateTime	创建时间	O	*/
   @Transform(transformDateTime)
   CreationTime?: Date
-  /**	Int32	连接状态，0-未连接，1-已连接	O	*/
-  State?: number
+  /**	Int32	连接状态，0-未连接，1-已连接，2-无法连接服务器，3-指定映射名称已存在	O	*/
+  State?: FrpInfoState
 }

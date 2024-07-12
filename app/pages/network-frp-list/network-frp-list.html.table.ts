@@ -30,7 +30,7 @@ export class NetworkFrpListHtmlTable {
     '10%',
     '10%',
     '200px',
-    '10%',
+    '12%',
     '10%',
   ]
   _sort?: Sort
@@ -126,7 +126,10 @@ export class NetworkFrpListHtmlTable {
         HtmlTool.set(item.RemotePort, '-'),
         HtmlTool.set(Language.NetworkProtocol(item.Protocol), '-'),
         HtmlTool.set(item.CreationTime?.format('yyyy-MM-dd HH:mm:ss')),
-        HtmlTool.set(Language.OnlineStatus(item.State), '-'),
+        HtmlTool.set(
+          item.State ? Language.FrpInfoState(item.State) : undefined,
+          '-'
+        ),
       ]
 
       this.append(item.Id?.toString() ?? '', values)

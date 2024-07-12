@@ -1,6 +1,7 @@
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum'
 import { DeviceProtocolType } from '../data-core/enums/device-protocol-type.enum'
 import { EventType } from '../data-core/enums/event-type.enum'
+import { FrpInfoState } from '../data-core/enums/frp-info/frp-info-state.enum'
 import { LensType } from '../data-core/enums/lens-type.enum'
 import { ProcessState } from '../data-core/enums/process-state.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
@@ -364,6 +365,21 @@ export class Language {
         return 'UDP'
       default:
         return ''
+    }
+  }
+
+  static FrpInfoState(value: FrpInfoState) {
+    switch (value) {
+      case FrpInfoState.offline:
+        return '未连接'
+      case FrpInfoState.online:
+        return '已连接'
+      case FrpInfoState.error:
+        return '无法连接服务器'
+      case FrpInfoState.exist:
+        return '指定映射名称已存在'
+      default:
+        return '未知'
     }
   }
 }
