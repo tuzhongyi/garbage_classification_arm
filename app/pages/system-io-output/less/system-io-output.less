@@ -1,0 +1,69 @@
+@import "../../../../assets/styles/panel.less";
+@import "../../../../assets/styles/datetime.less";
+@import "./system-io-output-sheet.less";
+
+.system-io-output {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+
+
+  .forms {
+    width: 630px;
+
+    .form-item {
+
+      justify-content: space-between;
+
+      &-title {
+        width: 200px;
+      }
+
+      &-value {
+        width: 400px;
+        flex-grow: 0;
+      }
+
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .panel {
+      margin-bottom: 0;
+    }
+
+    &-info {
+      flex-grow: 0;
+    }
+
+    &-sheet {
+      flex-grow: 1;
+
+    }
+
+  }
+
+  &-foot {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .button-white,
+    .button-red {
+      width: 150px;
+      height: 40px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+}

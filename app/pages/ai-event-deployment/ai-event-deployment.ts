@@ -13,6 +13,7 @@ export namespace AIEventDeployment {
   class Controller {
     constructor() {
       this.regist()
+      this.init()
     }
     private html = new AIEventDeploymentHtmlController()
     private business = new AIEventDeploymentBusiness()
@@ -21,6 +22,11 @@ export namespace AIEventDeployment {
     event?: CameraAIEvent
     week = 0
     isnew = true
+
+    private async init() {
+      let device = await this.business.device()
+      this.html.trigger.init(device)
+    }
 
     private async load(type: EventType) {
       this.business

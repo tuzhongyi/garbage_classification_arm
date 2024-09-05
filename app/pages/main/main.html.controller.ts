@@ -124,6 +124,8 @@ export class ArmMainHtmlController {
         return '../system-status-index/system-status-index.html'
       case 'system_maintain':
         return '../system-maintain-index/system-maintain-index.html'
+      case 'system_io':
+        return '../system-io-index/system-io-index.html'
       case 'network_config':
         return '../network-config-index/network-config-index.html'
       case 'network_server':
@@ -138,6 +140,8 @@ export class ArmMainHtmlController {
         return '../device-sortation-index/device-sortation-index.html'
       case 'device_trashcan':
         return '../device-trashcan-index/device-trashcan-index.html'
+      case 'device_drop_port':
+        return '../device-drop-port-index/device-drop-port-index.html'
       case 'ai_model':
         return '../ai-model-index/ai-model-index.html'
       case 'ai_event':

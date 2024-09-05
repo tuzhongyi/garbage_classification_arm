@@ -2,6 +2,7 @@ import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.en
 import { DeviceProtocolType } from '../data-core/enums/device-protocol-type.enum'
 import { EventType } from '../data-core/enums/event-type.enum'
 import { FrpInfoState } from '../data-core/enums/frp-info/frp-info-state.enum'
+import { IOState } from '../data-core/enums/io/io-state.enum'
 import { LensType } from '../data-core/enums/lens-type.enum'
 import { ProcessState } from '../data-core/enums/process-state.enum'
 import { ProxyChannelState } from '../data-core/enums/proxy-channel-state.enum'
@@ -378,6 +379,16 @@ export class Language {
         return '无法连接服务器'
       case FrpInfoState.exist:
         return '指定映射名称已存在'
+      default:
+        return '未知'
+    }
+  }
+  static IOState(state?: IOState) {
+    switch (state) {
+      case IOState.Low:
+        return '低电平'
+      case IOState.High:
+        return '高电平'
       default:
         return '未知'
     }

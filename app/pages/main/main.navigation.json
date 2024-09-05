@@ -14,6 +14,10 @@
       {
         "id": "system_maintain",
         "name": "系统维护"
+      },
+      {
+        "id": "system_io",
+        "name": "输入/输出"
       }
     ]
   },
@@ -54,6 +58,10 @@
       {
         "id": "device_trashcan",
         "name": "垃圾桶"
+      },
+      {
+        "id": "device_drop_port",
+        "name": "投放口"
       }
     ]
   },

@@ -30,6 +30,15 @@ export class Time {
       this.hour = time.hour
       this.minute = time.minute
       this.second = time.second
+    } else if (
+      typeof time === 'object' &&
+      'hour' in time &&
+      'minute' in time &&
+      'second' in time
+    ) {
+      this.hour = time['hour']
+      this.minute = time['minute']
+      this.second = time['second']
     } else {
       this.hour = time
       this.minute = minute

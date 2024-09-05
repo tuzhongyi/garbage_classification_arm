@@ -40,9 +40,6 @@ export class EventRecordResourcesBusiness {
     if (id) {
       return this.service.picture(id)
     }
-    if (this.data) {
-      return this.service.picture(`${this.data.Id}`)
-    }
     return ''
   }
 }

@@ -1,0 +1,195 @@
+.system-io-output {
+
+
+  &-body {
+
+
+    &-sheet {
+
+
+      .panel {
+        height: calc(100% - 20px);
+      }
+
+      .sheet {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-head {
+          display: flex;
+          align-items: center;
+          height: 30px;
+          gap: 10px;
+
+          .copy {
+
+            width: 30px;
+          }
+        }
+
+        &-body {
+          display: flex;
+          gap: 10px;
+          height: 250px;
+        }
+
+        &-title {
+          width: 200px;
+        }
+
+        &-value {
+          width: 400px;
+        }
+
+        &-copy {
+          position: relative;
+
+          .week-panel {
+            position: absolute;
+            width: 260px;
+            left: 40px;
+            top: 0;
+            background-color: white;
+            border: 1px solid #aaa;
+
+            &-head {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 10px;
+              background-color: #d7d7d7;
+              padding: 10px;
+
+              .head-title {
+                font-weight: bold;
+              }
+
+              &>* {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+              }
+            }
+
+            .week-list {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+
+              padding: 10px;
+
+              &>* {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+              }
+            }
+
+            .week-buttons {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              padding: 10px;
+
+              .week-button-ok {
+                color: green;
+              }
+
+              .week-button-cancel {
+                margin: 0;
+                color: red;
+              }
+            }
+          }
+        }
+
+        &-week {
+          width: 100%;
+          height: 100%;
+          border: 1px solid #aaa;
+          background-color: white;
+
+          &.disabled {
+            border-color: #cbcbcb;
+            background-color: #eee;
+            pointer-events: none;
+          }
+
+
+          &-item {
+            border-bottom: 1px solid #aaa;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            height: 40px;
+            box-sizing: border-box;
+
+            &:nth-child(4)~.sheet-week-item {
+              border-bottom: none;
+            }
+
+            &:nth-child(5)~.sheet-week-item {
+              border-top: 1px solid #aaa;
+            }
+
+
+
+
+
+            &-index {
+              width: 30px;
+              display: flex;
+              justify-content: center;
+
+            }
+
+            &-btn {
+              width: 30px;
+              display: flex;
+              justify-content: center;
+              cursor: pointer;
+
+              &:hover {
+                opacity: 0.8;
+              }
+            }
+
+            &-content {
+              width: calc(100% - 50px * 2);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+
+          }
+
+          &-content {
+            height: calc(100% - 40px);
+
+            overflow-y: auto;
+          }
+
+          &-button {
+            border-top: 1px solid #aaa;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-sizing: border-box;
+          }
+        }
+
+
+      }
+    }
+
+  }
+
+}

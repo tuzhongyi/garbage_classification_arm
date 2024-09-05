@@ -18,6 +18,7 @@ export class EventRecordResourcesHtmlController {
   private element = {
     title: document.getElementById('title') as HTMLDivElement,
     content: document.getElementById('content') as HTMLDivElement,
+    nodata: document.getElementById('nodata') as HTMLDivElement,
 
     buttons: {
       close: document.getElementById('close') as HTMLButtonElement,
@@ -48,6 +49,12 @@ export class EventRecordResourcesHtmlController {
     this.element.buttons.prev.style.display = has.prev ? '' : 'none'
     this.element.buttons.next.style.display = has.next ? '' : 'none'
     this.element.title.innerHTML = query.title
-    this.element.content.style.backgroundImage = `url(${query.img})`
+
+    if (query.img) {
+      this.element.nodata.style.display = 'none'
+      this.element.content.style.backgroundImage = `url(${query.img})`
+    } else {
+      this.element.nodata.style.display = ''
+    }
   }
 }

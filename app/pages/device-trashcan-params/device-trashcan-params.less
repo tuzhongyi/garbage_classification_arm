@@ -4,18 +4,28 @@
   padding: 20px;
   box-sizing: border-box;
 
-  .forms {
-    width: 500px;
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-    .form-item {
-      &-title {
-        width: 250px;
+    .forms {
+      width: 500px;
+
+      .form-item {
+        &-title {
+          width: 250px;
+        }
+
+        &-value {
+          width: calc(100% - 250px);
+        }
+
       }
-
-      &-value {
-        width: calc(100% - 250px);
-      }
-
     }
+  }
+
+  &-foot {
+    margin-top: 20px;
   }
 }

@@ -20,6 +20,7 @@ export class HTMLTableElementTool {
     for (let i = 0; i < item.length; i++) {
       let td = document.createElement('td')
       td.innerText = item[i]
+
       td.title = item[i]
       row.appendChild(td)
     }

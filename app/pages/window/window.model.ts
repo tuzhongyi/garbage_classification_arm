@@ -6,5 +6,5 @@ export class WindowModel<T extends IWindowQuery = any> {
 }
 
 export interface IWindowQuery {
-  [key: string]: any
+  [key: string]: string
 }

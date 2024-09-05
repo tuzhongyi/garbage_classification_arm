@@ -1,10 +1,10 @@
 import { Type } from 'class-transformer'
 import 'reflect-metadata'
 import { ProxyChannelState } from '../../enums/proxy-channel-state.enum'
-import { IModel } from '../model.interface'
+import { IIdNameModel } from '../model.interface'
 import { VideoSourceChannel } from './video-source-channel.model'
 /**	InputProxyChannel (代理通道)	*/
-export class InputProxyChannel implements IModel {
+export class InputProxyChannel implements IIdNameModel<number> {
   /**	Int32	通道ID，从1开始	M	*/
   Id!: number
   /**	String	通道名称	M	*/

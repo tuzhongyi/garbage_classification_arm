@@ -50,7 +50,7 @@ export class AIEventDeploymentHtmlController {
     this.event.emit('typechange', parseInt(type) as EventType)
   }
 
-  init() {
+  private init() {
     Manager.capability.depolyment.then((x) => {
       if (x.EventTypes) {
         for (let i = 0; i < x.EventTypes.length; i++) {

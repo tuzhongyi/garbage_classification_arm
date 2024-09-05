@@ -3,6 +3,7 @@ import { NavigationAIAnalysisServerStorage } from './navigation-ai-analysis-serv
 import { NavigationAIEventStorage } from './navigation-ai-event.storage'
 import { NavigationAIModelStorage } from './navigation-ai-model.storage'
 import { NavigationDeviceChannelStorage } from './navigation-device-channel.storage'
+import { NavigationDeviceDorpPortStorage } from './navigation-device-dorp-port.storage'
 import { NavigationDeviceRobotStorage } from './navigation-device-robot.storage'
 import { NavigationDeviceSortationStorage } from './navigation-device-sortation.storage'
 import { NavigationDeviceTrashCanStorage } from './navigation-device-trashcan.storage'
@@ -11,6 +12,7 @@ import { NavigationNetworkConfigStorage } from './navigation-network-config.stor
 import { NavigationNetworkFrpStorage } from './navigation-network-frp.storage'
 import { NavigationNetworkServerStorage } from './navigation-network-server.storage'
 import { NavigationSystemDeviceStorage } from './navigation-system-device.storage'
+import { NavigationSystemIOStorage } from './navigation-system-io.storage'
 import { NavigationSystemMaintainStorage } from './navigation-system-maintain.storage'
 import { NavigationSystemStatusStorage } from './navigation-system-status.storage'
 
@@ -57,6 +59,7 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
     device: new NavigationSystemDeviceStorage(),
     status: new NavigationSystemStatusStorage(),
     maintain: new NavigationSystemMaintainStorage(),
+    io: new NavigationSystemIOStorage(),
   }
   network = {
     config: new NavigationNetworkConfigStorage(),
@@ -69,6 +72,9 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
 
     trashcan: new NavigationDeviceTrashCanStorage(),
     channel: new NavigationDeviceChannelStorage(),
+    dorp: {
+      port: new NavigationDeviceDorpPortStorage(),
+    },
   }
   ai = {
     model: new NavigationAIModelStorage(),

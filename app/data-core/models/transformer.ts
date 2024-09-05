@@ -57,7 +57,10 @@ export function transformTime(params: TransformFnParams) {
     } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
       return params.value.map((x: Time) => {
         let value = x as Time
-        return `${value.hour}:${value.minute}:${value.second}`
+        let hour = value.hour.toString().padStart(2, '0')
+        let minute = value.minute.toString().padStart(2, '0')
+        let second = value.second.toString().padStart(2, '0')
+        return `${hour}:${minute}:${second}`
       })
     } else if (params.type === TransformationType.CLASS_TO_CLASS) {
       return params.value.map((x) => new Time(x))
@@ -67,7 +70,10 @@ export function transformTime(params: TransformFnParams) {
       return new Time(params.value)
     } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
       let value = params.value as Time
-      return `${value.hour}:${value.minute}:${value.second}`
+      let hour = value.hour.toString().padStart(2, '0')
+      let minute = value.minute.toString().padStart(2, '0')
+      let second = value.second.toString().padStart(2, '0')
+      return `${hour}:${minute}:${second}`
     } else if (params.type === TransformationType.CLASS_TO_CLASS) {
       return new Time(params.value)
     }

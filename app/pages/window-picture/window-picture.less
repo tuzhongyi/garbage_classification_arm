@@ -9,6 +9,7 @@
     height: calc(100% - 50px);
     padding: 0;
     border: 1px solid #2d76ce;
+    position: relative;
 
     .content {
       background-color: black;
@@ -17,6 +18,15 @@
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
+    }
+
+    .canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: transparent;
+      width: 100%;
+      height: 100%;
     }
   }
 }

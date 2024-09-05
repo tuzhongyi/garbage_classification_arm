@@ -1,12 +1,12 @@
 import { Transform, Type } from 'class-transformer'
 import 'reflect-metadata'
 import { EventType } from '../../../enums/event-type.enum'
-import { IModel } from '../../model.interface'
+import { IIdModel } from '../../model.interface'
 import { transformDateTime } from '../../transformer'
 import { EventResource } from './event-resource.model'
 
 /**	EventRecord (本地事件记录)	*/
-export class EventRecord implements IModel {
+export class EventRecord implements IIdModel<number> {
   /**	Int64	事件ID	M	*/
   Id!: number
   /**	DateTime	事件时间	M	*/

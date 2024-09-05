@@ -1,6 +1,8 @@
 import { FactoryResetMode } from '../../../enums/factory-reset-mode.enum'
 import { BaseUrl } from '../../base.url'
+import { SystemDropPortUrl } from './system-drop-port.url'
 import { SystemInputProxyUrl } from './system-input-proxy.url'
+import { SystemIOUrl } from './system-io.url'
 import { SystemNetworkUrl } from './system-network.url'
 import { SystemSecurityUrl } from './system-security.url'
 import { SystemDataUrl } from './system_data.url'
@@ -51,6 +53,16 @@ export class ArmSystemUrl {
   static get input() {
     return {
       proxy: new SystemInputProxyUrl(this.basic()),
+    }
+  }
+
+  static get io() {
+    return new SystemIOUrl(this.basic())
+  }
+
+  static get drop() {
+    return {
+      port: new SystemDropPortUrl(this.basic()),
     }
   }
 }

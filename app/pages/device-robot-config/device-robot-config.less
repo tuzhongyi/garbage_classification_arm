@@ -8,6 +8,7 @@
     width: 100%;
     @head-height: 50px;
     margin-bottom: 20px;
+    gap: 0;
 
     &-head {
       height: @head-height;
@@ -22,6 +23,9 @@
     &-body {
       padding: 10px 20px;
       background-color: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .form-item {

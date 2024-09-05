@@ -1,5 +1,6 @@
 import { DeviceProtocolType } from '../../../data-core/enums/device-protocol-type.enum'
 import { EventType } from '../../../data-core/enums/event-type.enum'
+import { IOState } from '../../../data-core/enums/io/io-state.enum'
 import { ProcessState } from '../../../data-core/enums/process-state.enum'
 import { ProxyChannelState } from '../../../data-core/enums/proxy-channel-state.enum'
 import { CoverState } from '../../../data-core/enums/robot/cover-state.enum'
@@ -217,6 +218,81 @@ export class EnumTool {
         .then((capability) => {
           if (capability.TrashCanRecordTypes) {
             let _enum = capability.TrashCanRecordTypes.find(
+              (x) => x.Value == value
+            )
+            if (_enum) {
+              resolve(_enum.Name)
+              return
+            }
+          }
+          resolve(value ?? '')
+        })
+        .catch((x) => {
+          resolve(value ?? '')
+        })
+    })
+  }
+
+  static async IOState(value?: IOState): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Manager.capability.device
+        .then((capability) => {
+          if (capability.IOStates) {
+            let _enum = capability.IOStates.find((x) => x.Value == value)
+            if (_enum) {
+              resolve(_enum.Name)
+              return
+            }
+          }
+          resolve(Language.IOState(value))
+        })
+        .catch((x) => {
+          resolve(Language.IOState(value))
+        })
+    })
+  }
+  static async DropPortType(value?: string): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Manager.capability.device
+        .then((capability) => {
+          if (capability.DropPortTypes) {
+            let _enum = capability.DropPortTypes.find((x) => x.Value == value)
+            if (_enum) {
+              resolve(_enum.Name)
+              return
+            }
+          }
+          resolve(value ?? '')
+        })
+        .catch((x) => {
+          resolve(value ?? '')
+        })
+    })
+  }
+  static async DropPortState(value?: string): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Manager.capability.device
+        .then((capability) => {
+          if (capability.DropPortStates) {
+            let _enum = capability.DropPortStates.find((x) => x.Value == value)
+            if (_enum) {
+              resolve(_enum.Name)
+              return
+            }
+          }
+          resolve(value ?? '')
+        })
+        .catch((x) => {
+          resolve(value ?? '')
+        })
+    })
+  }
+  static async TrashCanPortState(value?: string): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Manager.capability.device
+        .then((capability) => {
+          if (capability.TrashCanPortStates) {
+            let _enum = capability.TrashCanPortStates.find(
               (x) => x.Value == value
             )
             if (_enum) {

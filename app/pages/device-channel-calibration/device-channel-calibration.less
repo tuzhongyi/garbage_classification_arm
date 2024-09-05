@@ -10,22 +10,19 @@
   &-head {
     width: 100%;
     max-width: calc(@chart-width + @details-width + 10px);
+    margin-bottom: 20px;
 
     .forms {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
+      flex-direction: unset;
+      gap: 20px;
 
       .form-item {
         width: calc(50% - 10px);
-        margin: 0;
-        margin-bottom: 20px;
 
         box-sizing: border-box;
-
-        &:nth-child(odd) {
-          margin-right: 20px;
-        }
 
 
         &-title {
@@ -207,13 +204,17 @@
           box-sizing: border-box;
           height: calc(100% - 50px);
 
-          .form-item {
-            margin: 20px 0;
+          .forms {
+            gap: 20px;
 
-            select {
-              option {
-                display: flex;
-                justify-content: space-between;
+            .form-item {
+
+
+              select {
+                option {
+                  display: flex;
+                  justify-content: space-between;
+                }
               }
             }
           }

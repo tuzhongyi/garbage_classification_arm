@@ -20,7 +20,13 @@ export namespace PictureWindow {
     }
 
     init() {
-      this.html.load(this.query)
+      let title = this.query.title
+      let img = this.query.img
+      let areas = []
+      if (this.query.areas) {
+        areas = JSON.parse(this.query.areas)
+      }
+      this.html.load(title, img, areas)
     }
 
     onclose() {

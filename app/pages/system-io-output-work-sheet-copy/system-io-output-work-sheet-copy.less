@@ -1,0 +1,44 @@
+.system-io-output-work-sheet-copy {
+  width: 100%;
+  height: 100%;
+
+  @head-height: 50px;
+  @foot-hegiht: 60px;
+  box-sizing: border-box;
+
+
+  &-head {
+    background-color: #d7d7d7;
+    height: @head-height;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+
+    justify-content: space-between;
+
+    .head-title {
+      font-weight: bold;
+    }
+
+    .operation {
+      display: flex;
+      align-items: center;
+
+      .button-white {
+        width: 100px;
+      }
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @head-height - @foot-hegiht);
+    padding: 0;
+  }
+
+  &-foot {
+    display: flex;
+    align-items: center;
+  }
+
+}

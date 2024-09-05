@@ -1,8 +1,8 @@
 import { DeviceProtocolType } from '../../enums/device-protocol-type.enum'
-import { IModel } from '../model.interface'
+import { IIdModel } from '../model.interface'
 
 /**	VideoSourceDescriptor (视频数据来源)	*/
-export class VideoSourceDescriptor implements IModel {
+export class VideoSourceDescriptor implements IIdModel<number> {
   /**	Int32	序号，从1开始	M	*/
   Id!: number
   /**	String	设备IP地址：192.168.1.2	M	*/
