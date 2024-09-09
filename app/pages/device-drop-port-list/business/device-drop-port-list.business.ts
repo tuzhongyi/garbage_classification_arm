@@ -20,6 +20,10 @@ export class DeviceDropPortListBusiness {
     return models
   }
 
+  delete(id: number) {
+    return this.service.drop.port.delete(id)
+  }
+
   async test() {
     let channels = await this.channel.load()
     let datas = channels.map((x) => this.create(x)).sort((a, b) => a.Id - b.Id)

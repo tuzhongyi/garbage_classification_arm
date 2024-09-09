@@ -31,9 +31,10 @@ export class SystemIOOutputHtmlController {
       button: document.getElementById('manual') as HTMLButtonElement,
       text: document.getElementById('manual_text') as HTMLTextAreaElement,
     },
-
     copy: document.getElementById('output_copy') as HTMLButtonElement,
   }
+
+  datas: IOOutputPort[] = []
 
   private regist() {
     this.element.save.addEventListener('click', () => {
@@ -47,8 +48,10 @@ export class SystemIOOutputHtmlController {
     this.element.copy.addEventListener('click', () => {
       this.event.emit('copy')
     })
-    this.element.Id.addEventListener('change', () => {
-      let data = this.get()
+    this.element.Id.addEventListener('change', (e) => {
+      let input = e.currentTarget as HTMLSelectElement
+      let value = parseInt(input.value)
+      let data = this.datas.find((x) => x.Id === value)
       this.event.emit('select', data)
     })
   }
@@ -74,7 +77,19 @@ export class SystemIOOutputHtmlController {
     return data
   }
 
+  get selected() {
+    return this.datas.find((x) => x.Id.toString() === this.element.Id.value)
+  }
+
+  set(data: IOOutputPort) {
+    let index = this.datas.findIndex((x) => x.Id === data.Id)
+    if (index >= 0) {
+      this.datas[index] = data
+    }
+  }
+
   init(datas: IOOutputPort[]) {
+    this.datas = datas
     if (datas.length > 0) {
       datas.forEach((x) => {
         let value = { Id: x.Id, Name: `端口${x.Id}` }

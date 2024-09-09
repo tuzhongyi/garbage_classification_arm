@@ -13,6 +13,7 @@ export class HTMLTableElementTool {
     operations?: {
       inner: string
       id?: string
+      title?: string
       click: (args: { e: MouseEvent; button: HTMLElement }) => void
     }[]
   ) {
@@ -32,6 +33,7 @@ export class HTMLTableElementTool {
       for (let i = 0; i < operations.length; i++) {
         let opt = operations[i]
         let btn = document.createElement('div')
+        btn.title = opt.title ?? ''
 
         btn.className = 'button-icon'
         btn.innerHTML = opt.inner

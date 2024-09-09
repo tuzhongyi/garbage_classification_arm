@@ -16,9 +16,9 @@ interface MessageReceiverEvent extends DeviceDropPortListMessageReceiverEvent {}
 interface MessageSenderEvent extends DeviceDropPortListMessageSenderEvent {}
 
 enum MessageCommand {
-  default,
-  confirm,
-  result,
+  details,
+  picture,
+  delete,
 }
 
 export class DeviceDropPortIndexMessage implements MessageReceiverEvent {
@@ -36,19 +36,42 @@ export class DeviceDropPortIndexMessage implements MessageReceiverEvent {
   command?: MessageCommand
 
   regist() {
-    this.proxy.event.on('open', (args) => {
-      this.command = MessageCommand.default
+    this.proxy.event.on('picture_open', (args) => {
+      this.command = MessageCommand.picture
       this.client.sender.emit('open', args)
     })
+    this.proxy.event.on('details_open', (args) => {
+      this.command = MessageCommand.details
+      this.client.sender.emit('open', args)
+    })
+    this.proxy.event.on('delete_confirm', (args) => {
+      this.command = MessageCommand.delete
+      this.client.sender.emit('confirm', args)
+    })
     this.client.receiver.on('result', (args) => {
-      this.command = MessageCommand.result
-      this.result(args)
+      switch (this.command) {
+        case MessageCommand.details:
+          this.details_result(args)
+          break
+        case MessageCommand.delete:
+          this.delete_result(args)
+          break
+        default:
+          break
+      }
     })
   }
 
-  result(args: ResultArgs): void {
+  details_result(args: ResultArgs): void {
     this.proxy.message({
-      command: 'result',
+      command: 'details_result',
+      value: args,
+      index: 0,
+    })
+  }
+  delete_result(args: ResultArgs): void {
+    this.proxy.message({
+      command: 'delete_result',
       value: args,
       index: 0,
     })

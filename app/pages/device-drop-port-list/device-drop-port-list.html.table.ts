@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { Language } from '../../common/language'
 import { LocaleCompare } from '../../common/tools/compare-tool/compare.tool'
 import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { Sort } from '../../common/tools/html-tool/html-table-sort.tool'
@@ -27,7 +28,24 @@ export class DeviceDropPortListHtmlTable {
     '#table thead'
   ) as HTMLTableSectionElement
 
-  private widths = ['60px']
+  get tablewidth() {
+    return this.table.offsetWidth
+  }
+
+  private widths = [
+    '50px',
+    '15%',
+    '10%',
+    '10%',
+    '12%',
+    '8%',
+    '8%',
+    '19%',
+    '10%',
+    '8%',
+
+    '100px',
+  ]
   _sort?: Sort
   datas: DeviceDropPortModel[] = []
 
@@ -42,44 +60,29 @@ export class DeviceDropPortListHtmlTable {
     HtmlTool.table.colgroup.append(this.table, this.widths)
   }
 
-  private append(id: number, item: string[]) {
-    let row = document.createElement('tr')
-    row.id = `tr_${id}`
-    for (let i = 0; i < item.length; i++) {
-      let cell = document.createElement('td')
-      cell.innerText = item[i]
-      cell.title = item[i]
-      row.appendChild(cell)
-    }
-    let td = document.createElement('td')
-    let operation = document.createElement('div')
-    operation.className = 'operation'
-
-    let btn_picture = document.createElement('div')
-    btn_picture.title = `查看图片`
-    btn_picture.className = 'button-icon'
-    btn_picture.id = 'picture_' + id
-    btn_picture.addEventListener('click', (e: MouseEvent) => {
-      this.onpicture(e)
-    })
-    let i_picture = document.createElement('i')
-    i_picture.className = 'howell-icon-picture'
-    btn_picture.appendChild(i_picture)
-
-    operation.appendChild(btn_picture)
-    td.appendChild(operation)
-    row.appendChild(td)
-
-    this.tbody.appendChild(row)
-  }
-
-  private onpicture(e: MouseEvent) {
-    e.stopImmediatePropagation()
-    let div = e.currentTarget as HTMLDivElement
-    if (!div) return
-    let id = div.id.split('_')[1]
-    let data = this.datas.find((x) => x.Id.toString() === id)
-    this.event.emit('picture', data)
+  private append(id: number, items: string[]) {
+    HtmlTool.table.append(this.tbody, items, [
+      {
+        inner: `<i class="howell-icon-modification"></i>`,
+        id: `modify_${id}`,
+        title: '修改',
+        click: (args) => {
+          let id = args.button.id.replace('modify_', '')
+          let data = this.datas.find((x) => x.Id.toString() === id)
+          this.event.emit('modify', data)
+        },
+      },
+      {
+        inner: `<i class="howell-icon-delete2"></i>`,
+        id: `del_${id}`,
+        title: 'howell-icon-delete2',
+        click: (args) => {
+          let id = args.button.id.replace('del_', '')
+          let data = this.datas.find((x) => x.Id.toString() === id)
+          this.event.emit('delete', data)
+        },
+      },
+    ])
   }
 
   private sort(sort: Sort) {
@@ -118,19 +121,28 @@ export class DeviceDropPortListHtmlTable {
     for (let i = 0; i < this.datas.length; i++) {
       const item = this.datas[i]
       let channel = await item.channel
+
+      let FullTrashCanPortState = []
+      for (let j = 0; j < item.FullTrashCanPortStates.length; j++) {
+        let state = await EnumTool.TrashCanPortState(
+          item.FullTrashCanPortStates[j]
+        )
+
+        FullTrashCanPortState.push(state.replace('垃圾桶', ''))
+      }
+
       let values: string[] = [
         HtmlTool.set(item.Id),
         HtmlTool.set(item.Name),
-        await EnumTool.CanType(item.DropPortType),
-        await EnumTool.DropPortState(item.DropPortState),
-        await EnumTool.TrashCanPortState(item.TrashCanPortState),
-        HtmlTool.set(channel ? channel.Name : '-'),
-        HtmlTool.set(item.AlarmOutEnabled, '-'),
-        await EnumTool.IOState(item.DefaultIOState),
-        await EnumTool.IOState(item.FullIOState),
-        item.FullTrashCanPortStates
-          ? item.FullTrashCanPortStates.join('|')
-          : '-',
+        await EnumTool.CanType(item.DropPortType, '-'),
+        await EnumTool.DropPortState(item.DropPortState, '-'),
+        // await EnumTool.TrashCanPortState(item.TrashCanPortState, '-'),
+        '垃圾桶桶盖关闭',
+        await EnumTool.IOState(item.DefaultIOState, '-'),
+        await EnumTool.IOState(item.FullIOState, '-'),
+        FullTrashCanPortState.join('，'),
+        item.AlarmOutIds ? item.AlarmOutIds.join('，') : '-',
+        Language.Enabled(item.AlarmOutEnabled, '-'),
       ]
 
       this.append(item.Id, values)

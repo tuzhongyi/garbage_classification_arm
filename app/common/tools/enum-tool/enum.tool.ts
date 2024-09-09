@@ -95,7 +95,7 @@ export class EnumTool {
     })
   }
 
-  static async CanType(value?: CanType): Promise<string> {
+  static async CanType(value?: CanType, def?: string): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.trashcan
         .then((capability) => {
@@ -106,10 +106,10 @@ export class EnumTool {
               return
             }
           }
-          resolve(Language.CanType(value))
+          resolve(Language.CanType(value, def))
         })
         .catch((x) => {
-          resolve(Language.CanType(value))
+          resolve(Language.CanType(value, def))
         })
     })
   }
@@ -170,7 +170,10 @@ export class EnumTool {
     })
   }
 
-  static async VideoSourceProtocolType(value?: string): Promise<string> {
+  static async VideoSourceProtocolType(
+    value?: string,
+    def = ''
+  ): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.server.analysis
         .then((capability) => {
@@ -183,15 +186,15 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }
 
-  static async VideoSourceMode(value?: string): Promise<string> {
+  static async VideoSourceMode(value?: string, def = ''): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.server.analysis
         .then((capability) => {
@@ -204,15 +207,15 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }
 
-  static async TrashCanRecordType(value?: string): Promise<string> {
+  static async TrashCanRecordType(value?: string, def = ''): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.trashcan
         .then((capability) => {
@@ -225,15 +228,15 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }
 
-  static async IOState(value?: IOState): Promise<string> {
+  static async IOState(value?: IOState, def?: string): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.device
         .then((capability) => {
@@ -244,14 +247,14 @@ export class EnumTool {
               return
             }
           }
-          resolve(Language.IOState(value))
+          resolve(Language.IOState(value, def))
         })
         .catch((x) => {
-          resolve(Language.IOState(value))
+          resolve(Language.IOState(value, def))
         })
     })
   }
-  static async DropPortType(value?: string): Promise<string> {
+  static async DropPortType(value?: string, def = ''): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.device
         .then((capability) => {
@@ -262,14 +265,14 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }
-  static async DropPortState(value?: string): Promise<string> {
+  static async DropPortState(value?: string, def = ''): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.device
         .then((capability) => {
@@ -280,14 +283,14 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }
-  static async TrashCanPortState(value?: string): Promise<string> {
+  static async TrashCanPortState(value?: string, def = ''): Promise<string> {
     return new Promise<string>((resolve) => {
       Manager.capability.device
         .then((capability) => {
@@ -300,10 +303,10 @@ export class EnumTool {
               return
             }
           }
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
         .catch((x) => {
-          resolve(value ?? '')
+          resolve(value ?? def)
         })
     })
   }

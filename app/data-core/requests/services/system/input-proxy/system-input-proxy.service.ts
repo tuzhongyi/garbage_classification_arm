@@ -81,7 +81,7 @@ class SystemInputProxyChannelRequestService {
     throw new Error(response.FaultReason)
   }
 
-  picture(id: number, stream: number = 1, type: string = 'JPEG') {
+  picture<T = string>(id: T, stream: number = 1, type: string = 'JPEG') {
     return ArmSystemUrl.input.proxy.channel.picture(id, stream, type)
     // return this.http.get<string>(url)
   }

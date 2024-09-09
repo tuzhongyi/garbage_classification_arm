@@ -14,8 +14,8 @@ import { CanType } from '../data-core/enums/robot/robot-can-type.model'
 import { RobotState } from '../data-core/enums/robot/robot-state.enum'
 
 export class Language {
-  static ChannelPositionNo(value?: number) {
-    if (value === undefined) return '未知'
+  static ChannelPositionNo(value?: number, def = '未知') {
+    if (value === undefined) return def
     if (1 <= value && value <= 10) {
       return '舱外'
     } else if (11 <= value && value <= 20) {
@@ -23,11 +23,11 @@ export class Language {
     } else if (21 <= value && value <= 30) {
       return '红外'
     } else {
-      return '未知'
+      return def
     }
   }
 
-  static async EventType(value?: EventType) {
+  static async EventType(value?: EventType, def = '未知') {
     switch (value) {
       case EventType.IllegalDrop:
         return '垃圾落地'
@@ -60,11 +60,11 @@ export class Language {
       case EventType.Sewage:
         return '水渍报警'
       default:
-        return '未知'
+        return def
     }
   }
 
-  static ProxyChannelState(value?: ProxyChannelState) {
+  static ProxyChannelState(value?: ProxyChannelState, def = '未知') {
     switch (value) {
       case ProxyChannelState.Locked:
         return '用户锁定'
@@ -73,10 +73,10 @@ export class Language {
       case ProxyChannelState.Online:
         return '在线'
       default:
-        return '未知'
+        return def
     }
   }
-  static DeviceProtocolType(value?: DeviceProtocolType) {
+  static DeviceProtocolType(value?: DeviceProtocolType, def = '未知') {
     switch (value) {
       case DeviceProtocolType.Howell8000:
         return DeviceProtocolType.Howell8000
@@ -84,10 +84,10 @@ export class Language {
         return DeviceProtocolType.Onvif
 
       default:
-        return '未知'
+        return def
     }
   }
-  static MeshNodeType(type?: MeshNodeType) {
+  static MeshNodeType(type?: MeshNodeType, def = '未知') {
     switch (type) {
       case MeshNodeType.ChargingPort:
         return '充电口'
@@ -100,11 +100,11 @@ export class Language {
       case MeshNodeType.Other:
         return '其他'
       default:
-        return '未知'
+        return def
     }
   }
 
-  static CanType(type?: CanType) {
+  static CanType(type?: CanType, def = '未知') {
     switch (type) {
       case CanType.Dry:
         return '干垃圾'
@@ -116,10 +116,10 @@ export class Language {
         return '有害垃圾'
 
       default:
-        return '未知'
+        return def
     }
   }
-  static RobotBatteryState(value?: RobotBatteryState) {
+  static RobotBatteryState(value?: RobotBatteryState, def = '未知') {
     switch (value) {
       case RobotBatteryState.Normal:
         return '正常'
@@ -131,10 +131,10 @@ export class Language {
         return '欠压、亏电'
 
       default:
-        return '未知'
+        return def
     }
   }
-  static RobotState(value?: RobotState) {
+  static RobotState(value?: RobotState, def = '未知') {
     switch (value) {
       case RobotState.None:
         return '正常'
@@ -151,11 +151,11 @@ export class Language {
       case RobotState.Offline:
         return '信号丢失'
       default:
-        return '未知'
+        return def
     }
   }
 
-  static CalibrationAreaType(value?: CalibrationAreaType) {
+  static CalibrationAreaType(value?: CalibrationAreaType, def = '未知') {
     switch (value) {
       case CalibrationAreaType.Ground:
         return '地面区域'
@@ -164,20 +164,20 @@ export class Language {
       case CalibrationAreaType.StorePort:
         return '存桶区'
       default:
-        return '未知'
+        return def
     }
   }
-  static CameraAIModelDTOModelType(value?: number) {
+  static CameraAIModelDTOModelType(value?: number, def = '未知') {
     switch (value) {
       case 1:
         return '检测数据'
       case 2:
         return '分类数据'
       default:
-        return '未知'
+        return def
     }
   }
-  static CoverState(value?: CoverState) {
+  static CoverState(value?: CoverState, def = '未知') {
     switch (value) {
       case CoverState.Opened:
         return '打开'
@@ -187,29 +187,29 @@ export class Language {
         return '半开'
 
       default:
-        return '未知'
+        return def
     }
   }
 
-  static StreamType(value?: number) {
+  static StreamType(value?: number, def = '未知') {
     switch (value) {
       case 1:
         return '主码流'
       case 2:
         return '子码流'
       default:
-        return '未知'
+        return def
     }
   }
-  static DeviceType(value?: number) {
+  static DeviceType(value?: number, def = '未知') {
     switch (value) {
       case 1:
         return '摄像机'
       default:
-        return '未知'
+        return def
     }
   }
-  static ProcessState(state?: ProcessState) {
+  static ProcessState(state?: ProcessState, def = '未知') {
     switch (state) {
       case ProcessState.R:
         return '运行中'
@@ -222,10 +222,10 @@ export class Language {
       case ProcessState.Z:
         return '僵尸'
       default:
-        return '未知'
+        return def
     }
   }
-  static LensType(type?: LensType) {
+  static LensType(type?: LensType, def = '未知') {
     switch (type) {
       case LensType.M28:
         return '2.8 毫米'
@@ -233,11 +233,11 @@ export class Language {
         return '4.0 毫米'
 
       default:
-        return '未知'
+        return def
     }
   }
 
-  static MajorType(value?: MajorType) {
+  static MajorType(value?: MajorType, def = '未知') {
     switch (value) {
       case MajorType.Alarm:
         return '报警'
@@ -248,7 +248,7 @@ export class Language {
       case MajorType.Info:
         return '信息'
       default:
-        return '未知'
+        return def
     }
   }
 
@@ -314,25 +314,25 @@ export class Language {
     )
   }
 
-  static YesOrNo(bool?: boolean) {
+  static YesOrNo(bool?: boolean, def = '未知') {
     switch (bool) {
       case true:
         return '是'
       case false:
         return '否'
       default:
-        return '未知'
+        return def
     }
   }
 
-  static Uploaded(bool?: boolean) {
+  static Uploaded(bool?: boolean, def = '未知') {
     switch (bool) {
       case true:
         return '已上传'
       case false:
         return '未上传'
       default:
-        return '未知'
+        return def
     }
   }
 
@@ -369,7 +369,7 @@ export class Language {
     }
   }
 
-  static FrpInfoState(value: FrpInfoState) {
+  static FrpInfoState(value: FrpInfoState, def = '未知') {
     switch (value) {
       case FrpInfoState.offline:
         return '未连接'
@@ -380,23 +380,34 @@ export class Language {
       case FrpInfoState.exist:
         return '指定映射名称已存在'
       default:
-        return '未知'
+        return def
     }
   }
-  static IOState(state?: IOState) {
+  static IOState(state?: IOState, def = '未知') {
     switch (state) {
       case IOState.Low:
         return '低电平'
       case IOState.High:
         return '高电平'
       default:
-        return '未知'
+        return def
+    }
+  }
+
+  static Enabled(value?: boolean, def = '未知') {
+    switch (value) {
+      case true:
+        return '启用'
+      case false:
+        return '未启用'
+      default:
+        return def
     }
   }
 }
 
 export class Icon {
-  static CanType(type?: CanType) {
+  static CanType(type?: CanType, def = '未知') {
     switch (type) {
       case CanType.Dry:
         return '&#xf08b;'

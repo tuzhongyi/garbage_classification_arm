@@ -1,6 +1,19 @@
 import { TransformationType, TransformFnParams } from 'class-transformer'
 import { Time } from './common/time.model'
 
+export function transformRound(params: TransformFnParams, number: number) {
+  if (!params.value) return params.value
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    let radix = 1
+    for (let i = 0; i < number; i++) {
+      radix *= 10
+    }
+    return Math.round(params.value * radix) / radix
+  } else {
+    return params.value
+  }
+}
+
 export function transformArraySort(params: TransformFnParams) {
   if (params.value === undefined || params.value === null) return undefined
   if (params.type === TransformationType.PLAIN_TO_CLASS) {

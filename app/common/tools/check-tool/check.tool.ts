@@ -8,6 +8,7 @@ import { MixedIntoRule } from '../../../data-core/models/arm/analysis/rules/mixe
 import { TrashCanWarningParams } from '../../../data-core/models/arm/analysis/trash-can-warning-params.model'
 import { ChannelCalibration } from '../../../data-core/models/arm/channel-calibration.model'
 import { InputProxyChannel } from '../../../data-core/models/arm/input-proxy-channel.model'
+import { DropPortConfig } from '../../../data-core/models/arm/io/drop-port-config.model'
 import { SystemTime } from '../../../data-core/models/arm/system-time.model'
 import { FrpInfo } from '../../../data-core/models/frp-info/frp-info.model'
 import { SortationCalibration } from '../../../data-core/models/sortation/sortation-calibration.model'
@@ -483,6 +484,27 @@ export class CheckTool {
       return {
         result: false,
         message: '远程服务器端口号范围为0-65535',
+        inner: true,
+      }
+    }
+    return { result: true }
+  }
+  static DropPortConfig(data: DropPortConfig) {
+    if (!data.Name) {
+      return {
+        result: false,
+        message: '请输入投放口名称',
+        inner: true,
+      }
+    }
+    if (
+      !data.TrashCanArea ||
+      !data.TrashCanArea.Coordinates ||
+      data.TrashCanArea.Coordinates.length == 0
+    ) {
+      return {
+        result: false,
+        message: '绘制投放口分析区域',
         inner: true,
       }
     }

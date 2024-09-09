@@ -1,39 +1,9 @@
-.ai-event-rule-details {
+.device-drop-port-details {
 
 
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-
-  &-main {
-    width: 100%;
-    height: 80px;
-    margin-bottom: 20px;
-
-    .forms {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: unset;
-      gap: 20px;
-
-      .form-item {
-        width: calc(50% - 10px);
-        margin: 0;
-
-        box-sizing: border-box;
-
-        &-title {
-          width: 150px;
-        }
-
-        &-value {
-          width: calc(100% - 150px);
-        }
-
-      }
-    }
-  }
 
 
   @img-max-width: 700px;
@@ -41,7 +11,7 @@
   &-body {
     display: flex;
     width: 100%;
-    height: calc(100% - 80px - 20px);
+    height: calc(100%);
 
     &-chart {
       width: calc((100% - 10px) * 0.625);
@@ -138,13 +108,50 @@
 
         .forms {
           .form-item {
-
             &-title {
               width: 190px;
             }
 
             &-value {
               width: calc(100% - 190px);
+
+              &.enabled {
+                gap: 5px;
+              }
+            }
+
+            &.outputs,
+            &.states {
+              height: auto;
+              align-items: unset;
+
+              .form-item-title {
+                height: 30px;
+              }
+
+              .form-item-value {
+                flex-wrap: wrap;
+                gap: 5px 20px;
+
+                &>div {
+                  height: 30px;
+
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                  justify-content: space-around;
+                }
+              }
+            }
+
+            &.outputs {
+              .form-item-value {
+                &>div {
+                  input+label {
+                    min-width: 80px;
+                  }
+                }
+              }
             }
           }
         }

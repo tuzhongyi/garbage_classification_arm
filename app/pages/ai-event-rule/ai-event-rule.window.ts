@@ -1,4 +1,3 @@
-import { EventType } from '../../data-core/enums/event-type.enum'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
 import { IWindowQuery, WindowModel } from '../window/window.model'
 
@@ -8,13 +7,13 @@ export class AIEventRuleWindow {
 }
 
 interface DetailsWindowQuery extends IWindowQuery {
-  id?: string
-  type: EventType
+  id: string
+  type: string
 }
 
 class DetailsWindow extends WindowModel<DetailsWindowQuery> {
   clear() {
-    this.query.id = undefined
+    this.query.id = ''
   }
   style = {
     width: '65%',

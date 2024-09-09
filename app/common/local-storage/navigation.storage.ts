@@ -3,7 +3,7 @@ import { NavigationAIAnalysisServerStorage } from './navigation-ai-analysis-serv
 import { NavigationAIEventStorage } from './navigation-ai-event.storage'
 import { NavigationAIModelStorage } from './navigation-ai-model.storage'
 import { NavigationDeviceChannelStorage } from './navigation-device-channel.storage'
-import { NavigationDeviceDorpPortStorage } from './navigation-device-dorp-port.storage'
+import { NavigationDeviceDorpStorage } from './navigation-device-dorp-port.storage'
 import { NavigationDeviceRobotStorage } from './navigation-device-robot.storage'
 import { NavigationDeviceSortationStorage } from './navigation-device-sortation.storage'
 import { NavigationDeviceTrashCanStorage } from './navigation-device-trashcan.storage'
@@ -72,9 +72,7 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
 
     trashcan: new NavigationDeviceTrashCanStorage(),
     channel: new NavigationDeviceChannelStorage(),
-    dorp: {
-      port: new NavigationDeviceDorpPortStorage(),
-    },
+    dorp: new NavigationDeviceDorpStorage(),
   }
   ai = {
     model: new NavigationAIModelStorage(),

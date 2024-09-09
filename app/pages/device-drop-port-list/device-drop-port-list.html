@@ -21,7 +21,9 @@
     <div class="device-drop-port-list">
       <div class="device-drop-port-list-head">
         <div class="head-title">投放口列表</div>
-        <div class="operation"></div>
+        <div class="operation">
+          <button class="button-white" id="btn_create">添加</button>
+        </div>
       </div>
       <div class="device-drop-port-list-body">
         <div class="table">
@@ -33,11 +35,11 @@
                 <th sort="DropPortType">投口类型</th>
                 <th sort="DropPortState">投口状态</th>
                 <th sort="TrashCanPortState">垃圾桶状态</th>
-                <th sort="ChannelName">摄像机</th>
-                <th sort="AlarmOutEnabled">投口联动</th>
-                <th sort="DefaultIOState">默认IO输出状态</th>
-                <th sort="FullIOState">满溢时IO输出状态</th>
+                <th sort="DefaultIOState">默认状态</th>
+                <th sort="FullIOState">满溢时状态</th>
+                <th sort="AlarmOutIds">投放口垃圾桶</th>
                 <th sort="AlarmOutIds">联动继电器</th>
+                <th sort="AlarmOutEnabled">投口联动</th>
                 <th>操作</th>
               </tr>
             </thead>

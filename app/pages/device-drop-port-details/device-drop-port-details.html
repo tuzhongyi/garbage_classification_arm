@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="device-drop-port-details window">
+      <div class="window-head device-drop-port-details-head">投放口信息</div>
+      <div class="window-body">
+        <div class="device-drop-port-details-body">
+          <div class="device-drop-port-details-body-chart">
+            <div class="device-drop-port-details-body-chart-body">
+              <img id="picture" alt="" />
+              <canvas id="canvas"></canvas>
+            </div>
+            <div class="device-drop-port-details-body-chart-foot">
+              <div class="buttons">
+                <button
+                  class="button-white polygon"
+                  id="button_polygon"
+                  title="绘制多边形"
+                >
+                  <i class="mdi mdi-pentagon-outline"></i>
+                </button>
+                <button
+                  class="button-white polygon"
+                  id="button_rectangle"
+                  title="绘制全屏矩形"
+                >
+                  <i class="howell-icon-full_screen"></i>
+                </button>
+              </div>
+              <div class="buttons">
+                <button
+                  class="button-white"
+                  id="button_clear"
+                  title="清空已绘制图形"
+                >
+                  <i class="howell-icon-Close"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="device-drop-port-details-body-info">
+            <div class="device-drop-port-details-body-info-head">详情信息</div>
+            <div class="device-drop-port-details-body-info-body">
+              <div class="forms">
+                <div class="form-item" id="channel_parent">
+                  <div class="form-item-title">代理通道</div>
+                  <div class="form-item-value">
+                    <select id="channel"></select>
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">名称</div>
+                  <div class="form-item-value">
+                    <input type="text" id="Name" />
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">类型</div>
+                  <div class="form-item-value">
+                    <select id="DropPortType"></select>
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">投口联动</div>
+                  <div class="form-item-value enabled">
+                    <input type="checkbox" id="AlarmOutEnabled" />
+                    <label for="AlarmOutEnabled">启用</label>
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">默认IO输出状态</div>
+                  <div class="form-item-value">
+                    <select id="DefaultIOState">
+                      <option value="Low">低电平</option>
+                      <option value="High">高电平</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-item">
+                  <div class="form-item-title">满溢时IO输出状态</div>
+                  <div class="form-item-value">
+                    <select id="FullIOState">
+                      <option value="Low">低电平</option>
+                      <option value="High">高电平</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-item states">
+                  <div class="form-item-title">垃圾桶状态联动</div>
+                  <div
+                    class="form-item-value"
+                    id="FullTrashCanPortStates"
+                  ></div>
+                </div>
+                <div class="form-item outputs">
+                  <div class="form-item-title">联动继电器</div>
+                  <div class="form-item-value" id="AlarmOutIds"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="window-foot device-drop-port-details-foot">
+        <button class="button-blue-line" id="btn_ok">
+          <i class="howell-icon-save2"></i> 确定
+        </button>
+        <button class="button-line" id="btn_cancel">
+          <i class="howell-icon-save2"></i> 取消
+        </button>
+      </div>
+    </div>
+  </body>
+  <script src="./device-drop-port-details.ts"></script>
+</html>

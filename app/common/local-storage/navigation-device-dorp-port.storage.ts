@@ -17,3 +17,17 @@ export class NavigationDeviceDorpPortStorage implements IStorage<number> {
     localStorage.setItem(this.key, v.toString())
   }
 }
+
+export class NavigationDeviceDorpStorage {
+  port = new NavigationDeviceDorpPortStorage()
+
+  get(): number {
+    throw new Error('Method not implemented.')
+  }
+  save(v: number): void {
+    throw new Error('Method not implemented.')
+  }
+  clear(): void {
+    this.port.clear()
+  }
+}

@@ -180,17 +180,23 @@ export namespace SystemIOOutput {
       this.init()
     }
 
-    clear() {
+    datas: IOOutputPort[] = []
+
+    private clear() {
       this.html.clear()
     }
 
-    async init() {
-      let datas = await this.business.load()
-      this.html.init(datas)
+    private async init() {
+      this.datas = await this.business.load()
+      this.html.init(this.datas)
     }
 
-    load(data: IOOutputPort) {
+    private load(data: IOOutputPort) {
       this.html.load(data)
+    }
+
+    set(data: IOOutputPort) {
+      this.html.set(data)
     }
 
     private regist() {
@@ -240,8 +246,14 @@ export namespace SystemIOOutput {
         let sheet = this.business.sheet.set(this.window.confirm.data.sheet)
         let promsie = [update, sheet]
         Promise.all(promsie)
-          .then(() => {
+          .then((x) => {
             MessageBar.success('保存成功')
+            for (let i = 0; i < x.length; i++) {
+              const item = x[i]
+              if (item instanceof IOOutputPort) {
+                this.port.set(item)
+              }
+            }
           })
           .catch(() => {
             MessageBar.error('保存失败')
@@ -284,7 +296,9 @@ export namespace SystemIOOutput {
           .state(this.window.confirm.data.port.Id, state)
           .then((x) => {
             MessageBar.success('设置成功')
-            this.port.load(x)
+
+            this.html.set(x)
+            this.html.load(x)
           })
           .catch(() => {
             MessageBar.error('设置失败')
@@ -308,8 +322,6 @@ export namespace SystemIOOutput {
     private oncopied(result: boolean) {
       if (result) {
         MessageBar.success('复制成功')
-        this.port.clear()
-        this.port.init()
       } else {
         MessageBar.error('复制失败')
       }

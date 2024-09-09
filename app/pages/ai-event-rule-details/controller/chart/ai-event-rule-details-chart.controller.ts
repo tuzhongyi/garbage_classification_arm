@@ -4,8 +4,8 @@ import { Resolution } from '../../../../data-core/models/arm/analysis/resolution
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { AIEventRuleDetailsConverter as Converter } from '../../ai-event-rule-details.converter'
 import { AIEventRuleDetailsCreater as Creater } from '../../ai-event-rule-details.creater'
-import { AIEventRuleDetailsChartPolygonController } from './device-channel-calibration-chart-polygon.controller'
-import { AIEventRuleDetailsChartHtmlController } from './device-channel-calibration-chart.html.controller'
+import { AIEventRuleDetailsChartPolygonController } from './ai-event-rule-details-chart-polygon.controller'
+import { AIEventRuleDetailsChartHtmlController } from './ai-event-rule-details-chart.html.controller'
 export interface AIEventRuleDetailsChartEvent {
   polygon(polygon: Polygon): void
   clear(): void

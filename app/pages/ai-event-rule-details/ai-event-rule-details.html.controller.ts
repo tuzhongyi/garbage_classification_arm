@@ -12,7 +12,7 @@ import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEventRule } from '../../data-core/models/arm/analysis/rules/camera-ai-event-rule.model'
 import { CameraAIModel } from '../../data-core/models/arm/camera-ai-model.model'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
-import { AIEventRuleDetailsChartController } from './controller/chart/device-channel-calibration-chart.controller'
+import { AIEventRuleDetailsChartController } from './controller/chart/ai-event-rule-details-chart.controller'
 import { AIEventRuleDetailsInfoControllerFactory as Factory } from './controller/info/ai-event-rule-details-info.controller'
 
 export class AIEventRuleDetailsHtmlController {
