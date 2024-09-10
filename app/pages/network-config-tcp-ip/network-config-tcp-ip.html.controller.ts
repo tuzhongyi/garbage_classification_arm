@@ -49,29 +49,33 @@ export class NetworkConfigTCPIPHtmlController {
   private inited = false
 
   private _init() {
-    Manager.capability.network.then((x) => {
-      if (x.NetworkInterfaceDuplexs) {
-        this.element.Duplex.innerHTML = ''
-        x.NetworkInterfaceDuplexs.forEach((y) => {
-          let item: IIdNameModel = {
-            Id: y.Value,
-            Name: y.Name,
-          }
-          HtmlTool.select.append(item, this.element.Duplex)
-        })
-      }
-      if (x.NetworkInterfaceSpeeds) {
-        this.element.Speed.innerHTML = ''
-        x.NetworkInterfaceSpeeds.forEach((y) => {
-          let item: IIdNameModel = {
-            Id: y.Value,
-            Name: y.Name,
-          }
-          HtmlTool.select.append(item, this.element.Speed)
-        })
-      }
-      this.inited = true
-    })
+    Manager.capability.network
+      .then((x) => {
+        if (x.NetworkInterfaceDuplexs) {
+          this.element.Duplex.innerHTML = ''
+          x.NetworkInterfaceDuplexs.forEach((y) => {
+            let item: IIdNameModel = {
+              Id: y.Value,
+              Name: y.Name,
+            }
+            HtmlTool.select.append(item, this.element.Duplex)
+          })
+        }
+        if (x.NetworkInterfaceSpeeds) {
+          this.element.Speed.innerHTML = ''
+          x.NetworkInterfaceSpeeds.forEach((y) => {
+            let item: IIdNameModel = {
+              Id: y.Value,
+              Name: y.Name,
+            }
+            HtmlTool.select.append(item, this.element.Speed)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {

@@ -45,12 +45,16 @@ export class DeviceSortationCalibrationInfoController {
   }
 
   private init() {
-    Manager.capability.sortation.then((capability) => {
-      if (capability.Rotations) {
-        this.initRotation(capability.Rotations)
-      }
-      this.inited = true
-    })
+    Manager.capability.sortation
+      .then((capability) => {
+        if (capability.Rotations) {
+          this.initRotation(capability.Rotations)
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
   private initRotation(datas: EnumNameValue[]) {
     datas.forEach((data) => {

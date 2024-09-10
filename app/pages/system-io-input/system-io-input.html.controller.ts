@@ -30,18 +30,22 @@ export class SystemIOInputHtmlController {
   private inited = false
 
   private _init() {
-    Manager.capability.device.then((x) => {
-      if (x.IOStates) {
-        this.element.State.innerHTML = ''
-        this.element.AlarmState.innerHTML = ''
-        x.IOStates.forEach((item) => {
-          let value = { Id: item.Value, Name: item.Name }
-          HtmlTool.select.append(value, this.element.State)
-          HtmlTool.select.append(value, this.element.AlarmState)
-        })
-      }
-      this.inited = true
-    })
+    Manager.capability.device
+      .then((x) => {
+        if (x.IOStates) {
+          this.element.State.innerHTML = ''
+          this.element.AlarmState.innerHTML = ''
+          x.IOStates.forEach((item) => {
+            let value = { Id: item.Value, Name: item.Name }
+            HtmlTool.select.append(value, this.element.State)
+            HtmlTool.select.append(value, this.element.AlarmState)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {

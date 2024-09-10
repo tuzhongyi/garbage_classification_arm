@@ -75,26 +75,30 @@ export class EventRecordListHtmlController {
   }
 
   private initEventType() {
-    Manager.capability.event.then((x) => {
-      if (x.EventTypes) {
-        HtmlTool.select.append(
-          {
-            Id: '',
-            Name: '全部',
-          },
-          this.element.filter.type
-        )
-        for (let i = 0; i < x.EventTypes.length; i++) {
-          const item = x.EventTypes[i]
-          let model = {
-            Id: item.Value,
-            Name: item.Name,
+    Manager.capability.event
+      .then((x) => {
+        if (x.EventTypes) {
+          HtmlTool.select.append(
+            {
+              Id: '',
+              Name: '全部',
+            },
+            this.element.filter.type
+          )
+          for (let i = 0; i < x.EventTypes.length; i++) {
+            const item = x.EventTypes[i]
+            let model = {
+              Id: item.Value,
+              Name: item.Name,
+            }
+            HtmlTool.select.append(model, this.element.filter.type)
           }
-          HtmlTool.select.append(model, this.element.filter.type)
         }
-      }
-      this.inited = true
-    })
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private initDateTimePicker(element: HTMLInputElement, datetime: Date) {

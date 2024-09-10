@@ -53,21 +53,25 @@ export class AIEventDeploymentHtmlController {
   }
 
   private init() {
-    Manager.capability.depolyment.then((x) => {
-      if (x.EventTypes) {
-        for (let i = 0; i < x.EventTypes.length; i++) {
-          let item: IIdNameModel = {
-            Id: x.EventTypes[i].Value,
-            Name: x.EventTypes[i].Name,
+    Manager.capability.depolyment
+      .then((x) => {
+        if (x.EventTypes) {
+          for (let i = 0; i < x.EventTypes.length; i++) {
+            let item: IIdNameModel = {
+              Id: x.EventTypes[i].Value,
+              Name: x.EventTypes[i].Name,
+            }
+            HtmlTool.select.append(item, this.element.Type)
           }
-          HtmlTool.select.append(item, this.element.Type)
+          if (this.element.Type.value) {
+            this.selectType(this.element.Type.value)
+          }
         }
-        if (this.element.Type.value) {
-          this.selectType(this.element.Type.value)
-        }
-      }
-      this.inited = true
-    })
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private _load(event: CameraAIEvent) {

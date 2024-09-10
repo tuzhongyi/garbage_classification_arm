@@ -8,13 +8,20 @@ export class SystemDeviceIndexCapability {
     NTPServer: document.getElementsByName('Capability.NTPServer'),
   }
 
-  init() {
-    Manager.capability.device.then((x) => {
-      if (!x.NTPServer) {
-        this.element.NTPServer.forEach((item) => {
-          item.style.display = 'none'
-        })
-      }
-    })
+  private inited = false
+
+  private init() {
+    Manager.capability.device
+      .then((x) => {
+        if (!x.NTPServer) {
+          this.element.NTPServer.forEach((item) => {
+            item.style.display = 'none'
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 }

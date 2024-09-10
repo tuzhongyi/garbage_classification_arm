@@ -25,25 +25,31 @@ export class AIEventRuleListController {
     9: 'howell-icon-nolittering',
     5: 'howell-icon-garbage_ground',
   }
+  private inited = false
 
   private init() {
-    Manager.capability.depolyment.then((x) => {
-      if (x.EventTypes) {
-        this.element.list.innerHTML = ''
-        let index = 0
-        x.EventTypes.forEach((y) => {
-          let icon = this.icons[y.Value]
-          if (icon) {
-            let card = this.create(y, icon)
-            if (index === 0) {
-              card.classList.add('selected')
+    Manager.capability.depolyment
+      .then((x) => {
+        if (x.EventTypes) {
+          this.element.list.innerHTML = ''
+          let index = 0
+          x.EventTypes.forEach((y) => {
+            let icon = this.icons[y.Value]
+            if (icon) {
+              let card = this.create(y, icon)
+              if (index === 0) {
+                card.classList.add('selected')
+              }
+              this.element.list.appendChild(card)
+              index++
             }
-            this.element.list.appendChild(card)
-            index++
-          }
-        })
-      }
-    })
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {}

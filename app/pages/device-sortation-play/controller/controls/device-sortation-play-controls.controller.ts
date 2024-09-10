@@ -45,24 +45,28 @@ export class DeviceSortationPlayControlController {
   private inited = false
 
   private init() {
-    Manager.capability.sortation.then((capability) => {
-      if (capability.CommandTypes) {
-        let types = [...capability.CommandTypes]
+    Manager.capability.sortation
+      .then((capability) => {
+        if (capability.CommandTypes) {
+          let types = [...capability.CommandTypes]
 
-        let codes = types.filter((type) => {
-          let value = type.Value as SortationCommandType
-          return !UnuseCommand.includes(value)
-        })
-        codes.forEach((type) => {
-          let item = {
-            Id: type.Value,
-            Name: type.Name,
-          }
-          HtmlTool.select.append(item, this.element.command.code)
-        })
-      }
-      this.inited = true
-    })
+          let codes = types.filter((type) => {
+            let value = type.Value as SortationCommandType
+            return !UnuseCommand.includes(value)
+          })
+          codes.forEach((type) => {
+            let item = {
+              Id: type.Value,
+              Name: type.Name,
+            }
+            HtmlTool.select.append(item, this.element.command.code)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {

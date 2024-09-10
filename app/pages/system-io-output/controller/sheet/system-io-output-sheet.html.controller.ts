@@ -38,16 +38,20 @@ export class SystemIOOutputSheetHtmlController {
   private inited = false
 
   private _init() {
-    Manager.capability.device.then((x) => {
-      if (x.IOStates) {
-        this.element.state.innerHTML = ''
-        x.IOStates.forEach((item) => {
-          let value = { Id: item.Value, Name: item.Name }
-          HtmlTool.select.append(value, this.element.state)
-        })
-      }
-      this.inited = true
-    })
+    Manager.capability.device
+      .then((x) => {
+        if (x.IOStates) {
+          this.element.state.innerHTML = ''
+          x.IOStates.forEach((item) => {
+            let value = { Id: item.Value, Name: item.Name }
+            HtmlTool.select.append(value, this.element.state)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {

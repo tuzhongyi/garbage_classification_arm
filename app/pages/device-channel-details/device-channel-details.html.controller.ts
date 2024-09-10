@@ -43,19 +43,23 @@ export class DeviceChannelDetailsHtmlController {
   private inited = false
 
   init() {
-    Manager.capability.inputproxy.then((x) => {
-      if (x.DeviceProtocolTypes) {
-        this.element.ProtocolType.innerHTML = ''
-        x.DeviceProtocolTypes.forEach((item, index) => {
-          let _item: IIdNameModel = {
-            Id: item.Value,
-            Name: item.Name,
-          }
-          HtmlTool.select.append(_item, this.element.ProtocolType)
-        })
-      }
-      this.inited = true
-    })
+    Manager.capability.inputproxy
+      .then((x) => {
+        if (x.DeviceProtocolTypes) {
+          this.element.ProtocolType.innerHTML = ''
+          x.DeviceProtocolTypes.forEach((item, index) => {
+            let _item: IIdNameModel = {
+              Id: item.Value,
+              Name: item.Name,
+            }
+            HtmlTool.select.append(_item, this.element.ProtocolType)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   regist() {

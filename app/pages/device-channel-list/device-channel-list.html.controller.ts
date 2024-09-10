@@ -26,12 +26,19 @@ export class DeviceChannelListHtmlController {
     this.regist()
   }
 
+  private inited = false
+
   init() {
-    Manager.capability.inputproxy.then((x) => {
-      if (!x.Searching) {
-        this.element.button.discover.style.display = 'none'
-      }
-    })
+    Manager.capability.inputproxy
+      .then((x) => {
+        if (!x.Searching) {
+          this.element.button.discover.style.display = 'none'
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   regist() {

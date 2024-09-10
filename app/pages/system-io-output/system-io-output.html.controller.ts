@@ -59,16 +59,20 @@ export class SystemIOOutputHtmlController {
   }
   private _init() {
     HtmlTool.input.number.mousewheelchangevalue(this.element.Delay)
-    Manager.capability.device.then((x) => {
-      if (x.IOStates) {
-        this.element.State.innerHTML = ''
-        x.IOStates.forEach((item) => {
-          let value = { Id: item.Value, Name: item.Name }
-          HtmlTool.select.append(value, this.element.State)
-        })
-      }
-      this.inited = true
-    })
+    Manager.capability.device
+      .then((x) => {
+        if (x.IOStates) {
+          this.element.State.innerHTML = ''
+          x.IOStates.forEach((item) => {
+            let value = { Id: item.Value, Name: item.Name }
+            HtmlTool.select.append(value, this.element.State)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
   private async _load(data: IOOutputPort) {
     this.element.Id.value = HtmlTool.set(data.Id)

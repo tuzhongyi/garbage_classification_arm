@@ -7,14 +7,19 @@ export class DeviceRobotCapability {
   private element = {
     Calibration: document.getElementsByName('Capability.Calibration'),
   }
-
+  private inited = false
   init() {
-    Manager.capability.robot.then((x) => {
-      if (!x.Calibration) {
-        this.element.Calibration.forEach((item) => {
-          item.style.display = 'none'
-        })
-      }
-    })
+    Manager.capability.robot
+      .then((x) => {
+        if (!x.Calibration) {
+          this.element.Calibration.forEach((item) => {
+            item.style.display = 'none'
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 }

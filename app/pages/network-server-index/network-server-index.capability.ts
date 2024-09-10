@@ -7,14 +7,20 @@ export class NetworkServerIndexCapability {
   private element = {
     PlatformAccess: document.getElementsByName('Capability.PlatformAccess'),
   }
+  private inited = false
 
-  init() {
-    Manager.capability.network.then((x) => {
-      if (!x.PlatformAccess) {
-        this.element.PlatformAccess.forEach((item) => {
-          item.style.display = 'none'
-        })
-      }
-    })
+  private init() {
+    Manager.capability.network
+      .then((x) => {
+        if (!x.PlatformAccess) {
+          this.element.PlatformAccess.forEach((item) => {
+            item.style.display = 'none'
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 }

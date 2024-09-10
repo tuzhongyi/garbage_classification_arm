@@ -9,18 +9,25 @@ export class NetworkServerDeploymentCapability {
     ISUPServer: document.getElementsByName('Capability.ISUPServer'),
   }
 
-  init() {
-    Manager.capability.depolyment.then((x) => {
-      if (!x.GarbageServer) {
-        this.element.GarbageServer.forEach((item) => {
-          item.style.display = 'none'
-        })
-      }
-      if (!x.ISUPServer) {
-        this.element.ISUPServer.forEach((item) => {
-          item.style.display = 'none'
-        })
-      }
-    })
+  private inited = false
+
+  private init() {
+    Manager.capability.depolyment
+      .then((x) => {
+        if (!x.GarbageServer) {
+          this.element.GarbageServer.forEach((item) => {
+            item.style.display = 'none'
+          })
+        }
+        if (!x.ISUPServer) {
+          this.element.ISUPServer.forEach((item) => {
+            item.style.display = 'none'
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 }

@@ -41,47 +41,51 @@ export class DeviceDropPortDetailsInfoController {
   private inited = false
 
   private _init() {
-    Manager.capability.device.then((capability) => {
-      if (capability.IOStates) {
-        this.element.DefaultIOState.innerHTML = ''
-        this.element.FullIOState.innerHTML = ''
-        capability.IOStates.forEach((x) => {
-          let item = { Id: x.Value, Name: x.Name }
-          HtmlTool.select.append(item, this.element.DefaultIOState)
-          HtmlTool.select.append(item, this.element.FullIOState)
-        })
-      }
-      if (capability.DropPortTypes) {
-        this.element.DropPortType.innerHTML = ''
-        capability.DropPortTypes.forEach((x) => {
-          let item = { Id: x.Value, Name: x.Name }
-          HtmlTool.select.append(item, this.element.DropPortType)
-        })
-      }
-      if (capability.TrashCanPortStates) {
-        this.element.FullTrashCanPortStates.div.innerHTML = ''
-        let states = capability.TrashCanPortStates.sort((a, b) => {
-          return a.Name.length - b.Name.length
-        })
-        states.forEach((x) => {
-          if (x.Value === 'Unknown') return
-          let div = document.createElement('div')
-          this.element.FullTrashCanPortStates.div.appendChild(div)
-          let checkbox = HtmlTool.input.checkbox.append(
-            `FullTrashCanPortStates_${x.Value}`,
-            x.Name,
-            false,
-            div
-          )
-          checkbox.addEventListener('change', (e) => {
-            let control = e.currentTarget as HTMLInputElement
-            let id = parseInt(control.id.split('_')[1])
+    Manager.capability.device
+      .then((capability) => {
+        if (capability.IOStates) {
+          this.element.DefaultIOState.innerHTML = ''
+          this.element.FullIOState.innerHTML = ''
+          capability.IOStates.forEach((x) => {
+            let item = { Id: x.Value, Name: x.Name }
+            HtmlTool.select.append(item, this.element.DefaultIOState)
+            HtmlTool.select.append(item, this.element.FullIOState)
           })
-          this.element.FullTrashCanPortStates.items.push(checkbox)
-        })
-      }
-      this.inited = true
-    })
+        }
+        if (capability.DropPortTypes) {
+          this.element.DropPortType.innerHTML = ''
+          capability.DropPortTypes.forEach((x) => {
+            let item = { Id: x.Value, Name: x.Name }
+            HtmlTool.select.append(item, this.element.DropPortType)
+          })
+        }
+        if (capability.TrashCanPortStates) {
+          this.element.FullTrashCanPortStates.div.innerHTML = ''
+          let states = capability.TrashCanPortStates.sort((a, b) => {
+            return a.Name.length - b.Name.length
+          })
+          states.forEach((x) => {
+            if (x.Value === 'Unknown') return
+            let div = document.createElement('div')
+            this.element.FullTrashCanPortStates.div.appendChild(div)
+            let checkbox = HtmlTool.input.checkbox.append(
+              `FullTrashCanPortStates_${x.Value}`,
+              x.Name,
+              false,
+              div
+            )
+            checkbox.addEventListener('change', (e) => {
+              let control = e.currentTarget as HTMLInputElement
+              let id = parseInt(control.id.split('_')[1])
+            })
+            this.element.FullTrashCanPortStates.items.push(checkbox)
+          })
+        }
+        this.inited = true
+      })
+      .catch(() => {
+        this.inited = true
+      })
   }
 
   private regist() {
