@@ -114,6 +114,7 @@ select:disabled:hover {
 select.text {
   appearance: none;
   opacity: 1;
+  padding: 4px 10px;
 }
 
 
