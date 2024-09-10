@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
+import { wait } from '../../../../common/tools/wait'
 import { SortationCommandType } from '../../../../data-core/enums/sortation/sortation-command-type.enum'
 import { SortationRotation } from '../../../../data-core/enums/sortation/sortation-rotation.enum'
 import { SortationGrid } from '../../../../data-core/models/sortation/sortation-grid.model'
@@ -41,6 +42,7 @@ export class DeviceSortationPlayControlController {
       do: document.getElementById('command_do') as HTMLButtonElement,
     },
   }
+  private inited = false
 
   private init() {
     Manager.capability.sortation.then((capability) => {
@@ -59,6 +61,7 @@ export class DeviceSortationPlayControlController {
           HtmlTool.select.append(item, this.element.command.code)
         })
       }
+      this.inited = true
     })
   }
 
@@ -213,9 +216,15 @@ export class DeviceSortationPlayControlController {
     })
   }
 
-  load(rotation: string, grids: SortationGrid[]) {
+  private _load(rotation: string, grids: SortationGrid[]) {
     this.loadRotation(rotation)
     this.loadGrid(grids)
+  }
+  load(rotation: string, grids: SortationGrid[]) {
+    wait(
+      () => this.inited,
+      () => this._load(rotation, grids)
+    )
   }
 
   grid = {

@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { Language } from '../../common/language'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
@@ -39,6 +40,7 @@ export class DeviceChannelDetailsHtmlController {
       cancel: document.getElementById('cancel') as HTMLButtonElement,
     },
   }
+  private inited = false
 
   init() {
     Manager.capability.inputproxy.then((x) => {
@@ -52,6 +54,7 @@ export class DeviceChannelDetailsHtmlController {
           HtmlTool.select.append(_item, this.element.ProtocolType)
         })
       }
+      this.inited = true
     })
   }
 
@@ -78,7 +81,7 @@ export class DeviceChannelDetailsHtmlController {
       Language.ChannelPositionNo(value)
   }
 
-  load(data: InputProxyChannel) {
+  private _load(data: InputProxyChannel) {
     this.element.Name.value = data.Name
     this.element.PositionNo.value = data.PositionNo?.toString() ?? ''
     this.element.HostAddress.value = data.SourceChannel.HostAddress
@@ -94,6 +97,13 @@ export class DeviceChannelDetailsHtmlController {
     this.element.DeviceModel.value = data.SourceChannel.DeviceModel ?? ''
 
     this.changePositionNo(data.PositionNo ?? 1)
+  }
+
+  load(data: InputProxyChannel) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 
   get(source?: InputProxyChannel): InputProxyChannel {

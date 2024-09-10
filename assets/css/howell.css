@@ -113,6 +113,7 @@ select:disabled:hover {
 
 select.text {
   appearance: none;
+  opacity: 1;
 }
 
 

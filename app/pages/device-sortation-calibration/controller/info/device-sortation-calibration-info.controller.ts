@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
+import { wait } from '../../../../common/tools/wait'
 import { EnumNameValue } from '../../../../data-core/models/capabilities/enum-name-value.model'
 import { SortationCalibration } from '../../../../data-core/models/sortation/sortation-calibration.model'
 import { Manager } from '../../../../data-core/requests/managers/manager'
@@ -23,6 +24,7 @@ export class DeviceSortationCalibrationInfoController {
       'CompletedDelay'
     ) as HTMLInputElement,
   }
+  private inited = false
 
   private regist() {
     this.element.Rotation.addEventListener('change', (e) => {
@@ -47,6 +49,7 @@ export class DeviceSortationCalibrationInfoController {
       if (capability.Rotations) {
         this.initRotation(capability.Rotations)
       }
+      this.inited = true
     })
   }
   private initRotation(datas: EnumNameValue[]) {
@@ -59,12 +62,19 @@ export class DeviceSortationCalibrationInfoController {
     })
   }
 
-  load(data: SortationCalibration) {
+  private _load(data: SortationCalibration) {
     this.element.Rotation.value = HtmlTool.set(data.Rotation)
     this.element.Rows.value = HtmlTool.set(data.Rows)
     this.element.Columns.value = HtmlTool.set(data.Columns)
     this.element.ApertureDelay.value = HtmlTool.set(data.ApertureDelay)
     this.element.CompletedDelay.value = HtmlTool.set(data.CompletedDelay)
+  }
+
+  load(data: SortationCalibration) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 
   get(data: SortationCalibration) {

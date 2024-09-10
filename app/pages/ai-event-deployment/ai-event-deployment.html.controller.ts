@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEvent } from '../../data-core/models/arm/camera-ai-event.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
@@ -36,6 +37,7 @@ export class AIEventDeploymentHtmlController {
 
     save: document.getElementById('save') as HTMLButtonElement,
   }
+  private inited = false
 
   private regist() {
     this.element.save.addEventListener('click', () => {
@@ -64,10 +66,17 @@ export class AIEventDeploymentHtmlController {
           this.selectType(this.element.Type.value)
         }
       }
+      this.inited = true
     })
   }
 
-  load(event: CameraAIEvent) {
+  private _load(event: CameraAIEvent) {
     this.element.Name.value = event.Name
+  }
+  load(event: CameraAIEvent) {
+    wait(
+      () => this.inited,
+      () => this._load(event)
+    )
   }
 }

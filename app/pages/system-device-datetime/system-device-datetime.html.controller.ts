@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
@@ -41,6 +42,7 @@ export class SystemDeviceDatetimeHtmlController {
     'yyyy年MM月dd日 HH:mm:ss'
   )
   localtime = new TimeController(this.element.LocalTime, 'HH:mm:ss')
+  private inited = false
 
   init() {
     this.initDateTimePicker()
@@ -51,6 +53,7 @@ export class SystemDeviceDatetimeHtmlController {
     Manager.capability.device
       .then((x) => {
         if (!x.NTPServer) {
+          this.inited = true
           return
         }
         this.element.NTPTimeMode.style.display = ''
@@ -66,11 +69,13 @@ export class SystemDeviceDatetimeHtmlController {
           })
           this.onmodechange(NTPTimeMode.NTP)
         }
+        this.inited = true
       })
       .catch(() => {
         this.element.NTPTimeMode.style.display = ''
         this.element.button.save.style.display = ''
         this.onmodechange(NTPTimeMode.NTP)
+        this.inited = true
       })
   }
   initDateTimePicker() {
@@ -137,7 +142,7 @@ export class SystemDeviceDatetimeHtmlController {
     this.event.emit('onmodechange', mode)
   }
 
-  load(data: SystemTime) {
+  private _load(data: SystemTime) {
     this.element.NTPTimeMode.value = data.TimeMode
     this.systemtime.stop()
     this.systemtime.run(data.LocalTime)
@@ -149,5 +154,11 @@ export class SystemDeviceDatetimeHtmlController {
     }
 
     this.onmodechange(data.TimeMode)
+  }
+  load(data: SystemTime) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 }

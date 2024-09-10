@@ -27,7 +27,10 @@ export class EventRecordListHtmlController {
     },
     search: document.getElementById('search') as HTMLButtonElement,
   }
+  private inited = false
+
   table = new EventRecordListHtmlTable()
+
   private regist() {
     this.element.filter.type.addEventListener('change', () => {
       let value: number | undefined = undefined
@@ -90,6 +93,7 @@ export class EventRecordListHtmlController {
           HtmlTool.select.append(model, this.element.filter.type)
         }
       }
+      this.inited = true
     })
   }
 

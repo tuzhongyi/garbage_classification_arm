@@ -1,3 +1,4 @@
+import { wait } from '../../../common/tools/wait'
 import { AnalysisServerCapability } from '../../models/arm/analysis/analysis-server-capability.model'
 import { SecurityCapability } from '../../models/capabilities/arm/cecurity-capability.model'
 import { DepolymentCapability } from '../../models/capabilities/arm/depolyment-capability.model'
@@ -29,101 +30,218 @@ export class CapabilityManager {
     sortation: new ArmSortationRequestService(this.client.http),
   }
 
+  private loading = {
+    device: false,
+    security: false,
+    network: false,
+    depolyment: false,
+    inputproxy: false,
+    robot: false,
+    trashcan: false,
+    event: false,
+    sortation: false,
+  }
+
   private _device?: DeviceCapability
   public get device(): Promise<DeviceCapability> {
+    if (this.loading.device) {
+      return new Promise<DeviceCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.device === false && !!this._device
+          },
+          () => {
+            if (this._device) {
+              resolve(this._device)
+            }
+          }
+        )
+      })
+    }
+    if (this._device) {
+      return Promise.resolve(this._device)
+    }
+    this.loading.device = true
     return new Promise<DeviceCapability>((resolve) => {
-      if (!this._device) {
-        this.service.system.capability().then((x) => {
-          this._device = x
-          resolve(this._device)
-        })
-      } else {
-        return resolve(this._device)
-      }
+      this.service.system.capability().then((x) => {
+        this._device = x
+        this.loading.device = false
+        resolve(this._device)
+      })
     })
   }
 
   private _security?: SecurityCapability
   public get security(): Promise<SecurityCapability> {
+    if (this.loading.security) {
+      return new Promise<SecurityCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.security === false && !!this._security
+          },
+          () => {
+            if (this._security) {
+              resolve(this._security)
+            }
+          }
+        )
+      })
+    }
+    if (this._security) {
+      return Promise.resolve(this._security)
+    }
+    this.loading.security = true
     return new Promise<SecurityCapability>((resolve) => {
-      if (!this._security) {
-        this.service.system.security.capability().then((x) => {
-          this._security = x
-          resolve(this._security)
-        })
-      } else {
-        return resolve(this._security)
-      }
+      this.service.system.security.capability().then((x) => {
+        this._security = x
+        this.loading.security = false
+        resolve(this._security)
+      })
     })
   }
 
   private _network?: NetworkCapability
   public get network(): Promise<NetworkCapability> {
+    if (this.loading.network) {
+      return new Promise<NetworkCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.network === false && !!this._network
+          },
+          () => {
+            if (this._network) {
+              resolve(this._network)
+            }
+          }
+        )
+      })
+    }
+    if (this._network) {
+      return Promise.resolve(this._network)
+    }
+    this.loading.network = true
     return new Promise<NetworkCapability>((resolve) => {
-      if (!this._network) {
-        this.service.system.network.capability().then((x) => {
-          this._network = x
-          resolve(this._network)
-        })
-      } else {
-        return resolve(this._network)
-      }
+      this.service.system.network.capability().then((x) => {
+        this._network = x
+        this.loading.network = false
+        resolve(this._network)
+      })
     })
   }
 
   private _depolyment?: DepolymentCapability
   public get depolyment(): Promise<DepolymentCapability> {
+    if (this.loading.depolyment) {
+      return new Promise<DepolymentCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.depolyment === false && !!this._depolyment
+          },
+          () => {
+            if (this._depolyment) {
+              resolve(this._depolyment)
+            }
+          }
+        )
+      })
+    }
+    if (this._depolyment) {
+      return Promise.resolve(this._depolyment)
+    }
+    this.loading.depolyment = true
     return new Promise<DepolymentCapability>((resolve) => {
-      if (!this._depolyment) {
-        this.service.depolyment.capability().then((x) => {
-          this._depolyment = x
-          resolve(this._depolyment)
-        })
-      } else {
-        return resolve(this._depolyment)
-      }
+      this.service.depolyment.capability().then((x) => {
+        this._depolyment = x
+        this.loading.depolyment = false
+        resolve(this._depolyment)
+      })
     })
   }
 
   private _inputproxy?: InputProxyCapability
   public get inputproxy(): Promise<InputProxyCapability> {
+    if (this.loading.inputproxy) {
+      return new Promise<InputProxyCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.inputproxy === false && !!this._inputproxy
+          },
+          () => {
+            if (this._inputproxy) {
+              resolve(this._inputproxy)
+            }
+          }
+        )
+      })
+    }
+    if (this._inputproxy) {
+      return Promise.resolve(this._inputproxy)
+    }
+    this.loading.inputproxy = true
     return new Promise<InputProxyCapability>((resolve) => {
-      if (!this._inputproxy) {
-        this.service.system.input.proxy.capability().then((x) => {
-          this._inputproxy = x
-          resolve(this._inputproxy)
-        })
-      } else {
-        return resolve(this._inputproxy)
-      }
+      this.service.system.input.proxy.capability().then((x) => {
+        this._inputproxy = x
+        this.loading.inputproxy = false
+        resolve(this._inputproxy)
+      })
     })
   }
 
   private _robot?: RobotCapability
   public get robot(): Promise<RobotCapability> {
+    if (this.loading.robot) {
+      return new Promise<RobotCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.robot === false && !!this._robot
+          },
+          () => {
+            if (this._robot) {
+              resolve(this._robot)
+            }
+          }
+        )
+      })
+    }
+    if (this._robot) {
+      return Promise.resolve(this._robot)
+    }
+    this.loading.robot = true
     return new Promise<RobotCapability>((resolve) => {
-      if (!this._robot) {
-        this.service.robot.capability().then((x) => {
-          this._robot = x
-          resolve(this._robot)
-        })
-      } else {
-        return resolve(this._robot)
-      }
+      this.service.robot.capability().then((x) => {
+        this._robot = x
+        this.loading.robot = false
+        resolve(this._robot)
+      })
     })
   }
 
   private _trashcan?: TrashCanCapability
   public get trashcan(): Promise<TrashCanCapability> {
+    if (this.loading.trashcan) {
+      return new Promise<TrashCanCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.trashcan === false && !!this._trashcan
+          },
+          () => {
+            if (this._trashcan) {
+              resolve(this._trashcan)
+            }
+          }
+        )
+      })
+    }
+    if (this._trashcan) {
+      return Promise.resolve(this._trashcan)
+    }
+    this.loading.trashcan = true
     return new Promise<TrashCanCapability>((resolve) => {
-      if (!this._trashcan) {
-        this.service.trashcan.capability().then((x) => {
-          this._trashcan = x
-          resolve(this._trashcan)
-        })
-      } else {
-        return resolve(this._trashcan)
-      }
+      this.service.trashcan.capability().then((x) => {
+        this._trashcan = x
+        this.loading.trashcan = false
+        resolve(this._trashcan)
+      })
     })
   }
 
@@ -137,29 +255,59 @@ export class CapabilityManager {
 
   private _event?: EventCapability
   public get event(): Promise<EventCapability> {
+    if (this.loading.event) {
+      return new Promise<EventCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.event === false && !!this._event
+          },
+          () => {
+            if (this._event) {
+              resolve(this._event)
+            }
+          }
+        )
+      })
+    }
+    if (this._event) {
+      return Promise.resolve(this._event)
+    }
+    this.loading.event = true
     return new Promise<EventCapability>((resolve) => {
-      if (!this._event) {
-        this.service.event.capability().then((x) => {
-          this._event = x
-          resolve(this._event)
-        })
-      } else {
-        return resolve(this._event)
-      }
+      this.service.event.capability().then((x) => {
+        this._event = x
+        this.loading.event = false
+        resolve(this._event)
+      })
     })
   }
 
   private _sortation?: SortationCapability
   public get sortation(): Promise<SortationCapability> {
+    if (this.loading.sortation) {
+      return new Promise<SortationCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.sortation === false && !!this._sortation
+          },
+          () => {
+            if (this._sortation) {
+              resolve(this._sortation)
+            }
+          }
+        )
+      })
+    }
+    if (this._sortation) {
+      return Promise.resolve(this._sortation)
+    }
+    this.loading.sortation = true
     return new Promise<SortationCapability>((resolve) => {
-      if (!this._sortation) {
-        this.service.sortation.capability().then((x) => {
-          this._sortation = x
-          resolve(this._sortation)
-        })
-      } else {
-        return resolve(this._sortation)
-      }
+      this.service.sortation.capability().then((x) => {
+        this._sortation = x
+        this.loading.sortation = false
+        resolve(this._sortation)
+      })
     })
   }
 }
@@ -169,18 +317,35 @@ class ServerCapabilityManager {
     this.service = new ArmServerRequestService(http)
   }
   service: ArmServerRequestService
-
+  private loading = {
+    analysis: false,
+  }
   private _analysis?: AnalysisServerCapability
   public get analysis(): Promise<AnalysisServerCapability> {
+    if (this.loading.analysis) {
+      return new Promise<AnalysisServerCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.analysis === false && !!this._analysis
+          },
+          () => {
+            if (this._analysis) {
+              resolve(this._analysis)
+            }
+          }
+        )
+      })
+    }
+    if (this._analysis) {
+      return Promise.resolve(this._analysis)
+    }
+    this.loading.analysis = true
     return new Promise<AnalysisServerCapability>((resolve) => {
-      if (!this._analysis) {
-        this.service.analysis.capability().then((x) => {
-          this._analysis = x
-          resolve(this._analysis)
-        })
-      } else {
-        return resolve(this._analysis)
-      }
+      this.service.analysis.capability().then((x) => {
+        this._analysis = x
+        this.loading.analysis = false
+        resolve(this._analysis)
+      })
     })
   }
 }

@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { AddressingType } from '../../data-core/enums/addressing-type.enum'
 import { NetworkInterface } from '../../data-core/models/arm/network-interface.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'
@@ -45,6 +46,7 @@ export class NetworkConfigTCPIPHtmlController {
     },
     save: document.getElementById('save') as HTMLButtonElement,
   }
+  private inited = false
 
   private _init() {
     Manager.capability.network.then((x) => {
@@ -68,6 +70,7 @@ export class NetworkConfigTCPIPHtmlController {
           HtmlTool.select.append(item, this.element.Speed)
         })
       }
+      this.inited = true
     })
   }
 
@@ -115,7 +118,7 @@ export class NetworkConfigTCPIPHtmlController {
     }
   }
 
-  load(data: NetworkInterface) {
+  private _load(data: NetworkInterface) {
     this.element.AutoNegotiation.checked = data.AutoNegotiation
     this.onnegotiationchange()
     this.element.MTU.value = data.MTU.toString()
@@ -135,5 +138,11 @@ export class NetworkConfigTCPIPHtmlController {
       data.IPAddress.IPv4Address.PrimaryDNS ?? ''
     this.element.IPAddress.IPv4.SecondaryDNS.value =
       data.IPAddress.IPv4Address.SecondaryDNS ?? ''
+  }
+  load(data: NetworkInterface) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 }

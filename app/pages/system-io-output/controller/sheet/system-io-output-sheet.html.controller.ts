@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../common/event-emitter'
 import { TimeControl } from '../../../../common/tools/controls/time-control/time-control'
 import { Duration } from '../../../../common/tools/date-time-tool/duration.model'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
+import { wait } from '../../../../common/tools/wait'
 import { IOState } from '../../../../data-core/enums/io/io-state.enum'
 import { Manager } from '../../../../data-core/requests/managers/manager'
 
@@ -34,6 +35,7 @@ export class SystemIOOutputSheetHtmlController {
       end: TimeControl
     }[],
   }
+  private inited = false
 
   private _init() {
     Manager.capability.device.then((x) => {
@@ -44,6 +46,7 @@ export class SystemIOOutputSheetHtmlController {
           HtmlTool.select.append(value, this.element.state)
         })
       }
+      this.inited = true
     })
   }
 
@@ -154,6 +157,16 @@ export class SystemIOOutputSheetHtmlController {
     })
     item.appendChild(btn)
   }
+  private _load(enabled: boolean, state: IOState, datas: Duration[] = []) {
+    this.element.enabled.checked = enabled
+    this.onenabled(enabled)
+
+    this.element.state.value = state
+
+    for (let i = 0; i < datas.length; i++) {
+      this.append(i, datas[i])
+    }
+  }
 
   clear() {
     this.element.times = []
@@ -164,14 +177,13 @@ export class SystemIOOutputSheetHtmlController {
   }
 
   load(enabled: boolean, state: IOState, datas: Duration[] = []) {
-    this.element.enabled.checked = enabled
-    this.onenabled(enabled)
-
-    this.element.state.value = state
-
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i]
-      this.append(i, datas[i])
-    }
+    wait(
+      () => {
+        return this.inited
+      },
+      () => {
+        this._load(enabled, state, datas)
+      }
+    )
   }
 }

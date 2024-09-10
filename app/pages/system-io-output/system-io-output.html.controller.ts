@@ -3,6 +3,7 @@ import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { SystemIOOutputEvent } from './system-io-output.event'
 
 import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
+import { wait } from '../../common/tools/wait'
 import { IOState } from '../../data-core/enums/io/io-state.enum'
 import { IOOutputPort } from '../../data-core/models/arm/io/io-output-port.model'
 import { Manager } from '../../data-core/requests/managers/manager'
@@ -35,6 +36,7 @@ export class SystemIOOutputHtmlController {
   }
 
   datas: IOOutputPort[] = []
+  private inited = false
 
   private regist() {
     this.element.save.addEventListener('click', () => {
@@ -65,7 +67,19 @@ export class SystemIOOutputHtmlController {
           HtmlTool.select.append(value, this.element.State)
         })
       }
+      this.inited = true
     })
+  }
+  private async _load(data: IOOutputPort) {
+    this.element.Id.value = HtmlTool.set(data.Id)
+    this.element.Name.value = HtmlTool.set(data.Name)
+    this.element.State.value = HtmlTool.set(data.State)
+    this.element.Delay.value = HtmlTool.set(data.Delay)
+
+    let other = data.State === IOState.Low ? IOState.High : IOState.Low
+
+    let text = `${await EnumTool.IOState(other)}输出`
+    this.element.manual.text.innerHTML = text
   }
 
   private get() {
@@ -103,12 +117,13 @@ export class SystemIOOutputHtmlController {
   }
 
   async load(data: IOOutputPort) {
-    this.element.Id.value = HtmlTool.set(data.Id)
-    this.element.Name.value = HtmlTool.set(data.Name)
-    this.element.State.value = HtmlTool.set(data.State)
-    this.element.Delay.value = HtmlTool.set(data.Delay)
-
-    let other = data.State === IOState.Low ? IOState.High : IOState.Low
-    this.element.manual.text.innerHTML = `${await EnumTool.IOState(other)}输出`
+    wait(
+      () => {
+        return this.inited
+      },
+      () => {
+        this._load(data)
+      }
+    )
   }
 }

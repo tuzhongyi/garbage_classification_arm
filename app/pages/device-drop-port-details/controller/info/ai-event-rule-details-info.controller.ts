@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
+import { wait } from '../../../../common/tools/wait'
 import { IOState } from '../../../../data-core/enums/io/io-state.enum'
 import { CanType } from '../../../../data-core/enums/robot/robot-can-type.model'
 import { InputProxyChannel } from '../../../../data-core/models/arm/input-proxy-channel.model'
@@ -37,6 +38,7 @@ export class DeviceDropPortDetailsInfoController {
       items: [] as HTMLInputElement[],
     },
   }
+  private inited = false
 
   private _init() {
     Manager.capability.device.then((capability) => {
@@ -78,6 +80,7 @@ export class DeviceDropPortDetailsInfoController {
           this.element.FullTrashCanPortStates.items.push(checkbox)
         })
       }
+      this.inited = true
     })
   }
 
@@ -123,7 +126,7 @@ export class DeviceDropPortDetailsInfoController {
     return this.element.channel.control.value
   }
 
-  load(data: DropPortConfig) {
+  private _load(data: DropPortConfig) {
     this.element.Name.value = HtmlTool.set(data.Name)
     this.element.AlarmOutEnabled.checked = data.AlarmOutEnabled
     this.element.DefaultIOState.value = data.DefaultIOState
@@ -151,6 +154,13 @@ export class DeviceDropPortDetailsInfoController {
         }
       })
     }
+  }
+
+  load(data: DropPortConfig) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 
   get(data?: DropPortConfig) {

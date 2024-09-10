@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { wait } from '../../common/tools/wait'
 import { IOState } from '../../data-core/enums/io/io-state.enum'
 import { IOInputPort } from '../../data-core/models/arm/io/io-input-port.model'
 import { Manager } from '../../data-core/requests/managers/manager'
@@ -26,6 +27,7 @@ export class SystemIOInputHtmlController {
 
     save: document.getElementById('save') as HTMLButtonElement,
   }
+  private inited = false
 
   private _init() {
     Manager.capability.device.then((x) => {
@@ -38,6 +40,7 @@ export class SystemIOInputHtmlController {
           HtmlTool.select.append(value, this.element.AlarmState)
         })
       }
+      this.inited = true
     })
   }
 
@@ -71,10 +74,16 @@ export class SystemIOInputHtmlController {
     this.element.Id.innerHTML = ''
   }
 
-  load(data: IOInputPort) {
+  private _load(data: IOInputPort) {
     this.element.Id.value = HtmlTool.set(data.Id)
     this.element.Name.value = HtmlTool.set(data.Name)
     this.element.State.value = HtmlTool.set(data.State)
     this.element.AlarmState.value = HtmlTool.set(data.AlarmState)
+  }
+  load(data: IOInputPort) {
+    wait(
+      () => this.inited,
+      () => this._load(data)
+    )
   }
 }

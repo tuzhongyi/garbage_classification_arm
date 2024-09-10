@@ -1,5 +1,7 @@
+import { Transform } from 'class-transformer'
 import { ProcessState } from '../../enums/process-state.enum'
 import { IIdNameModel } from '../model.interface'
+import { transformRound } from '../transformer'
 
 /**	Process (进程信息)	*/
 export class Process implements IIdNameModel {
@@ -10,6 +12,7 @@ export class Process implements IIdNameModel {
   /**	Double	内存占用，（单位：MB）	M	*/
   MemoryUsage!: number
   /**	Double	CPU占用百分比[0-100]	M	*/
+  @Transform((value) => transformRound(value, 1))
   CPUUsage!: number
   /**	Double	网络速率，（单位：Mbps）	O	*/
   NetworkSpeed?: number
