@@ -87,7 +87,12 @@ export namespace DeviceChannelList {
           .delete(this.window.confirm.ids)
           .then((x) => {
             MessageBar.success('操作成功')
-            this.load()
+
+            this.datas = this.datas.filter(
+              (x) => !this.window.confirm.ids.includes(x.Id.toString())
+            )
+            this.html.table.clear()
+            this.html.table.load(this.datas)
           })
           .catch((e) => {
             MessageBar.error('操作失败')

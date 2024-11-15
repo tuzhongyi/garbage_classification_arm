@@ -67,6 +67,8 @@ export namespace SystemMaintainIndex {
           return '../system-maintain-config/system-maintain-config.html'
         case 1:
           return '../system-maintain-log/system-maintain-log.html'
+        case 2:
+          return '../system-maintain-command/system-maintain-command.html'
         default:
           return ''
       }

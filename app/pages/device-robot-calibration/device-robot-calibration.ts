@@ -259,17 +259,26 @@ export namespace DeviceRobotCalibration {
     }
     tostart() {
       return new Promise<void>((resolve) => {
-        this.business.calibrating(this.id).then((x) => {
-          if (x) {
+        this.business
+          .calibrating(this.id)
+          .then((x) => {
+            if (x) {
+              this.business.stop(this.id).finally(() => {
+                this.dostart()
+                resolve()
+              })
+            } else {
+              this.dostart()
+              resolve()
+            }
+          })
+          .catch((e) => {
+            console.log(e)
             this.business.stop(this.id).finally(() => {
               this.dostart()
               resolve()
             })
-          } else {
-            this.dostart()
-            resolve()
-          }
-        })
+          })
       })
     }
     dostart() {

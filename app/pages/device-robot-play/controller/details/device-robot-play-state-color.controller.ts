@@ -25,10 +25,13 @@ export class DeviceRobotPlayStateChartController {
   async init() {
     this.element.state.innerHTML = ''
     let types = [
+      MeshNodeType.MagneticPin,
       MeshNodeType.ChargingPort,
       MeshNodeType.DropPort,
       MeshNodeType.StorePort,
-      MeshNodeType.MagneticPin,
+
+      MeshNodeType.Compactor,
+      MeshNodeType.SterilizedPort,
     ]
     for (let i = 0; i < types.length; i++) {
       await this.append(types[i])

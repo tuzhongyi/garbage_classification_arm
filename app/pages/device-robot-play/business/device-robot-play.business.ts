@@ -1,6 +1,9 @@
+import { MeshDestination } from '../../../data-core/models/robot/mesh-destination.model'
 import { MeshNode } from '../../../data-core/models/robot/mesh-node.model'
 import { RobotChangeToCommand } from '../../../data-core/models/robot/robot-command-change-to.model'
 import { RobotMoveToCommand } from '../../../data-core/models/robot/robot-command-move-to.model'
+import { RobotSprayCommand } from '../../../data-core/models/robot/robot-command-spray.model'
+import { RobotTransportToCommand } from '../../../data-core/models/robot/robot-command-transport-to.model'
 import { RobotWeighCommand } from '../../../data-core/models/robot/robot-command-weigh.model'
 import { Robot } from '../../../data-core/models/robot/robot.model'
 import { HowellHttpClient } from '../../../data-core/requests/http-client'
@@ -9,6 +12,8 @@ import {
   DeviceRobotModel,
   DeviceRobotStatus,
 } from '../../device-robot/device-robot.model'
+import { IDeviceRobotPlayHtmlTemplateCompactionEventArgs } from '../controller/details/template/compaction/device-robot-play-details-compaction.model'
+import { IDeviceRobotPlayHtmlTemplateSprayEventArgs } from '../controller/details/template/spray/device-robot-play-details-spray.model'
 import { DeviceRobotPlayTrashCanBusiness } from './device-robot-play-trashcan.business'
 
 export class DeviceRobotPlayBusiness {
@@ -55,9 +60,14 @@ export class DeviceRobotPlayBusiness {
     let command = new RobotMoveToCommand()
     command.Id = this.commandId
     command.Data = {
-      Destination: node,
+      Destination: this.convert(node),
     }
-    this.service.command.send(id, command)
+    return this.service.command.send(id, command).then((x) => {
+      if (x.Id) {
+        this.commandId = x.Id
+      }
+      return x
+    })
   }
 
   weigh(id: string, node: MeshNode) {
@@ -65,9 +75,14 @@ export class DeviceRobotPlayBusiness {
     let command = new RobotWeighCommand()
     command.Id = this.commandId
     command.Data = {
-      Destination: node,
+      Destination: this.convert(node),
     }
-    this.service.command.send(id, command)
+    return this.service.command.send(id, command).then((x) => {
+      if (x.Id) {
+        this.commandId = x.Id
+      }
+      return x
+    })
   }
 
   changeto(id: string, store: MeshNode, drop: MeshNode) {
@@ -75,9 +90,64 @@ export class DeviceRobotPlayBusiness {
     let command = new RobotChangeToCommand()
     command.Id = this.commandId
     command.Data = {
-      StorePort: store,
-      DropPort: drop,
+      StorePort: this.convert(store),
+      DropPort: this.convert(drop),
     }
-    this.service.command.send(id, command)
+    return this.service.command.send(id, command).then((x) => {
+      if (x.Id) {
+        this.commandId = x.Id
+      }
+      return x
+    })
+  }
+
+  spray(
+    id: string,
+    node: MeshNode,
+    args: IDeviceRobotPlayHtmlTemplateSprayEventArgs
+  ) {
+    this.commandId++
+    let command = new RobotSprayCommand()
+    command.Id = this.commandId
+    command.Data = {
+      SterilizedPort: this.convert(node),
+      Times: args.times,
+    }
+    return this.service.command.send(id, command).then((x) => {
+      if (x.Id) {
+        this.commandId = x.Id
+      }
+      return x
+    })
+  }
+  transportto(
+    id: string,
+    drop: MeshNode,
+    node: MeshNode,
+    args: IDeviceRobotPlayHtmlTemplateCompactionEventArgs
+  ) {
+    this.commandId++
+    let command = new RobotTransportToCommand()
+    command.Id = this.commandId
+    command.Data = {
+      StartingPoint: this.convert(drop),
+      Destination: this.convert(node),
+      StartHasTrashCan: args.startcan,
+      DestHasTrashCan: args.endcan,
+      StartCovered: args.covered,
+    }
+    return this.service.command.send(id, command).then((x) => {
+      if (x.Id) {
+        this.commandId = x.Id
+      }
+      return x
+    })
+  }
+
+  convert(node: MeshNode) {
+    let destination = new MeshDestination()
+    destination.Id = node.Id
+    destination.Position = node.Position
+    return destination
   }
 }

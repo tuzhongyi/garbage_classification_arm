@@ -41,6 +41,22 @@ export class DeviceRobotCalibrationHtmlEChartConverter {
         borderWidth: 1,
       },
     },
+    SterilizedPort: {
+      symbol: 'rect',
+      itemStyle: {
+        color: '#d3bdff',
+        borderColor: '#7e7e7e',
+        borderWidth: 1,
+      },
+    },
+    Compactor: {
+      symbol: 'rect',
+      itemStyle: {
+        color: '#ffc8f0',
+        borderColor: '#7e7e7e',
+        borderWidth: 1,
+      },
+    },
   }
 
   ChargingPort(node: MeshNode) {
@@ -97,10 +113,38 @@ export class DeviceRobotCalibrationHtmlEChartConverter {
       data: node,
       label: {
         show: false,
-        formatter: '',
       },
     }
     port = Object.assign(port, this.itemStyle.DropPort)
+    return port
+  }
+  SterilizedPort(node: MeshNode) {
+    let port = {
+      x: node.Position.X,
+      y: node.Position.Y,
+      name: node.Name ? node.Name : '消毒作业口',
+      id: node.Id,
+      data: node,
+      label: {
+        show: false,
+      },
+    }
+    port = Object.assign(port, this.itemStyle.SterilizedPort)
+    return port
+  }
+  Compactor(node: MeshNode) {
+    let port = {
+      x: node.Position.X,
+      y: node.Position.Y,
+      name: node.Name ? node.Name : '压缩口',
+      id: node.Id,
+      data: node,
+      label: {
+        show: false,
+        formatter: '',
+      },
+    }
+    port = Object.assign(port, this.itemStyle.Compactor)
     return port
   }
   Link(edge: MeshEdge) {

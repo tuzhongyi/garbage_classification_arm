@@ -1,3 +1,4 @@
+import { instanceToPlain } from 'class-transformer'
 import { FactoryResetMode } from '../../../enums/factory-reset-mode.enum'
 import { RunningStatus } from '../../../models/arm/running-status.model'
 import { UpgradeStatus } from '../../../models/arm/upgrade-status.model'
@@ -14,6 +15,7 @@ import { SystemInputProxyRequestService } from './input-proxy/system-input-proxy
 import { SystemIORequestService } from './io/system-io.service'
 import { SystemNetworkRequestService } from './network/system-network.service'
 import { SystemSecurityRequestService } from './security/system-security.service'
+import { SystemCommand } from './system.params'
 import { SystemTimeRequestService } from './time/system-time.service'
 
 export class ArmSystemRequestService {
@@ -60,6 +62,17 @@ export class ArmSystemRequestService {
       let response = await this.http.get<HowellResponse<RunningStatus>>(url)
       return HowellResponseProcess.item(response, RunningStatus)
     },
+  }
+
+  async command(command: SystemCommand): Promise<string> {
+    let url = ArmSystemUrl.command()
+    let plain = instanceToPlain(command)
+    return this.http.post<any, HowellResponse<string>>(url, plain).then((x) => {
+      if (x.FaultCode === 0) {
+        return x.Data
+      }
+      throw new Error(`${x.FaultCode}:${x.FaultReason}`)
+    })
   }
 
   private _device?: SystemDeviceRequestService

@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
     <link rel="stylesheet" href="../../../assets/css/howell.css" />
+    <script src="../../../assets/js/jquery.min.js"></script>
   </head>
 
   <body>
@@ -48,6 +49,14 @@
         <div class="trashcans"></div>
         <div class="state chart">
           <div class="state-item">
+            <div class="state-item-Compactor"></div>
+            <div>压缩口</div>
+          </div>
+          <div class="state-item">
+            <div class="state-item-SterilizedPort"></div>
+            <div>消毒作业口</div>
+          </div>
+          <div class="state-item">
             <div class="state-item-ChargingPort"></div>
             <div>充电口</div>
           </div>
@@ -67,149 +76,29 @@
       </div>
       <div class="device-robot-play-command">
         <div class="command-mode buttons">
-          <div>
-            <button class="button-blue nohover" id="mode_move">单桶模式</button>
+          <div class="details-title">操作方式</div>
+          <select id="mode">
+            <option value="0">单桶操作</option>
+            <option value="1">更换桶</option>
+            <option value="2">垃圾压实</option>
+            <option value="3">喷洒消毒</option>
+          </select>
+          <!-- <div>
+            <button class="button-blue nohover" id="mode_move">单桶命令</button>
           </div>
           <div>
             <button class="button-blue-line nohover" id="mode_change">
-              换桶模式
+              换桶命令
             </button>
           </div>
+          <div>
+            <button class="button-blue-line nohover" id="mode_compaction">
+              压缩命令
+            </button>
+          </div> -->
         </div>
 
-        <div class="command-doing">
-          <div
-            class="command-doing-content"
-            id="details_changeto"
-            style="display: none"
-          >
-            <div class="command-doing-item details">
-              <div class="details-title">存桶区</div>
-              <div class="details-content forms">
-                <div class="form-item">
-                  <div class="form-item-title">编号：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_store_id" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">RFID：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_store_rfid" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">名称：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_store_name" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">子类型：</div>
-                  <div class="form-item-value">
-                    <input
-                      type="text"
-                      readonly="true"
-                      id="node_store_cantype"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="command-doing-item drop details">
-              <div class="details-title">投放口</div>
-              <div class="details-content forms">
-                <div class="form-item">
-                  <div class="form-item-title">编号：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_drop_id" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">RFID：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_drop_rfid" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">名称：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_drop_name" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">子类型：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_drop_cantype" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="command-doing-content" id="details_moveto">
-            <div class="command-doing-item details">
-              <div class="details-title">目标位置</div>
-              <div class="details-content forms">
-                <div class="form-item">
-                  <div class="form-item-title">编号：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_target_id" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">RFID：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_target_rfid" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">名称：</div>
-                  <div class="form-item-value">
-                    <input type="text" readonly="true" id="node_target_name" />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">类型：</div>
-                  <div class="form-item-value">
-                    <input
-                      type="text"
-                      readonly="true"
-                      id="node_target_nodetype"
-                    />
-                  </div>
-                </div>
-                <div class="form-item">
-                  <div class="form-item-title">子类型：</div>
-                  <div class="form-item-value">
-                    <input
-                      style="font-family: 'HowellFont'"
-                      type="text"
-                      readonly="true"
-                      id="node_target_cantype"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="buttons">
-            <button class="button-white" id="btn_reset" style="display: none">
-              重选
-            </button>
-
-            <button
-              class="button-blue-line"
-              id="btn_command_change"
-              style="display: none"
-            >
-              换桶
-            </button>
-            <button class="button-blue-line" id="btn_command_move">移动</button>
-            <button class="button-blue-line" id="btn_command_weigh">
-              称重
-            </button>
-          </div>
-        </div>
+        <div class="command-doing" id="content"></div>
       </div>
     </div>
     <div style="display: none">

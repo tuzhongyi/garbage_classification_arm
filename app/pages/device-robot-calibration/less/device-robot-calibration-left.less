@@ -36,9 +36,18 @@
           width: calc(100%);
           padding-right: 15px;
           overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
 
           .form-item {
-            &-title {}
+            height: 24px;
+
+            &-value {
+              input {
+                height: 24px;
+              }
+            }
           }
 
 

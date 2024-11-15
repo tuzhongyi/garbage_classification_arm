@@ -37,6 +37,9 @@ export class ArmSystemUrl {
   static updateFirmware() {
     return `${this.basic()}/UpdateFirmware`
   }
+  static command() {
+    return `${this.basic()}/Commands`
+  }
 
   static get data() {
     return new SystemDataUrl(this.basic())

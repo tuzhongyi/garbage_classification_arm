@@ -171,9 +171,9 @@ class ArmRobotCommandsRequestService {
     let url = ArmRobotUrl.command(id).basic()
     let plain = instanceToPlain(command)
     return this.http
-      .post<any, HowellResponse<RobotCommand[]>>(url, plain)
+      .post<any, HowellResponse<RobotCommand>>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.array(x, RobotCommand)
+        return HowellResponseProcess.item(x, RobotCommand)
       })
   }
   delete(id: string) {

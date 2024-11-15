@@ -10,4 +10,9 @@ export enum RobotCommandType {
   Stop = 'Stop',
   /** 称重 */
   Weigh = 'Weigh',
+
+  /**	搬运桶 */
+  TransportTo = 'TransportTo',
+  /**	喷洒消毒 */
+  Spray = 'Spray',
 }

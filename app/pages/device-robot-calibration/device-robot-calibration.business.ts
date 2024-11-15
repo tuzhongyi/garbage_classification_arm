@@ -18,7 +18,7 @@ export class DeviceRobotCalibrationBusiness {
   }
   private client = new HowellHttpClient.HttpClient()
   private service = new ArmRobotRequestService(this.client.http)
-  private commandId = -1
+  private commandId = 0
   private _location = new MeshLocation()
   private status?: RobotCalibration
 
@@ -79,18 +79,21 @@ export class DeviceRobotCalibrationBusiness {
   }
 
   async stop(id: string) {
-    if (await this.calibrating(id)) return false
+    let calibrating = await this.calibrating(id)
+    if (!calibrating) return false
     return this.service.calibration.stop(id)
   }
 
   private step(id: string, direction: number) {
-    this.commandId++
     let command = new RobotMeshStepCommand()
     command.Id = this.commandId
     command.Data = {
       Direction: direction,
     }
-    return this.service.command.send(id, command)
+    return this.service.command.send(id, command).then((x) => {
+      this.commandId = x.Id ?? 0
+      return x
+    })
   }
 
   top(id: string) {
@@ -140,6 +143,7 @@ export class DeviceRobotCalibrationBusiness {
   async result(id: string) {
     return new Promise<RobotCommandResult[]>((resolve, reject) => {
       this.service.command.results(id).then((results) => {
+        console.log(this)
         let filter = results.filter(
           (x) =>
             x.Code == 0 &&

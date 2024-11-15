@@ -102,6 +102,12 @@ export class DeviceRobotCalibrationHtmlEChartController {
         case MeshNodeType.StorePort:
           port = this.converter.StorePort(node)
           break
+        case MeshNodeType.SterilizedPort:
+          port = this.converter.SterilizedPort(node)
+          break
+        case MeshNodeType.Compactor:
+          port = this.converter.Compactor(node)
+          break
 
         default:
           break

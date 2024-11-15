@@ -9,16 +9,21 @@ export class HTMLInputNumberElementTool {
       let value = parseInt(input.value)
       let min = parseInt(input.min)
       let max = parseInt(input.max)
+      let step = parseInt(input.step)
+      if (Number.isNaN(step)) {
+        step = 1
+      }
       if (event.deltaY < 0) {
         if (!Number.isNaN(max) && value >= max) {
           return
         }
-        value++
+
+        value += step
       } else {
         if (!Number.isNaN(min) && value <= min) {
           return
         }
-        value--
+        value -= step
       }
 
       input.value = value.toString()

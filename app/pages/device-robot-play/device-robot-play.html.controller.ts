@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model'
 import { MeshNode } from '../../data-core/models/robot/mesh-node.model'
 import { DeviceRobotModel } from '../device-robot/device-robot.model'
@@ -8,63 +7,30 @@ import { DeviceRobotPlayEChartDisplay } from './controller/details/device-robot-
 import { DeviceRobotPlayStateChartController } from './controller/details/device-robot-play-state-color.controller'
 import { DeviceRobotPlayHtmlStatusController } from './controller/details/device-robot-play.html-status.controller'
 import { DeviceRobotPlayHtmlTrashCansController } from './controller/details/device-robot-play.html-trashcans.controller'
+import { DeviceRobotPlayHtmlTemplateController } from './controller/details/template/device-robot-play-template.controller'
 import { DeviceRobotPlayHtmlEChartController } from './controller/echarts/device-robot-play-html-echart.controller'
 import { DeviceRobotPlayEvent } from './device-robot-play.event'
+import { DeviceRobotPlayMode } from './device-robot-play.model'
 import './less/device-robot-play-details.less'
 import './less/device-robot-play.less'
+
 export class DeviceRobotPlayHtmlController {
   constructor() {
+    this.init()
     this.regist()
   }
 
   element = {
-    mode: {
-      move: document.getElementById('mode_move') as HTMLButtonElement,
-      change: document.getElementById('mode_change') as HTMLButtonElement,
-    },
-    node: {
-      drop: {
-        id: document.getElementById('node_drop_id') as HTMLInputElement,
-        rfid: document.getElementById('node_drop_rfid') as HTMLInputElement,
-        name: document.getElementById('node_drop_name') as HTMLInputElement,
-
-        cantype: document.getElementById(
-          'node_drop_cantype'
-        ) as HTMLInputElement,
-      },
-      store: {
-        id: document.getElementById('node_store_id') as HTMLInputElement,
-        rfid: document.getElementById('node_store_rfid') as HTMLInputElement,
-        name: document.getElementById('node_store_name') as HTMLInputElement,
-
-        cantype: document.getElementById(
-          'node_store_cantype'
-        ) as HTMLInputElement,
-      },
-      target: {
-        id: document.getElementById('node_target_id') as HTMLInputElement,
-        rfid: document.getElementById('node_target_rfid') as HTMLInputElement,
-        name: document.getElementById('node_target_name') as HTMLInputElement,
-        nodeType: document.getElementById(
-          'node_target_nodetype'
-        ) as HTMLInputElement,
-        cantype: document.getElementById(
-          'node_target_cantype'
-        ) as HTMLInputElement,
-      },
-    },
-    details: {
-      moveto: document.getElementById('details_moveto') as HTMLDivElement,
-      changeto: document.getElementById('details_changeto') as HTMLDivElement,
-    },
-    buttons: {
-      reset: document.getElementById('btn_reset') as HTMLButtonElement,
-      move: document.getElementById('btn_command_move') as HTMLButtonElement,
-      change: document.getElementById(
-        'btn_command_change'
-      ) as HTMLButtonElement,
-      weigh: document.getElementById('btn_command_weigh') as HTMLButtonElement,
-    },
+    mode: document.getElementById('mode') as HTMLSelectElement,
+    content: document.getElementById('content') as HTMLDivElement,
+    // buttons: {
+    //   reset: document.getElementById('btn_reset') as HTMLButtonElement,
+    //   move: document.getElementById('btn_command_move') as HTMLButtonElement,
+    //   change: document.getElementById(
+    //     'btn_command_change'
+    //   ) as HTMLButtonElement,
+    //   weigh: document.getElementById('btn_command_weigh') as HTMLButtonElement,
+    // },
   }
 
   event: EventEmitter<DeviceRobotPlayEvent> = new EventEmitter()
@@ -73,39 +39,9 @@ export class DeviceRobotPlayHtmlController {
   statechart = new DeviceRobotPlayStateChartController()
   trashcans = new DeviceRobotPlayHtmlTrashCansController()
   display = new DeviceRobotPlayEChartDisplayController()
+  template = new DeviceRobotPlayHtmlTemplateController()
 
-  private _ismove: boolean = true
-  public get ismove(): boolean {
-    return this._ismove
-  }
-  public set ismove(v: boolean) {
-    this._ismove = v
-    if (this._ismove) {
-      this.element.mode.move.className = 'button-blue nohover'
-      this.element.mode.change.className = 'button-blue-line nohover'
-      this.element.details.changeto.style.display = 'none'
-      this.element.details.moveto.style.display = ''
-      this.element.buttons.move.style.display = ''
-      this.element.buttons.weigh.style.display = ''
-      this.element.buttons.change.style.display = 'none'
-      this.element.buttons.reset.style.display = 'none'
-      this.echart.start.clear()
-      this.echart.end.clear()
-      this.clearDrop()
-      this.clearStore()
-    } else {
-      this.element.mode.move.className = 'button-blue-line nohover'
-      this.element.mode.change.className = 'button-blue nohover'
-      this.element.details.changeto.style.display = ''
-      this.element.details.moveto.style.display = 'none'
-      this.element.buttons.move.style.display = 'none'
-      this.element.buttons.weigh.style.display = 'none'
-      this.element.buttons.change.style.display = ''
-      this.element.buttons.reset.style.display = ''
-      this.echart.target.clear()
-      this.clearTarget()
-    }
-  }
+  private mode = DeviceRobotPlayMode.single
 
   selected: {
     store?: MeshNode
@@ -113,103 +49,96 @@ export class DeviceRobotPlayHtmlController {
     target?: MeshNode
   } = {}
 
-  regist() {
-    this.element.mode.move.addEventListener('click', (e) => {
-      this.ismove = true
+  private init() {
+    this.template.create(this.element.content, this.mode)
+  }
+
+  private regist() {
+    this.element.mode.addEventListener('change', (e) => {
+      this.mode = this.element.mode.selectedIndex
+      this.clear()
+      this.element.content.innerHTML = ''
+      this.template.create(this.element.content, this.mode)
+      this.event.emit('modechange', this.mode)
     })
-    this.element.mode.change.addEventListener('click', (e) => {
-      this.ismove = false
-    })
-    this.element.buttons.move.addEventListener('click', (e) => {
+
+    this.template.event.on('move', () => {
       if (this.selected.target) {
         this.event.emit('moveto', this.selected.target)
       }
     })
-    this.element.buttons.weigh.addEventListener('click', (e) => {
+    this.template.event.on('weigh', () => {
       if (this.selected.target) {
         this.event.emit('weigh', this.selected.target)
       }
     })
-    this.element.buttons.change.addEventListener('click', (e) => {
+    this.template.event.on('spray', (args) => {
+      this.event.emit('spray', args)
+    })
+    this.template.event.on('compaction', (args) => {
+      if (this.selected.drop) {
+        this.event.emit('compaction', { node: this.selected.drop, args })
+      }
+    })
+    this.template.event.on('change', () => {
       if (this.selected.store && this.selected.drop) {
         this.event.emit('changeto', this.selected.store, this.selected.drop)
       }
     })
-    this.element.buttons.reset.addEventListener('click', (e) => {
+    this.template.event.on('reset', () => {
       this.clear()
     })
     this.echart.event.on('nodeselect', (node) => {
-      if (this.ismove) {
-        this.selectTarget(node)
-      } else {
-        switch (node.NodeType) {
-          case MeshNodeType.DropPort:
-            this.selectDrop(node)
-            break
-          case MeshNodeType.StorePort:
-            this.selectStore(node)
-            break
+      switch (this.mode) {
+        case DeviceRobotPlayMode.single:
+          this.selectTarget(node)
+          break
+        case DeviceRobotPlayMode.change:
+          switch (node.NodeType) {
+            case MeshNodeType.DropPort:
+              this.selectDrop(node)
+              break
+            case MeshNodeType.StorePort:
+              this.selectStore(node)
+              break
 
-          default:
-            break
-        }
+            default:
+              break
+          }
+        case DeviceRobotPlayMode.compaction:
+          if (node.NodeType === MeshNodeType.DropPort) {
+            this.selectDrop(node)
+          }
+          break
+        default:
+          break
       }
     })
   }
 
-  clearTarget() {
-    for (const key in this.element.node.target) {
-      ;(this.element.node.target as any)[key].value = ''
-    }
-  }
-  clearDrop() {
-    for (const key in this.element.node.drop) {
-      ;(this.element.node.drop as any)[key].value = ''
-    }
-    this.echart.end.clear()
-  }
-  clearStore() {
-    for (const key in this.element.node.store) {
-      ;(this.element.node.store as any)[key].value = ''
-    }
-    this.echart.start.clear()
-  }
-
   clear() {
-    this.clearDrop()
-    this.clearStore()
-    this.clearTarget()
+    this.template.clear()
+    this.echart.target.clear()
+    this.echart.start.clear()
+    this.echart.end.clear()
+    this.selected.target = undefined
+    this.selected.store = undefined
+    this.selected.drop = undefined
   }
 
   async selectTarget(data: MeshNode) {
     this.selected.target = data
-    this.element.node.target.id.value = data.Id
-    this.element.node.target.rfid.value = data.Rfid ?? ''
-    this.element.node.target.name.value = data.Name ?? ''
-    this.element.node.target.nodeType.value = await EnumTool.MeshNodeType(
-      data.NodeType
-    )
-    this.element.node.target.cantype.value = await EnumTool.CanType(
-      data.CanType
-    )
+    this.template.load(data)
     this.echart.target.set(data.Id)
   }
   async selectDrop(data: MeshNode) {
     this.selected.drop = data
-    this.element.node.drop.id.value = data.Id
-    this.element.node.drop.rfid.value = data.Rfid ?? ''
-    this.element.node.drop.name.value = data.Name ?? ''
-
-    this.element.node.drop.cantype.value = await EnumTool.CanType(data.CanType)
+    this.template.load({ drop: data })
     this.echart.end.set(data.Id)
   }
   async selectStore(data: MeshNode) {
     this.selected.store = data
-    this.element.node.store.id.value = data.Id
-    this.element.node.store.rfid.value = data.Rfid ?? ''
-    this.element.node.store.name.value = data.Name ?? ''
-
-    this.element.node.store.cantype.value = await EnumTool.CanType(data.CanType)
+    this.template.load({ store: data })
     this.echart.start.set(data.Id)
   }
 

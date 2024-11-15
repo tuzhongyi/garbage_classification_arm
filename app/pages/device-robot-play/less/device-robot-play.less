@@ -85,8 +85,6 @@
         display: flex;
         align-items: center;
         gap: 5px;
-
-
       }
     }
 
@@ -146,14 +144,20 @@
         right: 20px;
         bottom: 20px;
         pointer-events: none;
+        display: flex;
+        gap: 5px 0;
+        flex-wrap: wrap;
+        width: 180px;
       }
 
 
 
       &-item {
+        width: 90px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        font-size: 13px;
+        gap: 8px;
 
         &-ChargingPort {
           width: 15px;
@@ -182,6 +186,20 @@
           border-radius: 50%;
           border: 1px solid #7e7e7e;
           background-color: #b1d4ff;
+        }
+
+        &-SterilizedPort {
+          width: 15px;
+          height: 15px;
+          border: 1px solid #7e7e7e;
+          background-color: #d3bdff;
+        }
+
+        &-Compactor {
+          width: 15px;
+          height: 15px;
+          border: 1px solid #7e7e7e;
+          background-color: #ffc8f0;
         }
       }
     }
@@ -214,13 +232,10 @@
     }
 
     .buttons {
-      &>* {
-        margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
 
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
 
       button {
         width: 100%;
@@ -230,24 +245,39 @@
     }
 
     .command {
+      @mode-height: 120px;
+
       &-mode {
-        height: 130px;
+        height: @mode-height;
         box-sizing: border-box;
       }
 
+
+
+
       &-doing {
-        height: calc(100% - 130px - 10px);
+        height: calc(100% - @mode-height - 10px);
         box-sizing: border-box;
 
-
-        &-content {
-          height: calc(100% - 100px);
+        &-container {
           width: 100%;
-          padding-right: 15px;
-          overflow-y: auto;
-        }
+          height: 100%;
+          display: flex;
+          flex-direction: column;
 
-        .buttons {}
+          &-content {
+            flex-grow: 1;
+            height: calc(100% - 150px);
+            width: 100%;
+            padding-right: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+          }
+
+          .buttons {}
+        }
       }
     }
 

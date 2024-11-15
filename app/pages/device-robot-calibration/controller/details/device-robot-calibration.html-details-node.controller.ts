@@ -32,6 +32,12 @@ export class DeviceRobotCalibrationHtmlNodeDetailsController {
         MagneticPin: document.getElementById(
           'node_type_MagneticPin'
         ) as HTMLDivElement,
+        SterilizedPort: document.getElementById(
+          'node_type_SterilizedPort'
+        ) as HTMLDivElement,
+        Compactor: document.getElementById(
+          'node_type_Compactor'
+        ) as HTMLDivElement,
       },
       cantype: {
         parent: document.querySelector('.can-type') as HTMLDivElement,
@@ -67,6 +73,14 @@ export class DeviceRobotCalibrationHtmlNodeDetailsController {
     this.element.node.nodetype.StorePort.addEventListener('click', () => {
       this.nodetypechange(MeshNodeType.StorePort)
       this.event.emit('nodetypechange', MeshNodeType.StorePort)
+    })
+    this.element.node.nodetype.SterilizedPort.addEventListener('click', () => {
+      this.nodetypechange(MeshNodeType.SterilizedPort)
+      this.event.emit('nodetypechange', MeshNodeType.SterilizedPort)
+    })
+    this.element.node.nodetype.Compactor.addEventListener('click', () => {
+      this.nodetypechange(MeshNodeType.Compactor)
+      this.event.emit('nodetypechange', MeshNodeType.Compactor)
     })
     this.element.node.cantype.Wet.addEventListener('click', () => {
       this.cantypechange(CanType.Wet)
@@ -165,6 +179,14 @@ export class DeviceRobotCalibrationHtmlNodeDetailsController {
       case MeshNodeType.StorePort:
         this.element.node.nodetype.StorePort.classList.add('selected')
         this.element.node.cantype.parent.style.display = ''
+        break
+      case MeshNodeType.SterilizedPort:
+        this.element.node.nodetype.SterilizedPort.classList.add('selected')
+        this.element.node.cantype.parent.style.display = 'none'
+        break
+      case MeshNodeType.Compactor:
+        this.element.node.nodetype.Compactor.classList.add('selected')
+        this.element.node.cantype.parent.style.display = 'none'
         break
 
       default:
