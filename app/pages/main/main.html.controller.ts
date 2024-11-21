@@ -138,6 +138,8 @@ export class ArmMainHtmlController {
         return '../device-robot-index/device-robot-index.html'
       case 'device_sortation':
         return '../device-sortation-index/device-sortation-index.html'
+      case 'device_compactor':
+        return '../device-compactor-index/device-compactor-index.html'
       case 'device_trashcan':
         return '../device-trashcan-index/device-trashcan-index.html'
       case 'device_drop_port':
@@ -171,6 +173,7 @@ export class ArmMainHtmlController {
       ) {
         LocalStorageService.navigation.device.robot.clear()
         LocalStorageService.navigation.device.sortation.clear()
+        LocalStorageService.navigation.device.compactor.clear()
       }
     }
     current.classList.add('selected')

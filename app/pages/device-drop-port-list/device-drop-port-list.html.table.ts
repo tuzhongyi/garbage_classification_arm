@@ -124,7 +124,7 @@ export class DeviceDropPortListHtmlTable {
 
       let FullTrashCanPortState = []
       for (let j = 0; j < item.FullTrashCanPortStates.length; j++) {
-        let state = await EnumTool.TrashCanPortState(
+        let state = await EnumTool.device.TrashCanPortState(
           item.FullTrashCanPortStates[j]
         )
 
@@ -134,11 +134,11 @@ export class DeviceDropPortListHtmlTable {
       let values: string[] = [
         HtmlTool.set(item.Id),
         HtmlTool.set(item.Name),
-        await EnumTool.CanType(item.DropPortType, '-'),
-        await EnumTool.DropPortState(item.DropPortState, '-'),
-        await EnumTool.TrashCanPortState(item.TrashCanPortState, '-'),
-        await EnumTool.IOState(item.DefaultIOState, '-'),
-        await EnumTool.IOState(item.FullIOState, '-'),
+        await EnumTool.input.trashcan.CanType(item.DropPortType, '-'),
+        await EnumTool.device.DropPortState(item.DropPortState, '-'),
+        await EnumTool.device.TrashCanPortState(item.TrashCanPortState, '-'),
+        await EnumTool.device.IOState(item.DefaultIOState, '-'),
+        await EnumTool.device.IOState(item.FullIOState, '-'),
         FullTrashCanPortState.join('，'),
         item.AlarmOutIds ? item.AlarmOutIds.join('，') : '-',
         Language.Enabled(item.AlarmOutEnabled, '-'),

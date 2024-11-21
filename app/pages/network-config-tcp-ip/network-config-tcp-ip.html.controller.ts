@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { wait } from '../../common/tools/asyn'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
-import { wait } from '../../common/tools/wait'
 import { AddressingType } from '../../data-core/enums/addressing-type.enum'
 import { NetworkInterface } from '../../data-core/models/arm/network-interface.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'

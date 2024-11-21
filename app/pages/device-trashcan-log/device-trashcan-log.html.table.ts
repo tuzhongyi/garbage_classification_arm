@@ -52,11 +52,14 @@ export class DeviceTrashCanLogHtmlTable {
     let row = document.createElement('tr')
 
     this.appendTd(row, data.Time.format('HH:mm:ss'))
-    this.appendTd(row, await EnumTool.TrashCanRecordType(data.RecordType))
+    this.appendTd(
+      row,
+      await EnumTool.input.trashcan.TrashCanRecordType(data.RecordType)
+    )
     this.appendTd(row, HtmlTool.set(data.RobotName, '-'), data.RobotId)
     this.appendTd(row, this.format(data.Destinations))
     this.appendTd(row, HtmlTool.set(data.Weight, '-'))
-    this.appendTd(row, await EnumTool.CanType(data.CanType))
+    this.appendTd(row, await EnumTool.input.trashcan.CanType(data.CanType))
     this.appendTd(row, data.Send ? '成功' : '失败')
     this.appendTd(
       row,

@@ -31,18 +31,8 @@ export namespace ArmLogin {
         })
         LocalStorageService.navigation.device.robot.clear()
         LocalStorageService.navigation.device.sortation.clear()
+        LocalStorageService.navigation.device.compactor.clear()
         location.href = '/main/main.html'
-        // this.client
-        //   .login(data.username, data.password)
-        //   .then((x) => {
-        //     location.href = '/main/main.html'
-        //   })
-        //   .catch((e) => {
-        //     MessageBar.error('用户名或密码错误')
-        //   })
-        //   .finally(() => {
-        //     LocalStorageService.navigation.device.robot.clear()
-        //   })
       })
     }
   }

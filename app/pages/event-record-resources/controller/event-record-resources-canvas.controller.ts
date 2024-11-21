@@ -1,5 +1,5 @@
+import { wait } from '../../../common/tools/asyn'
 import { ColorTool } from '../../../common/tools/color/color.tool'
-import { wait } from '../../../common/tools/wait'
 import { EventDataObject } from '../../../data-core/models/arm/events/event-data-object.model'
 import { EventRule } from '../../../data-core/models/arm/events/event-rule.model'
 import { Point } from '../../../data-core/models/arm/point.model'

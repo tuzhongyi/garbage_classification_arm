@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { wait } from '../../../../common/tools/wait'
+import { wait } from '../../../../common/tools/asyn'
 import { Point } from '../../../../data-core/models/arm/point.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { AIAnalysisServerSourceParamsCanvasPolygonController } from './ai-analysis-server-source-params-canvas-polygon.controller'

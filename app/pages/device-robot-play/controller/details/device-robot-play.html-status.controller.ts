@@ -49,10 +49,10 @@ export class DeviceRobotPlayHtmlStatusController {
         }
         this.element.battery.state.innerHTML += `<span class="${this.getClassnameByRobotState(
           state
-        )}">${await EnumTool.RobotState(state)}</span>`
+        )}">${await EnumTool.robot.RobotState(state)}</span>`
       }
     } else {
-      this.element.battery.state.innerHTML = `<span class="normal">${await EnumTool.RobotState(
+      this.element.battery.state.innerHTML = `<span class="normal">${await EnumTool.robot.RobotState(
         RobotState.None
       )}</span>`
     }

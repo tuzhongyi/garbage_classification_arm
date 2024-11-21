@@ -55,8 +55,13 @@ export class DeviceRobotPlayDetailsSingleTemplate
     this.element.id.value = HtmlTool.set(node.Id)
     this.element.rfid.value = HtmlTool.set(node.Rfid)
     this.element.name.value = HtmlTool.set(node.Name)
-    this.element.type.node.value = await EnumTool.MeshNodeType(node.NodeType)
-    this.element.type.can.value = await EnumTool.CanType(node.CanType, '')
+    this.element.type.node.value = await EnumTool.robot.MeshNodeType(
+      node.NodeType
+    )
+    this.element.type.can.value = await EnumTool.input.trashcan.CanType(
+      node.CanType,
+      ''
+    )
   }
   clear(): void {
     this.element.id.value = ''

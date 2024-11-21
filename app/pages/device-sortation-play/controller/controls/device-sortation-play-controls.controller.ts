@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
-import { wait } from '../../../../common/tools/wait'
 import { SortationCommandType } from '../../../../data-core/enums/sortation/sortation-command-type.enum'
 import { SortationRotation } from '../../../../data-core/enums/sortation/sortation-rotation.enum'
 import { SortationGrid } from '../../../../data-core/models/sortation/sortation-grid.model'

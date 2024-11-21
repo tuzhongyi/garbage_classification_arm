@@ -2607,3 +2607,7 @@ a .howell-icon-flip-vertical:before {
 .howell-icon-claw_machine:before {
     content: "\f407";
 }
+
+.howell-icon-hydraulic_machine:before {
+    content: "\f408";
+}

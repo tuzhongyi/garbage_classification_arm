@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { wait } from '../../common/tools/wait'
+import { wait } from '../../common/tools/asyn'
 import '../window/window.less'
 import { PictureWindowEvent } from './window-picture.event'
 import './window-picture.less'

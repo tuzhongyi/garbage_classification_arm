@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
-import { wait } from '../../../../common/tools/wait'
 import { EnumNameValue } from '../../../../data-core/models/capabilities/enum-name-value.model'
 import { SortationCalibration } from '../../../../data-core/models/sortation/sortation-calibration.model'
 import { Manager } from '../../../../data-core/requests/managers/manager'

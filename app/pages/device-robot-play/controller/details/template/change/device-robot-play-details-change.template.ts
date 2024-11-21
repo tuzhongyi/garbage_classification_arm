@@ -67,7 +67,7 @@ export class DeviceRobotPlayDetailsChangeTemplate
       this.element.store.id.value = HtmlTool.set(node.store.Id)
       this.element.store.rfid.value = HtmlTool.set(node.store.Rfid)
       this.element.store.name.value = HtmlTool.set(node.store.Name)
-      this.element.store.type.can.value = await EnumTool.CanType(
+      this.element.store.type.can.value = await EnumTool.input.trashcan.CanType(
         node.store.CanType,
         ''
       )
@@ -76,7 +76,7 @@ export class DeviceRobotPlayDetailsChangeTemplate
       this.element.drop.id.value = HtmlTool.set(node.drop.Id)
       this.element.drop.rfid.value = HtmlTool.set(node.drop.Rfid)
       this.element.drop.name.value = HtmlTool.set(node.drop.Name)
-      this.element.drop.type.can.value = await EnumTool.CanType(
+      this.element.drop.type.can.value = await EnumTool.input.trashcan.CanType(
         node.drop.CanType,
         ''
       )

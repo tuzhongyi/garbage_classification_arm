@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { wait } from '../../common/tools/asyn'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
-import { wait } from '../../common/tools/wait'
 import { EventType } from '../../data-core/enums/event-type.enum'
 import { CameraAIEvent } from '../../data-core/models/arm/camera-ai-event.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'

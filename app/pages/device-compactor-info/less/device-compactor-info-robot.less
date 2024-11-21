@@ -1,0 +1,61 @@
+.device-compactor-info-body {
+  .device-compactor-info-body-robot {
+
+    position: absolute;
+    width: 360px;
+    left: 40px;
+    top: 0;
+    background-color: white;
+    border: 1px solid #aaa;
+
+
+    &-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background-color: #d7d7d7;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    &-body {
+      padding: 10px;
+
+      .forms {
+        width: 100%;
+
+        .form-item {
+          &-title {
+            width: 100px;
+          }
+
+          &-value {
+            width: calc(100% - 100px);
+          }
+        }
+      }
+    }
+
+    &-foot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+
+      button {
+        width: auto !important;
+
+        &.ok {
+          color: green;
+        }
+
+        &.cancel {
+          color: red;
+        }
+      }
+
+    }
+  }
+}

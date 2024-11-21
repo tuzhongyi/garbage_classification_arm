@@ -21,36 +21,24 @@
       <div class="system-status-running-body">
         <div class="forms">
           <div class="form-item">
-            <div class="form-item-title">内存占用，（单位：MB）</div>
-            <div class="form-item-value">
-              <input
-                id="MemoryUsage"
-                type="text"
-                autocomplete="off"
-                disabled="true"
-              />
+            <div class="form-item-title">内存占用</div>
+            <div class="form-item-value unit">
+              <input id="MemoryUsage" type="text" autocomplete="off" readonly />
+              <i>MB</i>
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-title">总内存大小，（单位：MB）</div>
-            <div class="form-item-value">
-              <input
-                id="TotalMemory"
-                type="text"
-                autocomplete="off"
-                disabled="true"
-              />
+            <div class="form-item-title">总内存大小</div>
+            <div class="form-item-value unit">
+              <input id="TotalMemory" type="text" autocomplete="off" readonly />
+              <i>MB</i>
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-title">CPU占用百分比[0-100]</div>
-            <div class="form-item-value">
-              <input
-                id="CPUUsage"
-                type="text"
-                autocomplete="off"
-                disabled="true"
-              />
+            <div class="form-item-title">CPU占用百分比</div>
+            <div class="form-item-value unit">
+              <input id="CPUUsage" type="text" autocomplete="off" readonly />
+              <i>%</i>
             </div>
           </div>
           <div class="form-item">
@@ -60,41 +48,38 @@
                 id="SystemUpTime"
                 type="text"
                 autocomplete="off"
-                disabled="true"
+                readonly
               />
             </div>
           </div>
           <div class="form-item">
             <div class="form-item-title">芯片类型</div>
             <div class="form-item-value">
-              <input
-                id="ChipType"
-                type="text"
-                autocomplete="off"
-                disabled="true"
-              />
+              <input id="ChipType" type="text" autocomplete="off" readonly />
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-title">芯片温度，（单位：℃）</div>
-            <div class="form-item-value">
+            <div class="form-item-title">芯片温度</div>
+            <div class="form-item-value unit">
               <input
                 id="ChipTemperature"
                 type="text"
                 autocomplete="off"
-                disabled="true"
+                readonly
               />
+              <i>℃</i>
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-title">网络速率，（单位：Mbps）</div>
-            <div class="form-item-value">
+            <div class="form-item-title">网络速率</div>
+            <div class="form-item-value unit">
               <input
                 id="NetworkSpeed"
                 type="text"
                 autocomplete="off"
-                disabled="true"
+                readonly
               />
+              <i>Mbps</i>
             </div>
           </div>
         </div>

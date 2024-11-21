@@ -99,8 +99,12 @@ export class AIAnalysisServerSourceHtmlTable {
         HtmlTool.set(data.Channel),
         Language.StreamType(data.StreamType),
         Language.DeviceType(data.DeviceType),
-        HtmlTool.set(await EnumTool.VideoSourceProtocolType(data.ProtocolType)),
-        HtmlTool.set(await EnumTool.VideoSourceMode(data.Mode)),
+        HtmlTool.set(
+          await EnumTool.server.analysis.VideoSourceProtocolType(
+            data.ProtocolType
+          )
+        ),
+        HtmlTool.set(await EnumTool.server.analysis.VideoSourceMode(data.Mode)),
         HtmlTool.set(data.Vendor, '-'),
       ]
       this.append(data.Id, items)

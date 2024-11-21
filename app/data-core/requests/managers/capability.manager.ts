@@ -1,16 +1,18 @@
-import { wait } from '../../../common/tools/wait'
+import { wait } from '../../../common/tools/asyn'
 import { AnalysisServerCapability } from '../../models/arm/analysis/analysis-server-capability.model'
 import { SecurityCapability } from '../../models/capabilities/arm/cecurity-capability.model'
 import { DepolymentCapability } from '../../models/capabilities/arm/depolyment-capability.model'
 import { DeviceCapability } from '../../models/capabilities/arm/device-capability.model'
 import { InputProxyCapability } from '../../models/capabilities/arm/input-proxy-capability.model'
 import { NetworkCapability } from '../../models/capabilities/arm/network-capability.model'
+import { CompactorCapability } from '../../models/capabilities/compactor/compactor-capability.model'
 import { EventCapability } from '../../models/capabilities/events/event-capability.model'
 import { RobotCapability } from '../../models/capabilities/robot/robot-capability.model'
 import { TrashCanCapability } from '../../models/capabilities/robot/trash-can-capability.model'
 import { SortationCapability } from '../../models/capabilities/sortation/sortation-capability.model'
 import { HowellAuthHttp } from '../auth/howell-auth-http'
 import { HowellHttpClient } from '../http-client'
+import { ArmCompactorRequestService } from '../services/compactor/compactor.service'
 import { ArmDeploymentRequestService } from '../services/deployment/deployment.service'
 import { ArmEventRequestService } from '../services/event/event.service'
 import { ArmRobotRequestService } from '../services/robot/robot.service'
@@ -28,6 +30,7 @@ export class CapabilityManager {
     trashcan: new ArmTrashCansRequestService(this.client.http),
     event: new ArmEventRequestService(this.client.http),
     sortation: new ArmSortationRequestService(this.client.http),
+    compactor: new ArmCompactorRequestService(this.client.http),
   }
 
   private loading = {
@@ -40,6 +43,7 @@ export class CapabilityManager {
     trashcan: false,
     event: false,
     sortation: false,
+    compactor: false,
   }
 
   private _device?: DeviceCapability
@@ -307,6 +311,35 @@ export class CapabilityManager {
         this._sortation = x
         this.loading.sortation = false
         resolve(this._sortation)
+      })
+    })
+  }
+
+  private _compactor?: CompactorCapability
+  public get compactor(): Promise<CompactorCapability> {
+    if (this.loading.compactor) {
+      return new Promise<CompactorCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.compactor === false && !!this._compactor
+          },
+          () => {
+            if (this._compactor) {
+              resolve(this._compactor)
+            }
+          }
+        )
+      })
+    }
+    if (this._compactor) {
+      return Promise.resolve(this._compactor)
+    }
+    this.loading.compactor = true
+    return new Promise<CompactorCapability>((resolve) => {
+      this.service.compactor.capability().then((x) => {
+        this._compactor = x
+        this.loading.compactor = false
+        resolve(this._compactor)
       })
     })
   }

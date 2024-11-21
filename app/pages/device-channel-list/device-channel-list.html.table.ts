@@ -217,10 +217,12 @@ export class DeviceChannelListHtmlTable {
         item.Name,
         item.SourceChannel.HostAddress,
         item.SourceChannel.PortNo.toString(),
-        await EnumTool.DeviceProtocolType(item.SourceChannel.ProtocolType),
+        await EnumTool.input.proxy.DeviceProtocolType(
+          item.SourceChannel.ProtocolType
+        ),
         item.SourceChannel.DeviceModel ?? '',
         item.SourceChannel.SerialNumber ?? '-',
-        await EnumTool.ProxyChannelState(item.ChannelState),
+        await EnumTool.input.proxy.ProxyChannelState(item.ChannelState),
         item.SourceChannel.WebPortNo?.toString() ?? '-',
         `${Language.ChannelPositionNo(item.PositionNo)}(${item.PositionNo})`,
       ]

@@ -2,8 +2,8 @@ import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
 import { SystemIOOutputEvent } from './system-io-output.event'
 
+import { wait } from '../../common/tools/asyn'
 import { EnumTool } from '../../common/tools/enum-tool/enum.tool'
-import { wait } from '../../common/tools/wait'
 import { IOState } from '../../data-core/enums/io/io-state.enum'
 import { IOOutputPort } from '../../data-core/models/arm/io/io-output-port.model'
 import { Manager } from '../../data-core/requests/managers/manager'
@@ -82,7 +82,7 @@ export class SystemIOOutputHtmlController {
 
     let other = data.State === IOState.Low ? IOState.High : IOState.Low
 
-    let text = `${await EnumTool.IOState(other)}输出`
+    let text = `${await EnumTool.device.IOState(other)}输出`
     this.element.manual.text.innerHTML = text
   }
 

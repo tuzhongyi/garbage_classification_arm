@@ -48,12 +48,14 @@ export class DeviceRobotCalibrationHtmlNodeTableController {
     let text = document.createElement('div')
     text.innerHTML = node.Name
     div.appendChild(text)
-    cell.title = await EnumTool.MeshNodeType(node.NodeType)
+    cell.title = await EnumTool.robot.MeshNodeType(node.NodeType)
     cell.appendChild(div)
     row.appendChild(cell)
 
     cell = document.createElement('td')
-    cell.innerHTML = node.CanType ? await EnumTool.CanType(node.CanType) : '-'
+    cell.innerHTML = node.CanType
+      ? await EnumTool.input.trashcan.CanType(node.CanType)
+      : '-'
     row.appendChild(cell)
 
     this.tbody.appendChild(row)

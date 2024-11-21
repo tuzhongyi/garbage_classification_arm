@@ -46,7 +46,7 @@ export namespace DeviceSortationList {
         let data = this.datas.find((data) => data.Id === id)
         if (!data) return
         this.window.confirm.id = id
-        this.window.confirm.message = `是否删除机器人 ${
+        this.window.confirm.message = `是否删除设备 ${
           data.Name ?? data.HostAddress
         }`
         this.message.delete_confirm(this.window.confirm)

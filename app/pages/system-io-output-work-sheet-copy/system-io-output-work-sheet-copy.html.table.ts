@@ -138,7 +138,7 @@ export class SystemIOOutputWorkSheetCopyHtmlTable {
       let values: string[] = [
         item.Id.toString(),
         item.Name ?? '',
-        await EnumTool.IOState(item.State),
+        await EnumTool.device.IOState(item.State),
       ]
       this.append(item.Id.toString(), values)
     }

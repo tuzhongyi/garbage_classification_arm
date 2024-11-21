@@ -1,8 +1,8 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { TimeControl } from '../../../../common/tools/controls/time-control/time-control'
 import { Duration } from '../../../../common/tools/date-time-tool/duration.model'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
-import { wait } from '../../../../common/tools/wait'
 import { IOState } from '../../../../data-core/enums/io/io-state.enum'
 import { Manager } from '../../../../data-core/requests/managers/manager'
 

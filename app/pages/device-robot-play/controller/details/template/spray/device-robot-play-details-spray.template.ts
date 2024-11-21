@@ -53,7 +53,7 @@ export class DeviceRobotPlayDetailsSprayTemplate
     // this.element.id.value = HtmlTool.set(node.Id)
     // this.element.rfid.value = HtmlTool.set(node.Rfid)
     // this.element.name.value = HtmlTool.set(node.Name)
-    // this.element.type.node.value = await EnumTool.MeshNodeType(node.NodeType)
+    // this.element.type.node.value = await EnumTool.robot.MeshNodeType(node.NodeType)
   }
   clear(): void {
     // this.element.id.value = ''

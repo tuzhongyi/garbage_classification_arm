@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../common/event-emitter'
+import { wait } from '../../common/tools/asyn'
 import { DateTimePicker } from '../../common/tools/controls/date-time-picker/date-time-picker'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
-import { wait } from '../../common/tools/wait'
 import { NTPTimeMode } from '../../data-core/enums/ntp-time-mode.enum'
 import { SystemTime } from '../../data-core/models/arm/system-time.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'

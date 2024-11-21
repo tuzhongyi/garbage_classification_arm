@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
-import { wait } from '../../../../common/tools/wait'
 import { IOState } from '../../../../data-core/enums/io/io-state.enum'
 import { CanType } from '../../../../data-core/enums/robot/robot-can-type.model'
 import { InputProxyChannel } from '../../../../data-core/models/arm/input-proxy-channel.model'

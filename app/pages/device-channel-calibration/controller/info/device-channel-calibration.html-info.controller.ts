@@ -79,7 +79,7 @@ export class DeviceChannelCalibrationHtmlInfoController {
     for (let i = 0; i < types.length; i++) {
       let item = {
         Id: types[i],
-        Name: await EnumTool.MeshNodeType(types[i]),
+        Name: await EnumTool.robot.MeshNodeType(types[i]),
       }
       HtmlTool.select.append(item, this.element.type.node)
     }

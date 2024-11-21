@@ -17,7 +17,7 @@ export class DeviceRobotPlayStateChartController {
     color.className = `state-item-${type}`
     item.appendChild(color)
     let text = document.createElement('div')
-    text.innerText = await EnumTool.MeshNodeType(type)
+    text.innerText = await EnumTool.robot.MeshNodeType(type)
     item.appendChild(text)
     this.element.state.appendChild(item)
   }

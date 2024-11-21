@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { Language } from '../../common/language'
+import { wait } from '../../common/tools/asyn'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
-import { wait } from '../../common/tools/wait'
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum'
 import { InputProxyChannel } from '../../data-core/models/arm/input-proxy-channel.model'
 import { IIdNameModel } from '../../data-core/models/model.interface'

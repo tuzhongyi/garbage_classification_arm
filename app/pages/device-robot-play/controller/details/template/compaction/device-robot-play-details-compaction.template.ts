@@ -81,7 +81,7 @@ export class DeviceRobotPlayDetailsCompactionTemplate
       this.element.drop.id.value = HtmlTool.set(args.drop.Id)
       this.element.drop.rfid.value = HtmlTool.set(args.drop.Rfid)
       this.element.drop.name.value = HtmlTool.set(args.drop.Name)
-      this.element.drop.type.can.value = await EnumTool.CanType(
+      this.element.drop.type.can.value = await EnumTool.input.trashcan.CanType(
         args.drop.CanType,
         ''
       )

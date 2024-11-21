@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <!-- <meta http-equiv=  "Expires" content=  "Sun Oct 15 2017 20:39:53 GMT+0800 (CST)"   />  -->
+    <title>垃圾分类</title>
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../../../assets/css/howell.css" />
+
+    <script src="../../../assets/js/ext.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="device-compactor-info">
+      <div class="device-compactor-info-body">
+        <div class="device-compactor-info-body-forms forms">
+          <div class="form-item">
+            <div class="form-item-title">设备名称</div>
+            <div class="form-item-value">
+              <input id="Name" type="text" autocomplete="off" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">IP地址</div>
+            <div class="form-item-value">
+              <input id="HostAddress" type="text" autocomplete="off" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">端口号</div>
+            <div class="form-item-value">
+              <input id="PortNo" type="text" autocomplete="off" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">型号</div>
+            <div class="form-item-value">
+              <input type="text" id="Model" value="GCCD" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">设备类型</div>
+            <div class="form-item-value">
+              <select id="DeviceType"></select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">协议类型</div>
+            <div class="form-item-value">
+              <select id="ProtocolType">
+                <option value="HWMSG">HWMSG</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-item plus">
+            <div class="form-item-title">机器人网络节点编号</div>
+            <div class="form-item-value">
+              <input type="text" id="MeshNodeId" />
+            </div>
+            <div class="form-item-plus">
+              <button class="button-white" title="选择节点" id="node_show">
+                <i class="mdi mdi-network"></i>
+              </button>
+
+              <div
+                class="device-compactor-info-body-robot"
+                id="robot_panel"
+                style="display: none"
+              >
+                <div class="device-compactor-info-body-robot-head">
+                  请选择...
+                </div>
+                <div class="device-compactor-info-body-robot-body">
+                  <div class="forms">
+                    <div class="form-item">
+                      <div class="form-item-title">机器人</div>
+                      <div class="form-item-value">
+                        <select id="robot"></select>
+                      </div>
+                    </div>
+                    <div class="form-item">
+                      <div class="form-item-title">节点名称</div>
+                      <div class="form-item-value">
+                        <select id="node"></select>
+                      </div>
+                    </div>
+                    <div class="form-item">
+                      <div class="form-item-title">节点编号</div>
+                      <div class="form-item-value">
+                        <input type="text" id="node_id" readonly />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="device-compactor-info-body-robot-foot">
+                  <button class="ok" id="node_ok">
+                    <i class="howell-icon-Check"></i>
+                  </button>
+                  <button class="cancel" id="node_cancel">
+                    <i class="howell-icon-Close"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-title">自定义信息</div>
+            <div class="form-item-value">
+              <input id="CustomizedInfo" type="text" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="device-compactor-info-foot">
+        <button class="button-blue default" id="save">
+          <i class="howell-icon-save2"></i> 保存
+        </button>
+      </div>
+    </div>
+  </body>
+  <script src="./device-compactor-info.ts"></script>
+</html>

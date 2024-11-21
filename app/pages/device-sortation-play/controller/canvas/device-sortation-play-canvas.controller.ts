@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { CanvasTool } from '../../../../common/tools/canvas-tool/canvas.tool'
-import { wait } from '../../../../common/tools/wait'
 import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
 import { Rectangle } from '../../../../data-core/models/arm/rectangle.model'
 import { SortationGrid } from '../../../../data-core/models/sortation/sortation-grid.model'

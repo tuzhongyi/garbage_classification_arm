@@ -56,6 +56,10 @@
         "name": "分拣设备"
       },
       {
+        "id": "device_compactor",
+        "name": "压缩设备"
+      },
+      {
         "id": "device_trashcan",
         "name": "垃圾桶"
       },

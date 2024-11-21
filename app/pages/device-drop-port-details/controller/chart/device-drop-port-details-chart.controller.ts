@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../common/event-emitter'
-import { wait } from '../../../../common/tools/wait'
+import { wait } from '../../../../common/tools/asyn'
 import { Resolution } from '../../../../data-core/models/arm/analysis/resolution.model'
 import { Polygon } from '../../../../data-core/models/arm/polygon.model'
 import { DeviceDropPortDetailsConverter as Converter } from '../../device-drop-port-details.converter'

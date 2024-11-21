@@ -75,7 +75,7 @@ export class SystemStatusProcessHtmlTable {
           item.MemoryUsage?.toString(),
           item.Name,
           item.NetworkSpeed?.toString() ?? '',
-          await EnumTool.ProcessState(item.State),
+          await EnumTool.device.ProcessState(item.State),
         ]
         this.append(values)
         this.datas.push(values)

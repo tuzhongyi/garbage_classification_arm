@@ -10,6 +10,7 @@ import { ChannelCalibration } from '../../../data-core/models/arm/channel-calibr
 import { InputProxyChannel } from '../../../data-core/models/arm/input-proxy-channel.model'
 import { DropPortConfig } from '../../../data-core/models/arm/io/drop-port-config.model'
 import { SystemTime } from '../../../data-core/models/arm/system-time.model'
+import { Compactor } from '../../../data-core/models/compactor/compactor.model'
 import { FrpInfo } from '../../../data-core/models/frp-info/frp-info.model'
 import { SortationCalibration } from '../../../data-core/models/sortation/sortation-calibration.model'
 import { ResultArgs } from '../../../pages/main/main.event'
@@ -505,6 +506,52 @@ export class CheckTool {
       return {
         result: false,
         message: '绘制投放口分析区域',
+        inner: true,
+      }
+    }
+    return { result: true }
+  }
+  static Compactor(data: Compactor) {
+    if (!data.HostAddress) {
+      return {
+        result: false,
+        message: '请输入设备名称',
+        inner: true,
+      }
+    }
+    if (!data.HostAddress) {
+      return {
+        result: false,
+        message: '请输入主机地址',
+        inner: true,
+      }
+    }
+    if (data.PortNo < 0 || 65535 < data.PortNo) {
+      return {
+        result: false,
+        message: '端口号范围为0-65535',
+        inner: true,
+      }
+    }
+
+    if (!data.ProtocolType || data.ProtocolType === 'undefined') {
+      return {
+        result: false,
+        message: '请选择协议类型',
+        inner: true,
+      }
+    }
+    if (!data.DeviceType || data.DeviceType === 'undefined') {
+      return {
+        result: false,
+        message: '请选择设备类型',
+        inner: true,
+      }
+    }
+    if (!data.Model) {
+      return {
+        result: false,
+        message: '请输入设备型号',
         inner: true,
       }
     }

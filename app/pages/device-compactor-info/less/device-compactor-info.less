@@ -1,0 +1,50 @@
+ @import "./device-compactor-info-robot.less";
+
+ .device-compactor-info {
+   width: 100%;
+   height: 100%;
+   padding: 20px;
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+
+   &-body {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+
+     .forms {
+       width: 500px;
+
+       .form-item {
+         &-title {
+           width: 200px;
+         }
+
+         &-value {
+           width: calc(100% - 200px);
+         }
+
+         &.plus {
+           @plus-width: 30px;
+
+           width: calc(100% + @plus-width + 10px);
+
+           .form-item-value {
+             width: calc(100% - 200px - @plus-width - 10px);
+           }
+
+           .form-item-plus {
+             position: relative;
+
+             button {
+               width: 100%;
+             }
+           }
+         }
+
+       }
+     }
+   }
+ }

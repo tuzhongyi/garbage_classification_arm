@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../../../common/event-emitter'
+import { wait } from '../../../../common/tools/asyn'
 import { MultiSelectControl } from '../../../../common/tools/controls/multi-select-control/multi-select-control'
 import { HtmlTool } from '../../../../common/tools/html-tool/html.tool'
-import { wait } from '../../../../common/tools/wait'
 import { ModelLabel } from '../../../../data-core/models/arm/analysis/model-label.model'
 import { DropWarningRule } from '../../../../data-core/models/arm/analysis/rules/drop-warning-rule.model'
 import { AIEventRuleDetailsInfoEvent } from '../../ai-event-rule-details.event'
