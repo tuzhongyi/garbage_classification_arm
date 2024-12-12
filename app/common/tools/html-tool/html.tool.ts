@@ -37,4 +37,11 @@ export class HtmlTool {
       return value
     }
   }
+
+  static undefined<T>(value: T): T | undefined {
+    if (value) {
+      return value
+    }
+    return undefined
+  }
 }

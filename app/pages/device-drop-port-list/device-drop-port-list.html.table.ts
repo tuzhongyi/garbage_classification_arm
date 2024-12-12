@@ -134,7 +134,7 @@ export class DeviceDropPortListHtmlTable {
       let values: string[] = [
         HtmlTool.set(item.Id),
         HtmlTool.set(item.Name),
-        await EnumTool.input.trashcan.CanType(item.DropPortType, '-'),
+        await EnumTool.trashcan.CanType(item.DropPortType, '-'),
         await EnumTool.device.DropPortState(item.DropPortState, '-'),
         await EnumTool.device.TrashCanPortState(item.TrashCanPortState, '-'),
         await EnumTool.device.IOState(item.DefaultIOState, '-'),

@@ -25,28 +25,33 @@ export class DeviceRobotPlayDetailsCompactionTemplate
   trashcans: RobotTrashCan[] = []
 
   element = {
-    drop: {
-      id: this.document.getElementById('node_drop_id') as HTMLInputElement,
-      rfid: this.document.getElementById('node_drop_rfid') as HTMLInputElement,
-      name: this.document.getElementById('node_drop_name') as HTMLInputElement,
-      type: {
-        can: this.document.getElementById(
-          'node_drop_cantype'
+    start: {
+      id: this.document.getElementById('node_start_id') as HTMLInputElement,
+      rfid: this.document.getElementById('node_start_rfid') as HTMLInputElement,
+      name: this.document.getElementById('node_start_name') as HTMLInputElement,
+      can: {
+        type: this.document.getElementById(
+          'node_start_cantype'
         ) as HTMLInputElement,
+        has: this.document.getElementById('start_has_can') as HTMLInputElement,
       },
+      covered: this.document.getElementById(
+        'start_covered'
+      ) as HTMLInputElement,
     },
-    params: {
-      start: {
-        can: this.document.getElementById('start_has_can') as HTMLInputElement,
-        covered: this.document.getElementById(
-          'start_covered'
+    end: {
+      id: this.document.getElementById('node_end_id') as HTMLInputElement,
+      rfid: this.document.getElementById('node_end_rfid') as HTMLInputElement,
+      name: this.document.getElementById('node_end_name') as HTMLInputElement,
+      can: {
+        type: this.document.getElementById(
+          'node_end_cantype'
         ) as HTMLInputElement,
-      },
-      end: {
-        can: this.document.getElementById('dest_has_can') as HTMLInputElement,
+        has: this.document.getElementById('end_has_can') as HTMLInputElement,
       },
     },
     button: {
+      reset: this.document.getElementById('btn_reset') as HTMLButtonElement,
       compaction: this.document.getElementById(
         'btn_command_compaction'
       ) as HTMLButtonElement,
@@ -57,49 +62,63 @@ export class DeviceRobotPlayDetailsCompactionTemplate
     this.parent.appendChild(this.document.body.firstChild as HTMLElement)
   }
   private regist() {
+    this.element.button.reset.addEventListener('click', () => {
+      this.event.emit('reset')
+    })
     this.element.button.compaction.addEventListener('click', () => {
       let args: IDeviceRobotPlayHtmlTemplateCompactionEventArgs = {
-        startcan: this.element.params.start.can.checked
-          ? this.element.params.start.can.checked
-          : undefined,
-        endcan: this.element.params.end.can.checked
-          ? this.element.params.end.can.checked
-          : undefined,
-        covered: this.element.params.start.covered.checked
-          ? this.element.params.start.covered.checked
-          : undefined,
+        startcan: HtmlTool.undefined(this.element.start.can.has.checked),
+        endcan: HtmlTool.undefined(this.element.end.can.has.checked),
+        covered: HtmlTool.undefined(this.element.start.covered.checked),
       }
       this.event.emit('compaction', args)
     })
   }
 
   async load(args: {
-    drop?: MeshNode
+    start?: { node: MeshNode; trashcans?: RobotTrashCan[] }
+    end?: { node: MeshNode }
+  }) {
+    if (args.start) {
+      this.start(args.start)
+    }
+    if (args.end) {
+      this.end(args.end)
+    }
+  }
+
+  private async start(args: {
+    node: MeshNode
     trashcans?: RobotTrashCan[]
   }): Promise<void> {
-    if (args.drop) {
-      this.element.drop.id.value = HtmlTool.set(args.drop.Id)
-      this.element.drop.rfid.value = HtmlTool.set(args.drop.Rfid)
-      this.element.drop.name.value = HtmlTool.set(args.drop.Name)
-      this.element.drop.type.can.value = await EnumTool.input.trashcan.CanType(
-        args.drop.CanType,
-        ''
-      )
-    }
-    if (args.trashcans) {
-      this.trashcans = args.trashcans
-    }
-
-    let index = this.trashcans.findIndex((x) => {
-      return x.NodeId === this.element.drop.id.value
-    })
-
-    this.element.params.start.can.checked = index >= 0
+    this.element.start.id.value = HtmlTool.set(args.node.Id)
+    this.element.start.rfid.value = HtmlTool.set(args.node.Rfid)
+    this.element.start.name.value = HtmlTool.set(args.node.Name)
+    this.element.start.can.type.value = await EnumTool.trashcan.CanType(
+      args.node.CanType,
+      ''
+    )
+  }
+  private async end(args: { node: MeshNode }) {
+    this.element.end.id.value = HtmlTool.set(args.node.Id)
+    this.element.end.rfid.value = HtmlTool.set(args.node.Rfid)
+    this.element.end.name.value = HtmlTool.set(args.node.Name)
+    this.element.end.can.type.value = await EnumTool.trashcan.CanType(
+      args.node.CanType,
+      ''
+    )
   }
   clear(): void {
-    this.element.drop.id.value = ''
-    this.element.drop.rfid.value = ''
-    this.element.drop.name.value = ''
-    this.element.drop.type.can.value
+    this.element.start.id.value = ''
+    this.element.start.rfid.value = ''
+    this.element.start.name.value = ''
+    this.element.start.can.type.value = ''
+    this.element.start.can.has.checked = false
+    this.element.start.covered.checked = false
+    this.element.end.id.value = ''
+    this.element.end.rfid.value = ''
+    this.element.end.name.value = ''
+    this.element.end.can.type.value = ''
+    this.element.end.can.has.checked = false
   }
 }

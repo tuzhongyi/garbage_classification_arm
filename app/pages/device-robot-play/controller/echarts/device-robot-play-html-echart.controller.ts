@@ -70,7 +70,7 @@ export class DeviceRobotPlayHtmlEChartController {
     this.option.series[1].data.push(_data)
   }
 
-  label(display: boolean) {
+  label(display: boolean, text: string = '✔') {
     for (let i = 0; i < this.option.series[0].data.length; i++) {
       this.option.series[0].data[i].label = {
         show: display,
@@ -79,13 +79,13 @@ export class DeviceRobotPlayHtmlEChartController {
       if (this.start.id && this.start.id == this.option.series[0].data[i].id) {
         this.option.series[0].data[i].label = {
           show: true,
-          formatter: '✔',
+          formatter: text,
         }
       }
       if (this.end.id && this.end.id == this.option.series[0].data[i].id) {
         this.option.series[0].data[i].label = {
           show: true,
-          formatter: '✔',
+          formatter: text,
         }
       }
       if (
@@ -94,7 +94,7 @@ export class DeviceRobotPlayHtmlEChartController {
       ) {
         this.option.series[0].data[i].label = {
           show: true,
-          formatter: '✔',
+          formatter: text,
         }
       }
     }
@@ -124,9 +124,9 @@ export class DeviceRobotPlayHtmlEChartController {
   }
   target = {
     id: undefined as string | undefined,
-    set: (id: string) => {
+    set: (id: string, text?: string) => {
       this.start.id = id
-      this.label(this.config ? this.config.label : false)
+      this.label(this.config ? this.config.label : false, text)
       this.echart.setOption(this.option)
     },
     clear: () => {
@@ -137,9 +137,9 @@ export class DeviceRobotPlayHtmlEChartController {
   }
   start = {
     id: undefined as string | undefined,
-    set: (id: string) => {
+    set: (id: string, text?: string) => {
       this.start.id = id
-      this.label(this.config ? this.config.label : false)
+      this.label(this.config ? this.config.label : false, text)
       this.echart.setOption(this.option)
     },
     clear: () => {
@@ -150,9 +150,9 @@ export class DeviceRobotPlayHtmlEChartController {
   }
   end = {
     id: undefined as string | undefined,
-    set: (id: string) => {
+    set: (id: string, text?: string) => {
       this.end.id = id
-      this.label(this.config ? this.config.label : false)
+      this.label(this.config ? this.config.label : false, text)
       this.echart.setOption(this.option)
     },
     clear: () => {

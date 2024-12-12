@@ -58,7 +58,7 @@ export class DeviceRobotPlayDetailsSingleTemplate
     this.element.type.node.value = await EnumTool.robot.MeshNodeType(
       node.NodeType
     )
-    this.element.type.can.value = await EnumTool.input.trashcan.CanType(
+    this.element.type.can.value = await EnumTool.trashcan.CanType(
       node.CanType,
       ''
     )

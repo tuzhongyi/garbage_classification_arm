@@ -202,7 +202,7 @@ export class DeviceRobotCalibrationHtmlEChartConverter {
     let port = {
       x: data.Position!.X,
       y: data.Position!.Y,
-      name: `${await EnumTool.input.trashcan.CanType(data.CanType)}_${
+      name: `${await EnumTool.trashcan.CanType(data.CanType)}_${
         data.NodeId ?? id
       }`,
       id: id,

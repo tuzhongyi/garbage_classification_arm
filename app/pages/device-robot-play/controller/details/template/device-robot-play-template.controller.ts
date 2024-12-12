@@ -37,6 +37,9 @@ export class DeviceRobotPlayHtmlTemplateController {
         break
       case DeviceRobotPlayMode.compaction:
         this.template = new DeviceRobotPlayDetailsCompactionTemplate(parent)
+        this.template.event.on('reset', () => {
+          this.event.emit('reset')
+        })
         this.template.event.on('compaction', (args) => {
           this.event.emit('compaction', args)
         })

@@ -47,6 +47,8 @@ export class DeviceRobotPlayHtmlController {
     store?: MeshNode
     drop?: MeshNode
     target?: MeshNode
+    start?: MeshNode
+    end?: MeshNode
   } = {}
 
   private init() {
@@ -76,8 +78,12 @@ export class DeviceRobotPlayHtmlController {
       this.event.emit('spray', args)
     })
     this.template.event.on('compaction', (args) => {
-      if (this.selected.drop) {
-        this.event.emit('compaction', { node: this.selected.drop, args })
+      if (this.selected.start && this.selected.end) {
+        this.event.emit('compaction', {
+          start: this.selected.start,
+          end: this.selected.end,
+          args,
+        })
       }
     })
     this.template.event.on('change', () => {
@@ -105,9 +111,12 @@ export class DeviceRobotPlayHtmlController {
             default:
               break
           }
+          break
         case DeviceRobotPlayMode.compaction:
-          if (node.NodeType === MeshNodeType.DropPort) {
-            this.selectDrop(node)
+          if (this.selected.start) {
+            this.selectEnd(node)
+          } else {
+            this.selectStart(node)
           }
           break
         default:
@@ -124,6 +133,8 @@ export class DeviceRobotPlayHtmlController {
     this.selected.target = undefined
     this.selected.store = undefined
     this.selected.drop = undefined
+    this.selected.start = undefined
+    this.selected.end = undefined
   }
 
   async selectTarget(data: MeshNode) {
@@ -140,6 +151,16 @@ export class DeviceRobotPlayHtmlController {
     this.selected.store = data
     this.template.load({ store: data })
     this.echart.start.set(data.Id)
+  }
+  async selectStart(data: MeshNode) {
+    this.selected.start = data
+    this.template.load({ start: { node: data } })
+    this.echart.start.set(data.Id, '始')
+  }
+  async selectEnd(data: MeshNode) {
+    this.selected.end = data
+    this.template.load({ end: { node: data } })
+    this.echart.end.set(data.Id, '终')
   }
 
   async load(model: DeviceRobotModel, config: DeviceRobotPlayEChartDisplay) {

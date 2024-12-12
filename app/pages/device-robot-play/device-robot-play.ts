@@ -137,19 +137,15 @@ export namespace DeviceRobotCalibration {
       }
     }
     oncompaction(args: {
-      node: MeshNode
+      start: MeshNode
+      end: MeshNode
       args: IDeviceRobotPlayHtmlTemplateCompactionEventArgs
     }) {
-      let compactor = this.model?.nodes.find(
-        (x) => x.NodeType === MeshNodeType.Compactor
-      )
-      if (compactor) {
-        this.business
-          .transportto(this.id, args.node, compactor, args.args)
-          .catch((e) => {
-            MessageBar.error(e.message)
-          })
-      }
+      this.business
+        .transportto(this.id, args.start, args.end, args.args)
+        .catch((e) => {
+          MessageBar.error(e.message)
+        })
     }
   }
 

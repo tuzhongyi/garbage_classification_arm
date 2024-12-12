@@ -10,7 +10,8 @@ export interface DeviceRobotPlayEvent {
   weigh: (node: MeshNode) => void
   spray: (args: IDeviceRobotPlayHtmlTemplateSprayEventArgs) => void
   compaction: (args: {
-    node: MeshNode
+    start: MeshNode
+    end: MeshNode
     args: IDeviceRobotPlayHtmlTemplateCompactionEventArgs
   }) => void
   changeto: (store: MeshNode, drop: MeshNode) => void

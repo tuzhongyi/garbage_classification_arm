@@ -16,14 +16,12 @@ export class DeviceRobotPlayHtmlTrashCansController {
   private async append(trashcan: RobotTrashCan) {
     let div = document.createElement('div')
     div.classList.add('trashcan')
-    let title = `类型：${await EnumTool.input.trashcan.CanType(
-      trashcan.CanType
-    )}`
+    let title = `类型：${await EnumTool.trashcan.CanType(trashcan.CanType)}`
     if (trashcan.Volume != undefined) {
       title += '\n容量：' + trashcan.Volume
     }
     if (trashcan.CoverState) {
-      title += `\n桶盖：${await EnumTool.input.trashcan.CoverState(
+      title += `\n桶盖：${await EnumTool.trashcan.CoverState(
         trashcan.CoverState
       )}`
     }

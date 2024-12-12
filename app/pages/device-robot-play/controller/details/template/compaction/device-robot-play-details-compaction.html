@@ -1,30 +1,30 @@
 <div class="command-doing-container">
   <div class="command-doing-container-content">
     <div class="command-doing-item details">
-      <div class="details-title">投放口</div>
+      <div class="details-title">起始位置</div>
       <div class="details-content forms">
         <div class="form-item">
           <div class="form-item-title">编号：</div>
           <div class="form-item-value">
-            <input type="text" readonly="true" id="node_drop_id" />
+            <input type="text" readonly="true" id="node_start_id" />
           </div>
         </div>
         <div class="form-item">
           <div class="form-item-title">RFID：</div>
           <div class="form-item-value">
-            <input type="text" readonly="true" id="node_drop_rfid" />
+            <input type="text" readonly="true" id="node_start_rfid" />
           </div>
         </div>
         <div class="form-item">
           <div class="form-item-title">名称：</div>
           <div class="form-item-value">
-            <input type="text" readonly="true" id="node_drop_name" />
+            <input type="text" readonly="true" id="node_start_name" />
           </div>
         </div>
         <div class="form-item">
           <div class="form-item-title">子类型：</div>
           <div class="form-item-value">
-            <input type="text" readonly="true" id="node_drop_cantype" />
+            <input type="text" readonly="true" id="node_start_cantype" />
           </div>
         </div>
         <div class="form-item">
@@ -42,12 +42,36 @@
       </div>
     </div>
     <div class="command-doing-item drop details">
-      <div class="details-title">压实机</div>
+      <div class="details-title">搬运至</div>
       <div class="details-content forms">
+        <div class="form-item">
+          <div class="form-item-title">编号：</div>
+          <div class="form-item-value">
+            <input type="text" readonly="true" id="node_end_id" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title">RFID：</div>
+          <div class="form-item-value">
+            <input type="text" readonly="true" id="node_end_rfid" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title">名称：</div>
+          <div class="form-item-value">
+            <input type="text" readonly="true" id="node_end_name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title">子类型：</div>
+          <div class="form-item-value">
+            <input type="text" readonly="true" id="node_end_cantype" />
+          </div>
+        </div>
         <div class="form-item">
           <div class="form-item-title">是否有桶：</div>
           <div class="form-item-value">
-            <input type="checkbox" id="dest_has_can" />
+            <input type="checkbox" id="end_has_can" />
           </div>
         </div>
       </div>
@@ -55,6 +79,7 @@
   </div>
 
   <div class="buttons">
+    <button class="button-white" id="btn_reset">重选</button>
     <button class="button-blue-line" id="btn_command_compaction">启动</button>
   </div>
 </div>

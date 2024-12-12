@@ -54,10 +54,10 @@ export class NavigationStorage implements IStorage<NavigationIndex> {
     for (const key in ai) {
       ai[key].clear()
     }
-    let event = this.event as any
-    for (const key in ai) {
-      event[key].clear()
-    }
+    // let event = this.event as any
+    // for (const key in ai) {
+    //   event[key].clear()
+    // }
   }
 
   system = {

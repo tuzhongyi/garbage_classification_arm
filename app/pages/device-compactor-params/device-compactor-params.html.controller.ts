@@ -55,7 +55,6 @@ export class DeviceCompactorParamsHtmlController {
       data.HorizontalDistance
     )
     this.element.ReusedDistance.value = HtmlTool.set(data.ReusedDistance)
-    this.element.CanPressed.checked = data.CanPressed ?? false
   }
 
   get(data: CompactorParams) {

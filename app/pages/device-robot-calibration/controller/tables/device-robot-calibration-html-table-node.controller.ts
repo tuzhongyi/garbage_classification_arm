@@ -54,7 +54,7 @@ export class DeviceRobotCalibrationHtmlNodeTableController {
 
     cell = document.createElement('td')
     cell.innerHTML = node.CanType
-      ? await EnumTool.input.trashcan.CanType(node.CanType)
+      ? await EnumTool.trashcan.CanType(node.CanType)
       : '-'
     row.appendChild(cell)
 

@@ -52,7 +52,7 @@ export class DeviceTrashCanParamsHtmlController {
     let Threshold_CanType = clone.querySelector(
       '.Threshold-CanType'
     ) as HTMLDivElement
-    Threshold_CanType.innerHTML = `${await EnumTool.input.trashcan.CanType(
+    Threshold_CanType.innerHTML = `${await EnumTool.trashcan.CanType(
       item.CanType
     )}最小空桶数量`
 
@@ -64,7 +64,7 @@ export class DeviceTrashCanParamsHtmlController {
     let ChangeThreshold_CanType = clone.querySelector(
       '.ChangeThreshold-CanType'
     ) as HTMLDivElement
-    ChangeThreshold_CanType.innerHTML = `${await EnumTool.input.trashcan.CanType(
+    ChangeThreshold_CanType.innerHTML = `${await EnumTool.trashcan.CanType(
       item.CanType
     )}更换阈值`
     let ChangeThreshold = clone.querySelector(

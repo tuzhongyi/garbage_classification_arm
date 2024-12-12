@@ -138,9 +138,9 @@ export class DeviceTrashCanListHtmlTable {
       let channel = await item.channel
       let values: string[] = [
         HtmlTool.set(item.No ?? i + 1),
-        await EnumTool.input.trashcan.CanType(item.CanType),
+        await EnumTool.trashcan.CanType(item.CanType),
         HtmlTool.set(item.Volume, '-'),
-        await EnumTool.input.trashcan.CoverState(item.CoverState),
+        await EnumTool.trashcan.CoverState(item.CoverState),
         HtmlTool.set(item.Confidence, '-'),
         HtmlTool.set(channel ? channel.Name : '-'),
         HtmlTool.set(item.UpdateTime.format('yyyy-MM-dd HH:mm:ss')),
