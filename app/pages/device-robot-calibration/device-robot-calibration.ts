@@ -155,12 +155,14 @@ export namespace DeviceRobotCalibration {
     onnodesave() {
       if (this.selected.node) {
         this.selected.node.Name = this.html.details.element.node.name.value
+        this.selected.node.Rfid = this.html.details.element.node.rfid.value
         this.selected.node.Position.X = parseFloat(
           this.html.details.element.node.x.value
         )
         this.selected.node.Position.Y = parseFloat(
           this.html.details.element.node.y.value
         )
+
         this.saving = false
         this.business
           .update(this.id, this.selected.node)
