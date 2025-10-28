@@ -11,4 +11,11 @@ export class DeviceRobotListBusiness {
   delete(id: string) {
     return this.service.delete(id)
   }
+  async battery(id: string) {
+    try {
+      return await this.service.battery(id)
+    } catch (error) {
+      return undefined
+    }
+  }
 }

@@ -15,7 +15,7 @@ import { SystemInputProxyRequestService } from './input-proxy/system-input-proxy
 import { SystemIORequestService } from './io/system-io.service'
 import { SystemNetworkRequestService } from './network/system-network.service'
 import { SystemSecurityRequestService } from './security/system-security.service'
-import { SystemCommand } from './system.params'
+import { Initialization, SystemCommand } from './system.params'
 import { SystemTimeRequestService } from './time/system-time.service'
 
 export class ArmSystemRequestService {
@@ -25,6 +25,11 @@ export class ArmSystemRequestService {
     let url = ArmSystemUrl.capability()
     let response = await this.http.get<HowellResponse<DeviceCapability>>(url)
     return HowellResponseProcess.item(response, DeviceCapability)
+  }
+  async initialize(data: Initialization) {
+    let url = ArmSystemUrl.initialize()
+    let plain = instanceToPlain(data)
+    return this.http.post<any, HowellResponse<Initialization>>(url, plain)
   }
   async shutdown() {
     let url = ArmSystemUrl.shutdown()
@@ -47,10 +52,25 @@ export class ArmSystemRequestService {
   firmware = {
     update: async (data: BinaryData) => {
       let url = ArmSystemUrl.updateFirmware()
-      let response = await this.http.post<BinaryData, HowellResponse>(url, data)
+      let name = 'firmware'
+      let form = this.uploadconvert(name, data)
+
+      let response = await this.http.post<FormData, HowellResponse>(url, form)
       return response.FaultCode === 0
     },
   }
+
+  private uploadconvert(name: string, file: BinaryData): FormData {
+    let form = document.createElement('form') as HTMLFormElement
+    form.name = name
+    let data = new FormData(form)
+    let blob = new Blob([file as ArrayBuffer], {
+      type: 'video/x-matroska',
+    })
+    data.append('file', blob, name)
+    return data
+  }
+
   status = {
     upgrade: async () => {
       let url = ArmSystemUrl.status.upgrade()

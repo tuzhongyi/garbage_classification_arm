@@ -23,7 +23,9 @@ export namespace DeviceRobotList {
 
     async load() {
       this.datas = (await this.business.load()) ?? []
-      this.html.load(this.datas)
+      this.html.load(this.datas, (id: string) => {
+        return this.business.battery(id)
+      })
       this.capability.init()
     }
 

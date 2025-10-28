@@ -20,6 +20,9 @@ export namespace SystemDeviceInfo {
     private async load() {
       try {
         this.data = await this.business.load()
+        if (this.data.SerialNumber.includes('-100000')) {
+          this.open()
+        }
         this.html.load(this.data)
       } catch (error) {
         MessageBar.error('设备信息读取失败')
@@ -32,6 +35,14 @@ export namespace SystemDeviceInfo {
         this.message.save_confirm(this.window.confirm)
       })
       this.message.event.on('save', this.save.bind(this))
+      this.message.event.on('info', (x) => {
+        if (x) {
+          MessageBar.success('序列号修改成功')
+          this.load()
+        } else {
+          MessageBar.error('序列号修改失败')
+        }
+      })
     }
 
     private save() {
@@ -48,6 +59,10 @@ export namespace SystemDeviceInfo {
             MessageBar.error('保存失败')
           })
       }
+    }
+
+    private open() {
+      this.message.open_info(this.window.info)
     }
   }
 

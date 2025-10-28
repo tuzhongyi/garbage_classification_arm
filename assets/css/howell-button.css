@@ -204,3 +204,12 @@
 .button-line:hover {
   opacity: 0.5;
 }
+
+.button-link {
+  color: #2d76ce;
+  cursor: pointer;
+
+  &:hover {
+    color: #5791d8;
+  }
+}

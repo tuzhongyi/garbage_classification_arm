@@ -2,15 +2,19 @@ import { EventEmitter } from '../../common/event-emitter'
 import { EventMessageClient } from '../../common/event-message/event-message.client'
 import { ResultArgs } from '../main/main.event'
 import { ConfirmWindowModel } from '../window-confirm/window-confirm.model'
+import { WindowModel } from '../window/window.model'
 
 export interface SystemDeviceInfoMessageReceiverEvent {
   save_result(args: ResultArgs): void
+  info_result(args: ResultArgs): void
 }
 export interface SystemDeviceInfoMessageSenderEvent {
   save_confirm(window: ConfirmWindowModel): void
+  open_info(window: WindowModel): void
 }
 interface MessageEvent {
   save(): void
+  info(result: boolean): void
 }
 
 export class SystemDeviceInfoMessage
@@ -24,16 +28,24 @@ export class SystemDeviceInfoMessage
   private client = new EventMessageClient<
     SystemDeviceInfoMessageSenderEvent,
     SystemDeviceInfoMessageReceiverEvent
-  >(['save_confirm'])
+  >(['save_confirm', 'open_info'])
   private reigst() {
     this.client.receiver.on('save_result', (args) => {
       if (args.result) {
         this.event.emit('save')
       }
     })
+    this.client.receiver.on('info_result', (args) => {
+      if (args.result) {
+        this.event.emit('info', args.result)
+      }
+    })
   }
 
   save_confirm(window: ConfirmWindowModel): void {
     this.client.sender.emit('save_confirm', window)
+  }
+  open_info(window: WindowModel) {
+    this.client.sender.emit('open_info', window)
   }
 }

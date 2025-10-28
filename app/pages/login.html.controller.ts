@@ -7,6 +7,7 @@ export class ArmLoginHtmlController {
     username: document.querySelector('.login-username') as HTMLInputElement,
     password: document.querySelector('.login-password') as HTMLInputElement,
     submit: document.querySelector('.login-submit') as HTMLDivElement,
+    information: document.getElementById('information') as HTMLDivElement,
   }
 
   event: EventEmitter<ILoginEvent> = new EventEmitter()
@@ -22,6 +23,9 @@ export class ArmLoginHtmlController {
         this.login()
       })
     }
+    this.element.information.addEventListener('click', () => {
+      this.event.emit('information')
+    })
     window.addEventListener('keypress', (e) => {
       if (e.keyCode == 13) {
         this.login()

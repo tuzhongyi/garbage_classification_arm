@@ -1,98 +1,64 @@
 import { EventEmitter } from '../../common/event-emitter'
-import { UploadControl } from '../../common/tools/controls/upload-control/upload-control'
-import { FileReadType } from '../../common/tools/controls/upload-control/upload-control.model'
-import { FactoryResetMode } from '../../data-core/enums/factory-reset-mode.enum'
+import { SystemMaintainConfigConfigHtmlController } from './controller/config/system-maintain-config-config.html.controller'
+import { SystemMaintainConfigFactoryHtmlController } from './controller/factory/system-maintain-config-factory.html.controller'
+import { SystemMaintainConfigPowerHtmlController } from './controller/power/system-maintain-config-power.html.controller'
+import { SystemMaintainConfigUpgradeHtmlController } from './controller/upgrade/system-maintain-config-upgrade.html.controller'
 import { SystemMaintainConfigEvent } from './system-maintain-config.event'
 import './system-maintain-config.less'
 
 export class SystemMaintainConfigHtmlController {
   event = new EventEmitter<SystemMaintainConfigEvent>()
   constructor() {
-    this.init()
-    this.regist()
+    this.regist.load()
   }
 
-  private element = {
-    power: {
-      reboot: document.getElementById('button_reboot') as HTMLButtonElement,
-      shutdown: document.getElementById('button_shutdown') as HTMLButtonElement,
+  private controller = {
+    config: new SystemMaintainConfigConfigHtmlController(),
+    factory: new SystemMaintainConfigFactoryHtmlController(),
+    power: new SystemMaintainConfigPowerHtmlController(),
+    upgrade: new SystemMaintainConfigUpgradeHtmlController(),
+  }
+
+  private regist = {
+    load: () => {
+      this.regist.config()
+      this.regist.factory()
+      this.regist.power()
+      this.regist.upgrade()
     },
-    reset: {
-      factory: {
-        basic: document.getElementById(
-          'button_reset_factory_basic'
-        ) as HTMLButtonElement,
-        full: document.getElementById(
-          'button_reset_factory_full'
-        ) as HTMLButtonElement,
+    factory: () => {
+      this.controller.factory.event.on('reset', (mode) => {
+        this.event.emit('factoryreset', mode)
+      })
+    },
+    config: () => {
+      this.controller.config.event.on('download', () => {
+        this.event.emit('configdownload')
+      })
+      this.controller.config.event.on('upload', (file) => {
+        this.event.emit('configupload', file)
+      })
+    },
+    power: () => {
+      this.controller.power.event.on('reboot', () => {
+        this.event.emit('reboot')
+      })
+      this.controller.power.event.on('shutdown', () => {
+        this.event.emit('shutdown')
+      })
+    },
+    upgrade: () => {
+      this.controller.upgrade.event.on('upload', (file) => {
+        this.event.emit('upgradeupload', file)
+      })
+    },
+  }
+
+  set = {
+    upgrade: {
+      progress: (value: number) => {
+        this.controller.upgrade.set.progress(value)
       },
     },
-    config: {
-      upload: new UploadControl(
-        document.getElementById('config_upload_text') as HTMLInputElement,
-        document.getElementById('config_upload_button') as HTMLButtonElement,
-        document.getElementById('config_upload_file') as HTMLInputElement
-      ),
-      input: document.getElementById(
-        'button_config_input'
-      ) as HTMLButtonElement,
-      output: document.getElementById(
-        'button_config_output'
-      ) as HTMLButtonElement,
-    },
-    upgrade: {
-      upload: new UploadControl(
-        document.getElementById('upgrade_text') as HTMLInputElement,
-        document.getElementById('upgrade_button') as HTMLButtonElement,
-        document.getElementById('upgrade_file') as HTMLInputElement
-      ),
-      input: document.getElementById(
-        'button_upgrade_input'
-      ) as HTMLButtonElement,
-    },
-  }
-
-  private file: {
-    config?: ArrayBuffer
-    upgrade?: ArrayBuffer
-  } = {}
-
-  private init() {
-    this.element.config.upload.accept = '.zip'
-    this.element.config.upload.type = FileReadType.ArrayBuffer
-  }
-
-  private regist() {
-    this.element.power.reboot.addEventListener('click', () => {
-      this.event.emit('reboot')
-    })
-    this.element.power.shutdown.addEventListener('click', () => {
-      this.event.emit('shutdown')
-    })
-    this.element.reset.factory.basic.addEventListener('click', () => {
-      this.event.emit('factoryreset', FactoryResetMode.Basic)
-    })
-    this.element.reset.factory.full.addEventListener('click', () => {
-      this.event.emit('factoryreset', FactoryResetMode.Full)
-    })
-    this.element.config.output.addEventListener('click', () => {
-      this.event.emit('configdownload')
-    })
-    this.element.config.upload.event.on('upload', (args) => {
-      this.file.config = args as ArrayBuffer
-    })
-    this.element.config.input.addEventListener('click', () => {
-      if (this.file.config) {
-        this.event.emit('configupload', this.file.config)
-      }
-    })
-    this.element.upgrade.upload.event.on('upload', (args) => {
-      this.file.upgrade = args as ArrayBuffer
-    })
-    this.element.upgrade.input.addEventListener('click', () => {
-      if (this.file.upgrade) {
-        this.event.emit('upgradeupload', this.file.upgrade)
-      }
-    })
   }
 }

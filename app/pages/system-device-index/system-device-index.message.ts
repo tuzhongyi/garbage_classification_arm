@@ -22,11 +22,18 @@ interface MessageSenderEvent
   extends SystemDeviceInfoMessageSenderEvent,
     SystemDeviceDatetimeMessageSenderEvent {}
 
+enum WindowIndex {
+  confirm,
+  info,
+}
+
 export class SystemDeviceIndexMessage implements MessageReceiverEvent {
   constructor(iframe: HTMLIFrameElement) {
     this.proxy = new EventMessageProxy(iframe)
     this.regist()
   }
+
+  private index?: WindowIndex
 
   client = new EventMessageClient<
     MainMessageRequestEvent,
@@ -36,16 +43,39 @@ export class SystemDeviceIndexMessage implements MessageReceiverEvent {
 
   regist() {
     this.proxy.event.on('save_confirm', (args) => {
+      this.index = WindowIndex.confirm
       this.client.sender.emit('confirm', args)
     })
+    this.proxy.event.on('open_info', (args) => {
+      this.index = WindowIndex.info
+      this.client.sender.emit('open', args)
+    })
     this.client.receiver.on('result', (args) => {
-      this.save_result(args)
+      switch (this.index) {
+        case WindowIndex.confirm:
+          this.save_result(args)
+          break
+        case WindowIndex.info:
+          this.info_result(args)
+          break
+
+        default:
+          break
+      }
     })
   }
 
   save_result(args: ResultArgs): void {
     this.proxy.message({
       command: 'save_result',
+      value: args,
+      index: 0,
+    })
+  }
+
+  info_result(args: ResultArgs): void {
+    this.proxy.message({
+      command: 'info_result',
       value: args,
       index: 0,
     })

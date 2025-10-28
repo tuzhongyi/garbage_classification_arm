@@ -4,4 +4,5 @@ export interface ILoginEventArgs {
 }
 export interface ILoginEvent {
   login: (args: ILoginEventArgs) => void
+  information: () => void
 }

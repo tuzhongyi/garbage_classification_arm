@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../common/event-emitter'
 import { HtmlTool } from '../../common/tools/html-tool/html.tool'
+import { RobotBattery } from '../../data-core/models/robot/robot-battery.model'
 import { Robot } from '../../data-core/models/robot/robot.model'
 import { DeviceRobotListEvent } from './device-robot-list.event'
 import './device-robot-list.less'
@@ -30,7 +31,7 @@ export class DeviceRobotListHtmlController {
     })
   }
 
-  private append(robot: Robot) {
+  private append(robot: Robot, battery?: RobotBattery) {
     let document = this.parser.parseFromString(
       this.element.template.innerHTML,
       'text/html'
@@ -43,6 +44,7 @@ export class DeviceRobotListHtmlController {
     let ProtocolType = document.querySelector('.ProtocolType') as HTMLDivElement
     let HostAddress = document.querySelector('.HostAddress') as HTMLDivElement
     let PortNo = document.querySelector('.PortNo') as HTMLDivElement
+    let OnlineState = document.querySelector('.OnlineState') as HTMLDivElement
     card.id = robot.Id
     Name.innerText = robot.Name ?? '-'
     Model.innerText = robot.Model ?? '-'
@@ -51,6 +53,9 @@ export class DeviceRobotListHtmlController {
     ProtocolType.innerText = robot.ProtocolType ?? '-'
     HostAddress.innerText = robot.HostAddress ?? '-'
     PortNo.innerText = robot.PortNo.toString() ?? '-'
+    if (!battery) {
+      OnlineState.classList.add('offline')
+    }
 
     let info = document.querySelector('.btn-info') as HTMLDivElement
     let calibration = document.querySelector(
@@ -106,9 +111,14 @@ export class DeviceRobotListHtmlController {
     this.element.content.innerHTML = ''
   }
 
-  load(datas: Robot[]) {
+  async load(
+    datas: Robot[],
+    get: (id: string) => Promise<RobotBattery | undefined>
+  ) {
     for (let i = 0; i < datas.length; i++) {
-      this.append(datas[i])
+      let item = datas[i]
+      let battery = await get(item.Id)
+      this.append(datas[i], battery)
     }
   }
 }

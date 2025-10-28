@@ -17,6 +17,10 @@ export class ArmSystemUrl {
     return `${this.basic()}/Capability`
   }
 
+  static initialize() {
+    return `${this.basic()}/Initialize`
+  }
+
   static device() {
     return `${this.basic()}/DeviceInfo`
   }
